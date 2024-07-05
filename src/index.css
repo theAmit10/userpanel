@@ -1,0 +1,131 @@
+@import './assets/constants/variables.css';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+@font-face {
+  font-family: 'Elephant';
+  src: url("../assets/fonts/Elephant.ttf");
+}
+
+@font-face {
+  font-family: 'HelveticaBold.';
+  src: url("../assets/fonts/HelveticaBold.ttf");
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: url("../assets/fonts/Helvetica.ttf");
+}
+
+@font-face {
+  font-family: 'SFPROMEDIUM';
+  src: url("../assets/fonts/SFPROMEDIUM.OTF");
+}
+
+@font-face {
+  font-family: 'SFPROREGULAR';
+  src: url("../assets/fonts/SFPROREGULAR.OTF");
+}
+
+@font-face {
+  font-family: 'MontserratBold';
+  src: url("../assets/fonts/MontserratBold.ttf");
+}
+
+@font-face {
+  font-family: 'MontserratRegular';
+  src: url("../assets/fonts/MontserratRegular.ttf");
+}
+
+@font-face {
+  font-family: 'MontserratSemiBold';
+  src: url("../assets/fonts/MontserratSemiBold.ttf");
+}
+
+@font-face {
+  font-family: 'ZCOOLRegular';
+  src: url("../assets/fonts/ZCOOLRegular.ttf");
+}
+
+
+
+
+/* *{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,body{
+  min-height: 100vh;
+  height:100%;
+  width: 100%;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+@font-face {
+  font-family: Elephant;
+  src: url("../src/assets/fonts/Elephant.ttf");
+}
+
+@font-face {
+  font-family: HELVETICA_BOLD;
+  src: url("../src/assets/fonts/Helvetica-Bold.ttf");
+}
+
+@font-face {
+  font-family: HELVETICA_REGULAR;
+  src: url("../src/assets/fonts/Helvetica.ttf");
+}
+
+@font-face {
+  font-family: SF_PRO_MEDIUM;
+  src: url("../src/assets/fonts/SFPRO-MEDIUM.OTF");
+}
+
+@font-face {
+  font-family: SF_PRO_REGULAR;
+  src: url("../src/assets/fonts/SFPRO-REGULAR.OTF");
+}
+
+@font-face {
+  font-family: Montserrat_Bold;
+  src: local('Montserrat-Bold'),
+  url("../src/assets/fonts/Montserrat-Bold.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: Montserrat_Regular;
+  src: url("../src/assets/fonts/Montserrat-Regular.ttf");
+}
+
+@font-face {
+  font-family: Montserrat_SemiBold;
+  src: url("../src/assets/fonts/Montserrat-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: ZCOOL_Regular;
+  src: url("../src/assets/fonts/ZCOOL-Regular.ttf");
+}
+ */

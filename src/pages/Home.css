@@ -1,0 +1,400 @@
+.main-parent {
+    height: 100vh;
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+}
+
+.topheader {
+    display: flex;
+    height: 10%;
+    width: 100%;
+    margin-right: 2%;
+    flex-direction: row;
+}
+
+.lefttopcontiner {
+    width: 15%;
+    height: 100%;
+    display: flex;
+}
+
+.ltcleft {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10%;
+}
+
+.ltcrightimage {
+    height: 80px;
+    width: 80px;
+    background-color: white;
+    padding: 2%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.ltcright {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchcontainer, .depositcontainer, .walletcontainer, .iconcontainer {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchcontainer {
+    flex: 1;
+    background-color: var(--grayHalfBg);
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.depositcontainer {
+    width: 10%;
+    background-color: var(--green);
+}
+
+.walletcontainer {
+    width: 10%;
+    background-color: var(--grayHalfBg);
+}
+
+.iconcontainer {
+    width: 5%;
+    background-color: var(--grayHalfBg);
+}
+
+.righttopcontiner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.contentcontainer {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.leftcontainer {
+    width: 15%;
+    height: 100%;
+
+}
+
+.leftsidebartop {
+    height: 55%;
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 5%;
+    margin-right: 5%; /* Add specific margin for the right side */
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.lscontent{
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background-color: var(--background);
+    height: 10%;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 8px;
+}
+
+
+.leftsidebarmiddle {
+    height: 30%;
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 5%;
+    margin-right: 5%; /* Add specific margin for the right side */
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.promotion-banner{
+    height: 80%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.leftsidebarbottom {
+    height: 10%;
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    margin: 5%;
+    margin-right: 5%; /* Add specific margin for the right side */
+    border-radius: 3vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.appiconcontainer{
+    width: 20%;
+    background-color: var(--grayHalfBg);
+    border-radius: 1vh;
+    padding: 3px;
+}
+
+
+.rightcontainer {
+    width: 15%;
+    height: 100%;
+
+}
+
+.rightsidebartop{
+    height: 40%;
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 5%;
+    margin-right: 5%; /* Add specific margin for the right side */
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rscontent{
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background-color: var(--background);
+    height: 10%;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+.winner-user-image{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.rtcrightimage {
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    padding: 0.5%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rsbottomcontent{
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background-color: var(--background);
+    height: 25%;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 8px;
+    justify-content: space-between;
+}
+
+.lefthistory{
+   
+    flex: 1;
+    height: 100%;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.middlehistory{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.righthistory{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.rightsidebarmiddle{
+    height: 55%;
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 5%;
+    margin-right: 5%; /* Add specific margin for the right side */
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
+.middlecontainer {
+    flex: 1;
+    height: 100%;
+    
+}
+
+.resultcontainer{
+    height: 40%;
+    width: calc(100% - 2%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 1%;
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+}
+
+.resultleftcontainer{
+    width: 50%;
+    height: 100%;
+  
+    display: flex;
+    flex-direction: column;
+}
+
+.resultrightcontainer{
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+}
+.rltopcontainer{
+width: 100%;
+height: 25%;
+display: flex;
+}
+
+.rlmiddlecontainer{
+    flex: 1;
+    display: flex;
+
+}
+
+.rlbottomcontainer{
+    width: 100%;
+    height: 25%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.rlbottomcontentcontainer{
+    width: 80%;
+    height: 80%;
+    background-color: var(--background);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    
+}
+
+.gamecontroller {
+    width: 50%;
+    object-fit: cover;
+   
+}
+
+.cupontroller{
+    width: 80%;
+    object-fit: cover;
+}
+
+.catcontroller{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.resultlistcontainer{
+    height: 20%;
+    display: flex;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 1%;
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+
+}
+
+.resultlistcontentcontainer{
+    display: flex;
+    width: 20%;
+    height: calc(100% - 5%);
+    background-color: var(--result_lightblue);
+    margin: 5%;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
