@@ -1,23 +1,9 @@
 import React from "react";
-import "./Login.css";
-import images from "../assets/constants/images";
-import { useNavigate } from "react-router-dom";
+import "./Register.css";
+import images from "../../assets/constants/images";
 
 
-function Login() {
-
-  const navigate = useNavigate();
-
-  const handleSignUpClick = () => {
-    navigate("/register");
-  };
-
-  const handleLoginClick = (event) => {
-    event.preventDefault();
-    navigate("/login");
-  };
-
-
+function Register() {
   return (
     <div className="login-page">
       <div className="sidebar">
@@ -40,10 +26,18 @@ function Login() {
 
             <div className="login-form">
               <form>
-                <h1 style={{ fontFamily: "Montserrat_Bold" }}>Log In</h1>
+                <h1 style={{ fontFamily: "Montserrat_Bold" }}>Register</h1>
                 <label className="welcome-label">
-                  Welcome back! Please enter your details.
+                Welcome , Please enter your details.
                 </label>
+                <div className="form-group">
+                  <label className="welcome-label">Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                  />
+                </div>
                 <div className="form-group">
                   <label className="welcome-label">Email:</label>
                   <input
@@ -60,23 +54,26 @@ function Login() {
                     placeholder="Enter Password"
                   />
                 </div>
+                <div className="form-group">
+                  <label className="welcome-label">Confirm Password:</label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Confirm Password"
+                  />
+                </div>
 
-                <label
-                  className="welcome-label"
-                  style={{ color: "#475467", textAlign: "center", cursor: 'pointer' }}
-                >
-                  Forgot Password  
-                </label>
+                
                 <button className="submit-btn" type="submit">
-                  Login
+                  Register
                 </button>
 
                 <label
                   className="welcome-label"
                   style={{ color: "#475467", textAlign: "center" }}
                 >
-                  Don’t have an account?{" "}
-                  <span onClick={handleSignUpClick} style={{ color: "#0179FE" ,cursor: 'pointer' }}>Sign up</span>
+                  Already have an account?{" "}
+                  <span style={{ color: "#0179FE" }}>Sign In</span>
                 </label>
               </form>
             </div>
@@ -92,4 +89,5 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
+

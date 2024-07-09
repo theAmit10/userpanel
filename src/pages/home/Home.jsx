@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Home.css";
-import FONT from "../assets/constants/fonts";
-import images from "../assets/constants/images";
+import FONT from "../../assets/constants/fonts";
+import images from "../../assets/constants/images";
 import { CiSearch } from "react-icons/ci";
 import { BsBank2 } from "react-icons/bs";
-import COLORS from "../assets/constants/colors";
+import COLORS from "../../assets/constants/colors";
 import { FaWallet } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
@@ -216,48 +216,59 @@ const locationdata = [
 
 const timedata = [
   {
-    val : "09:00 AM"
+    val: "09:00 AM",
   },
   {
-    val : "10:00 AM"
+    val: "10:00 AM",
   },
   {
-    val : "11:00 AM"
+    val: "11:00 AM",
   },
   {
-    val : "12:00 PM"
+    val: "12:00 PM",
   },
   {
-    val : "01:00 PM"
+    val: "01:00 PM",
   },
 
   {
-    val : "02:00 PM"
+    val: "02:00 PM",
   },
   {
-    val : "03:00 PM"
+    val: "03:00 PM",
   },
 
   {
-    val : "04:00 PM"
+    val: "04:00 PM",
   },
   {
-    val : "04:00 PM"
+    val: "04:00 PM",
   },
   {
-    val : "06:00 PM"
+    val: "06:00 PM",
   },
 
   {
-    val : "07:00 PM"
+    val: "07:00 PM",
   },
   {
-    val : "08:00 PM"
+    val: "08:00 PM",
   },
- 
-]
+];
 
 const Home = () => {
+  const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
+
+  const handleLocationClick = (location) => {
+    console.log("clicked")
+    console.log(JSON.stringify(location))
+    setSelectedLocation(location);
+  };
+
+  useEffect(() => {
+    console.log("location changed")
+  },[selectedLocation])
+
   return (
     <div className="main-parent">
       {/** Top bar */}
@@ -394,6 +405,8 @@ const Home = () => {
       </div>
       {/** content */}
       <div className="contentcontainer">
+        {/** Left Container */}
+
         <div className="leftcontainer">
           {/** App sidebar left */}
           <div className="leftsidebartop">
@@ -637,6 +650,8 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/** Middle Container */}
 
         <div className="middlecontainer">
           {/** Result contatiner */}
@@ -914,96 +929,59 @@ const Home = () => {
           {/** Location contatiner */}
           <div className="locationcontainer">
             <div className="leftlocation">
-              <div className="leftlocationcontent">
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
+              {locationdata.map((item, index) => (
+                <div className="leftlocationcontent"
+                style={{
+                  background: selectedLocation.id === item.id  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #1993FF, #0F5899)",
+                }}
+                key={item.id}
+                onClick={() => handleLocationClick(item)}
                 >
-                  Pune
-                </label>
+                  <label
+                    style={{
+                      color: "white",
+                      fontFamily: FONT.HELVETICA_REGULAR,
+                      fontSize: "18px",
+                    }}
+                  >
+                    {item.name}
+                  </label>
 
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "10px",
-                  }}
-                >
-                  200-200x
-                </label>
-              </div>
-
-              <div className="leftlocationcontent">
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
-                >
-                  Pune
-                </label>
-
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "10px",
-                  }}
-                >
-                  200-200x
-                </label>
-              </div>
-
-              <div className="leftlocationcontent">
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
-                >
-                  Pune
-                </label>
-
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "10px",
-                  }}
-                >
-                  200-200x
-                </label>
-              </div>
+                  <label
+                    style={{
+                      color: "white",
+                      fontFamily: FONT.HELVETICA_REGULAR,
+                      fontSize: "10px",
+                    }}
+                  >
+                    {item.limit}
+                  </label>
+                </div>
+              ))}
             </div>
 
             <div className="rightlocation">
-              
-                {
-                  timedata.map((item,index) => (
-                    <div className="rightlocationcontent">
-
-                    <label
+              {selectedLocation.times.map((item, index) => (
+                <div className="rightlocationcontent"
+                key={item.id}
+                >
+                  <label
                     style={{
                       color: "white",
                       fontFamily: FONT.HELVETICA_REGULAR,
                       fontSize: "60%",
                     }}
                   >
-                    {item.val}
+                    {item.time}
                   </label>
-                  </div>
-                  ))
-                }
-                
-             
+                </div>
+              ))}
             </div>
           </div>
         </div>
+
+        {/** Right Container */}
 
         <div className="rightcontainer">
           {/** App sidebar */}
