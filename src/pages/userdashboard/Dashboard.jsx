@@ -280,9 +280,9 @@ const Dashboard = () => {
   return (
     <div className="main-parent">
       {/** Top bar */}
-      <div className="topheader">
-        <div className="lefttopcontiner">
-          <div className="ltcleft">
+      <div className="topheaderd">
+        <div className="lefttopcontinerd">
+          <div className="ltcleftd">
             <label
               style={{
                 color: "white",
@@ -302,19 +302,19 @@ const Dashboard = () => {
               Wasu
             </label>
           </div>
-          <div className="ltcright">
-            <div className="ltcrightimage">
+          <div className="ltcrightd">
+            <div className="ltcrightimaged">
               <img
                 src={images.user}
                 alt="Profile Picture"
-                className="user-image"
+                className="user-imaged"
               />
             </div>
           </div>
         </div>
-        <div className="righttopcontiner">
+        <div className="righttopcontinerd">
           {/** search */}
-          <div className="searchcontainer">
+          <div className="searchcontainerd">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
               <CiSearch size={"25px"} />
             </div>
@@ -332,7 +332,7 @@ const Dashboard = () => {
             </label>
           </div>
           {/** deposit */}
-          <div className="depositcontainer">
+          <div className="depositcontainerd">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
               <BsBank2 color={COLORS.white_s} size={"20px"} />
             </div>
@@ -350,7 +350,7 @@ const Dashboard = () => {
             </label>
           </div>
           {/** wallet */}
-          <div className="walletcontainer">
+          <div className="walletcontainerd">
             <div
               style={{
                 display: "flex",
@@ -374,7 +374,7 @@ const Dashboard = () => {
             </label>
           </div>
           {/** location */}
-          <div className="iconcontainer">
+          <div className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -386,7 +386,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainer">
+          <div className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -398,7 +398,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainer">
+          <div className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -412,13 +412,13 @@ const Dashboard = () => {
         </div>
       </div>
       {/** content */}
-      <div className="contentcontainer">
+      <div className="contentcontainerd">
         {/** Left Container */}
-        <div className="leftcontainer">
+        <div className="leftcontainerd">
           {/** App sidebar left */}
-          <div className="leftsidebartop">
+          <div className="leftsidebartopd">
             {/** Home */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"home"}
             onClick={() => handleComponentClick("home")}
             style={{
@@ -451,7 +451,7 @@ const Dashboard = () => {
               </label>
             </div>
             {/** All Location */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"alllocation"}
             onClick={() => handleComponentClick("alllocation")}
             style={{
@@ -484,7 +484,7 @@ const Dashboard = () => {
               </label>
             </div>
             {/** Results */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"results"}
             onClick={() => handleComponentClick("results")}
             style={{
@@ -518,7 +518,7 @@ const Dashboard = () => {
             </div>
             {/** Play */}
 
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"play"}
             onClick={() => handleComponentClick("play")}
             style={{
@@ -551,7 +551,7 @@ const Dashboard = () => {
               </label>
             </div>
             {/** History */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"history"}
             onClick={() => handleComponentClick("history")}
             style={{
@@ -585,7 +585,7 @@ const Dashboard = () => {
             </div>
 
             {/** Game Description */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"gamedescription"}
             onClick={() => handleComponentClick("gamedescription")}
             style={{
@@ -620,7 +620,7 @@ const Dashboard = () => {
             </div>
 
             {/** About Us */}
-            <div className="lscontent"
+            <div className="lscontentd"
             key={"aboutus"}
             onClick={() => handleComponentClick("aboutus")}
             style={{
@@ -656,7 +656,7 @@ const Dashboard = () => {
           </div>
 
           {/** promotion */}
-          <div className="leftsidebarmiddle">
+          <div className="leftsidebarmiddled">
             <label
               style={{
                 color: "white",
@@ -669,13 +669,13 @@ const Dashboard = () => {
             <img
               src={images.user}
               alt="Profile Picture"
-              className="promotion-banner"
+              className="promotion-bannerd"
             />
           </div>
 
           {/** Apps Available on */}
-          <div className="leftsidebarbottom">
-            <div className="appiconcontainer">
+          <div className="leftsidebarbottomd">
+            <div className="appiconcontainerd">
               <div
                 style={{
                   display: "flex",
@@ -700,7 +700,7 @@ const Dashboard = () => {
               Get the App
             </label>
 
-            <div className="appiconcontainer">
+            <div className="appiconcontainerd">
               <div
                 style={{
                   display: "flex",
@@ -715,7 +715,7 @@ const Dashboard = () => {
         </div>
 
         {/** Main Containt */}
-        <div className="main-center-content">
+        <div className="main-center-contentd">
             {
                 selectedComponent === "home" && (<HomeDashboard/>)
             }

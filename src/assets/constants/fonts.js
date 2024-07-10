@@ -1,13 +1,13 @@
 const FONT = {
-    HELVETICA_BOLD: 'Helvetica-Bold',
-    HELVETICA_REGULAR: 'Helvetica',
-    SF_PRO_MEDIUM: 'SFPROMEDIUM',
-    SF_PRO_REGULAR: 'SFPROREGULAR',
-    Montserrat_Bold: 'MontserratBold',
-    Montserrat_Regular: 'MontserratRegular',
-    Montserrat_SemiBold: 'MontserratSemiBold',
-    ZCOOL_Regular: 'ZCOOLRegular',
-    ELEPHANT: 'Elephant',
+    HELVETICA_BOLD: 'HB',
+    HELVETICA_REGULAR: 'HR',
+    SF_PRO_MEDIUM: 'SFM',
+    SF_PRO_REGULAR: 'SFR',
+    Montserrat_Bold: 'MB',
+    Montserrat_Regular: 'MR',
+    Montserrat_SemiBold: 'MSB',
+    ZCOOL_Regular: 'ZR',
+    ELEPHANT: 'E',
 };
 
 export default FONT;

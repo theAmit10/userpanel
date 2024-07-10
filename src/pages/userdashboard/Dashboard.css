@@ -6,7 +6,7 @@
     flex-direction: column;
 }
 
-.topheader {
+.topheaderd {
     display: flex;
     height: 10%;
     width: 100%;
@@ -14,13 +14,13 @@
     flex-direction: row;
 }
 
-.lefttopcontiner {
+.lefttopcontinerd {
     width: 18%;
     height: 100%;
     display: flex;
 }
 
-.ltcleft {
+.ltcleftd {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -29,7 +29,7 @@
     padding-left: 10%;
 }
 
-.ltcrightimage {
+.ltcrightimaged {
     height: 60px;
     width: 60px;
     background-color: white;
@@ -41,14 +41,14 @@
     align-items: center;
 }
 
-.user-image {
+.user-imaged {
     height: 100%;
     width: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.ltcright {
+.ltcrightd {
     flex: 1;
     display: flex;
     flex-direction: row;
@@ -56,7 +56,7 @@
     align-items: center;
 }
 
-.searchcontainer, .depositcontainer, .walletcontainer, .iconcontainer {
+.searchcontainerd, .depositcontainerd, .walletcontainerd, .iconcontainerd {
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
@@ -66,31 +66,37 @@
     align-items: center;
 }
 
-.searchcontainer {
+.searchcontainerd {
     flex: 1;
     background-color: var(--grayHalfBg);
     flex-direction: row;
     justify-content: flex-start;
 }
 
-.depositcontainer {
+.depositcontainerd {
     width: 10%;
     background: linear-gradient(180deg, #7EC630, #3D6017);
 }
 
-.walletcontainer {
+.walletcontainerd {
     width: 10%;
     background-color: var(--grayHalfBg);
 }
 
-.iconcontainer {
+.iconcontainerd{
     width: 5%;
     background-color: var(--grayHalfBg);
 }
 
+.righttopcontinerd {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
 
 
-.contentcontainer {
+.contentcontainerd {
     flex: 1;
     display: flex;
     width: 100%;
@@ -98,13 +104,13 @@
     height: 90vh;
 }
 
-.leftcontainer {
+.leftcontainerd {
     width: 15%;
     height: 90vh;
 
 }
 
-.leftsidebartop {
+.leftsidebartopd {
     height: 55%;
     width: calc(100% - 10%); /* Adjust width to account for margin */
     background: linear-gradient(180deg, #0162AF, #011833);
@@ -118,7 +124,7 @@
     gap: 10px;
 }
 
-.lscontent{
+.lscontentd{
     width: calc(100% - 10%); /* Adjust width to account for margin */
     background-color: var(--background);
     height: 10%;
@@ -130,13 +136,13 @@
     border-radius: 8px;
 }
 
-.lscontent:hover{
+.lscontentd:hover{
     border: 2px solid var(--green); /* Change border color on hover */
     cursor: pointer;
 }
 
 
-.leftsidebarmiddle {
+.leftsidebarmiddled {
     height: 30%;
     width: calc(100% - 10%); /* Adjust width to account for margin */
     background: linear-gradient(180deg, #0162AF, #011833);
@@ -150,13 +156,13 @@
     gap: 10px;
 }
 
-.promotion-banner{
+.promotion-bannerd{
     height: 80%;
     width: 100%;
     object-fit: cover;
 }
 
-.leftsidebarbottom {
+.leftsidebarbottomd {
     height: 10%;
     width: calc(100% - 10%); /* Adjust width to account for margin */
     margin: 5%;
@@ -168,7 +174,7 @@
     align-items: center;
 }
 
-.appiconcontainer{
+.appiconcontainerd{
     width: 20%;
     background-color: var(--grayHalfBg);
     border-radius: 1vh;
@@ -176,7 +182,7 @@
 }
 
 
-.main-center-content{
+.main-center-contentd{
     display: flex;
     flex: 1;
 

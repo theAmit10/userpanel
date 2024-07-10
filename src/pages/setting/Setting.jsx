@@ -21,8 +21,13 @@ import { SlCalender } from "react-icons/sl";
 import HomeDashboard from "../../components/dashboard/HomeDashboard";
 import AllLocation from "../../components/alllocation/AllLocation";
 import Settingc from "../../components/setting/Settingc";
+import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc.jsx";
+import { MdPayment } from "react-icons/md";
+import { TbHistoryToggle } from "react-icons/tb";
+import { PiHandDepositBold } from "react-icons/pi";
+import { PiHandWithdrawFill } from "react-icons/pi";
 
-const locationdata = [
+export const locationdata = [
   {
     id: "1",
     name: "Canada",
@@ -126,7 +131,7 @@ const locationdata = [
 ];
 
 const Setting = () => {
-  const [selectedComponent, setSelectedComponent] = useState("setting");
+  const [selectedComponent, setSelectedComponent] = useState("gamedescription");
 
   const handleComponentClick = (comp) => {
     console.log("clicked");
@@ -140,13 +145,13 @@ const Setting = () => {
   return (
     <div className="main-parent">
       {/** Top bar */}
-      <div className="topheader">
-        <div className="lefttopcontiner">
-          <div className="ltcleft">
+      <div className="topheader-setting">
+        <div className="lefttopcontiner-setting">
+          <div className="ltcleft-setting">
             <label
               style={{
-                color: "white",
-                fontFamily: FONT.HELVETICA_REGULAR,
+                color: COLORS.white_s,
+                fontFamily: FONT.Montserrat_Regular,
                 fontSize: "18px",
               }}
             >
@@ -155,19 +160,19 @@ const Setting = () => {
             <label
               style={{
                 color: "white",
-                fontFamily: FONT.HELVETICA_BOLD,
-                fontSize: "24px",
+                fontFamily: FONT.Montserrat_Bold,
+                fontSize: "4vh",
               }}
             >
               Wasu
             </label>
           </div>
-          <div className="ltcright">
-            <div className="ltcrightimage">
+          <div className="ltcright-setting">
+            <div className="ltcrightimage-setting">
               <img
                 src={images.user}
                 alt="Profile Picture"
-                className="user-image"
+                className="user-image-setting"
               />
             </div>
           </div>
@@ -176,7 +181,7 @@ const Setting = () => {
           {/** search */}
 
           {false && (
-            <div className="searchcontainer">
+            <div className="searchcontainer-setting">
               <div style={{ justifyContent: "center", alignItems: "center" }}>
                 <CiSearch size={"25px"} />
               </div>
@@ -196,7 +201,7 @@ const Setting = () => {
           )}
 
           {/** deposit */}
-          <div className="depositcontainer">
+          <div className="depositcontainer-setting">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
               <BsBank2 color={COLORS.white_s} size={"20px"} />
             </div>
@@ -214,7 +219,7 @@ const Setting = () => {
             </label>
           </div>
           {/** wallet */}
-          <div className="walletcontainer">
+          <div className="walletcontainer-setting">
             <div
               style={{
                 display: "flex",
@@ -238,7 +243,7 @@ const Setting = () => {
             </label>
           </div>
           {/** location */}
-          <div className="iconcontainer">
+          <div className="iconcontainer-setting">
             <div
               style={{
                 display: "flex",
@@ -250,7 +255,7 @@ const Setting = () => {
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainer">
+          <div className="iconcontainer-setting">
             <div
               style={{
                 display: "flex",
@@ -262,7 +267,7 @@ const Setting = () => {
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainer">
+          <div className="iconcontainer-setting">
             <div
               style={{
                 display: "flex",
@@ -278,27 +283,24 @@ const Setting = () => {
       {/** content */}
       <div className="contentcontainer">
         {/** Left Container */}
-        <div className="leftcontainer">
+        <div className="leftcontainerS">
           {/** App sidebar left */}
-          <div className="leftsidebartop">
+          <div className="leftsidebartopS">
             {/** Setting content */}
             <div
               style={{
-                height: "5%",
+                height: "8%",
                 display: "flex",
                 flexDirection: "row",
                 width: "90%",
                 justifyContent: "space-between",
-                padding: "10px",
-                marginBottom: "10px",
+                alignItems: 'center',
+                paddingTop: '10%'
+                
               }}
             >
               <label
-                style={{
-                  color: "white",
-                  fontFamily: FONT.HELVETICA_BOLD,
-                  fontSize: "24px",
-                }}
+                className="left-content-label-title"
               >
                 Setting
               </label>
@@ -325,24 +327,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
                 <IoLocationSharp color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                className="left-content-label"
               >
                 All Location
               </label>
@@ -360,24 +351,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+               className="left-content-icon-container"
               >
                 <FaTrophy color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                className="left-content-label"
               >
                 Result
               </label>
@@ -395,24 +375,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
                 <FaPlay color={COLORS.white_s} size={"18px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 Play
               </label>
@@ -421,8 +390,8 @@ const Setting = () => {
             {/** Deposit */}
             <div
               className="lscontent"
-              key={"home"}
-              onClick={() => handleComponentClick("home")}
+              key={"deposit"}
+              onClick={() => handleComponentClick("deposit")}
               style={{
                 background:
                   selectedComponent === "home"
@@ -431,24 +400,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
-                <FaHome color={COLORS.white_s} size={"20px"} />
+                <PiHandDepositBold color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                className="left-content-label"
               >
                 Deposit
               </label>
@@ -457,8 +415,8 @@ const Setting = () => {
             {/** Withdraw */}
             <div
               className="lscontent"
-              key={"home"}
-              onClick={() => handleComponentClick("home")}
+              key={"withdraw"}
+              onClick={() => handleComponentClick("withdraw")}
               style={{
                 background:
                   selectedComponent === "home"
@@ -467,24 +425,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
-                <FaHome color={COLORS.white_s} size={"20px"} />
+                <PiHandWithdrawFill color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 Withdraw
               </label>
@@ -493,8 +440,8 @@ const Setting = () => {
             {/** Payment */}
             <div
               className="lscontent"
-              key={"home"}
-              onClick={() => handleComponentClick("home")}
+              key={"payment"}
+              onClick={() => handleComponentClick("payment")}
               style={{
                 background:
                   selectedComponent === "home"
@@ -503,24 +450,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+               className="left-content-icon-container"
               >
-                <FaHome color={COLORS.white_s} size={"20px"} />
+                <MdPayment color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 Payment
               </label>
@@ -529,8 +465,8 @@ const Setting = () => {
             {/** Play History */}
             <div
               className="lscontent"
-              key={"home"}
-              onClick={() => handleComponentClick("home")}
+              key={"playhistory"}
+              onClick={() => handleComponentClick("playhistory")}
               style={{
                 background:
                   selectedComponent === "home"
@@ -539,24 +475,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
-                <FaHome color={COLORS.white_s} size={"20px"} />
+                <TbHistoryToggle color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 Play History
               </label>
@@ -575,24 +500,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+               className="left-content-icon-container"
               >
                 <FaHistory color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 History
               </label>
@@ -611,24 +525,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
                 <TbFileDescription color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 Game Description
               </label>
@@ -647,24 +550,13 @@ const Setting = () => {
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
+                className="left-content-icon-container"
               >
                 <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
               </div>
 
               <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
+                 className="left-content-label"
               >
                 About Us
               </label>
@@ -677,6 +569,7 @@ const Setting = () => {
           {selectedComponent === "home" && <HomeDashboard />}
           {selectedComponent === "alllocation" && <AllLocation />}
           {selectedComponent === "setting" && <Settingc />}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
         </div>
       </div>
     </div>

@@ -6,21 +6,47 @@
     flex-direction: column;
 }
 
-.topheader {
+.topheader-setting {
     display: flex;
-    height: 10%;
+    height: 10vh;
     width: 100%;
     margin-right: 2%;
     flex-direction: row;
 }
 
-.lefttopcontiner {
-    width: 18%;
+.lefttopcontiner-setting {
+    width: 18vw;
     height: 100%;
     display: flex;
 }
 
-.ltcleft {
+.left-content-label{
+    color: var(--white);
+    font-family: "MR";
+    font-size: 2vh;
+    text-align: left;
+    padding-left: 1vh;
+ 
+}
+
+.left-content-label-title{
+    color: var(--white);
+    font-family: "MB";
+    font-size: 3vh;
+    text-align: "center";
+    padding: 1vh;
+ 
+ 
+}
+
+.left-content-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+}
+
+.ltcleft-setting {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -29,9 +55,9 @@
     padding-left: 10%;
 }
 
-.ltcrightimage {
-    height: 60px;
-    width: 60px;
+.ltcrightimage-setting {
+    height: 8vh;
+    width: 8vh;
     background-color: white;
     padding: 2%;
     border-radius: 50%;
@@ -41,49 +67,58 @@
     align-items: center;
 }
 
-.user-image {
+.user-image-setting {
     height: 100%;
     width: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.ltcright {
+.ltcright-setting {
     flex: 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background-color: 'pink';
 }
 
-.searchcontainer, .depositcontainer, .walletcontainer, .iconcontainer {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
+.depositcontainer-setting, .walletcontainer-setting, .iconcontainer-setting {
+    padding: 3vh;
+    margin: 2vh;
+    border-radius: 1vh;
     display: flex;
     justify-content: center;
     align-items: center;
+   
 }
 
-.searchcontainer {
+.searchcontainer-setting {
     flex: 1;
     background-color: var(--grayHalfBg);
     flex-direction: row;
     justify-content: flex-start;
+    padding: 3vh;
+    margin: 2vh;
+    border-radius: 1vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.depositcontainer {
+.depositcontainer-setting {
     width: 10%;
     background: linear-gradient(180deg, #7EC630, #3D6017);
 }
 
-.walletcontainer {
+.walletcontainer-setting {
     width: 10%;
     background-color: var(--grayHalfBg);
 }
 
-.iconcontainer {
-    width: 5%;
+.iconcontainer-setting {
+    width: 5vh;
+    height: 5vh;
     background-color: var(--grayHalfBg);
 }
 
@@ -97,14 +132,14 @@
     height: 90vh;
 }
 
-.leftcontainer {
+.leftcontainerS {
     width: 15%;
     height: 90vh;
 
 }
 
-.leftsidebartop {
-    height: 75%;
+.leftsidebartopS {
+    height: 80%;
     width: calc(100% - 10%); /* Adjust width to account for margin */
     background: linear-gradient(180deg, #0162AF, #011833);
     margin: 5%;

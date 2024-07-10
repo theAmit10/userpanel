@@ -19,49 +19,60 @@ a {
 
 
 @font-face {
-  font-family: 'Elephant';
-  src: url("../assets/fonts/Elephant.ttf");
+  font-family: "MR";   /*Can be any text*/
+  src: local("MontserratRegular"),
+    url("../src/assets/fonts/MontserratRegular.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'HelveticaBold.';
-  src: url("../assets/fonts/HelveticaBold.ttf");
+  font-family: "E";   /*Can be any text*/
+  src: local("Elephant"),
+    url("../src/assets/fonts/Elephant.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Helvetica';
-  src: url("../assets/fonts/Helvetica.ttf");
+  font-family: "HB"; 
+  src: local("HelveticaBold"),
+    url("../src/assets/fonts/HelveticaBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'SFPROMEDIUM';
-  src: url("../assets/fonts/SFPROMEDIUM.OTF");
+  font-family: "HR"; 
+  src: local("Helvetica"),
+    url("../src/assets/fonts/Helvetica.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'SFPROREGULAR';
-  src: url("../assets/fonts/SFPROREGULAR.OTF");
+  font-family: "SFM"; 
+  src: local("SFPROMEDIUM"),
+    url("../src/assets/fonts/SFPROMEDIUM.OTF") format("opentype");
 }
 
 @font-face {
-  font-family: 'MontserratBold';
-  src: url("../assets/fonts/MontserratBold.ttf");
+  font-family: "SFR"; 
+  src: local("SFPROREGULAR"),
+    url("../src/assets/fonts/SFPROREGULAR.OTF") format("opentype");
 }
 
 @font-face {
-  font-family: 'MontserratRegular';
-  src: url("../assets/fonts/MontserratRegular.ttf");
+  font-family: "MB"; 
+  src: local("MontserratBold"),
+    url("../src/assets/fonts/MontserratBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'MontserratSemiBold';
-  src: url("../assets/fonts/MontserratSemiBold.ttf");
+  font-family: "MSB"; 
+  src: local("MontserratBold"),
+    url("../src/assets/fonts/MontserratSemiBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'ZCOOLRegular';
-  src: url("../assets/fonts/ZCOOLRegular.ttf");
+  font-family: "ZR"; 
+  src: local("ZCOOLRegular"),
+    url("../src/assets/fonts/ZCOOLRegular.ttf") format("truetype");
 }
+
+
 
 
 
