@@ -26,6 +26,7 @@ import { MdPayment } from "react-icons/md";
 import { TbHistoryToggle } from "react-icons/tb";
 import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
+import Historyc from "../../components/history/Historyc.jsx";
 
 export const locationdata = [
   {
@@ -570,6 +571,7 @@ const Setting = () => {
           {selectedComponent === "alllocation" && <AllLocation />}
           {selectedComponent === "setting" && <Settingc />}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+          {selectedComponent === "history" && <Historyc />}
         </div>
       </div>
     </div>
