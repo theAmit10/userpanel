@@ -1,10 +1,12 @@
+
 import React from "react";
-import "./History.css";
+import "./Playhistory.css";
 import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import COLORS from "../../assets/constants/colors";
 import FONT from "../../assets/constants/fonts";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { FaRegPlayCircle } from "react-icons/fa";
 
 const historydata = [
   {
@@ -81,11 +83,11 @@ const historydata = [
   },
 ];
 
-function Historyc() {
+function Playhistory() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">History</label>
+      <label className="h-title-label">Play History</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container">
         {/** CONTENT */}
@@ -95,7 +97,7 @@ function Historyc() {
             <div className="h-content-first">
               <div className="h-content-first-content">
                 <div className="h-content-left-content-icon-container">
-                  <PiHandDepositBold color={COLORS.background} size={"2vw"} />
+                  <FaRegPlayCircle color={COLORS.background} size={"2vw"} />
                 </div>
               </div>
             </div>
@@ -143,7 +145,7 @@ function Historyc() {
                     fontSize: "1.5vh",
                   }}
                 >
-                  Payment Method
+                  Location
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
@@ -154,7 +156,7 @@ function Historyc() {
                     fontSize: "2vh",
                   }}
                 >
-                  UPI
+                  Delhi
                 </label>
               </div>
             </div>
@@ -168,7 +170,7 @@ function Historyc() {
                     fontSize: "1.5vh",
                   }}
                 >
-                  Transaction ID
+                  Time
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
@@ -179,24 +181,32 @@ function Historyc() {
                     fontSize: "2vh",
                   }}
                 >
-                  3983983838833838
+                  09:00 AM
                 </label>
               </div>
             </div>
             {/** FIFTH CONTAINER */}
             <div className="h-content-fifth">
-              <div className="h-content-third-content-container-top">
-                <FaRegCheckCircle color={COLORS.green} size={"1.5vw"} />
+            <div className="h-content-third-content-container-top">
+                <label
+                  style={{
+                    color: COLORS.white_s,
+                    fontFamily: FONT.Montserrat_SemiBold,
+                    fontSize: "1.5vh",
+                  }}
+                >
+                  Number
+                </label>
               </div>
               <div className="h-content-third-content-container-bottom">
                 <label
                   style={{
-                    color: COLORS.green,
-                    fontFamily: FONT.Montserrat_Regular,
+                    color: COLORS.white_s,
+                    fontFamily: FONT.Montserrat_SemiBold,
                     fontSize: "2vh",
                   }}
                 >
-                  success
+                  99
                 </label>
               </div>
             </div>
@@ -207,4 +217,4 @@ function Historyc() {
   );
 }
 
-export default Historyc;
+export default Playhistory;

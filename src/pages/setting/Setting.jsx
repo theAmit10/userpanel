@@ -28,6 +28,7 @@ import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import Historyc from "../../components/history/Historyc.jsx";
 import Play from "../../components/play/Play.jsx";
+import Playhistory from "../../components/playhistory/Playhistory.jsx";
 
 export const locationdata = [
   {
@@ -471,7 +472,7 @@ const Setting = () => {
               onClick={() => handleComponentClick("playhistory")}
               style={{
                 background:
-                  selectedComponent === "home"
+                  selectedComponent === "playhistory"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -574,6 +575,7 @@ const Setting = () => {
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
           {selectedComponent === "history" && <Historyc />}
           {selectedComponent === "play" && <Play />}
+          {selectedComponent === "playhistory" && <Playhistory />}
         </div>
       </div>
     </div>
