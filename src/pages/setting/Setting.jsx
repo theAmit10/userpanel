@@ -27,6 +27,7 @@ import { TbHistoryToggle } from "react-icons/tb";
 import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import Historyc from "../../components/history/Historyc.jsx";
+import Play from "../../components/play/Play.jsx";
 
 export const locationdata = [
   {
@@ -572,6 +573,7 @@ const Setting = () => {
           {selectedComponent === "setting" && <Settingc />}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
           {selectedComponent === "history" && <Historyc />}
+          {selectedComponent === "play" && <Play />}
         </div>
       </div>
     </div>

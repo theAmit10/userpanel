@@ -1,0 +1,473 @@
+.allocationcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    max-height: 80vh; /* Set maximum height to viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 2vh;
+    border-radius: 2vh;
+   
+  }
+  
+  .location-item {
+    height: 30%;
+    background: linear-gradient(90deg, #0162AF, #011833);
+    margin: 2%;
+    flex: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    
+  }
+  
+  .location-details {
+    width: 20%;
+  
+    flex-direction: column;
+  
+  }
+  
+  .location-header {
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    padding: 2vh;
+    align-items: center;
+    margin: 2vh;
+    border-radius: 1vh;
+  }
+  
+  .time-items-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* Adjust the number of columns here */
+    gap: 1vh;
+    padding: 2vh;
+  }
+  
+  .time-item {
+    width: 8vw;
+    height: 5vh;
+    background: var(--background);
+    border-radius: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .time-item:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+  }
+  
+  .filtercontaineral{
+    display: flex;
+    height: 5%;
+    width: calc(100% - 4%);
+    background-color: var(--grayHalfBg);
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
+    margin-left: 2%;
+    margin-right: 2%;
+    
+  }
+  
+  .filtercontental{
+    display: flex;
+    width: 10%;
+    height: calc(100% - 6%);
+    background-color: var(--background);
+    border-radius: 10px;
+    margin: 2%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .filtercontental:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+  }
+  
+  
+  
+  .back-container:hover{
+    cursor: pointer;
+  }
+  
+  .alllocationdatecontainer{
+    flex: 1;
+    height: 80vh;
+    width: 82vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 2vh;
+    border-radius: 2vh;
+  
+  }
+  
+  .date-title-container{
+    height: 10vh;
+  
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh;
+  }
+  
+  .back-container {
+    padding: 1vh;
+    margin: 1vh;
+    border-radius: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--grayHalfBg);
+   
+  }
+  
+  .dateconatainer{
+    height: 60vh;
+    margin: 2vh;
+    overflow-y: scroll;
+   
+  }
+  
+  .datecontainer-content{
+    height: 10vh;
+    background-color: #011833;
+    border-radius: 2vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2vh;
+    margin-bottom: 1vh;
+  }
+  
+  
+  .datecontainer-content:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+  }
+  
+  .datecontainer-content-label{
+    color: var(--white_s);
+    font-size: 3vh;
+    font-family: 'SFR';
+  }
+
+  .playconatainer{
+    height: 60vh;
+    margin: 2vh;
+    overflow-y: scroll;
+   
+  }
+  
+  .playcontainer-content{
+    background-color: #011833;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vh;
+    max-height: 80vh; /* Set maximum height to viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin: 2vh;
+    border-radius: 2vh;
+  
+  }
+
+
+
+  .play-content:hover{
+    cursor: pointer;
+    .play-content-number{
+        color: var(--green);
+      }
+    
+  }
+  
+  .play-content-number{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 3vh;
+  
+
+
+  }
+  
+  .play-content-number:hover{
+    color: var(--green);
+  }
+  
+ 
+  
+  .playcontainer-content-label{
+    color: var(--white_s);
+    font-size: 3vh;
+    font-family: 'SFR';
+  }
+  
+  
+  .resultcontaineral{
+    height: 50vh;
+    width: calc(100% - 2%); /* Adjust width to account for margin */
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 1%;
+    border-radius: 3vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+  }
+  
+  .resultleftcontaineral{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .resultrightcontaineral{
+    width: 50%;
+    height: 100%;
+    display: flex;
+  }
+  .rltopcontaineral{
+  width: 100%;
+  height: 25%;
+  display: flex;
+  }
+  
+  .rlmiddlecontaineral{
+    flex: 1;
+    display: flex;
+  
+  }
+  
+  .rlbottomcontaineral{
+    width: 100%;
+    height: 25%;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .rlbottomcontentcontaineral{
+    width: 80%;
+    height: 80%;
+    background-color: var(--background);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    
+  }
+  
+  .gamecontrolleral {
+    width: 50%;
+    object-fit: cover;
+   
+  }
+  
+  .cupontrolleral{
+    width: 80%;
+    object-fit: cover;
+  }
+  
+  .catcontrolleral{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .playcontainer-bottomcontent{
+    height: 10vh;
+   
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .playcontainer-bottomcontent-container{
+    width: 20vw;
+    background-color: var(--green);
+    padding: 2vh;
+    border-radius: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4vh;
+    
+  }
+
+  .alllocation-submit-container{
+    flex: 1;
+    height: 80vh;
+    width: 82vw;
+    display: flex;
+    flex-direction: row;
+    
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 2vh;
+    border-radius: 2vh;
+  }
+
+  .alllocation-submit-container-left{
+    flex: 1;
+    background: linear-gradient(30deg, #0162AF, #011833);
+    overflow-y: auto; /* Enable vertical scrolling */
+    border-radius: 2vh 0 0 2vh ;
+  }
+  
+  .alllocation-submit-container-right{
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .alllocation-submit-container-left-top{
+    height: 10vh;
+    background-color: '#808b99';
+   
+    display: flex;
+    justify-content: center;
+    padding: 2vh;
+    align-items: center;
+  }
+
+  .alllocation-submit-container-left-top-label{
+    flex: 1;
+    color: var(--white_s);
+    font-size: 3vh;
+    font-family: "MSB";
+    text-align: center;
+  }
+
+  .alllocation-submit-container-left-container{
+    flex: 1;
+    height: 65vh;
+    background-color: var(--background);
+    margin: 2vh;
+  }
+
+  .alllocation-submit-container-left-content-container{
+    height: 15vh;
+    background-color: var(--background);
+    padding: 2vh;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .alllocation-submit-container-left-content-container-left{
+    flex: 1;
+    background-color: var(--background);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+  }
+
+  .alllocation-submit-container-left-content-container-middle{
+    flex: 1;
+    width: 100%;
+    height: 100%;
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; 
+  }
+
+  .alllocation-submit-container-left-content-container-right{
+    flex: 1;
+
+    display: flex;
+    justify-self: center;
+    align-items: center;
+  }
+
+  .alllocation-submit-container-left-content-container-middle-left{
+    width: 25%;
+    height: 100%;
+    flex: 1;
+
+    position: relative;
+
+  }
+  .alllocation-submit-container-left-content-container-middle-middle{
+    flex: 2;
+
+    
+  }
+  .alllocation-submit-container-left-content-container-middle-right{
+    width: 25%;
+    height: 100%;
+    flex: 1;
+   
+    
+  }
+
+  .alllocation-submit-container-left-content-container-middle-left-containter{
+   
+    padding: 1vh;
+    background-color: var(--grayHalfBg);
+    margin: 1vh;
+    border-radius: 50%; /* This makes it circular */
+ 
+    
+  }
+
+  .alllocation-submit-container-left-content-container-middle-middle-container{
+    flex: 1;
+    margin: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+
+  .alllocation-submit-container-left-content-container-middle-middle-container-input{
+    background-color: var(--grayHalfBg);
+    padding: 2vh;
+    border-radius: 2vh;
+    color: var(--background);
+    font-size: 2vh;
+    font-family: 'MB';
+    text-align: center;
+  }
+
+  .alllocation-submit-container-left-content-container-middle-middle-container-label{
+   width: 100%;
+    background-color: var(--grayHalfBg);
+    padding: 2vh;
+    border-radius: 2vh;
+    color: var(--background);
+    font-size: 2vh;
+    font-family: 'MB';
+    text-align: center;
+  }
+
+  .catcontrollerplay{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+  
+  

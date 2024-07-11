@@ -453,7 +453,6 @@ function AllLocation() {
                     style={{
                       flex: 1,
                       display: "flex",
-
                       justifyContent: "flex-end",
                       alignItems: "center",
                     }}
