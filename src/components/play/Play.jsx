@@ -239,11 +239,7 @@ function Play() {
             {filterdata.map((item, index) => (
               <div className="filtercontental" key={index}>
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
+                 className="filtercontentalLabel"
                 >
                   {item.val}
                 </label>
@@ -267,20 +263,12 @@ function Play() {
                     }}
                   >
                     <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Bold,
-                        fontSize: "2vh",
-                      }}
+                     className="location-header-label"
                     >
                       {item.name}
                     </span>
                     <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "1.5vh",
-                      }}
+                     className="location-header-max-label"
                     >
                       Max {item.limit}
                     </span>
@@ -295,11 +283,7 @@ function Play() {
                       key={timeindex}
                     >
                       <span
-                        style={{
-                          color: COLORS.white_s,
-                          fontFamily: FONT.Montserrat_SemiBold,
-                          fontSize: "2vh",
-                        }}
+                       className="time-items-container-time-label"
                       >
                         {timedata.time}
                       </span>
@@ -344,11 +328,7 @@ function Play() {
                 </span>
 
                 <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Regular,
-                    fontSize: "2.5vh",
-                  }}
+                   className="date-title-container-limit-label"
                 >
                   {selectedLocation.limit}
                 </span>
@@ -520,6 +500,7 @@ function Play() {
               {/** ALL SELECTED NUMBERS */}
 
               {selectedNumber.map((item, index) => (
+                <>
                 <div className="alllocation-submit-container-left-content-container">
                   {/** LEFT CONTENT */}
                   <div className="alllocation-submit-container-left-content-container-left">
@@ -635,6 +616,40 @@ function Play() {
                     </div>
                   </div>
                 </div>
+
+
+                <div className="alllocation-submit-container-left-content-container-low-screen">
+                  {/** LEFT CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-right">
+                    <div className="alllocation-submit-container-left-content-container-middle-middle-container">
+                      <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
+                        0
+                      </label>
+                    </div>
+                  </div>
+
+                  {/** MIDDLE CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-right">
+                    <div className="alllocation-submit-container-left-content-container-middle-middle-container">
+                      <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
+                        0
+                      </label>
+                    </div>
+                  </div>
+
+                  {/** RIGHT CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-right">
+                    <div className="alllocation-submit-container-left-content-container-middle-middle-container">
+                      <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
+                        0
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                
+
+                </>
               ))}
             </div>
           </div>
@@ -650,13 +665,8 @@ function Play() {
               {/** Top Container */}
               <div className="date-title-container">
                 <div
-                  style={{
-                    flex: 2,
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-start",
-                    alignItems: "center",
-                  }}
+                className="date-title-container-location"
+                  
                 >
                   <span
                     style={{
@@ -686,7 +696,6 @@ function Play() {
                 <div
                   style={{
                     flex: 1,
-
                     display: "flex",
                     justifyContent: "flex-end",
                   }}

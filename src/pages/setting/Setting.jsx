@@ -29,6 +29,9 @@ import { PiHandWithdrawFill } from "react-icons/pi";
 import Historyc from "../../components/history/Historyc.jsx";
 import Play from "../../components/play/Play.jsx";
 import Playhistory from "../../components/playhistory/Playhistory.jsx";
+import Paymentdeposit from "../../components/deposit/Paymentdeposit.jsx";
+import Withdrawpayment from "../../components/withdraw/Withdrawpayment.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const locationdata = [
   {
@@ -145,108 +148,50 @@ const Setting = () => {
     console.log("location changed");
   }, [selectedComponent]);
 
+  const navigate = useNavigate();
+
+  const gotoNavigation = () => {
+    navigate("/setting");
+  };
   return (
     <div className="main-parent">
       {/** Top bar */}
-      <div className="topheader-setting">
-        <div className="lefttopcontiner-setting">
-          <div className="ltcleft-setting">
-            <label
-              style={{
-                color: COLORS.white_s,
-                fontFamily: FONT.Montserrat_Regular,
-                fontSize: "18px",
-              }}
-            >
-              Hello,
-            </label>
-            <label
-              style={{
-                color: "white",
-                fontFamily: FONT.Montserrat_Bold,
-                fontSize: "4vh",
-              }}
-            >
-              Wasu
-            </label>
+      <div className="topheaderd">
+        <div className="lefttopcontinerd">
+          <div className="ltcleftd">
+            <label className="helloLabel">Hello,</label>
+            <label className="usernameLabel">Wasu</label>
           </div>
-          <div className="ltcright-setting">
-            <div className="ltcrightimage-setting">
+          <div className="ltcrightd">
+            <div className="ltcrightimaged">
               <img
                 src={images.user}
                 alt="Profile Picture"
-                className="user-image-setting"
+                className="user-imaged"
               />
             </div>
           </div>
         </div>
-        <div className="righttopcontinersetting">
-          {/** search */}
-
-          {false && (
-            <div className="searchcontainer-setting">
-              <div style={{ justifyContent: "center", alignItems: "center" }}>
-                <CiSearch size={"25px"} />
-              </div>
-
-              <label
-                style={{
-                  color: "black",
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "18px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                Search for location
-              </label>
-            </div>
-          )}
-
+        <div className="righttopcontinerd">
           {/** deposit */}
-          <div className="depositcontainer-setting">
+          <div className="depositcontainerd">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"20px"} />
+              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label
-              style={{
-                color: COLORS.white_s,
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "14px",
-                textAlign: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              DEPOSIT
-            </label>
+            <label className="depositLabel">DEPOSIT</label>
           </div>
-          {/** wallet */}
-          <div className="walletcontainer-setting">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FaWallet color={COLORS.background} size={"18px"} />
+
+          {/** withdraw */}
+          <div className="depositcontainerd">
+            <div style={{ justifyContent: "center", alignItems: "center" }}>
+              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label
-              style={{
-                color: COLORS.background,
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "14px",
-                textAlign: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              1000 INR
-            </label>
+            <label className="depositLabel">WITHDRAW</label>
           </div>
           {/** location */}
-          <div className="iconcontainer-setting">
+          <div className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -258,7 +203,7 @@ const Setting = () => {
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainer-setting">
+          <div className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -270,7 +215,7 @@ const Setting = () => {
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainer-setting">
+          <div className="iconcontainerd" onClick={gotoNavigation}>
             <div
               style={{
                 display: "flex",
@@ -278,7 +223,7 @@ const Setting = () => {
                 alignItems: "center",
               }}
             >
-              <FaHome color={COLORS.background} size={"30px"} />
+              <IoIosSettings color={COLORS.background} size={"30px"} />
             </div>
           </div>
         </div>
@@ -291,22 +236,9 @@ const Setting = () => {
           <div className="leftsidebartopS">
             {/** Setting content */}
             <div
-              style={{
-                height: "8%",
-                display: "flex",
-                flexDirection: "row",
-                width: "90%",
-                justifyContent: "space-between",
-                alignItems: 'center',
-                paddingTop: '10%'
-                
-              }}
+            className="settingContainer"
             >
-              <label
-                className="left-content-label-title"
-              >
-                Setting
-              </label>
+              <label className="left-content-label-title">Setting</label>
 
               <div
                 style={{
@@ -319,7 +251,7 @@ const Setting = () => {
 
             {/** All Location */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"alllocation"}
               onClick={() => handleComponentClick("alllocation")}
               style={{
@@ -329,21 +261,15 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <IoLocationSharp color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                className="left-content-label"
-              >
-                All Location
-              </label>
+              <label className="left-content-label">All Location</label>
             </div>
             {/** Results */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"results"}
               onClick={() => handleComponentClick("results")}
               style={{
@@ -353,21 +279,15 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-               className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <FaTrophy color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                className="left-content-label"
-              >
-                Result
-              </label>
+              <label className="left-content-label">Result</label>
             </div>
             {/** Play */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"play"}
               onClick={() => handleComponentClick("play")}
               style={{
@@ -377,71 +297,53 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <FaPlay color={COLORS.white_s} size={"18px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                Play
-              </label>
+              <label className="left-content-label">Play</label>
             </div>
 
             {/** Deposit */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"deposit"}
               onClick={() => handleComponentClick("deposit")}
               style={{
                 background:
-                  selectedComponent === "home"
+                  selectedComponent === "deposit"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <PiHandDepositBold color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                className="left-content-label"
-              >
-                Deposit
-              </label>
+              <label className="left-content-label">Deposit</label>
             </div>
 
             {/** Withdraw */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"withdraw"}
               onClick={() => handleComponentClick("withdraw")}
               style={{
                 background:
-                  selectedComponent === "home"
+                  selectedComponent === "withdraw"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <PiHandWithdrawFill color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                Withdraw
-              </label>
+              <label className="left-content-label">Withdraw</label>
             </div>
 
             {/** Payment */}
-            <div
+            {/* <div
               className="lscontent"
               key={"payment"}
               onClick={() => handleComponentClick("payment")}
@@ -463,11 +365,11 @@ const Setting = () => {
               >
                 Payment
               </label>
-            </div>
+            </div> */}
 
             {/** Play History */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"playhistory"}
               onClick={() => handleComponentClick("playhistory")}
               style={{
@@ -477,22 +379,16 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <TbHistoryToggle color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                Play History
-              </label>
+              <label className="left-content-label">Play History</label>
             </div>
 
             {/** History */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"history"}
               onClick={() => handleComponentClick("history")}
               style={{
@@ -502,22 +398,16 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-               className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <FaHistory color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                History
-              </label>
+              <label className="left-content-label">History</label>
             </div>
 
             {/** Game Description */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"gamedescription"}
               onClick={() => handleComponentClick("gamedescription")}
               style={{
@@ -527,22 +417,16 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <TbFileDescription color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                Game Description
-              </label>
+              <label className="left-content-label">Game Description</label>
             </div>
 
             {/** About Us */}
             <div
-              className="lscontent"
+              className="lscontentS"
               key={"aboutus"}
               onClick={() => handleComponentClick("aboutus")}
               style={{
@@ -552,17 +436,11 @@ const Setting = () => {
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
             >
-              <div
-                className="left-content-icon-container"
-              >
+              <div className="left-content-icon-container">
                 <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                 className="left-content-label"
-              >
-                About Us
-              </label>
+              <label className="left-content-label">About Us</label>
             </div>
           </div>
         </div>
@@ -576,6 +454,8 @@ const Setting = () => {
           {selectedComponent === "history" && <Historyc />}
           {selectedComponent === "play" && <Play />}
           {selectedComponent === "playhistory" && <Playhistory />}
+          {selectedComponent === "deposit" && <Paymentdeposit />}
+          {selectedComponent === "withdraw" && <Withdrawpayment />}
         </div>
       </div>
     </div>

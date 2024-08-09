@@ -131,3 +131,101 @@
     
 
 }
+.h-content-second-content-container-top-amount{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1vw;
+}
+.h-content-second-content-container-top-amount-val{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1vw;
+}
+.h-content-second-content-container-top-date{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1vw;
+}
+.h-content-third-content-container-top-payment{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1vw;
+}
+.h-content-third-content-container-top-payment-val{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1vw;
+}
+.h-content-third-content-container-bottom-status{
+    color: var(--green);
+    font-family: "MR";
+    font-size: 1vw;
+}
+
+@media (max-width: 1024px) {
+
+    .h-content-second-content-container-top-amount{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 1.2vw;
+    }
+    .h-content-second-content-container-top-amount-val{
+        color: var(--white_s);
+        font-family: "MB";
+        font-size: 1.2vw;
+    }
+    .h-content-second-content-container-top-date{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 1.2vw;
+    }
+    .h-content-third-content-container-top-payment{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 1.2vw;
+    }
+    .h-content-third-content-container-top-payment-val{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 1.2vw;
+    }
+    .h-content-third-content-container-bottom-status{
+        color: var(--green);
+        font-family: "MR";
+        font-size: 1.2vw;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .h-content-second-content-container-top-amount{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 1.4vw;
+    }
+    .h-content-second-content-container-top-amount-val{
+        color: var(--white_s);
+        font-family: "MB";
+        font-size: 1.4vw;
+    }
+    .h-content-second-content-container-top-date{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 1.4vw;
+    }
+    .h-content-third-content-container-top-payment{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 1.4vw;
+    }
+    .h-content-third-content-container-top-payment-val{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 1.4vw;
+    }
+    .h-content-third-content-container-bottom-status{
+        color: var(--green);
+        font-family: "MR";
+        font-size: 1.4vw;
+    }
+}

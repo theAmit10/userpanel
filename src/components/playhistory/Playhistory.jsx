@@ -1,4 +1,3 @@
-
 import React from "react";
 import "./Playhistory.css";
 import { PiHandDepositBold } from "react-icons/pi";
@@ -104,33 +103,15 @@ function Playhistory() {
             {/** SECOND CONTAINER */}
             <div className="h-content-second">
               <div className="h-content-second-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Regular,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-amount">
                   Amount{" "}
                 </label>
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "1.8vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-amount-val">
                   : 500 INR
                 </label>
               </div>
               <div className="h-content-second-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.8vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-date">
                   Apr 19, 2024 05: 37 PM
                 </label>
               </div>
@@ -138,24 +119,12 @@ function Playhistory() {
             {/** THIRD CONTAINER */}
             <div className="h-content-third">
               <div className="h-content-third-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment">
                   Location
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment-val">
                   Delhi
                 </label>
               </div>
@@ -163,49 +132,25 @@ function Playhistory() {
             {/** FOURTH CONTAINER */}
             <div className="h-content-fourth">
               <div className="h-content-third-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment">
                   Time
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment-val">
                   09:00 AM
                 </label>
               </div>
             </div>
             {/** FIFTH CONTAINER */}
             <div className="h-content-fifth">
-            <div className="h-content-third-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.5vh",
-                  }}
-                >
+              <div className="h-content-third-content-container-top">
+                <label className="h-content-third-content-container-top-payment">
                   Number
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment-val">
                   99
                 </label>
               </div>

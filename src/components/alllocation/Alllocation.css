@@ -240,101 +240,140 @@ display: flex;
   object-fit: cover;
 }
 
+.filtercontentalLabel{
+  color: var(--white_s);
+  font-family: "HR";
+  font-size: 1.1vw;
+}
+.location-header-label{
+  color: var(--white_s);
+  font-family: "MB";
+  font-size: 1.2vw;
+}
+.location-header-max-label{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 0.6vw;
+}
+.time-items-container-time-label{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 1vw;
+}
+.rltopcontaineralNameLabel{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 2.5vw;
+}
+.rltopcontaineralTimeLabel{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 2vw;
+}
+.rltopcontaineralNumberLabel{
+  color: var(--white_s);
+  font-family: "HB";
+  font-size: 9vw;
+}
+.imageContainerGame{
+  width: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.date-title-container-limit-label{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1.2vw;
+}
 
-/* .main-content-container-all-location {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 10px;
+@media (max-width: 1024px) {
+  .filtercontentalLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1.4vw;
   }
-  
-  .filtercontainer {
-    display: flex;
-    height: 5%;
-    width: calc(100% - 4%);
-    background-color: var(--grayHalfBg);
-    justify-content: center;
-    align-items: center;
-    border-radius: 40px;
-    margin-left: 2%;
-    margin-right: 2%;
+  .location-header-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.4vw;
   }
-  
-  .filtercontent {
-    display: flex;
-    width: 10%;
-    height: calc(100% - 6%);
-    background-color: var(--background);
-    border-radius: 10px;
-    margin: 2%;
-    justify-content: center;
-    align-items: center;
+  .location-header-max-label{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 0.6vw;
   }
-  
-  .allocationcontainer {
-    height: 80%;
-    width: calc(100% - 2%);
-    background: linear-gradient(180deg, #0162af, #011833);
-    margin: 1%;
-    border-radius: 3vh;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
+  .time-items-container-time-label{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.2vw;
   }
-  
-  .alleftlocation {
-    width: 20%;
+}
+
+@media (max-width: 768px) {
+  .filtercontentalLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1.8vw;
+  }
+  .location-header-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.8vw;
+  }
+  .location-header-max-label{
+    display: none;
+  }
+  .time-items-container-time-label{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.4vw;
+  }
+  .catcontrolleral{
+    width: 100%;
     height: 100%;
-    max-height: 100%;
+    object-fit: scale-down;
+  }
+  .catImageContainer{
+    height: max-content;
+  }
+  .time-items-container-time-label{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.4vw;
+  }
+  .rltopcontaineralNameLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 3vw;
+  }
+  .rltopcontaineralTimeLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 2.5vw;
+  }
+  .rltopcontaineralNumberLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 15vw;
+  }
+  .imageContainerGame{
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    overflow-y: auto;
-    gap: 5px;
-    padding: 5px;
-    padding-left: 2%;
+    justify-content: center;
   }
-  
-  .leftlocationcontent {
-    height: 20%;
-    width: calc(100% - 5%);
-    background-color: var(--background);
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px;
-  }
-  
-  .leftlocationcontent:hover {
-    border: 2px solid var(--green);
-    cursor: pointer;
-  }
-  
-  .alrightlocation {
-    width: 80%;
+  .resultrightcontaineral{
+    width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow-y: auto;
-    gap: 5px;
-    padding: 5px;
- 
   }
-  
-  .rightlocationcontent {
-    height: 20%;
-    width: calc(100% - 10%);
-    background-color: var(--background);
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    flex-direction: row;
+  .date-title-container-limit-label{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.6vw;
   }
-   */
+}

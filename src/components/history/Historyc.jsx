@@ -102,33 +102,15 @@ function Historyc() {
             {/** SECOND CONTAINER */}
             <div className="h-content-second">
               <div className="h-content-second-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Regular,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-amount">
                   Amount{" "}
                 </label>
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "1.8vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-amount-val">
                   : 500 INR
                 </label>
               </div>
               <div className="h-content-second-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.8vh",
-                  }}
-                >
+                <label className="h-content-second-content-container-top-date">
                   Apr 19, 2024 05: 37 PM
                 </label>
               </div>
@@ -136,24 +118,12 @@ function Historyc() {
             {/** THIRD CONTAINER */}
             <div className="h-content-third">
               <div className="h-content-third-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment">
                   Payment Method
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment-val">
                   UPI
                 </label>
               </div>
@@ -161,24 +131,12 @@ function Historyc() {
             {/** FOURTH CONTAINER */}
             <div className="h-content-fourth">
               <div className="h-content-third-content-container-top">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "1.5vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment">
                   Transaction ID
                 </label>
               </div>
               <div className="h-content-third-content-container-bottom">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2vh",
-                  }}
-                >
+                <label className="h-content-third-content-container-top-payment-val">
                   3983983838833838
                 </label>
               </div>
@@ -190,11 +148,7 @@ function Historyc() {
               </div>
               <div className="h-content-third-content-container-bottom">
                 <label
-                  style={{
-                    color: COLORS.green,
-                    fontFamily: FONT.Montserrat_Regular,
-                    fontSize: "2vh",
-                  }}
+                className="h-content-third-content-container-bottom-status"
                 >
                   success
                 </label>

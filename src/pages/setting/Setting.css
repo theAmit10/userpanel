@@ -21,11 +21,12 @@
 }
 
 .left-content-label{
-    color: var(--white);
-    font-family: "MR";
-    font-size: 2vh;
+    color: white;
+    font-family: "MR"; 
+    font-size: 0.8em; /* Use relative units */
+    text-align: center;
+    flex: 1;
     text-align: left;
-    padding-left: 1vh;
  
 }
 
@@ -41,9 +42,9 @@
 
 .left-content-icon-container{
     display: flex;
-    justify-content: center;
+    min-width: 3vw;
+    justify-content: right;
     align-items: center;
-    padding: 1vh;
 }
 
 .ltcleft-setting {
@@ -159,9 +160,23 @@
     padding: 2%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     border-radius: 8px;
+    gap: 10px;
+    align-self: center;
+}
+
+.lscontentS{
+    width: calc(100% - 10%); /* Adjust width to account for margin */
+    height: 10%;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .lscontent:hover{
@@ -190,3 +205,139 @@
     flex-direction: row;
     justify-content: flex-end;
 }
+
+.settingContainer{
+    height: 8%;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10%;
+}
+
+
+  /* Medium devices (tablets) */
+  @media (max-width: 1024px) {
+    /* CSS rules for tablets in landscape mode */
+    .helloLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.8vw;
+    }
+    .usernameLabel{
+        color: var(--white_s);
+        font-family: "HB";
+        font-size: 2vw;
+    }
+    .topheaderd {
+        display: flex;
+        height: 8%;
+        width: 100%;
+        margin-right: 2%;
+        flex-direction: row;
+    }
+    .searchLabel{
+        color: var(--black);
+        font-family: "MR";
+        font-size:  1em,;
+        padding-left: 10px;
+    }
+  }
+
+  
+  
+  /* Media query to hide the label on small screens */
+  @media (max-width: 768px) {
+    .left-content-label {
+      display: none; /* Hide the label on screens smaller than 768px */
+    }
+
+    .lscontentd{
+        width: calc(100% - 10%); /* Adjust width to account for margin */
+        background-color: var(--background);
+        height: 10%;
+        padding: 2%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        gap: 10px;
+        
+    }
+    .lscontentd:hover{
+        border: 2px solid var(--green); /* Change border color on hover */
+        cursor: pointer;
+    }
+    .lscontentIconContiner{
+        display: flex;
+        min-width: 3vw;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .leftsidebarmiddled  {
+        display: none;
+    }
+    .getTheApplabel{
+        display: none;
+    }
+    
+
+     .depositcontainerd, .iconcontainerd {
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 40px;
+    }
+    .walletcontainerd,.depositcontainerd,.searchcontainerd{
+        display: none;
+    }
+    .topheaderd {
+        display: flex;
+        height: 8%;
+        width: 100%;
+        margin-right: 2%;
+        flex-direction: row;
+    }
+    .lefttopcontinerd {
+        width: 18%;
+        height: 100%;
+        display: flex;
+        justify-content: left;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .ltcleftd{
+        display: none;
+    }
+
+    .left-content-label-title{
+        display: none;
+    }
+
+   
+    .settingContainer{
+        display: none;
+    }
+    
+    .lscontentS{
+        width: calc(100% - 10%); /* Adjust width to account for margin */
+        height: 10%;
+        padding: 2%;
+        display: flex;
+        flex-direction: row;
+        border-radius: 8px;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15%;
+    }
+    
+   
+
+  }

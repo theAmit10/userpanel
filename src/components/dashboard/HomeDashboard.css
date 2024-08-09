@@ -224,6 +224,10 @@ display: flex;
     object-fit: cover;
 }
 
+.catContainer{
+    display: flex;
+}
+
 .resultlistcontainer{
     height: 20%;
     display: flex;
@@ -350,3 +354,242 @@ display: flex;
 
     
 }
+
+.topWinnerOfDayLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 1.1vw;
+}
+.topWinnerOfDayNameLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1vw;
+    text-align: center;
+}
+
+.topWinnerOfDayAmountLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 0.8vw;
+    text-align: center;
+}
+
+.gameHistoryDateLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 0.6vw;
+    text-align: center;
+}
+
+.gameHistoryNumberLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 1vw;
+    text-align: center;
+}
+.rltopcontainerLocationLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 2em;
+    text-align: center;
+}
+.rltopcontainerNextLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1.2vw;
+    text-align: center;
+}
+.rltopcontainerNextTimeLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1em;
+    text-align: center;
+}
+.rltopcontainerTimerLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1em;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+.rlbottomcontentcontainerCalContainer{
+    background-color: var(--white_s);
+    padding: 0.5vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+
+}
+
+.rlbottomcontentcontainerCalDateLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1em;
+    text-align: center;
+}
+
+.resultlistcontentcontainerLocation{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1vw;
+    text-align: center;
+}
+
+.resultlistcontentcontainerNumber{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 3vw;
+    text-align: center; 
+}
+
+.resultlistcontentcontainerTime{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1vw;
+    text-align: center;
+}
+
+.filtercontentLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1vw;
+    text-align: center;
+}
+
+.leftlocationcontentLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1vw;
+    text-align: center;
+}
+.leftlocationcontentMaxLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 0.8vw;
+    text-align: center;
+}
+
+.rightlocationcontentLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 70%;
+    text-align: center; 
+}
+
+  /* Medium devices (tablets) */
+  @media (max-width: 1024px) {
+    /* CSS rules for tablets in landscape mode */
+    .rightcontainer{
+        display: none;
+    }
+    .rlbottomcontentcontainerCalDateLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1em;
+        text-align: center;
+    }
+    .resultlistcontentcontainerLocation{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.6vw;
+        text-align: center;
+    }
+    
+    .resultlistcontentcontainerNumber{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 3vw;
+        text-align: center; 
+    }
+    
+    .resultlistcontentcontainerTime{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.2vw;
+        text-align: center;
+    }
+
+    .filtercontentLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.3vw;
+        text-align: center;
+    }
+
+    .leftlocationcontentLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.2vw;
+        text-align: center;
+    }
+    .leftlocationcontentMaxLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1vw;
+        text-align: center;
+    }
+  }
+
+@media (max-width: 768px){
+    .rightcontainer{
+        display: none;
+    }
+    .rlbottomcontentcontainerCalDateLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.8vw;
+        text-align: center;
+    }
+    .catcontroller{
+        width: 100%;
+        height: 100%;
+        object-fit: scale-down;
+    }
+    .resultlistcontentcontainerLocation{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.9vw;
+        text-align: center;
+    }
+    
+    .resultlistcontentcontainerNumber{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 5vw;
+        text-align: center; 
+    }
+    
+    .resultlistcontentcontainerTime{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.4vw;
+        text-align: center;
+    }
+
+    .filtercontentLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.6vw;
+        text-align: center;
+    }
+
+    .leftlocationcontentLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 0.8em;
+        text-align: center;
+    }
+    .leftlocationcontentMaxLabel{
+        display: none;
+    }
+
+    .rightlocationcontentLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 0.6em;
+        text-align: center; 
+    }
+}
+
+

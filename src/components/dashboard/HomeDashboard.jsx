@@ -18,6 +18,7 @@ import { FaHistory } from "react-icons/fa";
 import { TbFileDescription } from "react-icons/tb";
 import { IoIosInformationCircle } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
 
 const topWinnerOfTheDay = [
   {
@@ -257,17 +258,20 @@ const timedata = [
 ];
 
 function HomeDashboard() {
-    const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
 
-    const handleLocationClick = (location) => {
-      console.log("clicked");
-      console.log(JSON.stringify(location));
-      setSelectedLocation(location);
-    };
-  
-    useEffect(() => {
-      console.log("location changed");
-    }, [selectedLocation]);
+ 
+
+  const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
+
+  const handleLocationClick = (location) => {
+    console.log("clicked");
+    console.log(JSON.stringify(location));
+    setSelectedLocation(location);
+  };
+
+  useEffect(() => {
+    console.log("location changed");
+  }, [selectedLocation]);
   return (
     <div className="main-content-container">
       {/** Middle Container */}
@@ -285,15 +289,7 @@ function HomeDashboard() {
                   alignItems: "center",
                 }}
               >
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_BOLD,
-                    fontSize: "24px",
-                  }}
-                >
-                  Japan
-                </label>
+                <label className="rltopcontainerLocationLabel">Japan</label>
               </div>
               <div
                 style={{
@@ -304,32 +300,16 @@ function HomeDashboard() {
                   flexDirection: "column",
                 }}
               >
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                  }}
-                >
-                  Next Result
-                </label>
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "16px",
-                  }}
-                >
-                  10:00 AM
-                </label>
+                <label className="rltopcontainerNextLabel">Next Result</label>
+                <label className="rltopcontainerNextTimeLabel">10:00 AM</label>
               </div>
             </div>
+
             <div className="rlmiddlecontainer">
               <div
                 style={{
                   flex: 1,
                   display: "flex",
-
                   justifyContent: "flex-end",
                   alignItems: "center",
                 }}
@@ -347,68 +327,32 @@ function HomeDashboard() {
               <div
                 style={{
                   width: "40%",
-
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "16px",
-                    writingMode: "vertical-rl",
-                    transform: "rotate(180deg)",
-                  }}
-                >
-                  00:00:00
-                </label>
+                <label className="rltopcontainerTimerLabel">00:00:00</label>
               </div>
             </div>
             <div className="rlbottomcontainer">
               <div className="rlbottomcontentcontainer">
-                <div
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: COLORS.white_s,
-                    padding: "5px",
-                    borderRadius: "5px",
-                  }}
-                >
+                <div className="rlbottomcontentcontainerCalContainer">
                   <SlCalender size={"20px"} color={COLORS.background} />
                 </div>
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                  }}
-                >
+                <label className="rlbottomcontentcontainerCalDateLabel">
                   12-05-2024
                 </label>
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                  }}
-                >
+                <label className="rlbottomcontentcontainerCalDateLabel">
                   09:00 AM
                 </label>
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                  }}
-                >
+                <label className="rlbottomcontentcontainerCalDateLabel">
                   56
                 </label>
               </div>
             </div>
           </div>
+
           <div className="resultrightcontainer">
             <div
               style={{
@@ -431,16 +375,7 @@ function HomeDashboard() {
                 className="cupontroller"
               />
             </div>
-            <div
-              style={{
-                width: "50%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
+            <div className="catContainer">
               <img
                 src={images.cat}
                 alt="game controller Image"
@@ -449,7 +384,6 @@ function HomeDashboard() {
             </div>
           </div>
         </div>
-
 
         {/** Result list contatiner */}
         <div className="resultlistcontainer">
@@ -473,13 +407,7 @@ function HomeDashboard() {
                   alignItems: "center",
                 }}
               >
-                <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "16px",
-                  }}
-                >
+                <label className="resultlistcontentcontainerLocation">
                   {item.location}
                 </label>
               </div>
@@ -487,19 +415,13 @@ function HomeDashboard() {
               <div
                 style={{
                   flex: 1,
-
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                 }}
               >
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "44px",
-                  }}
-                >
+                 className="resultlistcontentcontainerNumber">
                   {item.number}
                 </label>
               </div>
@@ -515,11 +437,7 @@ function HomeDashboard() {
                 }}
               >
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                  }}
+                  className="resultlistcontentcontainerTime"
                 >
                   {item.time}
                 </label>
@@ -534,11 +452,7 @@ function HomeDashboard() {
           {filterdata.map((item, index) => (
             <div className="filtercontent">
               <label
-                style={{
-                  color: "white",
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "18px",
-                }}
+              className="filtercontentLabel"
               >
                 {item.val}
               </label>
@@ -562,21 +476,13 @@ function HomeDashboard() {
                 onClick={() => handleLocationClick(item)}
               >
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
+                className="leftlocationcontentLabel"
                 >
                   {item.name}
                 </label>
 
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "10px",
-                  }}
+                  className="leftlocationcontentMaxLabel"
                 >
                   {item.limit}
                 </label>
@@ -588,11 +494,7 @@ function HomeDashboard() {
             {selectedLocation.times.map((item, index) => (
               <div className="rightlocationcontent" key={item.id}>
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "60%",
-                  }}
+                className="rightlocationcontentLabel"
                 >
                   {item.time}
                 </label>
@@ -600,21 +502,12 @@ function HomeDashboard() {
             ))}
           </div>
         </div>
-
       </div>
 
       <div className="rightcontainer">
         {/** App sidebar */}
         <div className="rightsidebartop">
-          <label
-            style={{
-              color: "white",
-              fontFamily: FONT.HELVETICA_BOLD,
-              fontSize: "16px",
-            }}
-          >
-            Top Winners of the day
-          </label>
+          <label className="topWinnerOfDayLabel">Top Winners of the day</label>
 
           {topWinnerOfTheDay.map((item, index) => (
             <div className="rscontent">
@@ -626,102 +519,32 @@ function HomeDashboard() {
                 />
               </div>
 
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                {item.name}
-              </label>
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                {item.amount}
-              </label>
+              <label className="topWinnerOfDayNameLabel">{item.name}</label>
+              <label className="topWinnerOfDayAmountLabel">{item.amount}</label>
             </div>
           ))}
         </div>
 
         {/** play History */}
         <div className="rightsidebarmiddle">
-          <label
-            style={{
-              color: "white",
-              fontFamily: FONT.HELVETICA_BOLD,
-              fontSize: "16px",
-              padding: "12px",
-            }}
-          >
+          <label className="topWinnerOfDayLabel" style={{ marginTop: "5px" }}>
             Game History
           </label>
 
           {playHistoryData.map((item, index) => (
             <div className="rsbottomcontent">
               <div className="lefthistory">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "14px",
-                    textAlign: "center",
-                  }}
-                >
+                <label className="topWinnerOfDayNameLabel">
                   {item.location}
                 </label>
               </div>
               <div className="middlehistory">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.HELVETICA_BOLD,
-                    fontSize: "14px",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.number}
-                </label>
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.amount}
-                </label>
+                <label className="gameHistoryNumberLabel">{item.number}</label>
+                <label className="gameHistoryDateLabel">{item.amount}</label>
               </div>
               <div className="righthistory">
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.time}
-                </label>
-                <label
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "8px",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.date}
-                </label>
+                <label className="gameHistoryDateLabel">{item.time}</label>
+                <label className="gameHistoryDateLabel">{item.date}</label>
               </div>
             </div>
           ))}

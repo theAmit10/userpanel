@@ -56,15 +56,16 @@
     align-items: center;
 }
 
-.searchcontainerd, .depositcontainerd, .walletcontainerd, .iconcontainerd {
+.searchcontainerd, .depositcontainerd, .iconcontainerd {
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-   
     display: flex;
     justify-content: center;
     align-items: center;
+   
 }
+
 
 .searchcontainerd {
     flex: 1;
@@ -81,6 +82,13 @@
 .walletcontainerd {
     width: 10%;
     background-color: var(--grayHalfBg);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
 }
 
 .iconcontainerd{
@@ -93,6 +101,7 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: right;
 }
 
 
@@ -131,9 +140,12 @@
     padding: 2%;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     border-radius: 8px;
+    gap: 10px;
+    
+    
 }
 
 .lscontentd:hover{
@@ -188,3 +200,203 @@
 
       
 }
+
+/* Base styles for the label */
+.sidebar-label {
+    color: white;
+    font-family: "MR"; 
+    font-size: 0.8em; /* Use relative units */
+    text-align: center;
+    flex: 1;
+    text-align: left;
+  }
+  .topbar-label {
+    color: black;
+    font-family: "HR"; 
+    font-size: 0.8em; /* Use relative units */
+    text-align: center;
+    flex: 1;
+    text-align: left;
+  }
+
+  .lscontentIconContiner{
+    display: flex;
+    min-width: 3vw;
+    justify-content: right;
+    align-items: center;
+    
+}
+.getTheApplabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: medium;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.promotionLable{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 1.8vw;
+}
+
+.helloLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1.4vw;
+}
+.usernameLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 1.8vw;
+}
+.searchLabel{
+    color: var(--black);
+    font-family: "MR";
+    font-size:  1.2em;
+    padding-left: 10px;
+}
+.depositLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size:  1vw;
+    padding-left: 5px;
+}
+
+  /* Medium devices (tablets) */
+  @media (max-width: 1024px) {
+    /* CSS rules for tablets in landscape mode */
+    .helloLabel{
+        color: var(--white_s);
+        font-family: "HR";
+        font-size: 1.8vw;
+    }
+    .usernameLabel{
+        color: var(--white_s);
+        font-family: "HB";
+        font-size: 2vw;
+    }
+    .topheaderd {
+        display: flex;
+        height: 8%;
+        width: 100%;
+        margin-right: 2%;
+        flex-direction: row;
+    }
+    .searchLabel{
+        color: var(--black);
+        font-family: "MR";
+        font-size:  1em,;
+        padding-left: 10px;
+    }
+  }
+
+  
+  
+  /* Media query to hide the label on small screens */
+  @media (max-width: 768px) {
+    .sidebar-label {
+      display: none; /* Hide the label on screens smaller than 768px */
+    }
+
+    .lscontentd{
+        width: calc(100% - 10%); /* Adjust width to account for margin */
+        background-color: var(--background);
+        height: 10%;
+        padding: 2%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        gap: 10px;
+        
+    }
+    .lscontentd:hover{
+        border: 2px solid var(--green); /* Change border color on hover */
+        cursor: pointer;
+    }
+    .lscontentIconContiner{
+        display: flex;
+        min-width: 3vw;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .leftsidebarmiddled  {
+        display: none;
+    }
+    .getTheApplabel{
+        display: none;
+    }
+    .leftsidebarbottomd {
+        min-width: 60px; /* Adjust width to account for margin */
+        margin: 2%;
+        margin-right: 5%; /* Add specific margin for the right side */
+        border-radius: 1vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2vh;
+    }
+    .appiconcontainerd{
+        width: 40px;
+        background-color: var(--grayHalfBg);
+        border-radius: 1vh;
+        padding: 3px;
+    }
+    .leftcontainerd {
+        width: 15%;
+        height: 90vh;
+    
+    }
+    .searchcontainerd {
+        width: 50px;
+        background-color: var(--grayHalfBg);
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .searchLabel{
+        display: none;
+    }
+
+     .depositcontainerd, .iconcontainerd {
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        width: 40px;
+    }
+    .walletcontainerd,.depositcontainerd,.searchcontainerd{
+        display: none;
+    }
+    .topheaderd {
+        display: flex;
+        height: 8%;
+        width: 100%;
+        margin-right: 2%;
+        flex-direction: row;
+    }
+    .lefttopcontinerd {
+        width: 18%;
+        height: 100%;
+        display: flex;
+        justify-content: left;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+    .ltcleftd{
+        display: none;
+    }
+
+   
+   
+    
+    
+   
+
+  }
+

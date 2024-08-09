@@ -3,6 +3,7 @@
     height: 100vh;
     background-color: #011833;
     color: white;
+    overflow: hidden;
 }
   
 .sidebar {
@@ -53,38 +54,38 @@
     width: 14%;
     object-fit: cover;
     position: absolute;
-    top: 40%;
-   
-   
+    top: 25%;
+    left: -3%;
 }
   
-.login-form {
-    
+.login-form-register {
+    padding: 10%;
     border-radius: 10px;
     width: 80%;
-    height: 60vh;
+    height: 90vh;
     position: relative;
-    
-   
-    gap: 10px; /* Added this to create a 20px gap between each item */
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding-top: 20px;
 }
   
 .welcome-label {
-    font-family: "Montserrat_Regular";
-    width: 100%;
+    font-family: "MR";
+    min-width: 20em;
+    margin-bottom: 1vw;
 }
   
 .login-form form {
     display: flex;
     flex-direction: column;
-    margin-top: -40%;
-
+    gap: 20px; /* Updated this to create a 20px gap between each form group */
 }
   
 .form-group {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
+    gap: 20px;
     flex-direction: column;
 }
   
@@ -106,13 +107,18 @@
     color: #0179FE;
 }
   
-.submit-btn {
+
+.submit-btn-register {
+    flex-grow: 1;
     padding: 10px;
     border-radius: 5px;
     background-color: #0179FE;
     color: white;
     border: none;
     cursor: pointer;
+    width: 100%;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
 }
   
 .main-content-image {
@@ -121,4 +127,93 @@
     position: absolute;
     right: 0;
     bottom: 0;
+}
+
+@media (max-width: 1024px) {
+    .loginparentbox {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 90%;
+        height: 80vh;
+        border-radius: 3vh;
+        
+    }
+      
+    .loginbox {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 105%;
+        height: 80vh;
+        border-radius: 3vh;
+        margin-top: 5%;
+        margin-left: 5%;
+        
+    }
+    .login-form-register {
+        padding: 2%;
+        border-radius: 10px;
+        width: 80%;
+        height: 70vh;
+        position: relative;
+        margin: 5%;
+        justify-content: stretch;
+  
+    }
+    .gamecontroller-image {
+        width: 14%;
+        object-fit: cover;
+        position: absolute;
+        top: 40%;
+        left: -20%;
+    }
+    .form-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 1vw;
+        flex-direction: column;
+    
+    }
+}
+
+
+@media (max-width: 768px) {
+    .loginparentbox {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 90%;
+        height: 80vh;
+        border-radius: 3vh;
+        margin-top: 2%;
+    }
+      
+    .loginbox {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 105%;
+        height: 80vh;
+        border-radius: 3vh;
+        margin-top: 5%;
+        margin-left: 5%;
+        
+    }
+    .login-form-register {
+        padding: 2%;
+        border-radius: 10px;
+        width: 80%;
+        height: 70vh;
+        position: relative;
+        margin: 5%;
+        justify-content: stretch;
+        gap: 2vw; /* Added this to create a 20px gap between each item */
+    }
+    .gamecontroller-image {
+        width: 14%;
+        object-fit: cover;
+        position: absolute;
+        top: 40%;
+        left: -20%;
+    }
+    .form-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 1vw;
+        flex-direction: column;
+        margin-top: 4vw;
+    }
 }

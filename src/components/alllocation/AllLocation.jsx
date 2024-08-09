@@ -203,11 +203,7 @@ function AllLocation() {
             {filterdata.map((item, index) => (
               <div className="filtercontental" key={index}>
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_REGULAR,
-                    fontSize: "18px",
-                  }}
+                className="filtercontentalLabel"
                 >
                   {item.val}
                 </label>
@@ -231,20 +227,12 @@ function AllLocation() {
                     }}
                   >
                     <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Bold,
-                        fontSize: "2vh",
-                      }}
+                    className="location-header-label"
                     >
                       {item.name}
                     </span>
                     <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "1.5vh",
-                      }}
+                    className="location-header-max-label"
                     >
                       Max {item.limit}
                     </span>
@@ -259,11 +247,7 @@ function AllLocation() {
                       key={timeindex}
                     >
                       <span
-                        style={{
-                          color: COLORS.white_s,
-                          fontFamily: FONT.Montserrat_SemiBold,
-                          fontSize: "2vh",
-                        }}
+                      className="time-items-container-time-label"
                       >
                         {timedata.time}
                       </span>
@@ -311,11 +295,7 @@ function AllLocation() {
               </span>
 
               <span
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.Montserrat_Regular,
-                  fontSize: "2.5vh",
-                }}
+              className="date-title-container-limit-label"
               >
                 {selectedLocation.limit}
               </span>
@@ -419,11 +399,7 @@ function AllLocation() {
                     }}
                   >
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.HELVETICA_BOLD,
-                        fontSize: "5vh",
-                      }}
+                    className="rltopcontaineralNameLabel"
                     >
                       {selectedLocation.name}
                     </label>
@@ -438,11 +414,7 @@ function AllLocation() {
                     }}
                   >
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "2vh",
-                      }}
+                      className="rltopcontaineralTimeLabel"
                     >
                       {selectedTime.time}
                     </label>
@@ -458,11 +430,7 @@ function AllLocation() {
                     }}
                   >
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.HELVETICA_BOLD,
-                        fontSize: "18vh",
-                      }}
+                    className="rltopcontaineralNumberLabel"
                     >
                       56
                     </label>
@@ -470,7 +438,6 @@ function AllLocation() {
                   <div
                     style={{
                       width: "40%",
-
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -479,41 +446,20 @@ function AllLocation() {
                 </div>
                 <div className="rlbottomcontaineral">
                   <div className="rlbottomcontentcontaineral">
-                    <div
-                      style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: COLORS.grayHalfBg,
-                        padding: "5px",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <SlCalender size={"20px"} color={COLORS.background} />
-                    </div>
+                  <div className="rlbottomcontentcontainerCalContainer">
+                  <SlCalender size={"20px"} color={COLORS.background} />
+                </div>
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "2vh",
-                      }}
-                    >
+                      className="rlbottomcontentcontainerCalDateLabel">
                       {selectedDate.date}
                     </label>
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "2vh",
-                      }}
+                       className="rlbottomcontentcontainerCalDateLabel"
                     >
                       {selectedTime.time}
                     </label>
                     <label
-                      style={{
-                        color: "white",
-                        fontFamily: FONT.HELVETICA_REGULAR,
-                        fontSize: "14px",
-                      }}
+                        className="rlbottomcontentcontainerCalDateLabel"
                     >
                       56
                     </label>
@@ -522,14 +468,7 @@ function AllLocation() {
               </div>
               <div className="resultrightcontaineral">
                 <div
-                  style={{
-                    width: "40%",
-                    height: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
+                className="imageContainerGame"
                 >
                   <img
                     src={images.gamecontroller}
@@ -543,14 +482,7 @@ function AllLocation() {
                   />
                 </div>
                 <div
-                  style={{
-                    width: "50%",
-                    height: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
+                className="catImageContainer"
                 >
                   <img
                     src={images.cat}

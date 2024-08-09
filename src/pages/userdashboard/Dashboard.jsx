@@ -20,6 +20,10 @@ import { IoIosInformationCircle } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 import HomeDashboard from "../../components/dashboard/HomeDashboard";
 import AllLocation from "../../components/alllocation/AllLocation";
+import Play from "../../components/play/Play";
+import Historyc from "../../components/history/Historyc";
+import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc";
+import { useNavigate } from "react-router-dom";
 
 const topWinnerOfTheDay = [
   {
@@ -259,8 +263,14 @@ const timedata = [
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const gotoNavigation = () => {
+    navigate("/setting");
+  };
+
   const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
-  const [selectedComponent, setSelectedComponent] = useState("home")
+  const [selectedComponent, setSelectedComponent] = useState("home");
 
   const handleLocationClick = (location) => {
     console.log("clicked");
@@ -275,7 +285,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     console.log("location changed");
-  }, [selectedLocation,selectedComponent]);
+  }, [selectedLocation, selectedComponent]);
 
   return (
     <div className="main-parent">
@@ -283,24 +293,8 @@ const Dashboard = () => {
       <div className="topheaderd">
         <div className="lefttopcontinerd">
           <div className="ltcleftd">
-            <label
-              style={{
-                color: "white",
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "18px",
-              }}
-            >
-              Hello,
-            </label>
-            <label
-              style={{
-                color: "white",
-                fontFamily: FONT.HELVETICA_BOLD,
-                fontSize: "24px",
-              }}
-            >
-              Wasu
-            </label>
+            <label className="helloLabel">Hello,</label>
+            <label className="usernameLabel">Wasu</label>
           </div>
           <div className="ltcrightd">
             <div className="ltcrightimaged">
@@ -319,59 +313,24 @@ const Dashboard = () => {
               <CiSearch size={"25px"} />
             </div>
 
-            <label
-              style={{
-                color: "black",
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "18px",
-                textAlign: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              Search for location
-            </label>
+            <label className="searchLabel">Search for location</label>
           </div>
           {/** deposit */}
           <div className="depositcontainerd">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"20px"} />
+              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label
-              style={{
-                color: COLORS.white_s,
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "14px",
-                textAlign: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              DEPOSIT
-            </label>
+            <label className="depositLabel">DEPOSIT</label>
           </div>
-          {/** wallet */}
-          <div className="walletcontainerd">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FaWallet color={COLORS.background} size={"18px"} />
+
+          {/** withdraw */}
+          <div className="depositcontainerd">
+            <div style={{ justifyContent: "center", alignItems: "center" }}>
+              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label
-              style={{
-                color: COLORS.background,
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "14px",
-                textAlign: "center",
-                paddingLeft: "10px",
-              }}
-            >
-              1000 INR
-            </label>
+            <label className="depositLabel">WITHDRAW</label>
           </div>
           {/** location */}
           <div className="iconcontainerd">
@@ -398,7 +357,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainerd">
+          <div className="iconcontainerd" onClick={gotoNavigation}>
             <div
               style={{
                 display: "flex",
@@ -418,254 +377,136 @@ const Dashboard = () => {
           {/** App sidebar left */}
           <div className="leftsidebartopd">
             {/** Home */}
-            <div className="lscontentd"
-            key={"home"}
-            onClick={() => handleComponentClick("home")}
-            style={{
-                background : selectedComponent === "home"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
+            <div
+              className="lscontentd"
+              key={"home"}
+              onClick={() => handleComponentClick("home")}
+              style={{
+                background:
+                  selectedComponent === "home"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <FaHome color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                Home
-              </label>
+              <label className="sidebar-label">Home</label>
             </div>
             {/** All Location */}
-            <div className="lscontentd"
-            key={"alllocation"}
-            onClick={() => handleComponentClick("alllocation")}
-            style={{
-                background : selectedComponent === "alllocation"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
+            <div
+              className="lscontentd"
+              key={"alllocation"}
+              onClick={() => handleComponentClick("alllocation")}
+              style={{
+                background:
+                  selectedComponent === "alllocation"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <IoLocationSharp color={COLORS.white_s} size={"20px"} />
               </div>
 
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                All Location
-              </label>
+              <label className="sidebar-label">All Location</label>
             </div>
             {/** Results */}
-            <div className="lscontentd"
-            key={"results"}
-            onClick={() => handleComponentClick("results")}
-            style={{
-                background : selectedComponent === "results"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
+            <div
+              className="lscontentd"
+              key={"results"}
+              onClick={() => handleComponentClick("results")}
+              style={{
+                background:
+                  selectedComponent === "results"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <FaTrophy color={COLORS.white_s} size={"20px"} />
               </div>
-
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                Result
-              </label>
+              <label className="sidebar-label">Result</label>
             </div>
+
             {/** Play */}
 
-            <div className="lscontentd"
-            key={"play"}
-            onClick={() => handleComponentClick("play")}
-            style={{
-                background : selectedComponent === "play"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
+            <div
+              className="lscontentd"
+              key={"play"}
+              onClick={() => handleComponentClick("play")}
+              style={{
+                background:
+                  selectedComponent === "play"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <FaPlay color={COLORS.white_s} size={"18px"} />
               </div>
-
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                Play
-              </label>
+              <label className="sidebar-label"> Play</label>
             </div>
+
             {/** History */}
-            <div className="lscontentd"
-            key={"history"}
-            onClick={() => handleComponentClick("history")}
-            style={{
-                background : selectedComponent === "history"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
+            <div
+              className="lscontentd"
+              key={"history"}
+              onClick={() => handleComponentClick("history")}
+              style={{
+                background:
+                  selectedComponent === "history"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <FaHistory color={COLORS.white_s} size={"20px"} />
               </div>
-
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                History
-              </label>
+              <label className="sidebar-label">History</label>
             </div>
 
             {/** Game Description */}
-            <div className="lscontentd"
-            key={"gamedescription"}
-            onClick={() => handleComponentClick("gamedescription")}
-            style={{
-                background : selectedComponent === "gamedescription"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
-            
+            <div
+              className="lscontentd"
+              key={"gamedescription"}
+              onClick={() => handleComponentClick("gamedescription")}
+              style={{
+                background:
+                  selectedComponent === "gamedescription"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <TbFileDescription color={COLORS.white_s} size={"20px"} />
               </div>
-
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                Game Description
-              </label>
+              <label className="sidebar-label">Game Description</label>
             </div>
 
             {/** About Us */}
-            <div className="lscontentd"
-            key={"aboutus"}
-            onClick={() => handleComponentClick("aboutus")}
-            style={{
-                background : selectedComponent === "aboutus"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-            }}
-            
+            <div
+              className="lscontentd"
+              key={"aboutus"}
+              onClick={() => handleComponentClick("aboutus")}
+              style={{
+                background:
+                  selectedComponent === "aboutus"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  paddingLeft: "5px",
-                }}
-              >
+              <div className="lscontentIconContiner">
                 <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
               </div>
-
-              <label
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.HELVETICA_REGULAR,
-                  fontSize: "14px",
-                  textAlign: "center",
-                  paddingLeft: "10px",
-                }}
-              >
-                About Us
-              </label>
+              <label className="sidebar-label">About Us</label>
             </div>
           </div>
 
           {/** promotion */}
           <div className="leftsidebarmiddled">
-            <label
-              style={{
-                color: "white",
-                fontFamily: FONT.HELVETICA_BOLD,
-                fontSize: "24px",
-              }}
-            >
-              Promotions
-            </label>
+            <label className="promotionLable">Promotions</label>
             <img
               src={images.user}
               alt="Profile Picture"
@@ -687,18 +528,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <label
-              style={{
-                color: COLORS.white_s,
-                fontFamily: FONT.HELVETICA_REGULAR,
-                fontSize: "14px",
-                textAlign: "center",
-                paddingLeft: "10px",
-                paddingRight: "10px",
-              }}
-            >
-              Get the App
-            </label>
+            <label className="getTheApplabel">Get the App</label>
 
             <div className="appiconcontainerd">
               <div
@@ -716,16 +546,12 @@ const Dashboard = () => {
 
         {/** Main Containt */}
         <div className="main-center-contentd">
-            {
-                selectedComponent === "home" && (<HomeDashboard/>)
-            }
-            {
-                selectedComponent === "alllocation" && (<AllLocation/>)
-            }
-           
+          {selectedComponent === "home" && <HomeDashboard />}
+          {selectedComponent === "alllocation" && <AllLocation />}
+          {selectedComponent === "play" && <Play />}
+          {selectedComponent === "history" && <Historyc />}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
         </div>
-
-        
       </div>
     </div>
   );

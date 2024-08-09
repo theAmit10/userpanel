@@ -1,11 +1,11 @@
-.login-page {
+.login-page-login {
     display: flex;
     height: 100vh;
     background-color: #011833;
     color: white;
 }
   
-.sidebar {
+.sidebar-login {
     width: 20%;
     display: flex;
     flex-direction: column;
@@ -14,17 +14,17 @@
     padding: 20px;
 }
   
-.sidebar-top {
+.sidebar-top-login {
     text-align: left;
     width: 100%;
 }
   
-.sidebar-image {
+.sidebar-image-login {
     width: 100%;
     object-fit: cover;
 }
   
-.main-content {
+.main-content-login {
     width: 75%;
     display: flex;
     flex-direction: column;
@@ -33,23 +33,22 @@
     position: relative; /* Added this to make it the positioning context */
 }
   
-.loginparentbox {
+.loginparentbox-login {
     background: linear-gradient(180deg, #0162AF, #011833);
     width: 80%;
     height: 80vh;
     border-radius: 3vh;
 }
   
-.loginbox {
+.loginbox-login {
     background: linear-gradient(180deg, #0162AF, #011833);
     width: 100%;
     height: 80vh;
     border-radius: 3vh;
-    margin-top: 5%;
     margin-left: 5%;
 }
   
-.gamecontroller-image {
+.gamecontroller-image-login {
     width: 14%;
     object-fit: cover;
     position: absolute;
@@ -57,7 +56,7 @@
     left: -3%;
 }
   
-.login-form {
+.login-form-login {
     padding: 20%;
     border-radius: 10px;
     width: 80%;
@@ -68,30 +67,31 @@
     gap: 10px; /* Added this to create a 20px gap between each item */
 }
   
-.welcome-label {
-    font-family: "Montserrat_Regular";
+.welcome-label-login {
+    font-family: "MR";
+    min-width: 20em;
 }
   
-.login-form form {
+.login-form-login form {
     display: flex;
     flex-direction: column;
     gap: 20px; /* Updated this to create a 20px gap between each form group */
 }
   
-.form-group {
+.form-group-login {
     display: flex;
     align-items: flex-start;
     gap: 20px;
     flex-direction: column;
 }
   
-.form-group label {
+.form-group-login label {
     flex-shrink: 0;
     width: 100px; /* Adjust as needed */
     text-align: left;
 }
   
-.form-group input {
+.form-group-login input {
     flex-grow: 1;
     padding: 10px;
     border-radius: 5px;
@@ -99,23 +99,60 @@
     width: 100%;
 }
 
-.form-group span{
+.form-group-login span{
     color: #0179FE;
 }
   
-.submit-btn {
+.submit-btn-login {
     padding: 10px;
     border-radius: 5px;
     background-color: #0179FE;
     color: white;
     border: none;
     cursor: pointer;
+    min-width: 20em;
 }
   
-.main-content-image {
+.main-content-image-login {
     width: 35%;
     object-fit: cover;
     position: absolute;
     right: 0;
     bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .loginparentbox-login {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 90%;
+        height: 80vh;
+        border-radius: 3vh;
+        margin-top: 30%;
+    }
+      
+    .loginbox-login {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 105%;
+        height: 80vh;
+        border-radius: 3vh;
+        margin-top: 5%;
+        margin-left: 5%; 
+    }
+    .login-form-login {
+        padding: 2%;
+        border-radius: 10px;
+        width: 80%;
+        height: 60vh;
+        position: relative;
+        margin: 5%;
+        justify-content: stretch;
+        gap: 10px; /* Added this to create a 20px gap between each item */
+    }
+    .gamecontroller-image-login {
+        width: 14%;
+        object-fit: cover;
+        position: absolute;
+        top: 40%;
+        left: -20%;
+    }
 }
