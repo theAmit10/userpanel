@@ -32,6 +32,9 @@ import Playhistory from "../../components/playhistory/Playhistory.jsx";
 import Paymentdeposit from "../../components/deposit/Paymentdeposit.jsx";
 import Withdrawpayment from "../../components/withdraw/Withdrawpayment.jsx";
 import { useNavigate } from "react-router-dom";
+import { FaUserPen } from "react-icons/fa6";
+import { FaMoneyBillTransfer } from "react-icons/fa6";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 export const locationdata = [
   {
@@ -235,9 +238,7 @@ const Setting = () => {
           {/** App sidebar left */}
           <div className="leftsidebartopS">
             {/** Setting content */}
-            <div
-            className="settingContainer"
-            >
+            <div className="settingContainer">
               <label className="left-content-label-title">Setting</label>
 
               <div
@@ -266,6 +267,63 @@ const Setting = () => {
               </div>
 
               <label className="left-content-label">All Location</label>
+            </div>
+            {/** UPDATE PROFILE */}
+            <div
+              className="lscontentS"
+              key={"results"}
+              onClick={() => handleComponentClick("results")}
+              style={{
+                background:
+                  selectedComponent === "results"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
+            >
+              <div className="left-content-icon-container">
+                <FaUserPen color={COLORS.white_s} size={"20px"} />
+              </div>
+
+              <label className="left-content-label">Update Profile</label>
+            </div>
+
+            {/** BALANCE TRANSFER */}
+
+            <div
+              className="lscontentS"
+              key={"results"}
+              onClick={() => handleComponentClick("results")}
+              style={{
+                background:
+                  selectedComponent === "results"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
+            >
+              <div className="left-content-icon-container">
+                <FaMoneyBillTransfer color={COLORS.white_s} size={"20px"} />
+              </div>
+
+              <label className="left-content-label">Balance Transfer</label>
+            </div>
+
+            {/** CHANGE PASSWORD */}
+            <div
+              className="lscontentS"
+              key={"results"}
+              onClick={() => handleComponentClick("results")}
+              style={{
+                background:
+                  selectedComponent === "results"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
+            >
+              <div className="left-content-icon-container">
+                <RiLockPasswordLine color={COLORS.white_s} size={"20px"} />
+              </div>
+
+              <label className="left-content-label">Change Password</label>
             </div>
             {/** Results */}
             <div

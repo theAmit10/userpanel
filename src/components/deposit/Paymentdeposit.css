@@ -33,6 +33,11 @@
     flex-direction: row;
 }
 
+.deposit-content-container:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+}
+
 .deposit-content-container-left{
     flex: 1;
 

@@ -1,0 +1,268 @@
+.deposit-main-container{
+    display: flex;
+    flex: 1;
+    height: 80vh;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 2vh;
+    border-radius: 2vh;
+    padding: 2vh;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.h-title-label{
+    color: var(--white_s);
+    font-size: 2vw;
+    font-family: 'MSB';
+}
+
+.deposit-container{
+    height: 70vh;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.deposit-content-container-left-upi{
+    width: 45%;
+    flex: 1;
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hidden;
+  
+  
+}
+.deposit-content-container-left-upi-content:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+}
+
+.deposit-content-container-left-upi-left{
+    width: 45%;
+    flex: 1;
+
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+  
+}
+.deposit-content-container-left-upi-content{
+    width: 90%;
+    height: 7vw;
+    background-color: var(--background);
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: row;
+    padding: 2vw;
+    margin-bottom: 1vw;
+}
+
+.deposit-content-container-right-upi-content{
+    width: 90%;
+    background-color: var(--background);
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: row;
+    padding: 2vw;
+    margin-bottom: 1vw;
+}
+
+.deposit-content-container-left{
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.deposit-content-container-right{
+    flex: 3;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2vh;
+    flex-direction: column;
+    gap: 1vw;
+    justify-content: center;
+    align-self: center;
+
+}
+
+.deposit-content-content-left-content-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 1vh;
+    background-color: white;
+    border-radius: '2vh';
+    margin-left: 2vw;
+}
+.deposit-content-content-left-content-icon-container-qrcode{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 1vh;
+    background-color: white;
+    border-radius: '2vh';
+    margin-left: 2vw;
+   
+}
+
+.deposit-content-container-right-lebel{
+    color: var(--white_s);
+    font-size: 1.5vw;
+    font-family: 'MB';
+ 
+}
+
+.deposit-content-container-right-lebel-title{
+    color: var(--white_s);
+    font-size: 1.2vw;
+    font-family: 'MB';
+ 
+}
+
+.deposit-content-container-main-upi{
+    display: flex;
+    flex-direction: row;
+    gap: 4vh;
+
+    height: 80vh;
+}
+
+.deposit-content-image-setting {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  
+}
+
+.nextcontatiner-upi-deposit{
+    background-color: var(--green);
+    padding: 0.5vw;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upiDepositFormContainer{
+    flex: 1;
+
+}
+
+.formUpiDepositFormContainerContent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5vw;
+    flex-direction: column;
+    margin-bottom: 1vw;
+}
+.formUpiDepositFormContainerContentLabel {
+    font-family: "MR";
+    min-width: 20em;
+    color: var(--white_s);
+
+}
+.formUpiDepositFormContainerContentInput{
+    font-family: "MR";
+    min-width: 100%;
+    background-color: var(--white_s);
+    padding: 0.5vw;
+    border-color: var(--background);
+    border-radius: 0.5vw;
+}
+
+.submit-btn-login-deposit {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #0179FE;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+@media (max-width: 1024px) {
+    .deposit-content-container-right-lebel{
+        color: var(--white_s);
+        font-size: 2.2vw;
+        font-family: 'MB';
+     
+    }
+    .h-title-label{
+        color: var(--white_s);
+        font-size: 2.2vw;
+        font-family: 'MB';
+    }
+    .upiDepositFormContainer{
+        flex: 1;
+        min-width: 18vw;
+      
+    }
+    .formUpiDepositFormContainerContent {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5vw;
+        flex-direction: column;
+        margin-bottom: 1vw;
+    }
+    .formUpiDepositFormContainerContentLabel {
+        font-family: "MR";
+        min-width: 15em;
+        color: var(--white_s);
+    
+    }
+    .formUpiDepositFormContainerContentInput{
+        font-family: "MR";
+        min-width: 100%;
+        background-color: var(--white_s);
+        padding: 0.5vw;
+        border-color: var(--background);
+        border-radius: 0.5vw;
+    }
+    
+    .submit-btn-login-deposit {
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #0179FE;
+        color: white;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .deposit-content-container-right-lebel{
+        color: var(--white_s);
+        font-size: 2.4vw;
+        font-family: 'MB';
+     
+    }
+    .h-title-label{
+        color: var(--white_s);
+        font-size: 5vw;
+        font-family: 'MB';
+    }
+    .formUpiDepositFormContainerContentLabel {
+        font-family: "MR";
+        min-width: 10em;
+        color: var(--white_s);
+    
+    }
+    .upiDepositFormContainer{
+        flex: 1;
+        min-width: 20vw;
+  
+    }
+}
