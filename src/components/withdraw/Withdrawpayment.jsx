@@ -4,6 +4,12 @@ import FONT from "../../assets/constants/fonts";
 import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
+import UpiWithdraw from "./UpiWithdraw";
+import { ToastContainer } from "react-toastify";
+import BankWithdraw from "./BankWithdraw";
+import PaypalWithdraw from "./PaypalWithdraw";
+import SkrillWithdraw from "./SkrillWithdraw";
+import CryptoWithdraw from "./CryptoWithdraw";
 
 function Withdrawpayment() {
   const [selectedPayment, setSelectedPayment] = useState("");
@@ -14,161 +20,186 @@ function Withdrawpayment() {
 
   return (
     <div className="deposit-main-container">
-      {/** TITLE CONTAINER */}
-      <label className="h-title-label">Withdraw</label>
-      {/** TITLE CONTAINER */}
-      <label
-        className="h-title-label"
-        style={{
-          fontFamily: FONT.Montserrat_Regular,
-          fontSize: "3vh",
-        }}
-      >
-        Choose Method
-      </label>
-
-      {/** Main Conatiner */}
-
-      <div className="deposit-container">
-        {/** UPI AND BANK */}
-        <div className="deposit-content-container-main">
-          {/** UPI */}
-          <div
-            className="deposit-content-container"
-            onClick={() => selectingPaymentType("UPI")}
+      {selectedPayment === "" && (
+        <>
+          {/** TITLE CONTAINER */}
+          <label className="h-title-label">Withdraw</label>
+          {/** TITLE CONTAINER */}
+          <label
+            className="h-title-label"
+            style={{
+              fontFamily: FONT.Montserrat_Regular,
+              fontSize: "3vh",
+            }}
           >
-            <div className="deposit-content-container-left">
+            Choose Method
+          </label>
+
+          {/** Main Conatiner */}
+
+          <div className="deposit-container">
+            {/** UPI AND BANK */}
+            <div className="deposit-content-container-main">
+              {/** UPI */}
               <div
-                className="deposit-content-content-left-content-icon-container"
-                style={{
-                  borderRadius: "1vh",
-                }}
+                className="deposit-content-container"
+                onClick={() => selectingPaymentType("UPI")}
               >
-                <img
-                  src={images.upi}
-                  alt="UPI"
-                  className="deposit-content-image-setting"
-                />
+                <div className="deposit-content-container-left">
+                  <div
+                    className="deposit-content-content-left-content-icon-container"
+                    style={{
+                      borderRadius: "1vh",
+                    }}
+                  >
+                    <img
+                      src={images.upi}
+                      alt="UPI"
+                      className="deposit-content-image-setting"
+                    />
+                  </div>
+                </div>
+                <div className="deposit-content-container-right">
+                  <label className="deposit-content-container-right-lebel">
+                    UPI Payment
+                  </label>
+                </div>
+              </div>
+
+              {/** BANK */}
+              <div
+                className="deposit-content-container"
+                onClick={() => selectingPaymentType("BANK")}
+              >
+                <div className="deposit-content-container-left">
+                  <div
+                    className="deposit-content-content-left-content-icon-container"
+                    style={{
+                      borderRadius: "1vh",
+                    }}
+                  >
+                    <img
+                      src={images.bank}
+                      alt="UPI"
+                      className="deposit-content-image-setting"
+                    />
+                  </div>
+                </div>
+                <div className="deposit-content-container-right">
+                  <label className="deposit-content-container-right-lebel">
+                    Bank Payment
+                  </label>
+                </div>
               </div>
             </div>
-            <div className="deposit-content-container-right">
-              <label className="deposit-content-container-right-lebel">
-                UPI Payment
-              </label>
-            </div>
-          </div>
 
-          {/** BANK */}
-          <div
-            className="deposit-content-container"
-            onClick={() => selectingPaymentType("BANK")}
-          >
-            <div className="deposit-content-container-left">
+            {/** PAYAPAL AND SKRILL */}
+            <div className="deposit-content-container-main">
+              {/** PAYPAL */}
               <div
-                className="deposit-content-content-left-content-icon-container"
-                style={{
-                  borderRadius: "1vh",
-                }}
+                className="deposit-content-container"
+                onClick={() => selectingPaymentType("PAYPAL")}
               >
-                <img
-                  src={images.bank}
-                  alt="UPI"
-                  className="deposit-content-image-setting"
-                />
+                <div className="deposit-content-container-left">
+                  <div
+                    className="deposit-content-content-left-content-icon-container"
+                    style={{
+                      borderRadius: "1vh",
+                    }}
+                  >
+                    <img
+                      src={images.paypal}
+                      alt="UPI"
+                      className="deposit-content-image-setting"
+                    />
+                  </div>
+                </div>
+                <div className="deposit-content-container-right">
+                  <label className="deposit-content-container-right-lebel">
+                    Paypal Payment
+                  </label>
+                </div>
+              </div>
+
+              {/** SKRILL */}
+              <div
+                className="deposit-content-container"
+                onClick={() => selectingPaymentType("SKRILL")}
+              >
+                <div className="deposit-content-container-left">
+                  <div
+                    className="deposit-content-content-left-content-icon-container"
+                    style={{
+                      borderRadius: "1vh",
+                    }}
+                  >
+                    <img
+                      src={images.skrill}
+                      alt="UPI"
+                      className="deposit-content-image-setting"
+                    />
+                  </div>
+                </div>
+                <div className="deposit-content-container-right">
+                  <label className="deposit-content-container-right-lebel">
+                    Skrill Payment
+                  </label>
+                </div>
               </div>
             </div>
-            <div className="deposit-content-container-right">
-              <label className="deposit-content-container-right-lebel">
-                Bank Payment
-              </label>
-            </div>
-          </div>
-        </div>
 
-        {/** PAYAPAL AND SKRILL */}
-        <div className="deposit-content-container-main">
-          {/** PAYPAL */}
-          <div
-            className="deposit-content-container"
-            onClick={() => selectingPaymentType("PAYPAL")}
-          >
-            <div className="deposit-content-container-left">
+            {/** CRYPTO  */}
+            <div className="deposit-content-container-main">
+              {/** CRYPTO */}
               <div
-                className="deposit-content-content-left-content-icon-container"
-                style={{
-                  borderRadius: "1vh",
-                }}
+                className="deposit-content-container"
+                onClick={() => selectingPaymentType("CRYPTO")}
               >
-                <img
-                  src={images.paypal}
-                  alt="UPI"
-                  className="deposit-content-image-setting"
-                />
+                <div className="deposit-content-container-left">
+                  <div
+                    className="deposit-content-content-left-content-icon-container"
+                    style={{
+                      borderRadius: "1vh",
+                    }}
+                  >
+                    <img
+                      src={images.crypto}
+                      alt="UPI"
+                      className="deposit-content-image-setting"
+                    />
+                  </div>
+                </div>
+                <div className="deposit-content-container-right">
+                  <label className="deposit-content-container-right-lebel">
+                    Crypto Payment
+                  </label>
+                </div>
               </div>
             </div>
-            <div className="deposit-content-container-right">
-              <label className="deposit-content-container-right-lebel">
-                Paypal Payment
-              </label>
-            </div>
           </div>
+        </>
+      )}
 
-          {/** SKRILL */}
-          <div
-            className="deposit-content-container"
-            onClick={() => selectingPaymentType("SKRILL")}
-          >
-            <div className="deposit-content-container-left">
-              <div
-                className="deposit-content-content-left-content-icon-container"
-                style={{
-                  borderRadius: "1vh",
-                }}
-              >
-                <img
-                  src={images.skrill}
-                  alt="UPI"
-                  className="deposit-content-image-setting"
-                />
-              </div>
-            </div>
-            <div className="deposit-content-container-right">
-              <label className="deposit-content-container-right-lebel">
-                Skrill Payment
-              </label>
-            </div>
-          </div>
-        </div>
+      {selectedPayment === "UPI" && (
+        <UpiWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+      {selectedPayment === "BANK" && (
+        <BankWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
 
-        {/** CRYPTO  */}
-        <div className="deposit-content-container-main">
-          {/** CRYPTO */}
-          <div
-            className="deposit-content-container"
-            onClick={() => selectingPaymentType("CRYPTO")}
-          >
-            <div className="deposit-content-container-left">
-              <div
-                className="deposit-content-content-left-content-icon-container"
-                style={{
-                  borderRadius: "1vh",
-                }}
-              >
-                <img
-                  src={images.crypto}
-                  alt="UPI"
-                  className="deposit-content-image-setting"
-                />
-              </div>
-            </div>
-            <div className="deposit-content-container-right">
-              <label className="deposit-content-container-right-lebel">
-                Crypto Payment
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+      {selectedPayment === "PAYPAL" && (
+        <PaypalWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+
+      {selectedPayment === "SKRILL" && (
+        <SkrillWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+
+      {selectedPayment === "CRYPTO" && (
+        <CryptoWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+
+      <ToastContainer />
     </div>
   );
 }
