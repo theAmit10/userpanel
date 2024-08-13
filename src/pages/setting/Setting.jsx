@@ -37,6 +37,7 @@ import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction.js";
+import Balancetransfer from "../../components/balancetransfer/Balancetransfer.jsx";
 
 export const locationdata = [
   {
@@ -316,11 +317,11 @@ const Setting = () => {
 
             <div
               className="lscontentS"
-              key={"results"}
-              onClick={() => handleComponentClick("results")}
+              key={"balancetransfer"}
+              onClick={() => handleComponentClick("balancetransfer")}
               style={{
                 background:
-                  selectedComponent === "results"
+                  selectedComponent === "balancetransfer"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -521,6 +522,7 @@ const Setting = () => {
           {selectedComponent === "playhistory" && <Playhistory />}
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
+          {selectedComponent === "balancetransfer" && <Balancetransfer />}
         </div>
       </div>
     </div>

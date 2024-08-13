@@ -1,0 +1,99 @@
+.history-main-container{
+    display: flex;
+    flex: 1;
+    height: 80vh;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    margin: 2vh;
+    border-radius: 2vh;
+    padding: 2vh;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.h-title-label{
+    color: var(--white_s);
+    font-size: 2vw;
+    font-family: 'MB';
+}
+
+.submit-btn-balance-transfer {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #0179FE;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.h-content-container-bt{
+    
+    height: 70vh;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    flex-direction: row;
+}
+
+
+.left-container-bt{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+}
+
+.right-container-bt{
+   flex: 1;
+  
+    display: flex;
+    flex-direction: row;
+
+}
+
+.right-container-bt-one{
+   
+    width: 50%;
+    height: 60%;
+    background-color: var(--background);
+    margin: 2%;
+    padding: 2%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    
+}
+
+.walletcontainer-bt{
+    height: 40px;
+    width: 40px;
+    background-color: var(--white_s);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2vw;
+}
+
+.right-container-bt-two{
+    width: 50%;
+    height: 60%;
+    background-color: var(--background);
+    margin: 2%;
+    padding: 2%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+   
+}
+
+.h-title-label-medium{
+    color: var(--white_s);
+    font-size: 1.5vw;
+    font-family: 'MR';
+}
+
+
