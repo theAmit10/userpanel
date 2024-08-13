@@ -32,6 +32,8 @@ function Gamedescriptionc() {
 
   console.log(filteredData);
 
+  const [selectedItem, setSelectedItem] = useState("");
+
   return (
     <div className="main-content-container-gamedescrition">
       <div>
@@ -56,35 +58,74 @@ function Gamedescriptionc() {
               outline: "none",
             }}
             placeholder="Search for location"
-        
             label="Search"
             onChange={handleSearch} // Use onChange instead of onChangeText
           />
         </div>
 
-        <div className="gdcontent-container">
-          {loading ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
-          ) : (
-            filteredData.map((item, index) => (
-              <div key={item._id} className="gdcontent">
-                <label className="gdcontent-title">{item.lotlocation}</label>
-                <label className="gdcontent-limit">
+        {loading ? (
+          <div
+            style={{
+              flex: "1",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CircularProgressBar />
+          </div>
+        ) : (
+          <div className="all-location-gd">
+            {filteredData.map((item, index) => (
+              <div
+              onClick={() => setSelectedItem(item)}
+                key={item._id}
+                className="location-header-result"
+                style={{
+                  background:
+                    index % 2 === 0
+                      ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                      : "linear-gradient(90deg, #7EC630, #3D6017)",
+                      border: `2px solid ${selectedItem?._id === item._id ? COLORS.green : 'transparent'}`, // Set border color to green if selected
+                      
+                }}
+              >
+                <label className="location-header-label">
+                  {item.lotlocation}
+                </label>
+                <label className="location-header-max-label">
                   Max {item.maximumRange}
                 </label>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
+
+        {selectedItem !== "" && (
+         <>
+          <div className="gdcontent-container">
+            <div className="title-container-gd">
+            <label className="location-header-label">
+                Title
+              </label>
+              <label className="location-header-label">
+                {selectedItem.locationTitle === "" ? "NA" : selectedItem.locationTitle }
+              </label>
+            </div>
+          </div>
+
+          <div className="gdcontent-container">
+            <div className="title-container-gd">
+            <label className="location-header-label">
+                Description
+              </label>
+              <label className="location-header-label">
+                {selectedItem.locationDescription === "" ? "NA" : selectedItem.locationDescription }
+              </label>
+            </div>
+          </div>
+         </>
+        )}
       </div>
     </div>
   );

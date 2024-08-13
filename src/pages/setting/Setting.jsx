@@ -38,6 +38,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction.js";
 import Balancetransfer from "../../components/balancetransfer/Balancetransfer.jsx";
+import AllResult from "../../components/result/AllResult.jsx";
 
 export const locationdata = [
   {
@@ -354,11 +355,11 @@ const Setting = () => {
             {/** Results */}
             <div
               className="lscontentS"
-              key={"results"}
-              onClick={() => handleComponentClick("results")}
+              key={"result"}
+              onClick={() => handleComponentClick("result")}
               style={{
                 background:
-                  selectedComponent === "results"
+                  selectedComponent === "result"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -523,6 +524,7 @@ const Setting = () => {
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
           {selectedComponent === "balancetransfer" && <Balancetransfer />}
+          {selectedComponent === "result" && <AllResult />}
         </div>
       </div>
     </div>
