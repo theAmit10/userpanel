@@ -1,6 +1,4 @@
-
-
-import React from "react";
+import React, { useState } from "react";
 import "./Withdrawpayment.css";
 import FONT from "../../assets/constants/fonts";
 import { FaRegPlayCircle } from "react-icons/fa";
@@ -8,6 +6,12 @@ import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 
 function Withdrawpayment() {
+  const [selectedPayment, setSelectedPayment] = useState("");
+
+  const selectingPaymentType = (item) => {
+    setSelectedPayment(item);
+  };
+
   return (
     <div className="deposit-main-container">
       {/** TITLE CONTAINER */}
@@ -26,15 +30,20 @@ function Withdrawpayment() {
       {/** Main Conatiner */}
 
       <div className="deposit-container">
-
         {/** UPI AND BANK */}
         <div className="deposit-content-container-main">
           {/** UPI */}
-          <div className="deposit-content-container">
+          <div
+            className="deposit-content-container"
+            onClick={() => selectingPaymentType("UPI")}
+          >
             <div className="deposit-content-container-left">
-              <div className="deposit-content-content-left-content-icon-container" style={{
-                borderRadius: '1vh'
-              }}>
+              <div
+                className="deposit-content-content-left-content-icon-container"
+                style={{
+                  borderRadius: "1vh",
+                }}
+              >
                 <img
                   src={images.upi}
                   alt="UPI"
@@ -50,11 +59,17 @@ function Withdrawpayment() {
           </div>
 
           {/** BANK */}
-          <div className="deposit-content-container">
+          <div
+            className="deposit-content-container"
+            onClick={() => selectingPaymentType("BANK")}
+          >
             <div className="deposit-content-container-left">
-            <div className="deposit-content-content-left-content-icon-container" style={{
-                borderRadius: '1vh'
-              }}>
+              <div
+                className="deposit-content-content-left-content-icon-container"
+                style={{
+                  borderRadius: "1vh",
+                }}
+              >
                 <img
                   src={images.bank}
                   alt="UPI"
@@ -70,14 +85,20 @@ function Withdrawpayment() {
           </div>
         </div>
 
-         {/** PAYAPAL AND SKRILL */}
-         <div className="deposit-content-container-main">
+        {/** PAYAPAL AND SKRILL */}
+        <div className="deposit-content-container-main">
           {/** PAYPAL */}
-          <div className="deposit-content-container">
+          <div
+            className="deposit-content-container"
+            onClick={() => selectingPaymentType("PAYPAL")}
+          >
             <div className="deposit-content-container-left">
-              <div className="deposit-content-content-left-content-icon-container" style={{
-                borderRadius: '1vh'
-              }}>
+              <div
+                className="deposit-content-content-left-content-icon-container"
+                style={{
+                  borderRadius: "1vh",
+                }}
+              >
                 <img
                   src={images.paypal}
                   alt="UPI"
@@ -93,11 +114,17 @@ function Withdrawpayment() {
           </div>
 
           {/** SKRILL */}
-          <div className="deposit-content-container">
+          <div
+            className="deposit-content-container"
+            onClick={() => selectingPaymentType("SKRILL")}
+          >
             <div className="deposit-content-container-left">
-            <div className="deposit-content-content-left-content-icon-container" style={{
-                borderRadius: '1vh'
-              }}>
+              <div
+                className="deposit-content-content-left-content-icon-container"
+                style={{
+                  borderRadius: "1vh",
+                }}
+              >
                 <img
                   src={images.skrill}
                   alt="UPI"
@@ -116,11 +143,17 @@ function Withdrawpayment() {
         {/** CRYPTO  */}
         <div className="deposit-content-container-main">
           {/** CRYPTO */}
-          <div className="deposit-content-container">
+          <div
+            className="deposit-content-container"
+            onClick={() => selectingPaymentType("CRYPTO")}
+          >
             <div className="deposit-content-container-left">
-              <div className="deposit-content-content-left-content-icon-container" style={{
-                borderRadius: '1vh'
-              }}>
+              <div
+                className="deposit-content-content-left-content-icon-container"
+                style={{
+                  borderRadius: "1vh",
+                }}
+              >
                 <img
                   src={images.crypto}
                   alt="UPI"
@@ -134,10 +167,7 @@ function Withdrawpayment() {
               </label>
             </div>
           </div>
-
-          
         </div>
-
       </div>
     </div>
   );

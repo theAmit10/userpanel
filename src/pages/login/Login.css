@@ -64,7 +64,9 @@
     position: relative;
     margin: 5%;
     justify-content: stretch;
-    gap: 10px; /* Added this to create a 20px gap between each item */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Updated this to create a 20px gap between each form group */
 }
   
 .welcome-label-login {

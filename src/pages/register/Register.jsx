@@ -1,15 +1,172 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import images from "../../assets/constants/images";
 import COLORS from "../../assets/constants/colors";
 import { useNavigate } from "react-router-dom";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "../../components/helper/showErrorToast";
+import axios from "axios";
+import UrlHelper from "../../helper/UrlHelper";
+import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { IoIosArrowDropdown } from "react-icons/io";
+import {
+  useCreateRegisterMutation,
+  useGetAllCountryQuery,
+} from "../../helper/Networkcall";
+import Loader from "../../components/helper/Loader";
+import CircularProgressBar from "../../components/helper/CircularProgressBar";
+import { MdEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 function Register() {
-
   const navigate = useNavigate();
 
   const handleSignInClick = () => {
-    navigate("/login");
+    // navigate("/login");
+    submitHandler();
+  };
+
+  const navigation = useNavigate();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [userDeviceToken, setUserDeviceToken] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("Select country");
+  const [signupwith, setsignupwith] = useState("");
+  const [showCountry, setShowCountry] = useState(false);
+
+  const showingContryContainer = () => {
+    if (showCountry === false) {
+      setShowCountry(true);
+    } else {
+      setShowCountry(false);
+    }
+  };
+
+  const selectingContryContainer = (item) => {
+    if (showCountry === false) {
+      setShowCountry(true);
+    } else {
+      setShowCountry(false);
+    }
+    setSelectedCountry(item.countryname);
+  };
+
+  const {
+    data: currecylist,
+    isLoading: currencyloading,
+    error: currencyerror,
+  } = useGetAllCountryQuery();
+
+  const [createRegister, { isLoading, error }] = useCreateRegisterMutation();
+
+  const [showProgressBar, setProgressBar] = useState(false);
+  // const signupwith = "emailtype";
+
+  const submitHandler = async () => {
+    console.log("Starting register");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
+
+    console.log("Email :: " + email);
+    console.log("name :: " + name);
+    console.log("devicetoken :: " + userDeviceToken);
+
+    if (signupwith === "emailtype") {
+      if (!name) {
+        showErrorToast("Enter name");
+      } else if (!email) {
+        showErrorToast("Enter email address");
+      } else if (!emailRegex.test(email)) {
+        showErrorToast("Enter valid email address");
+      } else if (!selectedCountry === "Select Country") {
+        showErrorToast("Please select your country");
+      } else if (!password) {
+        showErrorToast("Enter password");
+      } else if (password.length < 6) {
+        showErrorToast("Password must be atleast 6 characters long");
+      } else if (!confirmPassword) {
+        showErrorToast("Enter confirm password");
+      } else if (password != confirmPassword) {
+        showErrorToast("Password and Confirm Password Not Matched");
+      } else {
+        console.log("Email :: " + email);
+        console.log("name :: " + name);
+        console.log("devicetoken :: " + userDeviceToken);
+
+        showSuccessToast("Processing");
+
+        try {
+          const body = {
+            name: name,
+            email: email,
+            password: password,
+            role: "user",
+            country: selectedCountry._id,
+          };
+
+          const res = await createRegister({
+            body,
+          }).unwrap();
+
+          console.log("datat :: " + res);
+          navigation("/login");
+        } catch (error) {
+          showErrorToast(error);
+          console.log(error);
+          console.log(error.response);
+        }
+      }
+    } else {
+      if (!name) {
+        showErrorToast("Enter name");
+      } else if (!email) {
+        showErrorToast("Enter phone number");
+      } else if (!phoneRegex.test(email)) {
+        showErrorToast("Enter valid Phone number");
+      } else if (!selectedCountry === "Select Country") {
+        showErrorToast("Please select your country");
+      } else if (!password) {
+        showErrorToast("Enter password");
+      } else if (password.length < 6) {
+        showErrorToast("Password must be atleast 6 characters long");
+      } else if (!confirmPassword) {
+        showErrorToast("Enter confirm password");
+      } else if (password != confirmPassword) {
+        showErrorToast("Password and Confirm Password Not Matched");
+      } else {
+        showSuccessToast("Processing");
+
+        try {
+          const body = {
+            name: name,
+            email: email,
+            password: password,
+            role: "user",
+            country: selectedCountry._id,
+          };
+
+          const res = await createRegister({
+            body,
+          }).unwrap();
+
+          console.log("datat :: " + res);
+          navigation("/login");
+        } catch (error) {
+          showErrorToast(error);
+          console.log(error);
+          console.log(error.response);
+        }
+      }
+    }
   };
 
   return (
@@ -32,8 +189,145 @@ function Register() {
               className="gamecontroller-image"
             />
 
-            <div className="login-form-register">
-              <form>
+            {/** DIFFERNET REGISTER TYPE */}
+
+            {signupwith === "" && (
+              <div className="login-form-register">
+                <h1 style={{ fontFamily: "MB" }}>Register</h1>
+                <label
+                  className="welcome-label"
+                  style={{ marginBottom: "1vw" }}
+                >
+                  Welcome , Please enter your details.
+                </label>
+
+                <div
+                  style={{
+                    flex: "1",
+                    marginTop: "1vw",
+                  }}
+                >
+                  <div
+                    onClick={() => setsignupwith("emailtype")}
+                    className="form-group-select-country_container"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      backgroundColor: COLORS.background,
+                    }}
+                  >
+                    <label
+                      className="welcome-label-select-country"
+                      style={{ color: COLORS.white_s }}
+                    >
+                      Sign up with Email
+                    </label>
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1vw",
+                      }}
+                    >
+                      <MdEmail color={COLORS.white_s} size={"1.5em"} />
+                    </div>
+                  </div>
+
+                  {/** PHONE */}
+
+                  <div
+                    onClick={() => setsignupwith("phonetype")}
+                    className="form-group-select-country_container"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      backgroundColor: COLORS.background,
+                      marginTop: "1vw",
+                    }}
+                  >
+                    <label
+                      className="welcome-label-select-country"
+                      style={{ color: COLORS.white_s }}
+                    >
+                      Sign up with Phone
+                    </label>
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1vw",
+                      }}
+                    >
+                      <FaPhoneAlt color={COLORS.white_s} size={"1.5em"} />
+                    </div>
+                  </div>
+
+                  {/** google */}
+
+                  <div
+                    onClick={() => setsignupwith("googletype")}
+                    className="form-group-select-country_container"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      backgroundColor: COLORS.background,
+                      marginTop: "1vw",
+                      marginBottom: "1vw",
+                    }}
+                  >
+                    <label
+                      className="welcome-label-select-country"
+                      style={{ color: COLORS.white_s }}
+                    >
+                      Sign up with Google
+                    </label>
+                    <div
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginRight: "1vw",
+                      }}
+                    >
+                      <FaGoogle color={COLORS.white_s} size={"1.5em"} />
+                    </div>
+                  </div>
+                </div>
+
+                <label
+                  className="welcome-label"
+                  style={{
+                    color: COLORS.grayHalfBg,
+                    textAlign: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Already have an account?{" "}
+                </label>
+                <label className="welcome-label">
+                  <span
+                    onClick={handleSignInClick}
+                    style={{ color: "#0179FE", cursor: "pointer" }}
+                  >
+                    Sign In
+                  </span>
+                </label>
+              </div>
+            )}
+
+            {/** LOGIN FORM CONTAINER  EMAIL*/}
+
+            {signupwith === "emailtype" && !showCountry && (
+              <div className="login-form-register">
                 <h1 style={{ fontFamily: "MB" }}>Register</h1>
                 <label className="welcome-label">
                   Welcome , Please enter your details.
@@ -45,15 +339,19 @@ function Register() {
                     type="text"
                     name="name"
                     placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
+                <label className="welcome-label">Email:</label>
                 <div className="form-group">
-                  <label className="welcome-label">Email:</label>
                   <input
                     className="welcome-label"
                     type="email"
                     name="email"
-                    placeholder="Enter phone or email"
+                    placeholder="Enter email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -63,6 +361,8 @@ function Register() {
                     type="password"
                     name="password"
                     placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -72,31 +372,246 @@ function Register() {
                     type="password"
                     name="password"
                     placeholder="Enter Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </div>
-
-                <button className="submit-btn-register" type="submit">
-                  Register
-                </button>
-
-               
-                  <label
-                    className="welcome-label"
+                <label className="welcome-label">Country</label>
+                <div
+                  onClick={showingContryContainer}
+                  className="form-group-select-country_container"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    backgroundColor: COLORS.white_s,
+                  }}
+                >
+                  <label className="welcome-label-select-country">
+                    {selectedCountry}
+                  </label>
+                  <div
                     style={{
-                      color: COLORS.grayHalfBg,
-                      textAlign: "center",
-                      alignContent: "center",
+                      justifyContent: "center",
                       alignItems: "center",
+                      marginRight: "1vw",
                     }}
                   >
-                    Already have an account?{" "}
+                    <IoIosArrowDropdown color={COLORS.black} size={"1.5em"} />
+                  </div>
+                </div>
+                {isLoading ? (
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '2vw'
+                  }}>
+                    <CircularProgressBar />
+                  </div>
+                ): (
+                  <button
+                    onClick={submitHandler}
+                    className="submit-btn-register"
+                    type="submit"
+                  >
+                    Register
+                  </button>
+                )}
+                <label
+                  className="welcome-label"
+                  style={{
+                    color: COLORS.grayHalfBg,
+                    textAlign: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Already have an account?{" "}
+                </label>
+                <label className="welcome-label">
+                  <span
+                    onClick={handleSignInClick}
+                    style={{ color: "#0179FE", cursor: "pointer" }}
+                  >
+                    Sign In
+                  </span>
+                </label>
+              </div>
+            )}
+
+            {/** LOGIN FORM CONTAINER  PHONETYPE*/}
+
+            {signupwith === "phonetype" && !showCountry && (
+              <div className="login-form-register">
+                <h1 style={{ fontFamily: "MB" }}>Register</h1>
+                <label className="welcome-label">
+                  Welcome , Please enter your details.
+                </label>
+                <div className="form-group">
+                  <label className="welcome-label">Name:</label>
+                  <input
+                    className="welcome-label"
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <label className="welcome-label">Phone no:</label>
+                <div className="form-group">
+                  <input
+                    className="welcome-label"
+                    type="number"
+                    name="phonenumber"
+                    placeholder="Enter phone number"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="welcome-label">Password:</label>
+                  <input
+                    className="welcome-label"
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="welcome-label">Confirm Password:</label>
+                  <input
+                    className="welcome-label"
+                    type="password"
+                    name="password"
+                    placeholder="Enter Confirm Password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
+                <label className="welcome-label">Country</label>
+                <div
+                  onClick={showingContryContainer}
+                  className="form-group-select-country_container"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    backgroundColor: COLORS.white_s,
+                  }}
+                >
+                  <label className="welcome-label-select-country">
+                    {selectedCountry}
                   </label>
-                  <label className="welcome-label">
-                    <span onClick={handleSignInClick} style={{ color: "#0179FE", cursor: "pointer" }}>Sign In</span>
-                  </label>
-               
-              </form>
-            </div>
+                  <div
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: "1vw",
+                    }}
+                  >
+                    <IoIosArrowDropdown color={COLORS.black} size={"1.5em"} />
+                  </div>
+                </div>
+                {isLoading ? (
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '2vw'
+                  }}>
+                    <CircularProgressBar />
+                  </div>
+                ) : (
+                  <button
+                    onClick={submitHandler}
+                    className="submit-btn-register"
+                    type="submit"
+                  >
+                    Register
+                  </button>
+                )}
+                <label
+                  className="welcome-label"
+                  style={{
+                    color: COLORS.grayHalfBg,
+                    textAlign: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Already have an account?{" "}
+                </label>
+                <label className="welcome-label">
+                  <span
+                    onClick={handleSignInClick}
+                    style={{ color: "#0179FE", cursor: "pointer" }}
+                  >
+                    Sign In
+                  </span>
+                </label>
+              </div>
+            )}
+
+            {/** COUNTRY CONTAINER */}
+
+            {signupwith !== "" && showCountry && (
+              <div className="login-form-register">
+                <h1 style={{ fontFamily: "MB", marginBottom: "1vw" }}>
+                  Select Country
+                </h1>
+
+                {currencyloading ? (
+                  <CircularProgressBar />
+                ) : (
+                  currecylist.currencies.map((item, index) => (
+                    <div
+                      onClick={() => selectingContryContainer(item)}
+                      className="form-group-select-country_container"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                        backgroundColor: COLORS.white_s,
+                        marginBottom: "1vw",
+                      }}
+                    >
+                      <div className="ltcrightimaged">
+                        <img
+                          src={images.user}
+                          alt="Profile Picture"
+                          className="user-imaged"
+                        />
+                      </div>
+                      <label className="welcome-label-select-country">
+                        {item.countryname}
+                      </label>
+                      <div
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: "1vw",
+                        }}
+                      >
+                        <IoIosArrowDropdown
+                          color={COLORS.black}
+                          size={"1.5em"}
+                        />
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
           </div>
         </div>
         <img
@@ -105,6 +620,8 @@ function Register() {
           className="main-content-image"
         />
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

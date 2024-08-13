@@ -1,18 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Gamedescription.css";
 import FONT from "../../assets/constants/fonts";
 import { CiSearch } from "react-icons/ci";
-import { locationdata } from "../../pages/setting/Setting";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllLocations } from "../../redux/actions/locationAction";
+import COLORS from "../../assets/constants/colors";
+import CircularProgressBar from "../helper/CircularProgressBar";
 
 function Gamedescriptionc() {
+  const { accesstoken } = useSelector((state) => state.user);
+  const { loading, locations } = useSelector((state) => state.location);
+  const dispatch = useDispatch();
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (e) => {
+    const text = e.target.value;
+    const filtered = locations.filter((item) =>
+      item.lotlocation.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  useEffect(() => {
+    dispatch(getAllLocations(accesstoken));
+  }, [dispatch, accesstoken]);
+
+  useEffect(() => {
+    setFilteredData(locations); // Update filteredData whenever locations change
+  }, [locations]);
+
+  console.log(filteredData);
+
   return (
     <div className="main-content-container-gamedescrition">
       <div>
         {/* Game desc title */}
         <div className="title-container">
-          <label className="title-label">
-            Game Description
-          </label>
+          <label className="title-label">Game Description</label>
         </div>
 
         {/* Search Container */}
@@ -20,22 +45,45 @@ function Gamedescriptionc() {
           <div className="search-icon">
             <CiSearch size={"2rem"} />
           </div>
-          <label className="search-label">
-            Search for location
-          </label>
+          <input
+            style={{
+              flex: 1,
+              padding: "0.5vw",
+              backgroundColor: "transparent",
+              border: "none",
+              fontFamily: FONT.Montserrat_Regular,
+              fontSize: "1em",
+              outline: "none",
+            }}
+            placeholder="Search for location"
+        
+            label="Search"
+            onChange={handleSearch} // Use onChange instead of onChangeText
+          />
         </div>
 
         <div className="gdcontent-container">
-          {locationdata.map((item, index) => (
-            <div key={index} className="gdcontent">
-              <label className="gdcontent-title">
-                {item.name}
-              </label>
-              <label className="gdcontent-limit">
-                {item.limit}
-              </label>
+          {loading ? (
+            <div
+              style={{
+                flex: "1",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgressBar />
             </div>
-          ))}
+          ) : (
+            filteredData.map((item, index) => (
+              <div key={item._id} className="gdcontent">
+                <label className="gdcontent-title">{item.lotlocation}</label>
+                <label className="gdcontent-limit">
+                  Max {item.maximumRange}
+                </label>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
@@ -43,88 +91,3 @@ function Gamedescriptionc() {
 }
 
 export default Gamedescriptionc;
-
-
-// import React from "react";
-// import "./Gamedescription.css";
-// import FONT from "../../assets/constants/fonts";
-// import { CiSearch } from "react-icons/ci";
-// import { locationdata } from "../../pages/setting/Setting";
-
-// function Gamedescriptionc() {
-//   return (
-//     <div className="main-content-container-gamedescrition">
-//       <div>
-//         {/** Game desc title */}
-//         <div
-//           style={{
-//             height: "5%",
-//             display: "flex",
-//             flexDirection: "row",
-//             width: "90%",
-//             justifyContent: "space-between",
-//             padding: "10px",
-//           }}
-//         >
-//           <label
-//             style={{
-//               color: "white",
-//               fontFamily: FONT.HELVETICA_BOLD,
-//               fontSize: "4vh",
-//             }}
-//           >
-//             Game Description
-//           </label>
-//         </div>
-
-//         {/** Search Container */}
-//         <div className="searchcontainerGD">
-//           <div style={{ justifyContent: "center", alignItems: "center" }}>
-//             <CiSearch size={"25px"} />
-//           </div>
-
-//           <label
-//             style={{
-//               color: "black",
-//               fontFamily: FONT.HELVETICA_REGULAR,
-//               fontSize: "18px",
-//               textAlign: "center",
-//               paddingLeft: "10px",
-//             }}
-//           >
-//             Search for location
-//           </label>
-//         </div>
-
-//         <div className="gdcontent-continer">
-//           {locationdata.map((item, index) => {
-//             return (
-//               <div className="gdcontent">
-//                 <label
-//                   style={{
-//                     color: "white",
-//                     fontFamily: FONT.HELVETICA_BOLD,
-//                     fontSize: "3vh",
-//                   }}
-//                 >
-//                   {item.name}
-//                 </label>
-//                 <label
-//                   style={{
-//                     color: "white",
-//                     fontFamily: FONT.HELVETICA_REGULAR,
-//                     fontSize: "3vh",
-//                   }}
-//                 >
-//                   {item.limit}
-//                 </label>
-//               </div>
-//             );
-//           })}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Gamedescriptionc;

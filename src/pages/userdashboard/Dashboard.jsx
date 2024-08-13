@@ -24,98 +24,9 @@ import Play from "../../components/play/Play";
 import Historyc from "../../components/history/Historyc";
 import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loadProfile } from "../../redux/actions/userAction";
 
-const topWinnerOfTheDay = [
-  {
-    name: "Aaron",
-    amount: "78000 INR",
-  },
-  {
-    name: "Zoya",
-    amount: "28000 INR",
-  },
-  {
-    name: "Ron",
-    amount: "18000 INR",
-  },
-  {
-    name: "Mary",
-    amount: "10000 INR",
-  },
-  {
-    name: "jack",
-    amount: "8000 INR",
-  },
-];
-
-const playHistoryData = [
-  {
-    location: "Paris",
-    number: "89",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "Japan",
-    number: "09",
-    amount: "2800 INR",
-    time: "10:00 AM",
-    date: "13-04-2024",
-  },
-  {
-    location: "Korea",
-    number: "69",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "China",
-    number: "103",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "India",
-    number: "67",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "Pakistan",
-    number: "65",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-];
-
-const filterdata = [
-  {
-    val: "All",
-  },
-  {
-    val: "2X",
-  },
-  {
-    val: "5X",
-  },
-  {
-    val: "10X",
-  },
-  {
-    val: "50X",
-  },
-  {
-    val: "100X",
-  },
-  {
-    val: "200X",
-  },
-];
 
 const locationdata = [
   {
@@ -264,6 +175,7 @@ const timedata = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const gotoNavigation = () => {
     navigate("/setting");
@@ -286,6 +198,21 @@ const Dashboard = () => {
   useEffect(() => {
     console.log("location changed");
   }, [selectedLocation, selectedComponent]);
+
+
+  const {user, accesstoken, loading} = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch(loadProfile(accesstoken))
+  },[])
+
+
+  console.log(loading,user)
+  
+
+
+
+
 
   return (
     <div className="main-parent">

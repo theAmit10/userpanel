@@ -35,6 +35,8 @@ import { useNavigate } from "react-router-dom";
 import { FaUserPen } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { loadProfile } from "../../redux/actions/userAction.js";
 
 export const locationdata = [
   {
@@ -152,10 +154,33 @@ const Setting = () => {
   }, [selectedComponent]);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const gotoNavigation = () => {
     navigate("/setting");
   };
+
+  const getUserAccessToken = async () => {
+    try {
+      const val = await localStorage.getItem('accesstoken');
+      console.log('From SS Access Token :: ' + val);
+      // dispatch(getUserAccessToken(val));
+      dispatch({
+        type: 'getaccesstoken',
+        payload: val,
+      });
+
+      dispatch(loadProfile(val))
+
+    } catch (error) {
+      console.log('error' + error);
+    }
+  };
+
+  useEffect(() => {
+    getUserAccessToken();
+
+  }, []);
   return (
     <div className="main-parent">
       {/** Top bar */}
@@ -342,24 +367,6 @@ const Setting = () => {
               </div>
 
               <label className="left-content-label">Result</label>
-            </div>
-            {/** Play */}
-            <div
-              className="lscontentS"
-              key={"play"}
-              onClick={() => handleComponentClick("play")}
-              style={{
-                background:
-                  selectedComponent === "play"
-                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                    : "linear-gradient(180deg, #011833, #011833)",
-              }}
-            >
-              <div className="left-content-icon-container">
-                <FaPlay color={COLORS.white_s} size={"18px"} />
-              </div>
-
-              <label className="left-content-label">Play</label>
             </div>
 
             {/** Deposit */}

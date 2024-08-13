@@ -75,17 +75,44 @@
     min-width: 20em;
     margin-bottom: 1vw;
 }
+
+.welcome-label-select-country{
+    font-family: "MR";
+    min-width: 20em;
+    flex-grow: 1;
+    padding: 10px;
+    width: 100%;
+    font-size: 1em;
+    color: var(--black);
+}
+
+.welcome-label-select-country:hover{
+    cursor: pointer;
+}
+
+.form-group-select-country_container{
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.form-group-select-country_container:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+}
   
 .login-form form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Updated this to create a 20px gap between each form group */
+    /* Updated this to create a 20px gap between each form group */
 }
   
 .form-group {
     display: flex;
     align-items: flex-start;
-    gap: 20px;
+  
     flex-direction: column;
 }
   
