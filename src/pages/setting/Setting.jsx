@@ -41,6 +41,7 @@ import Balancetransfer from "../../components/balancetransfer/Balancetransfer.js
 import AllResult from "../../components/result/AllResult.jsx";
 import Aboutus from "../../components/about/Aboutus.jsx";
 import ChangePassword from "../../components/changepassword/ChangePassword.jsx";
+import UpdateProfile from "../../components/updateprofile/UpdateProfile.jsx";
 
 export const locationdata = [
   {
@@ -300,11 +301,11 @@ const Setting = () => {
             {/** UPDATE PROFILE */}
             <div
               className="lscontentS"
-              key={"results"}
-              onClick={() => handleComponentClick("results")}
+              key={"updateprofile"}
+              onClick={() => handleComponentClick("updateprofile")}
               style={{
                 background:
-                  selectedComponent === "results"
+                  selectedComponent === "updateprofile"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -529,6 +530,7 @@ const Setting = () => {
           {selectedComponent === "result" && <AllResult />}
           {selectedComponent === "aboutus" && <Aboutus />}
           {selectedComponent === "changepassword" && <ChangePassword />}
+          {selectedComponent === "updateprofile" && <UpdateProfile />}
         </div>
       </div>
     </div>
