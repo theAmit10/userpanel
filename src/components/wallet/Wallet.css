@@ -24,6 +24,7 @@
     border: none;
     cursor: pointer;
     width: 100%;
+    font-family: 'MR';
 }
 
 .h-content-container-bt{
@@ -44,17 +45,18 @@
     gap: 1vw;
 }
 
-.right-container-up{
+.right-container-bt{
    flex: 1;
+  
     display: flex;
     flex-direction: row;
 
 }
 
-.right-container-one-up{
+.right-container-bt-one{
    
-   flex: 1;
-   height: 80%;
+    width: 50%;
+    height: 60%;
     background-color: var(--background);
     margin: 2%;
     padding: 2%;
@@ -62,83 +64,37 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    position: relative;
-    margin-top: 4%;
     
 }
 
-.walletcontainer-up{
-    height: 30px;
-    width: 30px;
+.walletcontainer-bt{
+    height: 40px;
+    width: 40px;
     background-color: var(--white_s);
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 2vw;
 }
 
-
+.right-container-bt-two{
+    width: 50%;
+    height: 60%;
+    background-color: var(--background);
+    margin: 2%;
+    padding: 2%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+   
+}
 
 .h-title-label-medium{
     color: var(--white_s);
     font-size: 1.5vw;
     font-family: 'MR';
-}
-.h-title-label-small{
-    color: var(--white_s);
-    font-size: 1vw;
-    font-family: 'MR';
-}
-
-.imagecontainer-up {
-    height: 10em;
-    width: 10em;
-    background-color: white;
-    padding: 2%;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: -1vw;
-    left: 35%;
-}
-
-.profile-content-container{
-    flex: 1;
-
-    margin-top: 9em;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5vw;
-}
-
-.content-label-up{
-    color: var(--background);
-    font-size: 1vw;
-    font-family: 'MR';
-    align-self: center;
-    padding-left: 1vw;
-}
-
-.content-container-up{
-    background-color: var(--white_s);
-    padding: 1vw;
-    border-radius: 1vw;
-    display: flex;
-    flex-direction: row;
-}
-
-.input-container-up{
-    font-family: "MR";
-    min-width: 100%;
-    background-color: var(--white_s);
-    padding: 0.5vw;
-    border-color: var(--background);
-    border-radius: 0.5vw;
 }
 
 

@@ -42,6 +42,9 @@ import AllResult from "../../components/result/AllResult.jsx";
 import Aboutus from "../../components/about/Aboutus.jsx";
 import ChangePassword from "../../components/changepassword/ChangePassword.jsx";
 import UpdateProfile from "../../components/updateprofile/UpdateProfile.jsx";
+import Wallet from "../../components/wallet/Walllet.jsx";
+import Notification from "../../components/notification/Notification.jsx";
+import { IoHome } from "react-icons/io5";
 
 export const locationdata = [
   {
@@ -207,24 +210,30 @@ const Setting = () => {
         </div>
         <div className="righttopcontinerd">
           {/** deposit */}
-          <div className="depositcontainerd">
+          <div className="depositcontainerd"
+          onClick={() => setSelectedComponent("deposit")}
+          >
             <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
+              <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
             <label className="depositLabel">DEPOSIT</label>
           </div>
 
           {/** withdraw */}
-          <div className="depositcontainerd">
+          <div className="depositcontainerd"
+           onClick={() => setSelectedComponent("withdraw")}
+          >
             <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
+              <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
             <label className="depositLabel">WITHDRAW</label>
           </div>
           {/** location */}
-          <div className="iconcontainerd">
+          <div 
+          onClick={() => handleComponentClick('wallet')}
+          className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -236,7 +245,9 @@ const Setting = () => {
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainerd">
+          <div className="iconcontainerd"
+            onClick={() => handleComponentClick('notification')}
+          >
             <div
               style={{
                 display: "flex",
@@ -248,7 +259,9 @@ const Setting = () => {
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainerd" onClick={gotoNavigation}>
+          <div 
+          onClick={() => navigate('/dashboard')}
+          className="iconcontainerd">
             <div
               style={{
                 display: "flex",
@@ -256,7 +269,7 @@ const Setting = () => {
                 alignItems: "center",
               }}
             >
-              <IoIosSettings color={COLORS.background} size={"30px"} />
+              <IoHome color={COLORS.background} size={"30px"} />
             </div>
           </div>
         </div>
@@ -375,7 +388,7 @@ const Setting = () => {
             </div>
 
             {/** Deposit */}
-            <div
+            {/* <div
               className="lscontentS"
               key={"deposit"}
               onClick={() => handleComponentClick("deposit")}
@@ -391,10 +404,10 @@ const Setting = () => {
               </div>
 
               <label className="left-content-label">Deposit</label>
-            </div>
+            </div> */}
 
             {/** Withdraw */}
-            <div
+            {/* <div
               className="lscontentS"
               key={"withdraw"}
               onClick={() => handleComponentClick("withdraw")}
@@ -410,32 +423,9 @@ const Setting = () => {
               </div>
 
               <label className="left-content-label">Withdraw</label>
-            </div>
-
-            {/** Payment */}
-            {/* <div
-              className="lscontent"
-              key={"payment"}
-              onClick={() => handleComponentClick("payment")}
-              style={{
-                background:
-                  selectedComponent === "home"
-                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                    : "linear-gradient(180deg, #011833, #011833)",
-              }}
-            >
-              <div
-               className="left-content-icon-container"
-              >
-                <MdPayment color={COLORS.white_s} size={"20px"} />
-              </div>
-
-              <label
-                 className="left-content-label"
-              >
-                Payment
-              </label>
             </div> */}
+
+           
 
             {/** Play History */}
             <div
@@ -531,6 +521,8 @@ const Setting = () => {
           {selectedComponent === "aboutus" && <Aboutus />}
           {selectedComponent === "changepassword" && <ChangePassword />}
           {selectedComponent === "updateprofile" && <UpdateProfile />}
+          {selectedComponent === "wallet" && <Wallet />}
+          {selectedComponent === "notification" && <Notification />}
         </div>
       </div>
     </div>

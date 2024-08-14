@@ -840,7 +840,7 @@ function UpdateProfile() {
 
         {/** RIGHT CONTAINER */}
         <div className="right-container-up">
-          <div className="right-container-bt-one">
+          <div className="right-container-one-up">
             <div className="imagecontainer-up">
               {user?.avatar?.url ? (
                 <img
