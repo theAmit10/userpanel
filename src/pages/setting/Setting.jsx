@@ -39,6 +39,8 @@ import { useDispatch } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction.js";
 import Balancetransfer from "../../components/balancetransfer/Balancetransfer.jsx";
 import AllResult from "../../components/result/AllResult.jsx";
+import Aboutus from "../../components/about/Aboutus.jsx";
+import ChangePassword from "../../components/changepassword/ChangePassword.jsx";
 
 export const locationdata = [
   {
@@ -337,11 +339,11 @@ const Setting = () => {
             {/** CHANGE PASSWORD */}
             <div
               className="lscontentS"
-              key={"results"}
-              onClick={() => handleComponentClick("results")}
+              key={"changepassword"}
+              onClick={() => handleComponentClick("changepassword")}
               style={{
                 background:
-                  selectedComponent === "results"
+                  selectedComponent === "changepassword"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -525,6 +527,8 @@ const Setting = () => {
           {selectedComponent === "withdraw" && <Withdrawpayment />}
           {selectedComponent === "balancetransfer" && <Balancetransfer />}
           {selectedComponent === "result" && <AllResult />}
+          {selectedComponent === "aboutus" && <Aboutus />}
+          {selectedComponent === "changepassword" && <ChangePassword />}
         </div>
       </div>
     </div>

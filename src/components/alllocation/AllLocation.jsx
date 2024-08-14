@@ -6,6 +6,15 @@ import { FaWallet } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import images from "../../assets/constants/images";
 import { SlCalender } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loadProfile } from "../../redux/actions/userAction";
+import { useGetAllLocationWithTimeQuery } from "../../redux/api";
+import CircularProgressBar from "../helper/CircularProgressBar";
+import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
+import { ToastContainer } from "react-toastify";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
 
 const filterdata = [
   { val: "All" },
@@ -163,6 +172,8 @@ function AllLocation() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedItem, setSelectedItem] = useState(true);
 
+  const { loadingResult, results } = useSelector((state) => state.result);
+
   const handleLocationClick = (location) => {
     setSelectedLocation(location);
   };
@@ -171,10 +182,22 @@ function AllLocation() {
     setSelectedItem(false);
     setSelectedLocation(item);
     setSelectedTime(timedata);
+
+    dispatch(
+      getDateAccordingToLocationAndTime(accesstoken, timedata._id, item._id)
+    );
   };
 
   const handleSelectedDateClick = (datedate) => {
     setSelectedDate(datedate);
+    dispatch(
+      getResultAccordingToLocationTimeDate(
+        accesstoken,
+        datedate._id,
+        datedate.lottime._id,
+        datedate.lottime.lotlocation
+      )
+    );
   };
 
   const removeSelecteditemClick = () => {
@@ -192,6 +215,83 @@ function AllLocation() {
     console.log("Selected item date :: " + JSON.stringify(selectedDate));
   }, [selectedItem, selectedLocation, selectedDate]);
 
+  const navigation = useNavigate();
+  const { accesstoken } = useSelector((state) => state.user);
+  const [alldatafiler, setalldatafilter] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadProfile(accesstoken));
+  }, []);
+
+  const { data, error, isLoading } =
+    useGetAllLocationWithTimeQuery(accesstoken);
+
+  // FOR ALL FILTER TYPE DATA
+  useEffect(() => {
+    console.log("STARTING FOUND DATA :: ");
+    if (!isLoading && data) {
+      console.log("found data", data);
+      const uniqueItems = new Set();
+      const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
+
+      data.locationData.forEach((item) => {
+        const key = item.maximumReturn;
+        if (!uniqueItems.has(key)) {
+          uniqueItems.add(key);
+          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+        }
+      });
+
+      // Sorting the filtertype array
+      filtertype.sort((a, b) => {
+        if (a.maximumReturn === "All") return -1;
+        if (b.maximumReturn === "All") return 1;
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
+        return aReturn - bReturn;
+      });
+
+      setalldatafilter(filtertype);
+      setSelectedFilter(filtertype[0]._id);
+
+      console.log(filtertype);
+    }
+  }, [isLoading, data]);
+
+  const settingFilterData = (itemf) => {
+    setSelectedFilter(itemf._id);
+    if (itemf.maximumReturn.toLowerCase() === "all") {
+      setFilteredData(data?.locationData);
+    } else {
+      const filtered = data?.locationData.filter((item) =>
+        item.maximumReturn
+          .toLowerCase()
+          .includes(itemf.maximumReturn.toLowerCase())
+      );
+      setFilteredData(filtered);
+    }
+  };
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  const handleSearch = (text) => {
+    const filtered = data?.locationData.filter((item) =>
+      item.name.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  useEffect(() => {
+    setFilteredData(data?.locationData); // Update filteredData whenever locations change
+  }, [data]);
+
+  const { loading: loadingdate, dates } = useSelector((state) => state.date);
+
+  console.log("FIleter data :: " + filteredData?.length);
+  console.log("dates :: ", JSON.stringify(results));
+
   return (
     <div className="main-content-container-all-location">
       {/** Location and time */}
@@ -200,12 +300,21 @@ function AllLocation() {
         <>
           {/** Filter container */}
           <div className="filtercontaineral">
-            {filterdata.map((item, index) => (
-              <div className="filtercontental" key={index}>
-                <label
-                className="filtercontentalLabel"
-                >
-                  {item.val}
+            {alldatafiler.map((item, index) => (
+              <div
+                onClick={() => settingFilterData(item)}
+                className="filtercontental"
+                key={item._id}
+                style={{
+                  borderColor:
+                    selectedFilter == item._id
+                      ? COLORS.green
+                      : COLORS.grayHalfBg,
+                  borderWidth: "2px",
+                }}
+              >
+                <label className="filtercontentalLabel">
+                  {item.maximumReturn}
                 </label>
               </div>
             ))}
@@ -214,48 +323,53 @@ function AllLocation() {
           {/** Location container */}
 
           <div className="allocationcontainer">
-            {locationdata.map((item, index) => (
-              <div className="location-item" key={index}>
-                <div className="location-details">
-                  <div
-                    className="location-header"
-                    style={{
-                      background:
-                        index % 2 === 0
-                          ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                          : "linear-gradient(90deg, #7EC630, #3D6017)",
-                    }}
-                  >
-                    <span
-                    className="location-header-label"
-                    >
-                      {item.name}
-                    </span>
-                    <span
-                    className="location-header-max-label"
-                    >
-                      Max {item.limit}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="time-items-container">
-                  {item.times.map((timedata, timeindex) => (
+            {isLoading ? (
+              <div
+                style={{
+                  flex: "1",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <CircularProgressBar />
+              </div>
+            ) : (
+              filteredData?.map((item, index) => (
+                <div className="location-item" key={index}>
+                  <div className="location-details">
                     <div
-                      onClick={() => handleSelecteditemClick(item, timedata)}
-                      className="time-item"
-                      key={timeindex}
+                      className="location-header"
+                      style={{
+                        background:
+                          index % 2 === 0
+                            ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                            : "linear-gradient(90deg, #7EC630, #3D6017)",
+                      }}
                     >
-                      <span
-                      className="time-items-container-time-label"
-                      >
-                        {timedata.time}
+                      <span className="location-header-label">{item.name}</span>
+                      <span className="location-header-max-label">
+                        Max {item.limit}
                       </span>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="time-items-container">
+                    {item.times.map((timedata, timeindex) => (
+                      <div
+                        onClick={() => handleSelecteditemClick(item, timedata)}
+                        className="time-item"
+                        key={timeindex}
+                      >
+                        <span className="time-items-container-time-label">
+                          {timedata.time}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </>
       )}
@@ -294,9 +408,7 @@ function AllLocation() {
                 {selectedLocation.name}
               </span>
 
-              <span
-              className="date-title-container-limit-label"
-              >
+              <span className="date-title-container-limit-label">
                 {selectedLocation.limit}
               </span>
             </div>
@@ -334,17 +446,33 @@ function AllLocation() {
           </span>
 
           {/** date container */}
-
-          <div className="dateconatainer">
-            {datedata.map((item, index) => (
+          <>
+            {loadingdate ? (
               <div
-                onClick={() => handleSelectedDateClick(item)}
-                className="datecontainer-content"
+                style={{
+                  flex: "1",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
-                <span className="datecontainer-content-label">{item.date}</span>
+                <CircularProgressBar />
               </div>
-            ))}
-          </div>
+            ) : (
+              <div className="dateconatainer">
+                {dates?.map((item, index) => (
+                  <div
+                    onClick={() => handleSelectedDateClick(item)}
+                    className="datecontainer-content"
+                  >
+                    <span className="datecontainer-content-label">
+                      {item.lotdate}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         </div>
       )}
 
@@ -385,116 +513,172 @@ function AllLocation() {
 
           {/** result container */}
 
-          <div className="dateconatainer">
-            {/** Result contatiner */}
-            <div className="resultcontaineral">
-              <div className="resultleftcontaineral">
-                <div className="rltopcontaineral">
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <label
-                    className="rltopcontaineralNameLabel"
-                    >
-                      {selectedLocation.name}
-                    </label>
+          {loadingResult ? (
+            <div
+              style={{
+                flex: "1",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgressBar />
+            </div>
+          ) : results.length === 0 ? (
+            <div className="dateconatainer">
+              {/** Result contatiner */}
+              <div className="resultcontaineral">
+                <div className="resultleftcontaineral">
+                  <div className="rltopcontaineral">
+                   
+                   
                   </div>
-                  <div
-                    style={{
-                      width: "40%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <label
-                      className="rltopcontaineralTimeLabel"
+                  <div className="rlmiddlecontaineral">
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                     >
-                      {selectedTime.time}
-                    </label>
+                      <label className="rltopcontaineralNumberLabel" style={{fontSize: '4vw', textAlign: 'end'}}>
+                        Comming soon...
+                      </label>
+                    </div>
+                    <div
+                      style={{
+                        width: "40%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    ></div>
                   </div>
+                  
                 </div>
-                <div className="rlmiddlecontaineral">
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
-                    <label
-                    className="rltopcontaineralNumberLabel"
-                    >
-                      56
-                    </label>
+                <div className="resultrightcontaineral">
+                  <div className="imageContainerGame">
+                    <img
+                      src={images.gamecontroller}
+                      alt="game controller Image"
+                      className="gamecontrolleral"
+                    />
+                    <img
+                      src={images.cups}
+                      alt="game controller Image"
+                      className="cupontrolleral"
+                    />
                   </div>
-                  <div
-                    style={{
-                      width: "40%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  ></div>
-                </div>
-                <div className="rlbottomcontaineral">
-                  <div className="rlbottomcontentcontaineral">
-                  <div className="rlbottomcontentcontainerCalContainer">
-                  <SlCalender size={"20px"} color={COLORS.background} />
-                </div>
-                    <label
-                      className="rlbottomcontentcontainerCalDateLabel">
-                      {selectedDate.date}
-                    </label>
-                    <label
-                       className="rlbottomcontentcontainerCalDateLabel"
-                    >
-                      {selectedTime.time}
-                    </label>
-                    <label
-                        className="rlbottomcontentcontainerCalDateLabel"
-                    >
-                      56
-                    </label>
+                  <div className="catImageContainer">
+                    <img
+                      src={images.cat}
+                      alt="game controller Image"
+                      className="catcontrolleral"
+                    />
                   </div>
-                </div>
-              </div>
-              <div className="resultrightcontaineral">
-                <div
-                className="imageContainerGame"
-                >
-                  <img
-                    src={images.gamecontroller}
-                    alt="game controller Image"
-                    className="gamecontrolleral"
-                  />
-                  <img
-                    src={images.cups}
-                    alt="game controller Image"
-                    className="cupontrolleral"
-                  />
-                </div>
-                <div
-                className="catImageContainer"
-                >
-                  <img
-                    src={images.cat}
-                    alt="game controller Image"
-                    className="catcontrolleral"
-                  />
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="dateconatainer">
+              {/** Result contatiner */}
+              <div className="resultcontaineral">
+                <div className="resultleftcontaineral">
+                  <div className="rltopcontaineral">
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <label className="rltopcontaineralNameLabel">
+                        {results[0]?.lotlocation?.lotlocation}
+                      </label>
+                    </div>
+                    <div
+                      style={{
+                        width: "40%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                      }}
+                    >
+                      <label className="rltopcontaineralTimeLabel">
+                        {results[0].lottime.lottime}
+                      </label>
+                    </div>
+                  </div>
+                  <div className="rlmiddlecontaineral">
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                      }}
+                    >
+                      <label className="rltopcontaineralNumberLabel">
+                        {results[0].resultNumber}
+                      </label>
+                    </div>
+                    <div
+                      style={{
+                        width: "40%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    ></div>
+                  </div>
+                  <div className="rlbottomcontaineral">
+                    <div className="rlbottomcontentcontaineral">
+                      <div className="rlbottomcontentcontainerCalContainer">
+                        <SlCalender size={"20px"} color={COLORS.background} />
+                      </div>
+                      <label className="rlbottomcontentcontainerCalDateLabel">
+                        {results[0].lotdate.lotdate}
+                      </label>
+                      <label className="rlbottomcontentcontainerCalDateLabel">
+                        {results[0].lottime.lottime}
+                      </label>
+                      <label className="rlbottomcontentcontainerCalDateLabel">
+                        {results[0].resultNumber}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div className="resultrightcontaineral">
+                  <div className="imageContainerGame">
+                    <img
+                      src={images.gamecontroller}
+                      alt="game controller Image"
+                      className="gamecontrolleral"
+                    />
+                    <img
+                      src={images.cups}
+                      alt="game controller Image"
+                      className="cupontrolleral"
+                    />
+                  </div>
+                  <div className="catImageContainer">
+                    <img
+                      src={images.cat}
+                      alt="game controller Image"
+                      className="catcontrolleral"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 }

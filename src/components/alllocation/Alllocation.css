@@ -1,6 +1,7 @@
 .allocationcontainer {
   display: flex;
   flex-wrap: wrap;
+  min-width: 82vw;
   gap: 2%;
   max-height: 80vh; /* Set maximum height to viewport height */
   overflow-y: auto; /* Enable vertical scrolling */
