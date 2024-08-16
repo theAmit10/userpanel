@@ -293,6 +293,7 @@
         align-items: center;
         height: 40px;
         width: 40px;
+        cursor: pointer;
     }
     .walletcontainerd,.depositcontainerd,.searchcontainerd{
         display: none;

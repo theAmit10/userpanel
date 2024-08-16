@@ -211,34 +211,38 @@ const Setting = () => {
         <div className="righttopcontinerd">
           {/** deposit */}
           <div className="depositcontainerd"
+          style={{cursor: 'pointer'}}
           onClick={() => setSelectedComponent("deposit")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center" }}>
+            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
               <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel">DEPOSIT</label>
+            <label className="depositLabel" style={{cursor: 'pointer'}}>DEPOSIT</label>
           </div>
 
           {/** withdraw */}
           <div className="depositcontainerd"
+          style={{cursor: 'pointer'}}
            onClick={() => setSelectedComponent("withdraw")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center" }}>
+            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
               <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel">WITHDRAW</label>
+            <label className="depositLabel" style={{cursor: 'pointer'}}>WITHDRAW</label>
           </div>
           {/** location */}
           <div 
           onClick={() => handleComponentClick('wallet')}
+          style={{cursor: 'pointer'}}
           className="iconcontainerd">
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <FaWallet color={COLORS.background} size={"30px"} />
@@ -246,6 +250,7 @@ const Setting = () => {
           </div>
           {/** notification */}
           <div className="iconcontainerd"
+          style={{cursor: 'pointer'}}
             onClick={() => handleComponentClick('notification')}
           >
             <div
@@ -253,6 +258,7 @@ const Setting = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <IoIosNotifications color={COLORS.background} size={"30px"} />
@@ -261,12 +267,14 @@ const Setting = () => {
           {/** setting */}
           <div 
           onClick={() => navigate('/dashboard')}
+          style={{cursor: 'pointer'}}
           className="iconcontainerd">
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <IoHome color={COLORS.background} size={"30px"} />
@@ -508,9 +516,9 @@ const Setting = () => {
         {/** Main Containt */}
         <div className="main-center-content">
           {selectedComponent === "home" && <HomeDashboard />}
-          {selectedComponent === "alllocation" && <AllLocation />}
+          {selectedComponent === "alllocation" && <AllLocation/>}
           {selectedComponent === "setting" && <Settingc />}
-          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+         
           {selectedComponent === "history" && <Historyc />}
           {selectedComponent === "play" && <Play />}
           {selectedComponent === "playhistory" && <Playhistory />}
@@ -523,6 +531,7 @@ const Setting = () => {
           {selectedComponent === "updateprofile" && <UpdateProfile />}
           {selectedComponent === "wallet" && <Wallet />}
           {selectedComponent === "notification" && <Notification />}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
         </div>
       </div>
     </div>

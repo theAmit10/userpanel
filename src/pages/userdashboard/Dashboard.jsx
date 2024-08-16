@@ -26,6 +26,12 @@ import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc"
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction";
+import { PiHandDepositBold } from "react-icons/pi";
+import { PiHandWithdrawFill } from "react-icons/pi";
+import Wallet from "../../components/wallet/Walllet";
+import Notification from "../../components/notification/Notification";
+import Paymentdeposit from "../../components/deposit/Paymentdeposit";
+import Withdrawpayment from "../../components/withdraw/Withdrawpayment";
 
 
 const locationdata = [
@@ -177,6 +183,28 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const getUserAccessToken = async () => {
+    try {
+      const val = await localStorage.getItem('accesstoken');
+      console.log('From SS Access Token :: ' + val);
+      // dispatch(getUserAccessToken(val));
+      dispatch({
+        type: 'getaccesstoken',
+        payload: val,
+      });
+
+      dispatch(loadProfile(val))
+
+    } catch (error) {
+      console.log('error' + error);
+    }
+  };
+
+  useEffect(() => {
+    getUserAccessToken();
+  }, []);
+  
+
   const gotoNavigation = () => {
     navigate("/setting");
   };
@@ -208,7 +236,8 @@ const Dashboard = () => {
 
 
   console.log(loading,user)
-  
+
+ 
 
 
 
@@ -243,53 +272,69 @@ const Dashboard = () => {
             <label className="searchLabel">Search for location</label>
           </div>
           {/** deposit */}
-          <div className="depositcontainerd">
-            <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
+          <div className="depositcontainerd"
+          style={{cursor: 'pointer'}}
+          onClick={() => setSelectedComponent("deposit")}
+          >
+            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+              <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel">DEPOSIT</label>
+            <label className="depositLabel" style={{cursor: 'pointer'}}>DEPOSIT</label>
           </div>
+
 
           {/** withdraw */}
-          <div className="depositcontainerd">
-            <div style={{ justifyContent: "center", alignItems: "center" }}>
-              <BsBank2 color={COLORS.white_s} size={"1.5vw"} />
+          <div className="depositcontainerd"
+          style={{cursor: 'pointer'}}
+           onClick={() => setSelectedComponent("withdraw")}
+          >
+            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+              <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel">WITHDRAW</label>
+            <label className="depositLabel" style={{cursor: 'pointer'}}>WITHDRAW</label>
           </div>
           {/** location */}
-          <div className="iconcontainerd">
+          <div className="iconcontainerd"
+            onClick={() => handleComponentClick('wallet')}
+            style={{cursor: 'pointer'}}
+          >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <FaWallet color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainerd">
+          <div className="iconcontainerd"
+          style={{cursor: 'pointer'}}
+          onClick={() => handleComponentClick('notification')}
+          >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <IoIosNotifications color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainerd" onClick={gotoNavigation}>
+          <div className="iconcontainerd" onClick={gotoNavigation} style={{cursor: 'pointer'}}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
             >
               <IoIosSettings color={COLORS.background} size={"30px"} />
@@ -395,7 +440,7 @@ const Dashboard = () => {
             </div>
 
             {/** Game Description */}
-            <div
+            {/* <div
               className="lscontentd"
               key={"gamedescription"}
               onClick={() => handleComponentClick("gamedescription")}
@@ -410,7 +455,7 @@ const Dashboard = () => {
                 <TbFileDescription color={COLORS.white_s} size={"20px"} />
               </div>
               <label className="sidebar-label">Game Description</label>
-            </div>
+            </div> */}
 
             {/** About Us */}
             <div
@@ -478,6 +523,10 @@ const Dashboard = () => {
           {selectedComponent === "play" && <Play />}
           {selectedComponent === "history" && <Historyc />}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+          {selectedComponent === "wallet" && <Wallet />}
+          {selectedComponent === "notification" && <Notification />}
+          {selectedComponent === "deposit" && <Paymentdeposit />}
+          {selectedComponent === "withdraw" && <Withdrawpayment />}
         </div>
       </div>
     </div>
