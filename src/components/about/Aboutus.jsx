@@ -73,7 +73,7 @@ function Aboutus() {
             <CircularProgressBar />
           </div>
         ) : (
-            filteredData.map((item, index) => (
+            filteredData?.map((item, index) => (
                 <div  key={index} className="gdcontent-container-about">
                 <div className="about-content-contatiner">
                   <div className="about-content-contatiner-title">

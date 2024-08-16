@@ -35,7 +35,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUserPen } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction.js";
 import Balancetransfer from "../../components/balancetransfer/Balancetransfer.jsx";
 import AllResult from "../../components/result/AllResult.jsx";
@@ -45,6 +45,13 @@ import UpdateProfile from "../../components/updateprofile/UpdateProfile.jsx";
 import Wallet from "../../components/wallet/Walllet.jsx";
 import Notification from "../../components/notification/Notification.jsx";
 import { IoHome } from "react-icons/io5";
+import { IoIosLogOut } from "react-icons/io";
+import { useGetLogoutQuery } from "../../redux/api.js";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "../../components/helper/showErrorToast.jsx";
+import Logout from "../../components/logout/Logout.jsx";
 
 export const locationdata = [
   {
@@ -162,7 +169,7 @@ const Setting = () => {
   }, [selectedComponent]);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const gotoNavigation = () => {
     navigate("/setting");
@@ -170,25 +177,42 @@ const Setting = () => {
 
   const getUserAccessToken = async () => {
     try {
-      const val = await localStorage.getItem('accesstoken');
-      console.log('From SS Access Token :: ' + val);
+      const val = await localStorage.getItem("accesstoken");
+      console.log("From SS Access Token :: " + val);
       // dispatch(getUserAccessToken(val));
       dispatch({
-        type: 'getaccesstoken',
+        type: "getaccesstoken",
         payload: val,
       });
 
-      dispatch(loadProfile(val))
-
+      dispatch(loadProfile(val));
     } catch (error) {
-      console.log('error' + error);
+      console.log("error" + error);
     }
   };
 
   useEffect(() => {
     getUserAccessToken();
-
   }, []);
+
+  const { accesstoken, user } = useSelector((state) => state.user);
+
+  const loggingOff = () => {
+    console.log("STARTING LOGGING OFF");
+
+    const { data, error, isLoading } = useGetLogoutQuery(accesstoken);
+
+    console.log(isLoading);
+
+    if (data) {
+      showSuccessToast("Logout Successfully");
+      localStorage.clear();
+      navigate("/login");
+    } else if (error) {
+      showErrorToast("Something went wrong");
+    }
+  };
+
   return (
     <div className="main-parent">
       {/** Top bar */}
@@ -210,71 +234,92 @@ const Setting = () => {
         </div>
         <div className="righttopcontinerd">
           {/** deposit */}
-          <div className="depositcontainerd"
-          style={{cursor: 'pointer'}}
-          onClick={() => setSelectedComponent("deposit")}
+          <div
+            className="depositcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedComponent("deposit")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
               <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel" style={{cursor: 'pointer'}}>DEPOSIT</label>
+            <label className="depositLabel" style={{ cursor: "pointer" }}>
+              DEPOSIT
+            </label>
           </div>
 
           {/** withdraw */}
-          <div className="depositcontainerd"
-          style={{cursor: 'pointer'}}
-           onClick={() => setSelectedComponent("withdraw")}
+          <div
+            className="depositcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedComponent("withdraw")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
               <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel" style={{cursor: 'pointer'}}>WITHDRAW</label>
+            <label className="depositLabel" style={{ cursor: "pointer" }}>
+              WITHDRAW
+            </label>
           </div>
           {/** location */}
-          <div 
-          onClick={() => handleComponentClick('wallet')}
-          style={{cursor: 'pointer'}}
-          className="iconcontainerd">
+          <div
+            onClick={() => handleComponentClick("wallet")}
+            style={{ cursor: "pointer" }}
+            className="iconcontainerd"
+          >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <FaWallet color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainerd"
-          style={{cursor: 'pointer'}}
-            onClick={() => handleComponentClick('notification')}
+          <div
+            className="iconcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleComponentClick("notification")}
           >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <IoIosNotifications color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** setting */}
-          <div 
-          onClick={() => navigate('/dashboard')}
-          style={{cursor: 'pointer'}}
-          className="iconcontainerd">
+          <div
+            onClick={() => navigate("/dashboard")}
+            style={{ cursor: "pointer" }}
+            className="iconcontainerd"
+          >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <IoHome color={COLORS.background} size={"30px"} />
@@ -301,24 +346,6 @@ const Setting = () => {
               </div>
             </div>
 
-            {/** All Location */}
-            <div
-              className="lscontentS"
-              key={"alllocation"}
-              onClick={() => handleComponentClick("alllocation")}
-              style={{
-                background:
-                  selectedComponent === "alllocation"
-                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                    : "linear-gradient(180deg, #011833, #011833)",
-              }}
-            >
-              <div className="left-content-icon-container">
-                <IoLocationSharp color={COLORS.white_s} size={"20px"} />
-              </div>
-
-              <label className="left-content-label">All Location</label>
-            </div>
             {/** UPDATE PROFILE */}
             <div
               className="lscontentS"
@@ -433,8 +460,6 @@ const Setting = () => {
               <label className="left-content-label">Withdraw</label>
             </div> */}
 
-           
-
             {/** Play History */}
             <div
               className="lscontentS"
@@ -510,15 +535,34 @@ const Setting = () => {
 
               <label className="left-content-label">About Us</label>
             </div>
+
+            {/** LOG OUT */}
+            <div
+              className="lscontentS"
+              key={"logout"}
+              onClick={() => handleComponentClick("logout")}
+              style={{
+                background:
+                  selectedComponent === "logout"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
+            >
+              <div className="left-content-icon-container">
+                <IoIosLogOut color={COLORS.white_s} size={"20px"} />
+              </div>
+
+              <label className="left-content-label">Log out</label>
+            </div>
           </div>
         </div>
 
         {/** Main Containt */}
         <div className="main-center-content">
           {selectedComponent === "home" && <HomeDashboard />}
-          {selectedComponent === "alllocation" && <AllLocation/>}
+          {selectedComponent === "alllocation" && <AllLocation />}
           {selectedComponent === "setting" && <Settingc />}
-         
+
           {selectedComponent === "history" && <Historyc />}
           {selectedComponent === "play" && <Play />}
           {selectedComponent === "playhistory" && <Playhistory />}
@@ -532,6 +576,7 @@ const Setting = () => {
           {selectedComponent === "wallet" && <Wallet />}
           {selectedComponent === "notification" && <Notification />}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+          {selectedComponent === "logout" && <Logout />}
         </div>
       </div>
     </div>

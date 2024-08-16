@@ -175,6 +175,18 @@ export const sincelotUserApi = createApi({
     }),
 
 
+    // FOR LOGGING OFF
+    getLogout: builder.query({
+      query: accessToken => ({
+        url: 'user/logout',
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    }),
+
+
 
     // ######## END #########
   }),
@@ -193,6 +205,7 @@ export const {
   useGetAllCountryQuery,
   useTransferWalletBalanceMutation,
   useCreateLoginMutation,
-  useCreateRegisterMutation
+  useCreateRegisterMutation,
+  useGetLogoutQuery
 } = sincelotUserApi;
 

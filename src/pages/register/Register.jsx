@@ -120,7 +120,7 @@ function Register() {
           console.log("datat :: " + res);
           navigation("/login");
         } catch (error) {
-          showErrorToast(error);
+          showErrorToast(error?.data?.message);
           console.log(error);
           console.log(error.response);
         }
@@ -161,7 +161,7 @@ function Register() {
           console.log("datat :: " + res);
           navigation("/login");
         } catch (error) {
-          showErrorToast(error);
+          showErrorToast(error?.data?.message);
           console.log(error);
           console.log(error.response);
         }
@@ -315,7 +315,7 @@ function Register() {
                 </label>
                 <label className="welcome-label">
                   <span
-                    onClick={handleSignInClick}
+                    onClick={() => navigate("/login")}
                     style={{ color: "#0179FE", cursor: "pointer" }}
                   >
                     Sign In
@@ -403,15 +403,17 @@ function Register() {
                   </div>
                 </div>
                 {isLoading ? (
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '2vw'
-                  }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "2vw",
+                    }}
+                  >
                     <CircularProgressBar />
                   </div>
-                ): (
+                ) : (
                   <button
                     onClick={submitHandler}
                     className="submit-btn-register"
@@ -433,7 +435,7 @@ function Register() {
                 </label>
                 <label className="welcome-label">
                   <span
-                    onClick={handleSignInClick}
+                    onClick={() => navigate("/login")}
                     style={{ color: "#0179FE", cursor: "pointer" }}
                   >
                     Sign In
@@ -521,12 +523,14 @@ function Register() {
                   </div>
                 </div>
                 {isLoading ? (
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    padding: '2vw'
-                  }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "2vw",
+                    }}
+                  >
                     <CircularProgressBar />
                   </div>
                 ) : (
@@ -569,7 +573,16 @@ function Register() {
                 </h1>
 
                 {currencyloading ? (
-                  <CircularProgressBar />
+                  <div
+                    style={{
+                      flex: "1",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <CircularProgressBar />
+                  </div>
                 ) : (
                   currecylist.currencies.map((item, index) => (
                     <div

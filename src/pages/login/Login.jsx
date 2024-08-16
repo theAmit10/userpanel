@@ -169,6 +169,7 @@ function Login() {
               </div>
 
               <label
+              onClick={() => navigation("/forgotpassword")}
                 className="welcome-label-login"
                 style={{
                   color: COLORS.grayHalfBg,

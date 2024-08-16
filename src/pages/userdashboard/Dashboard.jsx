@@ -32,6 +32,7 @@ import Wallet from "../../components/wallet/Walllet";
 import Notification from "../../components/notification/Notification";
 import Paymentdeposit from "../../components/deposit/Paymentdeposit";
 import Withdrawpayment from "../../components/withdraw/Withdrawpayment";
+import Userprofile from "../../components/profile/Userprofile";
 
 
 const locationdata = [
@@ -252,7 +253,9 @@ const Dashboard = () => {
             <label className="helloLabel">Hello,</label>
             <label className="usernameLabel">Wasu</label>
           </div>
-          <div className="ltcrightd">
+          <div className="ltcrightd"
+          onClick={() => setSelectedComponent("userprofile")}
+          >
             <div className="ltcrightimaged">
               <img
                 src={images.user}
@@ -527,6 +530,7 @@ const Dashboard = () => {
           {selectedComponent === "notification" && <Notification />}
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
+          {selectedComponent === "userprofile" && <Userprofile />}
         </div>
       </div>
     </div>

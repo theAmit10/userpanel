@@ -4,6 +4,7 @@ import Dashboard from "./pages/userdashboard/Dashboard";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Setting from "./pages/setting/Setting";
+import Forgotpassword from "./pages/forgotpassword/Forgotpassword";
 import CustomErrorToastContainer from "./components/helper/showErrorToast";
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="setting" element={<Setting />} />
         <Route path="login" element={<Login />} />
+        <Route path="forgotpassword" element={<Forgotpassword />} />
       </Routes>
       <CustomErrorToastContainer/>
     </BrowserRouter>
