@@ -80,7 +80,7 @@ function Gamedescriptionc() {
               <div
               onClick={() => setSelectedItem(item)}
                 key={item._id}
-                className="location-header-result"
+                className="location-header-result-allresult"
                 style={{
                   background:
                     index % 2 === 0

@@ -52,6 +52,7 @@ import {
   showSuccessToast,
 } from "../../components/helper/showErrorToast.jsx";
 import Logout from "../../components/logout/Logout.jsx";
+import { serverName } from "../../redux/store.js";
 
 export const locationdata = [
   {
@@ -220,15 +221,23 @@ const Setting = () => {
         <div className="lefttopcontinerd">
           <div className="ltcleftd">
             <label className="helloLabel">Hello,</label>
-            <label className="usernameLabel">Wasu</label>
+            <label className="usernameLabel">{user ? user.name : ""}</label>
           </div>
           <div className="ltcrightd">
             <div className="ltcrightimaged">
-              <img
-                src={images.user}
-                alt="Profile Picture"
-                className="user-imaged"
-              />
+              {user?.avatar?.url ? (
+                <img
+                  src={`${serverName}/uploads/${user?.avatar.url}`}
+                  alt="Profile Picture"
+                  className="user-imaged"
+                />
+              ) : (
+                <img
+                  src={images.user}
+                  alt="Profile Picture"
+                  className="user-imaged"
+                />
+              )}
             </div>
           </div>
         </div>

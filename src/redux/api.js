@@ -187,6 +187,18 @@ export const sincelotUserApi = createApi({
     }),
 
 
+    // GET ALL THE RESULT
+    getAllResultWeb: builder.query({
+      query: ({accessToken,locationid}) => ({
+        url: `result/allresultwithtime?locationid=${locationid}`,
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    }),
+
+
 
     // ######## END #########
   }),
@@ -206,6 +218,7 @@ export const {
   useTransferWalletBalanceMutation,
   useCreateLoginMutation,
   useCreateRegisterMutation,
-  useGetLogoutQuery
+  useGetLogoutQuery,
+  useGetAllResultWebQuery,
 } = sincelotUserApi;
 
