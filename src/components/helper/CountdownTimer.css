@@ -1,0 +1,14 @@
+.countdown {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    font-family: 'Montserrat', sans-serif; /* Use your preferred font-family */
+    font-size: 16px; /* Adjust font size as needed */
+}
+
+.countdown-time {
+    color: black; /* Replace with your desired color */
+    background: transparent; /* Set background to transparent */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}

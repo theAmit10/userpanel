@@ -154,6 +154,8 @@
 }
 
 
+
+
 .leftsidebarmiddled {
     height: 30%;
     width: calc(100% - 10%); /* Adjust width to account for margin */
@@ -162,17 +164,33 @@
     margin-right: 5%; /* Add specific margin for the right side */
     border-radius: 3vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
+    position: relative; /* Make this container relative */
+    overflow: hidden; /* Hide overflow */
 }
 
-.promotion-bannerd{
-    height: 80%;
-    width: 100%;
-    object-fit: cover;
+.promotionLable {
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 1.8vw;
+    margin: 2vh;
+    z-index: 2; /* Ensure the label is above the image */
 }
+
+.ImageSlider {
+    height: 100%; /* Ensure the slider takes the remaining space */
+    width: 100%;
+    position: relative; /* For positioning the nav buttons */
+}
+
+.promotion-bannerd {
+    height: 70%; /* Fixed height for the image container */
+    width: 100%;  /* Full width for the image container */
+    object-fit: cover; /* Ensure the image covers the container while maintaining its aspect ratio */
+}
+
 
 .leftsidebarbottomd {
     height: 10%;
@@ -197,8 +215,6 @@
 .main-center-contentd{
     display: flex;
     flex: 1;
-
-      
 }
 
 /* Base styles for the label */
@@ -234,11 +250,7 @@
     padding-left: 10px;
     padding-right: 10px;
 }
-.promotionLable{
-    color: var(--white_s);
-    font-family: "HB";
-    font-size: 1.8vw;
-}
+
 
 .helloLabel{
     color: var(--white_s);
@@ -321,6 +333,8 @@
         min-width: 3vw;
         justify-content: center;
         align-items: center;
+
+
         
     }
     .leftsidebarmiddled  {

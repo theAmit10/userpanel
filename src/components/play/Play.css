@@ -1,13 +1,4 @@
-.allocationcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2%;
-    max-height: 80vh; /* Set maximum height to viewport height */
-    background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 2vh;
-    border-radius: 2vh;
-    overflow-y: scroll; /* Enable vertical scrolling */
-  }
+
   
   .location-item {
     height: 30%;

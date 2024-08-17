@@ -2,21 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./HomeDashboard.css";
 import FONT from "../../assets/constants/fonts";
 import images from "../../assets/constants/images";
-import { CiSearch } from "react-icons/ci";
-import { BsBank2 } from "react-icons/bs";
 import COLORS from "../../assets/constants/colors";
-import { FaWallet } from "react-icons/fa";
-import { IoIosNotifications } from "react-icons/io";
-import { IoIosSettings } from "react-icons/io";
-import { AiFillAndroid } from "react-icons/ai";
-import { FaApple } from "react-icons/fa";
-import { FaHome } from "react-icons/fa";
-import { IoLocationSharp } from "react-icons/io5";
-import { FaTrophy } from "react-icons/fa6";
-import { FaPlay } from "react-icons/fa";
-import { FaHistory } from "react-icons/fa";
-import { TbFileDescription } from "react-icons/tb";
-import { IoIosInformationCircle } from "react-icons/io";
 import { SlCalender } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,13 +11,16 @@ import {
   getAllResult,
   getAllResultAccordingToLocation,
   getNextResult,
+  getResultAccordingToLocationTimeDate,
 } from "../../redux/actions/resultAction";
-import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
+import { showErrorToast } from "../helper/showErrorToast";
 import {
   useGetAllLocationWithTimeQuery,
   useGetPlayHistoryQuery,
 } from "../../redux/api";
 import CircularProgressBar from "../helper/CircularProgressBar";
+import CountdownTimer from "../helper/CountdownTimer";
+import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
 
 const topWinnerOfTheDay = [
   {
@@ -56,236 +45,23 @@ const topWinnerOfTheDay = [
   },
 ];
 
-const playHistoryData = [
-  {
-    location: "Paris",
-    number: "89",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "Japan",
-    number: "09",
-    amount: "2800 INR",
-    time: "10:00 AM",
-    date: "13-04-2024",
-  },
-  {
-    location: "Korea",
-    number: "69",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "China",
-    number: "103",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "India",
-    number: "67",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-  {
-    location: "Pakistan",
-    number: "65",
-    amount: "5000 INR",
-    time: "09:00 AM",
-    date: "12-04-2024",
-  },
-];
-
-const filterdata = [
-  {
-    val: "All",
-  },
-  {
-    val: "2X",
-  },
-  {
-    val: "5X",
-  },
-  {
-    val: "10X",
-  },
-  {
-    val: "50X",
-  },
-  {
-    val: "100X",
-  },
-  {
-    val: "200X",
-  },
-];
-
-const locationdata = [
-  {
-    id: "1",
-    name: "Canada",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "2",
-    name: "Japan",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "3",
-    name: "Punjab",
-    limit: "200 - 200X",
-    times: [
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "4",
-    name: "Pune",
-    limit: "200 - 200X",
-    times: [
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "5",
-    name: "China",
-    limit: "100 - 100X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "6",
-    name: "India",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "7",
-    name: "USA",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-    ],
-  },
-  {
-    id: "8",
-    name: "Korea",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-];
-
-const timedata = [
-  {
-    val: "09:00 AM",
-  },
-  {
-    val: "10:00 AM",
-  },
-  {
-    val: "11:00 AM",
-  },
-  {
-    val: "12:00 PM",
-  },
-  {
-    val: "01:00 PM",
-  },
-
-  {
-    val: "02:00 PM",
-  },
-  {
-    val: "03:00 PM",
-  },
-
-  {
-    val: "04:00 PM",
-  },
-  {
-    val: "04:00 PM",
-  },
-  {
-    val: "06:00 PM",
-  },
-
-  {
-    val: "07:00 PM",
-  },
-  {
-    val: "08:00 PM",
-  },
-];
-
 function HomeDashboard() {
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const handleLocationClick = (location) => {
-    console.log("clicked");
-    console.log(JSON.stringify(location));
-    setSelectedLocation(location);
-  };
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const { loading: loadingdate, dates } = useSelector((state) => state.date);
+  const { loadingResult, results: singleResult } = useSelector(
+    (state) => state.result
+  );
+
+  const [firstTimeClick, setFirstTimeClick] = useState(true);
   useEffect(() => {
     console.log("location changed");
   }, [selectedLocation]);
 
   const { user, accesstoken, loading } = useSelector((state) => state.user);
   const [showDate, setShowDate] = useState(true);
-  const [nextResultTime, setNextResultTime] = useState(10);
-  const [timeDifference, setTimeDifference] = useState(3);
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [nextResultTime, setNextResultTime] = useState(null);
 
   const navigation = useNavigate();
   const dispatch = useDispatch();
@@ -298,15 +74,58 @@ function HomeDashboard() {
     dispatch(loadProfile(accesstoken));
   }, [dispatch]);
 
-  const [currentScreen, setCurrentScreen] = useState("");
-  const [firstTimeClick, setFirstTimeClick] = useState(true);
+  const handleLocationClick = (location) => {
+    console.log("clicked");
+    console.log(JSON.stringify(location));
 
-  useEffect(
-    useCallback(() => {
-      setCurrentScreen("Home"); // Set the current screen to 'HomeScreen' when this screen is focused
-      return () => setCurrentScreen(""); // Reset the current screen when the screen is blurred
-    }, [])
-  );
+    setSelectedLocation(location);
+    setSelectedTime(null);
+  };
+
+  const getAllTheDateForLocationHome = (item) => {
+    console.log("time clicked");
+    console.log(JSON.stringify(item));
+    console.log(JSON.stringify(selectedLocation));
+    setSelectedTime(item);
+
+    dispatch(
+      getDateAccordingToLocationAndTime(
+        accesstoken,
+        item._id,
+        selectedLocation._id
+      )
+    );
+  };
+
+  const handleSelectedDateClick = (datedate) => {
+    setSelectedDate(datedate);
+    dispatch(
+      getResultAccordingToLocationTimeDate(
+        accesstoken,
+        datedate._id,
+        datedate.lottime._id,
+        datedate.lottime.lotlocation
+      )
+    );
+
+    if (singleResult) {
+      console.log("Result FOUND");
+      console.log(JSON.stringify(singleResult[0]));
+      setHomeResult(singleResult[0]);
+      setNextResultTime(singleResult[0]?.nextresulttime);
+      setFirstTimeClick(false);
+
+      dispatch(getAllResult(accesstoken));
+      dispatch(
+        getAllResultAccordingToLocation(
+          accesstoken,
+          homeResult?.lotlocation?._id
+        )
+      );
+      setSelectedDate(null);
+      setSelectedTime(null);
+    }
+  };
 
   // console.log("Show date :: "+showDate)
   const {
@@ -333,20 +152,34 @@ function HomeDashboard() {
       getAllResultAccordingToLocation(accesstoken, homeResult?.lotlocation?._id)
     );
     dispatch(getNextResult(accesstoken, homeResult?.lotlocation?._id));
+    console.log("FIRST RESULT ITEM");
+    console.log("FIRST RESULT ITEM" + JSON.stringify(results[0]));
     setHomeResult(results[0]);
+    console.log("setting next result time :: " + results[0]?.nextresulttime);
+    setNextResultTime(results[0]?.nextresulttime);
   }, [dispatch]);
 
   useEffect(() => {
-    const firstThreeElements = results.slice(0, 15);
+    const firstThreeElements = results.slice(0, 7);
     if (firstTimeClick) {
       setHomeResult(firstThreeElements[0]);
     }
     setFilteredData(firstThreeElements);
   }, [results, homeResult]);
 
-  const toogleView = () => {
-    setShowDate(false);
-  };
+  useEffect(() => {
+    const firstThreeElements = results.slice(0, 7);
+
+    setFilteredData(firstThreeElements);
+  }, [results]);
+
+  // useEffect(() => {
+  //   const firstThreeElements = results.slice(0, 7);
+  //   if (firstTimeClick) {
+  //     setHomeResult(firstThreeElements[0]);
+  //   }
+  //   setFilteredData(firstThreeElements);
+  // }, [results, homeResult]);
 
   const afterTimerCompleted = () => {
     dispatch(getAllResult(accesstoken));
@@ -360,60 +193,16 @@ function HomeDashboard() {
     setHomeResult(item);
     setFirstTimeClick(false);
     setInitialResultIndex(index);
-    console.log("Mine time");
-    console.log(extractTime(item.nextresulttime));
 
+    // Assuming extractTime returns { hour, minute, period }
     const { hour, minute, period } = extractTime(item.nextresulttime);
-    console.log(hour);
-    console.log(minute);
-    console.log(period);
-    // setNextResultTime(hour);
-    const hour_time = hour + " " + period;
-    console.log("Hour_time :: " + hour_time);
-    settingTimerForNextResult(hour, minute, period);
 
+    setNextResultTime(item.nextresulttime); // Set the target date in ISO format
+    console.log("item.nextresulttime  " + item.nextresulttime);
     dispatch(
       getAllResultAccordingToLocation(accesstoken, item.lotlocation._id)
     );
-    // dispatch(getNextResult(accesstoken, item.lotlocation._id));
   };
-
-  // For Promotion Image Slider
-  const [currentPage, setCurrentPage] = useState(0);
-  const scrollViewRef = useRef();
-
-  // Commenting this for Testing next result
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // const nextPage = (currentPage + 1) % images.length;
-      const nextPage = (currentPage + 1) % promotions.length;
-      setCurrentPage(nextPage);
-      scrollViewRef.current?.scrollTo({ x: width * nextPage, animated: true });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [currentPage]);
-
-  const handlePageChange = (event) => {
-    const contentOffset = event.nativeEvent.contentOffset.x;
-    const page = Math.round(contentOffset / width);
-    setCurrentPage(page);
-  };
-
-  // Function to determine if the given time has passed
-  function hasTimePassed(timeString) {
-    if (timeString) {
-      // Parse the given time string using moment.js
-      const timeFormat = timeString.includes("-") ? "hh-mm A" : "hh:mm A";
-      const givenTime = moment(timeString, timeFormat);
-
-      // Get the current device time
-      const currentTime = moment();
-
-      // Compare the given time with the current time
-      return givenTime.isBefore(currentTime);
-    }
-  }
 
   function extractTime(timeString) {
     // Remove whitespace from the time string and split it into time and period (AM/PM)
@@ -432,268 +221,9 @@ function HomeDashboard() {
     };
   }
 
-  useEffect(() => {
-    // Update current time every second
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    // Clear interval on component unmount
-    return () => clearInterval(interval);
-  }, [homeResult, currentTime, timeDifference]);
-
-  const settingTimerForNextResult = async (hour, minute, period) => {
-    let hour24 = parseInt(hour);
-
-    if (period.toLowerCase() === "pm" && hour24 < 12) {
-      hour24 += 12;
-    } else if (period.toLowerCase() === "am" && hour24 === 12) {
-      hour24 = 0;
-    }
-
-    const lotTime = new Date();
-    lotTime.setHours(hour24);
-    lotTime.setMinutes(parseInt(minute));
-    lotTime.setSeconds(0);
-
-    setTimeDifference(lotTime.getTime() - currentTime.getTime());
-
-    console.log("Setting timer");
-    console.log("lottime :: " + lotTime.getTime());
-    console.log("currenttime :: " + currentTime.getTime());
-    console.log(
-      "Both Difference :: ",
-      lotTime.getTime() - currentTime.getTime()
-    );
-
-    // Calculate time difference between current time and lot time
-    setTimeDifference(lotTime.getTime() - currentTime.getTime());
-
-    // Ensure that data is loaded before setting the timer
-    await dispatch(getAllResult(accesstoken));
-    await dispatch(
-      getAllResultAccordingToLocation(accesstoken, homeResult?.lotlocation?._id)
-    );
-    await dispatch(getNextResult(accesstoken, homeResult?.lotlocation?._id));
-  };
-
-  // FOR DOWNLOAD PDF
-
-  const htmlContent = `
-        <html>
-          <head>
-            <meta charset="utf-8">
-            <title>Result</title>
-            <link rel="license" href="https://www.opensource.org/licenses/mit-license/">
-            <style>
-              ${htmlStyles}
-            </style>
-          </head>
-          <body>
-            <header>
-              <h1>RESULT</h1>
-            </header>
-            <article>
-          
-              <table class="inventory">
-                <thead>
-                  <tr>
-                    <th><span>Location</span></th>
-                    <th><span>Date</span></th>
-                    <th><span>Time</span></th>
-                    <th><span>Result</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                ${resultAccordingLocation
-                  ?.map(
-                    (item) => `
-                <tr>
-                  <td><span>${item.lotlocation?.lotlocation}</span></td>
-                  <td><span>${item.lotdate?.lotdate}</span></td>
-                  <td><span>${item.lottime?.lottime}</span></td>
-                  <td><span>${item.resultNumber}</span></td>
-                </tr>
-              `
-                  )
-                  .join("")}
-                </tbody>
-              </table>
-              
-            </article>
-            <aside>
-              <h1><span>Since 1927</span></h1>
-              <div>
-                <p>Thank you for download</p>
-              </div>
-            </aside>
-          </body>
-        </html>
-      `;
-
-  const createPDF = async () => {
-    if (!homeResult) {
-      showErrorToast("No data available");
-    } else {
-      let options = {
-        //Content to print
-        html: htmlContent,
-        //File Name
-        fileName: `${homeResult.lotdate.lotdate}${homeResult.lottime.lottime}`,
-        //File directory
-        directory: "Download",
-
-        base64: true,
-      };
-
-      let file = await RNHTMLtoPDF.convert(options);
-      // console.log(file.filePath);
-      alert(
-        "Successfully Exported",
-        "Path:" + file.filePath,
-        [
-          { text: "Cancel", style: "cancel" },
-          { text: "Open", onPress: () => openFile(file.filePath) },
-        ],
-        { cancelable: true }
-      );
-    }
-  };
-
-  const openFile = (filepath) => {
-    const path = filepath; // absolute-path-to-my-local-file.
-    FileViewer.open(path)
-      .then(() => {
-        // success
-        console.log("All Good no error found");
-      })
-      .catch((error) => {
-        // error
-        console.log("Found error :: " + error);
-      });
-  };
-
   const sliderData = promotions.map((promotion, index) => ({
     img: `${serverName}/uploads/promotion/${promotion.url}`,
   }));
-
-  const shownotifee = () => {
-    onDisplayNotification("Jammu Result", "11:00 AM Jammu Result Announced");
-  };
-
-  // Define state variables for error and retry
-  const [error, setError] = useState(null);
-  const [retrying, setRetrying] = useState(false);
-  const [loadings, setLoading] = useState(false);
-
-  // Function to fetch data from the API
-  const fetchData = async () => {
-    try {
-      // Clear any previous error
-      setError(null);
-      // Set loading state
-      setLoading(true);
-      // Dispatch actions to fetch data
-      await dispatch(loadAllPromotion(accesstoken));
-      await dispatch(loadProfile(accesstoken));
-      await dispatch(getAllResult(accesstoken));
-      await dispatch(
-        getAllResultAccordingToLocation(
-          accesstoken,
-          homeResult?.lotlocation?._id
-        )
-      );
-      await dispatch(getNextResult(accesstoken, homeResult?.lotlocation?._id));
-      // Data fetched successfully, set loading state to false
-      setLoading(false);
-    } catch (error) {
-      // Set error state if there is an issue with fetching data
-      setError(error.message);
-      // Data fetching failed, set loading state to false
-      setLoading(false);
-    }
-  };
-
-  // useEffect hook to fetch data when component mounts
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Function to handle retry
-  const handleRetry = () => {
-    // Set retrying state to true
-    setRetrying(true);
-    // Call the fetchData function to retry fetching data
-    fetchData();
-    // Reset retrying state after retrying
-    setRetrying(false);
-  };
-
-  // Function to clear AsyncStorage data when the user logs out
-  const clearAsyncStorage = async () => {
-    try {
-      await localStorage.clear();
-      console.log("AsyncStorage data cleared successfully.");
-      navigation("/login");
-      // navigation.reset({
-      //   index: 0,
-      //   routes: [{name: 'SplashScreen'}],
-      // });
-    } catch (error) {
-      console.log("error");
-    }
-  };
-
-  const logoutHandler = () => {
-    console.log("Logging Off...");
-    showWarningToast("Logging Out");
-
-    setTimeout(() => {
-      clearAsyncStorage();
-    }, 1000);
-  };
-
-  // Auto Reload HomeScreen
-  const [previousData, setPreviousData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // console.log('Auto Reloading start');
-        dispatch(getAllResult(accesstoken));
-        const { results } = useSelector((state) => state.result);
-
-        if (!isEqual(previousData, results)) {
-          setPreviousData(results);
-          // Refresh your home screen here
-          // For example, force a re-render of the home screen component
-          // or use some state to trigger a re-render.
-        }
-      } catch (error) {
-        // console.log('Auto Reloading error');
-        // console.log(error);
-      }
-    };
-
-    // Fetch data initially when component mounts
-    fetchData();
-
-    // Background fetch every 8 seconds
-    const interval = setInterval(() => {
-      fetchData();
-    }, 8000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
-  }, [dispatch, accesstoken, previousData]);
-
-  const isEqual = (arr1, arr2) => {
-    if (arr1.length !== arr2.length) return false;
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) return false;
-    }
-    return true;
-  };
 
   // FOR FILTER AND BELOW CONTAINER
 
@@ -734,7 +264,7 @@ function HomeDashboard() {
 
       setalldatafilterAllLocation(filtertype);
       setSelectedFilterAllLocation(filtertype[0]._id);
-      setSelectedLocation(filtertype[0]._id);
+      setSelectedLocation(dataAllLocation.locationData[0]);
 
       console.log(filtertype);
     }
@@ -755,13 +285,6 @@ function HomeDashboard() {
   };
 
   const [filteredDataAllLocation, setFilteredDataAllLocation] = useState([]);
-
-  const handleSearch = (text) => {
-    const filtered = dataAllLocation?.locationData.filter((item) =>
-      item.name.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredDataAllLocation(filtered);
-  };
 
   useEffect(() => {
     setFilteredDataAllLocation(dataAllLocation?.locationData); // Update filteredData whenever locations change
@@ -806,6 +329,33 @@ function HomeDashboard() {
     );
 
     return formattedDate;
+  };
+
+  // FOR TIMER
+  const [targetDate, setTargetDate] = useState(null);
+
+  useEffect(() => {
+    // Set the target date once when the component mounts
+    const futureDate = new Date(Date.now() + 10000000); // Adjust as needed
+    console.log("Future Date:", futureDate); // Log the future date to ensure it's correct
+    setTargetDate(futureDate);
+  }, []); // Empty dependency array ensures this runs only once
+
+  const renderer = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a completed state
+      return <span>Time's up!</span>;
+    } else {
+      // Format time with leading zeros
+      const formatTime = (num) => num.toString().padStart(2, "0");
+
+      // Render countdown in HH:MM:SS format
+      return (
+        <div>
+          {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
+        </div>
+      );
+    }
   };
 
   return (
@@ -875,14 +425,22 @@ function HomeDashboard() {
                 }}
               >
                 <label className="rltopcontainerTimerLabel">
-                  {homeResult?.nextresulttime ? "00:00:00" : ""}
+                  {/* <Countdown date={targetDate} renderer={renderer} /> */}
+                  {/* {targetDate ? (
+                    <Countdown date={targetDate} renderer={renderer} />
+                  ) : (
+                    <span>Loading...</span>
+                  )} */}
+                  {nextResultTime && (
+                    <CountdownTimer timeString={nextResultTime} />
+                  )}
                 </label>
               </div>
             </div>
             <div className="rlbottomcontainer">
               <div className="rlbottomcontentcontainer">
                 <div className="rlbottomcontentcontainerCalContainer">
-                  <SlCalender size={"20px"} color={COLORS.background} />
+                  <SlCalender size={"20px"} color={COLORS.white_s} />
                 </div>
                 <label className="rlbottomcontentcontainerCalDateLabel">
                   {homeResult?.lotdate?.lotdate}
@@ -1006,10 +564,12 @@ function HomeDashboard() {
               key={item._id}
               style={{
                 borderColor:
-                  selectedFilterAllLocation == item._id
+                  selectedFilterAllLocation === item._id
                     ? COLORS.green
-                    : COLORS.grayHalfBg,
+                    : "transparent", // Use transparent for no border
                 borderWidth: "2px",
+                borderStyle:
+                  selectedFilterAllLocation === item._id ? "solid" : "none", // Apply border style conditionally
               }}
             >
               <label className="filtercontentLabel">{item.maximumReturn}</label>
@@ -1057,18 +617,51 @@ function HomeDashboard() {
           </div>
 
           <div className="rightlocation">
-            {selectedLocation?.times?.map((item, index) => (
-              <div className="rightlocationcontent" key={item._id}>
-                <label className="rightlocationcontentLabel">{item.time}</label>
-              </div>
-            ))}
+            {!selectedTime &&
+              selectedLocation?.times?.map((item, index) => (
+                <div
+                  className="rightlocationcontent"
+                  key={item._id}
+                  onClick={() => getAllTheDateForLocationHome(item)}
+                >
+                  <label className="rightlocationcontentLabel">
+                    {item.time}
+                  </label>
+                </div>
+              ))}
+
+            {selectedTime &&
+              (loadingdate ? (
+                <div
+                  style={{
+                    flex: "1",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CircularProgressBar />
+                </div>
+              ) : (
+                dates?.map((item, index) => (
+                  <div
+                    className="rightlocationcontent"
+                    key={item._id}
+                    onClick={() => handleSelectedDateClick(item)}
+                  >
+                    <label className="rightlocationcontentLabel">
+                      {item.lotdate}
+                    </label>
+                  </div>
+                ))
+              ))}
           </div>
         </div>
       </div>
 
       <div className="rightcontainer">
         {/** App sidebar */}
-        <div className="rightsidebartop">
+        {/* <div className="rightsidebartop">
           <label className="topWinnerOfDayLabel">Top Winners of the day</label>
 
           {topWinnerOfTheDay.map((item, index) => (
@@ -1085,11 +678,11 @@ function HomeDashboard() {
               <label className="topWinnerOfDayAmountLabel">{item.amount}</label>
             </div>
           ))}
-        </div>
+        </div> */}
 
         {/** play History */}
         <div className="rightsidebarmiddle">
-          <label className="topWinnerOfDayLabel" style={{ marginTop: "5px" }}>
+          <label className="topWinnerOfDayLabel" style={{ marginTop: "10px" }}>
             Game History
           </label>
 
@@ -1105,32 +698,48 @@ function HomeDashboard() {
               <CircularProgressBar />
             </div>
           ) : (
-            historyapidatas?.playbets?.map((item, index) => (
-              <div className="rsbottomcontent">
-                <div className="lefthistory">
-                  <label className="topWinnerOfDayNameLabel">
-                    {item.lotlocation.lotlocation}
-                  </label>
+            <>
+              {historyapidatas?.playbets.length === 0 ? (
+                <div
+                  style={{
+                    flex: "1",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "10vh",
+                  }}
+                >
+                  <label className="h-title-label">No history available</label>
                 </div>
-                <div className="middlehistory">
-                  <label className="gameHistoryNumberLabel">
-                    {getPlaynumbersString(item.playnumbers)}
-                  </label>
-                  <label className="gameHistoryDateLabel">
-                    {calculateTotalAmount(item.playnumbers)}{" "}
-                    {user?.country?.countrycurrencysymbol}
-                  </label>
-                </div>
-                <div className="righthistory">
-                  <label className="gameHistoryDateLabel">
-                    {item.lottime.lottime}
-                  </label>
-                  <label className="gameHistoryDateLabel">
-                    {formatDate(item.lotdate.lotdate)}
-                  </label>
-                </div>
-              </div>
-            ))
+              ) : (
+                historyapidatas?.playbets?.map((item, index) => (
+                  <div className="rsbottomcontent">
+                    <div className="lefthistory">
+                      <label className="topWinnerOfDayNameLabel">
+                        {item.lotlocation.lotlocation}
+                      </label>
+                    </div>
+                    <div className="middlehistory">
+                      <label className="gameHistoryNumberLabel">
+                        {getPlaynumbersString(item.playnumbers)}
+                      </label>
+                      <label className="gameHistoryDateLabel">
+                        {calculateTotalAmount(item.playnumbers)}{" "}
+                        {user?.country?.countrycurrencysymbol}
+                      </label>
+                    </div>
+                    <div className="righthistory">
+                      <label className="gameHistoryDateLabel">
+                        {item.lottime.lottime}
+                      </label>
+                      <label className="gameHistoryDateLabel">
+                        {formatDate(item.lotdate.lotdate)}
+                      </label>
+                    </div>
+                  </div>
+                ))
+              )}
+            </>
           )}
         </div>
       </div>
@@ -1227,130 +836,3 @@ aside h1 { border-color: #999; border-bottom-style: solid; }
 `;
 
 export default HomeDashboard;
-
-// {/** Right Container */}
-
-// <div className="rightcontainer">
-//  {/** App sidebar */}
-//  <div className="rightsidebartop">
-//    <label
-//      style={{
-//        color: "white",
-//        fontFamily: FONT.HELVETICA_BOLD,
-//        fontSize: "16px",
-//      }}
-//    >
-//      Top Winners of the day
-//    </label>
-
-//    {topWinnerOfTheDay.map((item, index) => (
-//      <div className="rscontent">
-//        <div className="rtcrightimage">
-//          <img
-//            src={images.user}
-//            alt="Profile Picture"
-//            className="winner-user-image"
-//          />
-//        </div>
-
-//        <label
-//          style={{
-//            color: COLORS.white_s,
-//            fontFamily: FONT.HELVETICA_REGULAR,
-//            fontSize: "14px",
-//            textAlign: "center",
-//            paddingLeft: "10px",
-//          }}
-//        >
-//          {item.name}
-//        </label>
-//        <label
-//          style={{
-//            color: COLORS.white_s,
-//            fontFamily: FONT.HELVETICA_REGULAR,
-//            fontSize: "14px",
-//            textAlign: "center",
-//            paddingLeft: "10px",
-//          }}
-//        >
-//          {item.amount}
-//        </label>
-//      </div>
-//    ))}
-//  </div>
-
-//  {/** play History */}
-//  <div className="rightsidebarmiddle">
-//    <label
-//      style={{
-//        color: "white",
-//        fontFamily: FONT.HELVETICA_BOLD,
-//        fontSize: "16px",
-//        padding: "12px",
-//      }}
-//    >
-//      Game History
-//    </label>
-
-//    {playHistoryData.map((item, index) => (
-//      <div className="rsbottomcontent">
-//        <div className="lefthistory">
-//          <label
-//            style={{
-//              color: COLORS.white_s,
-//              fontFamily: FONT.HELVETICA_REGULAR,
-//              fontSize: "14px",
-//              textAlign: "center",
-//            }}
-//          >
-//            {item.location}
-//          </label>
-//        </div>
-//        <div className="middlehistory">
-//          <label
-//            style={{
-//              color: COLORS.white_s,
-//              fontFamily: FONT.HELVETICA_BOLD,
-//              fontSize: "14px",
-//              textAlign: "center",
-//            }}
-//          >
-//            {item.number}
-//          </label>
-//          <label
-//            style={{
-//              color: COLORS.white_s,
-//              fontFamily: FONT.HELVETICA_REGULAR,
-//              fontSize: "8px",
-//              textAlign: "center",
-//            }}
-//          >
-//            {item.amount}
-//          </label>
-//        </div>
-//        <div className="righthistory">
-//          <label
-//            style={{
-//              color: COLORS.white_s,
-//              fontFamily: FONT.HELVETICA_REGULAR,
-//              fontSize: "8px",
-//              textAlign: "center",
-//            }}
-//          >
-//            {item.time}
-//          </label>
-//          <label
-//            style={{
-//              color: COLORS.white_s,
-//              fontFamily: FONT.HELVETICA_REGULAR,
-//              fontSize: "8px",
-//              textAlign: "center",
-//            }}
-//          >
-//            {item.date}
-//          </label>
-//        </div>
-//      </div>
-//    ))}
-//  </div>
-// </div>

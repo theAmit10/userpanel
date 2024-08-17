@@ -307,10 +307,12 @@ function AllLocation() {
                 key={item._id}
                 style={{
                   borderColor:
-                    selectedFilter == item._id
-                      ? COLORS.green
-                      : COLORS.grayHalfBg,
-                  borderWidth: "2px",
+                  selectedFilter === item._id
+                  ? COLORS.green
+                  : "transparent", // Use transparent for no border
+              borderWidth: "2px",
+              borderStyle:
+              selectedFilter === item._id ? "solid" : "none", // Apply border style conditionally
                 }}
               >
                 <label className="filtercontentalLabel">
@@ -322,7 +324,9 @@ function AllLocation() {
 
           {/** Location container */}
 
-          <div className="allocationcontainer">
+       
+
+          <div className="allocationcontainer-all">
             {isLoading ? (
               <div
                 style={{
@@ -684,3 +688,15 @@ function AllLocation() {
 }
 
 export default AllLocation;
+
+
+
+// .allocationcontainer 
+// display: flex;
+// flex-wrap: wrap;
+// gap: 2%;
+// max-height: 80vh; /* Set maximum height to viewport height */
+// background: linear-gradient(180deg, #0162AF, #011833);
+// margin: 2vh;
+// border-radius: 2vh;
+// overflow-y: scroll; /* Enable vertical scrolling */

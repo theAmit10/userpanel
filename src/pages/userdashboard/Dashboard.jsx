@@ -33,7 +33,11 @@ import Notification from "../../components/notification/Notification";
 import Paymentdeposit from "../../components/deposit/Paymentdeposit";
 import Withdrawpayment from "../../components/withdraw/Withdrawpayment";
 import Userprofile from "../../components/profile/Userprofile";
-
+import AllResult from "../../components/result/AllResult";
+import Aboutus from "../../components/about/Aboutus";
+import ImageSlider from "../../components/helper/ImageSlider";
+import { showSuccessToast } from "../../components/helper/showErrorToast";
+import { serverName } from "../../redux/store";
 
 const locationdata = [
   {
@@ -180,31 +184,35 @@ const timedata = [
   },
 ];
 
+const imagesdata = [
+  "https://img.freepik.com/premium-vector/big-sale-banner-template-abstract-background_219363-47.jpg?w=1800",
+  "https://img.freepik.com/free-vector/sales-banner-origami-style_23-2148399967.jpg?w=1800&t=st=1723879042~exp=1723879642~hmac=f9cfd426b3814e6e88981c431f20daf1611dd0e064bdd3ab33441ce2e3145743",
+  "https://img.freepik.com/free-vector/geometric-background_23-2148101184.jpg?w=1060&t=st=1723879573~exp=1723880173~hmac=a4ca0aa35d3e224973bc3293b9eb217d00e8fc6bc23fab46077c51bb3f7d1432",
+];
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const getUserAccessToken = async () => {
     try {
-      const val = await localStorage.getItem('accesstoken');
-      console.log('From SS Access Token :: ' + val);
+      const val = await localStorage.getItem("accesstoken");
+      console.log("From SS Access Token :: " + val);
       // dispatch(getUserAccessToken(val));
       dispatch({
-        type: 'getaccesstoken',
+        type: "getaccesstoken",
         payload: val,
       });
 
-      dispatch(loadProfile(val))
-
+      dispatch(loadProfile(val));
     } catch (error) {
-      console.log('error' + error);
+      console.log("error" + error);
     }
   };
 
   useEffect(() => {
     getUserAccessToken();
   }, []);
-  
 
   const gotoNavigation = () => {
     navigate("/setting");
@@ -228,21 +236,13 @@ const Dashboard = () => {
     console.log("location changed");
   }, [selectedLocation, selectedComponent]);
 
-
-  const {user, accesstoken, loading} = useSelector(state => state.user);
+  const { user, accesstoken, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(loadProfile(accesstoken))
-  },[])
+    dispatch(loadProfile(accesstoken));
+  }, []);
 
-
-  console.log(loading,user)
-
- 
-
-
-
-
+  console.log(loading, user);
 
   return (
     <div className="main-parent">
@@ -251,93 +251,125 @@ const Dashboard = () => {
         <div className="lefttopcontinerd">
           <div className="ltcleftd">
             <label className="helloLabel">Hello,</label>
-            <label className="usernameLabel">Wasu</label>
+            <label className="usernameLabel">{user ? user.name : ""}</label>
           </div>
-          <div className="ltcrightd"
-          onClick={() => setSelectedComponent("userprofile")}
+          <div
+            className="ltcrightd"
+            onClick={() => setSelectedComponent("userprofile")}
           >
             <div className="ltcrightimaged">
-              <img
-                src={images.user}
-                alt="Profile Picture"
-                className="user-imaged"
-              />
+               {user?.avatar?.url ? (
+                <img
+                  src={`${serverName}/uploads/${user?.avatar.url}`}
+                  alt="Profile Picture"
+                  className="user-imaged"
+                />
+              ) : (
+                <img
+                  src={images.user}
+                  alt="Profile Picture"
+                  className="user-imaged"
+                />
+              )}
             </div>
           </div>
         </div>
         <div className="righttopcontinerd">
           {/** search */}
-          <div className="searchcontainerd">
+          {/* <div className="searchcontainerd">
             <div style={{ justifyContent: "center", alignItems: "center" }}>
               <CiSearch size={"25px"} />
             </div>
 
             <label className="searchLabel">Search for location</label>
-          </div>
+          </div> */}
           {/** deposit */}
-          <div className="depositcontainerd"
-          style={{cursor: 'pointer'}}
-          onClick={() => setSelectedComponent("deposit")}
+          <div
+            className="depositcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedComponent("deposit")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
               <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel" style={{cursor: 'pointer'}}>DEPOSIT</label>
+            <label className="depositLabel" style={{ cursor: "pointer" }}>
+              DEPOSIT
+            </label>
           </div>
 
-
           {/** withdraw */}
-          <div className="depositcontainerd"
-          style={{cursor: 'pointer'}}
-           onClick={() => setSelectedComponent("withdraw")}
+          <div
+            className="depositcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSelectedComponent("withdraw")}
           >
-            <div style={{ justifyContent: "center", alignItems: "center", cursor: 'pointer' }}>
+            <div
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+            >
               <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
             </div>
 
-            <label className="depositLabel" style={{cursor: 'pointer'}}>WITHDRAW</label>
+            <label className="depositLabel" style={{ cursor: "pointer" }}>
+              WITHDRAW
+            </label>
           </div>
           {/** location */}
-          <div className="iconcontainerd"
-            onClick={() => handleComponentClick('wallet')}
-            style={{cursor: 'pointer'}}
+          <div
+            className="iconcontainerd"
+            onClick={() => handleComponentClick("wallet")}
+            style={{ cursor: "pointer" }}
           >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <FaWallet color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** notification */}
-          <div className="iconcontainerd"
-          style={{cursor: 'pointer'}}
-          onClick={() => handleComponentClick('notification')}
+          <div
+            className="iconcontainerd"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleComponentClick("notification")}
           >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <IoIosNotifications color={COLORS.background} size={"30px"} />
             </div>
           </div>
           {/** setting */}
-          <div className="iconcontainerd" onClick={gotoNavigation} style={{cursor: 'pointer'}}>
+          <div
+            className="iconcontainerd"
+            onClick={gotoNavigation}
+            style={{ cursor: "pointer" }}
+          >
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                cursor: 'pointer'
+                cursor: "pointer",
               }}
             >
               <IoIosSettings color={COLORS.background} size={"30px"} />
@@ -390,11 +422,11 @@ const Dashboard = () => {
             {/** Results */}
             <div
               className="lscontentd"
-              key={"results"}
-              onClick={() => handleComponentClick("results")}
+              key={"result"}
+              onClick={() => handleComponentClick("result")}
               style={{
                 background:
-                  selectedComponent === "results"
+                  selectedComponent === "result"
                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
                     : "linear-gradient(180deg, #011833, #011833)",
               }}
@@ -482,21 +514,22 @@ const Dashboard = () => {
           {/** promotion */}
           <div className="leftsidebarmiddled">
             <label className="promotionLable">Promotions</label>
-            <img
-              src={images.user}
-              alt="Profile Picture"
-              className="promotion-bannerd"
-            />
+            <div className="ImageSlider">
+              <ImageSlider images={imagesdata} />
+            </div>
           </div>
 
           {/** Apps Available on */}
           <div className="leftsidebarbottomd">
-            <div className="appiconcontainerd">
+            <div className="appiconcontainerd"
+            onClick={() => showSuccessToast("Get Android App")}
+            >
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  cursor: "pointer"
                 }}
               >
                 <AiFillAndroid color={COLORS.background} size={"30px"} />
@@ -505,12 +538,15 @@ const Dashboard = () => {
 
             <label className="getTheApplabel">Get the App</label>
 
-            <div className="appiconcontainerd">
+            <div className="appiconcontainerd"
+               onClick={() => showSuccessToast("Get Ios App")}
+            >
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  cursor: "pointer"
                 }}
               >
                 <FaApple color={COLORS.background} size={"30px"} />
@@ -531,6 +567,8 @@ const Dashboard = () => {
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
           {selectedComponent === "userprofile" && <Userprofile />}
+          {selectedComponent === "result" && <AllResult />}
+          {selectedComponent === "aboutus" && <Aboutus />}
         </div>
       </div>
     </div>
