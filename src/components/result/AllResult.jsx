@@ -1852,7 +1852,7 @@ function AllResult() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">Results</label>
+      <label className="h-title-label-result">Results</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container-result">
         {/** LOCATION CONTAINER */}
@@ -1963,23 +1963,3 @@ function AllResult() {
 }
 
 export default AllResult;
-
-// {resultdata.results.map((item, index) => (
-//   <div className="result-content-time-container">
-//     <div className="result-content-time-container-content">
-//       <label className="result-content-time-container-content-label">
-//         {item.lottime.lottime}
-//       </label>
-//     </div>
-
-//     {/** FOR DATE  */}
-
-//     {item.dates.map((dateitem, dateindex) => (
-//       <div className="result-content-time-container-content">
-//         <label className="result-content-time-container-content-label">
-//           {dateitem.lotdate.lotdate}
-//         </label>
-//       </div>
-//     ))}
-//   </div>
-// ))}

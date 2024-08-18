@@ -163,10 +163,10 @@ function Historyc() {
               <div className="h-content-second">
                 <div className="h-content-second-content-container-top">
                   <label className="h-content-second-content-container-top-amount">
-                    Amount{" "}
+                    Amount{" "}:{" "}
                   </label>
                   <label className="h-content-second-content-container-top-amount-val">
-                    : {item.amount} {user.country.countrycurrencysymbol}
+                    {item.amount} {user.country.countrycurrencysymbol}
                   </label>
                 </div>
                 <div className="h-content-second-content-container-bottom">
