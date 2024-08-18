@@ -10,7 +10,7 @@
     gap: 2vh;
 }
 
-.h-title-label{
+.h-title-label-h{
     color: var(--white_s);
     font-size: 2vw;
     font-family: 'MB';
@@ -194,6 +194,11 @@
         font-family: "MR";
         font-size: 1.2vw;
     }
+    .h-title-label-h{
+        color: var(--white_s);
+        font-size: 2vw;
+        font-family: 'MB';
+    }
 }
 
 @media (max-width: 768px) {
@@ -227,5 +232,10 @@
         color: var(--green);
         font-family: "MR";
         font-size: 1.4vw;
+    }
+    .h-title-label-h{
+        color: var(--white_s);
+        font-size: 4vw;
+        font-family: 'MB';
     }
 }

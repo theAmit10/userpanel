@@ -407,11 +407,7 @@ function HomeDashboard() {
                 }}
               >
                 <label
-                  style={{
-                    color: "white",
-                    fontFamily: FONT.HELVETICA_BOLD,
-                    fontSize: "100px",
-                  }}
+                className="rlmiddlecontainer-resultnumber-label"
                 >
                   {homeResult?.resultNumber}
                 </label>
@@ -440,7 +436,7 @@ function HomeDashboard() {
             <div className="rlbottomcontainer">
               <div className="rlbottomcontentcontainer">
                 <div className="rlbottomcontentcontainerCalContainer">
-                  <SlCalender size={"20px"} color={COLORS.white_s} />
+                  <SlCalender size={"15px"} color={COLORS.white_s} />
                 </div>
                 <label className="rlbottomcontentcontainerCalDateLabel">
                   {homeResult?.lotdate?.lotdate}
@@ -517,7 +513,7 @@ function HomeDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <label className="resultlistcontentcontainerLocation">
+                  <label className="resultlistcontentcontainerLocation-hd">
                     {item.lotlocation.lotlocation}
                   </label>
                 </div>
@@ -530,7 +526,7 @@ function HomeDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <label className="resultlistcontentcontainerNumber">
+                  <label className="resultlistcontentcontainerNumber-hd">
                     {item.resultNumber}
                   </label>
                 </div>
@@ -545,7 +541,7 @@ function HomeDashboard() {
                     alignItems: "center",
                   }}
                 >
-                  <label className="resultlistcontentcontainerTime">
+                  <label className="resultlistcontentcontainerTime-hd">
                     {item.lottime.lottime}
                   </label>
                 </div>
@@ -572,7 +568,7 @@ function HomeDashboard() {
                   selectedFilterAllLocation === item._id ? "solid" : "none", // Apply border style conditionally
               }}
             >
-              <label className="filtercontentLabel">{item.maximumReturn}</label>
+              <label className="filtercontentLabel-hd">{item.maximumReturn}</label>
             </div>
           ))}
         </div>

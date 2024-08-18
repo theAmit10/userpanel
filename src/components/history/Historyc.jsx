@@ -123,7 +123,7 @@ function Historyc() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">History</label>
+      <label className="h-title-label-h">History</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container">
         {/** CONTENT */}

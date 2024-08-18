@@ -57,7 +57,7 @@
 }
 
 .searchcontainerd, .depositcontainerd, .iconcontainerd {
-    padding: 10px;
+    padding: 5px;
     margin: 10px;
     border-radius: 10px;
     display: flex;
@@ -75,7 +75,7 @@
 }
 
 .depositcontainerd {
-    width: 10%;
+    height: 50px;
     background: linear-gradient(180deg, #7EC630, #3D6017);
 }
 
@@ -92,7 +92,8 @@
 }
 
 .iconcontainerd{
-    width: 5%;
+    width: 50px;
+    height: 50px;
     background-color: var(--grayHalfBg);
 }
 
@@ -301,6 +302,26 @@
         font-size:  1em,;
         padding-left: 10px;
     }
+    .ltcrightimaged {
+        height: 45px;
+        width: 45px;
+        background-color: white;
+        padding: 2%;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .iconcontainerd{
+        width: 45px;
+        height: 45px;
+        background-color: var(--grayHalfBg);
+    }
+    .depositcontainerd {
+        height: 45px;
+        background: linear-gradient(180deg, #7EC630, #3D6017);
+    }
   }
 
   
@@ -401,12 +422,48 @@
         justify-content: left;
         justify-content: flex-start;
         align-items: flex-start;
+        margin-top: 10px;
     }
     .ltcleftd{
         display: none;
     }
 
-   
+    .ltcrightimaged {
+        height: 40px;
+        width: 40px;
+        background-color: white;
+        padding: 2%;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .leftsidebartopd {
+        height: 75%;
+        width: 60px;/* Adjust width to account for margin */
+        background: linear-gradient(180deg, #0162AF, #011833);
+        margin: 5%;
+        margin-right: 5%; /* Add specific margin for the right side */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    .leftcontainerd {
+        width: 65px;
+        height: 90vh;
+    
+    }
+    .lefttopcontinerd {
+        width: 50px;
+        height: 100%;
+        display: flex;
+    }
    
     
     

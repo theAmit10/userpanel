@@ -21,6 +21,7 @@ import CircularProgressBar from "../../components/helper/CircularProgressBar";
 import { MdEmail } from "react-icons/md";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
+import { serverName } from "../../redux/store";
 
 function Register() {
   const navigate = useNavigate();
@@ -169,6 +170,13 @@ function Register() {
     }
   };
 
+
+   const settingForGoogleAuth = () => {
+    // setsignupwith("googletype")
+    showSuccessToast("Processing...")
+
+   }
+
   return (
     <div className="login-page">
       <div className="sidebar">
@@ -217,6 +225,7 @@ function Register() {
                       alignItems: "center",
                       cursor: "pointer",
                       backgroundColor: COLORS.background,
+                      marginTop: "3vh"
                     }}
                   >
                     <label
@@ -232,7 +241,7 @@ function Register() {
                         marginRight: "1vw",
                       }}
                     >
-                      <MdEmail color={COLORS.white_s} size={"1.5em"} />
+                      <MdEmail color={COLORS.white_s} size={"1.2em"} />
                     </div>
                   </div>
 
@@ -264,14 +273,14 @@ function Register() {
                         marginRight: "1vw",
                       }}
                     >
-                      <FaPhoneAlt color={COLORS.white_s} size={"1.5em"} />
+                      <FaPhoneAlt color={COLORS.white_s} size={"1.2em"} />
                     </div>
                   </div>
 
                   {/** google */}
 
                   <div
-                    onClick={() => setsignupwith("googletype")}
+                    onClick={settingForGoogleAuth}
                     className="form-group-select-country_container"
                     style={{
                       display: "flex",
@@ -281,7 +290,7 @@ function Register() {
                       cursor: "pointer",
                       backgroundColor: COLORS.background,
                       marginTop: "1vw",
-                      marginBottom: "1vw",
+                      marginBottom: "3vh",
                     }}
                   >
                     <label
@@ -297,7 +306,7 @@ function Register() {
                         marginRight: "1vw",
                       }}
                     >
-                      <FaGoogle color={COLORS.white_s} size={"1.5em"} />
+                      <FaGoogle color={COLORS.white_s} size={"1.2em"} />
                     </div>
                   </div>
                 </div>
@@ -343,8 +352,10 @@ function Register() {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <label className="welcome-label">Email:</label>
+                
+              
                 <div className="form-group">
+                <label className="welcome-label">Email:</label>
                   <input
                     className="welcome-label"
                     type="email"
@@ -555,7 +566,7 @@ function Register() {
                 </label>
                 <label className="welcome-label">
                   <span
-                    onClick={handleSignInClick}
+                     onClick={() => navigate("/login")}
                     style={{ color: "#0179FE", cursor: "pointer" }}
                   >
                     Sign In
@@ -599,11 +610,21 @@ function Register() {
                       }}
                     >
                       <div className="ltcrightimaged">
+
+                      {item?.countryicon ? (
                         <img
-                          src={images.user}
-                          alt="Profile Picture"
-                          className="user-imaged"
-                        />
+                        src={`${serverName}/uploads/currency/${item.countryicon}`}
+                        alt="Profile Picture"
+                        className="user-imaged"
+                      />
+                      ) : (
+                        <img
+                        src={images.user}
+                        alt="Profile Picture"
+                        className="user-imaged"
+                      />
+                      )}
+                       
                       </div>
                       <label className="welcome-label-select-country">
                         {item.countryname}

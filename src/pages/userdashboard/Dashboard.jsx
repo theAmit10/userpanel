@@ -338,7 +338,7 @@ const Dashboard = () => {
                 cursor: "pointer",
               }}
             >
-              <FaWallet color={COLORS.background} size={"30px"} />
+              <FaWallet color={COLORS.background} size={"25px"} />
             </div>
           </div>
           {/** notification */}
@@ -355,7 +355,7 @@ const Dashboard = () => {
                 cursor: "pointer",
               }}
             >
-              <IoIosNotifications color={COLORS.background} size={"30px"} />
+              <IoIosNotifications color={COLORS.background} size={"25px"} />
             </div>
           </div>
           {/** setting */}
@@ -372,7 +372,7 @@ const Dashboard = () => {
                 cursor: "pointer",
               }}
             >
-              <IoIosSettings color={COLORS.background} size={"30px"} />
+              <IoIosSettings color={COLORS.background} size={"25px"} />
             </div>
           </div>
         </div>

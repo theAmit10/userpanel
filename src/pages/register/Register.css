@@ -68,12 +68,15 @@
     align-items: center;
     gap: 10px;
     padding-top: 20px;
+ 
+    overflow-y: scroll;
 }
   
 .welcome-label {
     font-family: "MR";
     min-width: 20em;
     margin-bottom: 1vw;
+
 }
 
 .welcome-label-select-country{
@@ -82,8 +85,8 @@
     flex-grow: 1;
     padding: 10px;
     width: 100%;
-    font-size: 1em;
-    color: var(--black);
+    font-size: 1vw;
+    color: var(--darkGray);
 }
 
 .welcome-label-select-country:hover{
@@ -198,6 +201,15 @@
         flex-direction: column;
     
     }
+    .welcome-label-select-country{
+        font-family: "MR";
+        min-width: 20em;
+        flex-grow: 1;
+        padding: 10px;
+        width: 100%;
+        font-size: 1.4vw;
+        color: var(--darkGray);
+    }
 }
 
 
@@ -276,6 +288,15 @@
         width: 100%;
         font-size: 10px;
         color: var(--black);
+    }
+    .welcome-label-select-country{
+        font-family: "MR";
+        min-width: 20em;
+        flex-grow: 1;
+        padding: 10px;
+        width: 100%;
+        font-size: 2.4vw;
+        color: var(--darkGray);
     }
 
 }
