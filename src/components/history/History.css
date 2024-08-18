@@ -26,7 +26,7 @@
 }
 
 .h-content{
-    height: 15vh;
+    min-height: 15vh;
     background-color: var(--background);
     border-radius: 1vh;
     display: flex;

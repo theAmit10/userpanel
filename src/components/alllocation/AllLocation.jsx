@@ -342,8 +342,8 @@ function AllLocation() {
               </div>
             ) : (
               filteredData?.map((item, index) => (
-                <div className="location-item" key={index}>
-                  <div className="location-details">
+                <div className="location-item-all" key={index}>
+                  <div className="location-details-all">
                     <div
                       className="location-header"
                       style={{

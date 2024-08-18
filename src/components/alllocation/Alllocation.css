@@ -16,7 +16,7 @@
  
 }
 
-.location-item {
+.location-item-all {
   height: 30%;
   width: 100%;
   background: linear-gradient(90deg, #0162AF, #011833);
@@ -27,7 +27,7 @@
   flex-direction: row;
 }
 
-.location-details {
+.location-details-all {
   width: 20%;
   flex-direction: column;
 }
@@ -264,7 +264,7 @@ display: flex;
 .time-items-container-time-label{
   color: var(--white_s);
   font-family: "MSB";
-  font-size: 1vw;
+  font-size: 1em;
 }
 .rltopcontaineralNameLabel{
   color: var(--white_s);
@@ -383,3 +383,102 @@ display: flex;
     font-size: 1.6vw;
   }
 }
+
+@media (max-width: 480px) {
+  .filtercontentalLabel{
+    color: var(--white_s);
+    font-family: "HR";
+    font-size: 1.8vw;
+  }
+  .location-header-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.8vw;
+  }
+  .location-header-max-label{
+    display: none;
+  }
+  .time-items-container-time-label{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.4vw;
+  }
+  .catcontrolleral{
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+  }
+  .catImageContainer{
+    height: max-content;
+  }
+  .time-items-container-time-label{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.4vw;
+  }
+  .rltopcontaineralNameLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 3vw;
+  }
+  .rltopcontaineralTimeLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 2.5vw;
+  }
+  .rltopcontaineralNumberLabel{
+    color: var(--white_s);
+    font-family: "HB";
+    font-size: 15vw;
+  }
+  .imageContainerGame{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .resultrightcontaineral{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .date-title-container-limit-label{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.6vw;
+  }
+  .location-item-all {
+    min-height: 20%;
+    width: 90%;
+    background: linear-gradient(90deg, #0162AF, #011833);
+    margin: 2%;
+    flex: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+  }
+  .time-items-container {
+    
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vh;
+    padding: 2vh;
+  }
+  .time-item {
+    width: 8vw;
+    height: 30px;
+    background: var(--background);
+    border-radius: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .location-details-all {
+    width: 80px;
+    flex-direction: column;
+  }
+  
+}
+
