@@ -8,11 +8,13 @@
     padding: 2vh;
     flex-direction: column;
     gap: 2vh;
+
+    
 }
 
 .h-title-label{
     color: var(--white_s);
-    font-size: 2vw;
+    font-size: 2em;
     font-family: 'MB';
 }
 

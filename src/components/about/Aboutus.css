@@ -1,210 +1,158 @@
-.main-content-container-gamedescrition {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 2vh;
-    gap: 4%;
-    background: linear-gradient(180deg, #0162AF, #011833);
-    border-radius: 2vh;
-    padding: 2vh;
-    margin: 2vh;
+.aboutus-container {
+  display: flex;
+  flex: 1;
+  height: 80vh;
+  background: linear-gradient(180deg, #0162AF, #011833);
+  margin: 2vh;
+  border-radius: 2vh;
+  padding: 2vh;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.aboutus-title-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 2vh;
+}
+
+.aboutus-title-label {
+  color: white;
+  font-family: "MB";
+  font-size: 4vh;
+}
+
+.aboutus-search-container {
+  display: flex;
+  align-items: center;
+  padding: 1vh;
+  margin: 2vh;
+  border-radius: 2vh;
+  background-color: var(--white_s);
+}
+
+.aboutus-search-icon {
+  display: flex;
+  align-items: center;
+}
+
+.aboutus-search-input {
+  flex: 1;
+  padding: 0.1vw;
+  background-color: transparent;
+  border: none;
+  font-family: "MR";
+  font-size: 1em;
+  outline: none;
+}
+
+.aboutus-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.aboutus-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding: 2vh;
+  margin: 1vw;
+  border-radius: 2vh;
+  background: linear-gradient(90deg, #0162af, #011833);
+  height: 65vh;
+  overflow-y: auto;
+}
+
+.aboutus-content {
+  min-height: 20vh;
+  background-color: #011833;
+  border-radius: 2vh;
+}
+
+.aboutus-content-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+}
+
+.aboutus-content-subtitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+}
+
+.aboutus-content-title-label {
+  color: white;
+  font-family: "MSB";
+  font-size: 1.5em;
+}
+
+.aboutus-content-subtitle-label {
+  color: white;
+  font-family: "MR";
+  font-size: 1em;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .aboutus-title-label {
+    font-size: 3vh;
   }
-  
-  .title-container {
-    height: 4vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 2vh;
+
+  .aboutus-search-input {
+    font-size: 0.9em;
   }
-  
-  .title-label {
-    color: white;
-    font-family: "MB";
+
+  .aboutus-content-title-label {
+    font-size: 1.2em;
+  }
+
+  .aboutus-content-subtitle-label {
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutus-title-label {
+    font-size: 2.5vh;
+  }
+
+  .aboutus-search-input {
+    font-size: 0.8em;
+  }
+
+  .aboutus-content-title-label {
+    font-size: 1em;
+  }
+
+  .aboutus-content-subtitle-label {
+    font-size: 0.7em;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutus-container {
+    padding: 1vh;
+    margin: 1vh;
+  }
+
+  .aboutus-title-label {
     font-size: 4vh;
   }
-  
-  .searchcontainerGD {
-    padding: 2vh;
-    margin: 2vh;
-    border-radius: 2vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: var(--grayHalfBg);
-    margin-top: 5vh;
-  }
-  
-  .search-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .search-label {
-    color: black;
-    font-family: 'MR';
-    font-size: 3vh;
-    text-align: center;
-    padding-left: 1vh;
-  }
-  
-  .gdcontent-container-about {
-  
-    height: 60vh;
-    display: flex;
-    padding: 2vh;
-    flex-direction: column;
-    overflow-y: scroll;
-    gap: 2vh;
-    border-radius: 2vh;
-    margin-top: 2vh;
-    margin: 1vw;
-    background: linear-gradient(90deg, #0162AF, #011833);
+
+  .aboutus-search-input {
+    font-size: 0.7em;
   }
 
-  .location-header-result{
-    height: 7vh;
-    border-radius: 2vh;
-    
+  .aboutus-content-title-label {
+    font-size: 0.9em;
   }
 
-  .about-content-contatiner{
-    min-height: 20vh;
-    background-color: #011833;
-    border-radius: 2vh;
+  .aboutus-content-subtitle-label {
+    font-size: 0.6em;
   }
-
-  .about-content-contatiner-title{
-    min-height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .about-content-contatiner-sub-title{
-    min-height: 10vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .about-content-contatiner-title-label {
-    color: white;
-    font-family: "MSB";
-    font-size: 1.5vw;
-  }
-
-  .about-content-contatiner-sub-title-label {
-    color: white;
-    font-family: "MR";
-    font-size: 1vw;
-  }
-  
-  .gdcontent {
-    height: 7vh;
-    width: 100%;
-    background-color: var(--background);
-    border-radius: 2vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2vh;
-  }
-  
-  .gdcontent-title {
-    color: white;
-    font-family: "MR";
-    font-size: 3vh;
-  }
-  
-  .gdcontent-limit {
-    color: white;
-    font-family: "MR";
-    font-size: 2vh;
-  }
-
-  .all-location-gd{
-  
-    background: linear-gradient(90deg, #0162AF, #011833);
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-    overflow-x: scroll;
-    align-items: center;
-    margin-left: 1vw;
-    margin-right: 1vw;
-    padding: 0.1vw;
-   
-  }
-
-  .title-container-gd{
-    height: 10%;
-    background: linear-gradient(90deg, #0162AF, #011833);
-    display: flex;
-    flex-direction: column;
-
-  }
-  
-  @media (max-width: 768px) {
-    .title-label {
-      font-size: 4vh;
-    }
-  
-    .search-label {
-      font-size: 2vh;
-    }
-  
-    .gdcontent-title {
-      font-size: 2.5vh;
-    }
-    .gdcontent-limit {
-        font-size: 2vh;
-    }
-  }
-  
-
-
-/* .main-content-container-gamedescrition {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 1vh;
-    gap: 4%;
-  }
-
-  .searchcontainerGD{
-    padding: 1vh;
-    margin: 1vh;
-    border-radius: 2vh;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: var(--grayHalfBg);
-    margin-top: 5vh;
 }
-
-.gdcontent-continer{
-    flex: 1;
-    display: flex;
-    background: linear-gradient(180deg, #0162AF, #011833);
-    height: 60vh;
-    padding: 2vh;
-    flex-direction: column;
-    overflow-y: scroll;
-    gap: 2vh;
-    border-radius: 2vh;
-    margin-top: 2vh;
-    margin: 1vh;
-    
-}
-.gdcontent{
-    height: 7vh;
-    width: 100%;
-    background-color: var(--background);
-    border-radius: 2vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2vh;
-} */

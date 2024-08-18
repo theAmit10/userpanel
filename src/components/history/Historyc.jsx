@@ -142,7 +142,7 @@ function Historyc() {
           historyapidatas?.transactions.map((item, index) => (
             <div className="h-content">
               {/** FIRST CONTAINER */}
-              <div className="h-content-first">
+              <div className="h-content-first-history">
                 <div className="h-content-first-content">
                   <div className="h-content-left-content-icon-container">
                     {item.transactionType === "Deposit" ? (
@@ -205,13 +205,13 @@ function Historyc() {
               <div className="h-content-fifth">
                 <div className="h-content-third-content-container-top">
                   {item.paymentStatus === "Completed" && (
-                    <FaRegCheckCircle color={COLORS.green} size={"1.5vw"} />
+                    <FaRegCheckCircle color={COLORS.green} size={"1.3em"} />
                   )}
                   {item.paymentStatus === "Pending" && (
-                    <MdPendingActions color={COLORS.yellow} size={"1.5vw"} />
+                    <MdPendingActions color={COLORS.yellow} size={"1.3em"} />
                   )}
                   {item.paymentStatus === "Cancelled" && (
-                    <FcCancel color={COLORS.red} size={"1.5vw"} />
+                    <FcCancel color={COLORS.red} size={"1.3em"} />
                   )}
                 </div>
                 <div className="h-content-third-content-container-bottom">
