@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "./Forgotpassword.css";
+import "./ForgotPassword.css";
 import images from "../../assets/constants/images";
 import { useNavigate } from "react-router-dom";
 import COLORS from "../../assets/constants/colors";
