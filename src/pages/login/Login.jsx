@@ -131,7 +131,7 @@ function Login() {
         </div>
         <img src={images.cups} alt="Sidebar Image" className="sidebar-image" />
       </div>
-      <div className="main-content">
+      <div className="main-content-login-org">
         <div className="loginparentbox-login">
           <div className="loginbox-login">
             <img

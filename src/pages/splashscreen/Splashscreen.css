@@ -1,0 +1,14 @@
+.splash-page {
+    display: flex;
+    height: 100vh;
+    
+    background: linear-gradient(10deg, #0162AF, #011833);
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+  
+.logo-container{
+    height: 100px;
+    width: 100px;
+}

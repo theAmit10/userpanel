@@ -24,7 +24,7 @@
     object-fit: cover;
 }
   
-.main-content-login {
+.main-content-login-org {
     width: 75%;
     display: flex;
     flex-direction: column;
@@ -156,5 +156,30 @@
         position: absolute;
         top: 40%;
         left: -20%;
+    }
+    .sidebar{
+        display: none;
+    }
+    .main-content-login-org {
+   
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 90%;
+     height: 80vh;
+
+    }
+    .loginparentbox-login {
+        background: linear-gradient(180deg, #0162AF, #011833);
+        width: 80%;
+        height: 40vh;
+        border-radius: 3vh;
+    }
+    .main-content-image-login {
+        width: 25%;
+        object-fit: cover;
+        position: absolute;
+        right: 0;
+        top: -2vh;
     }
 }

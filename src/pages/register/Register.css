@@ -226,8 +226,11 @@
         height: 70vh;
         position: relative;
         margin: 5%;
-        justify-content: stretch;
+        justify-content: center;
         gap: 2vw; /* Added this to create a 20px gap between each item */
+     
+        
+        
     }
     .gamecontroller-image {
         width: 14%;
@@ -243,4 +246,36 @@
         flex-direction: column;
         margin-top: 4vw;
     }
+    .sidebar{
+        display: none;
+    }
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+       
+        align-items: center;
+        position: relative; /* Added this to make it the positioning context */
+      
+        width: 90%;
+        height: 80vh;
+
+    }
+    .form-group-select-country_container{
+        display: flex;
+        align-items: flex-start;
+        flex-direction: row;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+    .welcome-label-select-country{
+        font-family: "MR";
+        min-width: 2em;
+        flex-grow: 1;
+        padding: 10px;
+        width: 100%;
+        font-size: 10px;
+        color: var(--black);
+    }
+
 }
