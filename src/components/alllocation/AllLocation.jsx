@@ -189,13 +189,15 @@ function AllLocation() {
   };
 
   const handleSelectedDateClick = (datedate) => {
+    console.log("Starting Result work")
+    console.log("date data : "+JSON.stringify(datedate))
     setSelectedDate(datedate);
     dispatch(
       getResultAccordingToLocationTimeDate(
         accesstoken,
         datedate._id,
         datedate.lottime._id,
-        datedate.lottime.lotlocation
+        datedate.lottime.lotlocation._id,
       )
     );
   };
@@ -290,7 +292,7 @@ function AllLocation() {
   const { loading: loadingdate, dates } = useSelector((state) => state.date);
 
   console.log("FIleter data :: " + filteredData?.length);
-  console.log("dates :: ", JSON.stringify(results));
+  console.log("results :: ", JSON.stringify(results));
 
   return (
     <div className="main-content-container-all-location">
@@ -404,7 +406,7 @@ function AllLocation() {
                 style={{
                   color: COLORS.white_s,
                   fontFamily: FONT.Montserrat_Bold,
-                  fontSize: "3vh",
+                  fontSize: "1.5em",
                   marginRight: "2vh",
                   marginLeft: "2vh",
                 }}
@@ -429,7 +431,7 @@ function AllLocation() {
                 style={{
                   color: COLORS.white_s,
                   fontFamily: FONT.Montserrat_Bold,
-                  fontSize: "3vh",
+                  fontSize: "1.5em",
                 }}
               >
                 {selectedTime.time}
@@ -442,7 +444,7 @@ function AllLocation() {
             style={{
               color: COLORS.white_s,
               fontFamily: FONT.Montserrat_Bold,
-              fontSize: "4vh",
+              fontSize: "1.5em",
               paddingLeft: "3vh",
             }}
           >

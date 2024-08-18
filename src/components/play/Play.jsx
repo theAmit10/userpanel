@@ -650,7 +650,7 @@ function Play() {
 
           {/** Location container */}
 
-          <div className="allocationcontainer">
+          <div className="allocationcontainer-play">
             {isLoading ? (
               <div
                 style={{
@@ -1260,7 +1260,7 @@ function Play() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      marginTop: '1vh'
+                      marginTop: "1vh",
                     }}
                   >
                     <CircularProgressBar />
