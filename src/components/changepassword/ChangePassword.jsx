@@ -136,7 +136,7 @@ function ChangePassword() {
             alignItems: "center",
           }}
         >
-          <label className="h-title-label">Change Password</label>
+          <label className="h-title-label-h">Change Password</label>
         </div>
       </div>
 
@@ -161,7 +161,7 @@ function ChangePassword() {
                 Old Password
                 </label>
                 <input
-                  className="formUpiDepositFormContainerContentInput"
+                  className="formUpiDepositFormContainerContentInputcp"
                   type="text"
                   name="oldPassword"
                   placeholder="Enter Old Password"
@@ -169,13 +169,15 @@ function ChangePassword() {
                   onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>
+
+              
               {/** New Password */}
               <div className="formUpiDepositFormContainerContent">
                 <label className="formUpiDepositFormContainerContentLabel">
                 New Password
                 </label>
                 <input
-                  className="formUpiDepositFormContainerContentInput"
+                  className="formUpiDepositFormContainerContentInputcp"
                   type="text"
                   name="NewPassword"
                   placeholder="Enter New Password"
@@ -190,7 +192,7 @@ function ChangePassword() {
                 Confirm Password
                 </label>
                 <input
-                  className="formUpiDepositFormContainerContentInput"
+                  className="formUpiDepositFormContainerContentInputcp"
                   type="text"
                   name="ConfirmPassword"
                   placeholder="Enter Confirm Password"
@@ -198,9 +200,6 @@ function ChangePassword() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-
-
-              
 
 
               {/** DEPOSIT BUTTON */}

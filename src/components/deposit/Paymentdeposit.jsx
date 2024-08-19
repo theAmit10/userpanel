@@ -18,14 +18,15 @@ function Paymentdeposit() {
   };
 
   return (
-    <div className="deposit-main-container">
+    <div className="history-main-container">
       {selectedPayment === "" && (
         <>
         
           {/** TITLE CONTAINER */}
-          <label className="h-title-label">Deposit</label>
+          <label className="h-title-label-h">Deposit</label>
+          
           {/** TITLE CONTAINER */}
-          <label className="h-title-label">Choose Method</label>
+          <label className="h-title-label-h">Choose Method</label>
 
           {/** Main Conatiner */}
 
@@ -37,7 +38,7 @@ function Paymentdeposit() {
                 className="deposit-content-container"
                 onClick={() => selectingPaymentType("UPI")}
               >
-                <div className="deposit-content-container-left">
+                <div className="deposit-content-container-left-deposit">
                   <div
                     className="deposit-content-content-left-content-icon-container"
                     style={{
@@ -52,7 +53,7 @@ function Paymentdeposit() {
                   </div>
                 </div>
                 <div className="deposit-content-container-right">
-                  <label className="deposit-content-container-right-lebel">
+                  <label className="deposit-content-container-right-lebel-or">
                     UPI Payment
                   </label>
                 </div>
@@ -63,7 +64,7 @@ function Paymentdeposit() {
                 className="deposit-content-container"
                 onClick={() => selectingPaymentType("BANK")}
               >
-                <div className="deposit-content-container-left">
+                <div className="deposit-content-container-left-deposit">
                   <div
                     className="deposit-content-content-left-content-icon-container"
                     style={{
@@ -78,7 +79,7 @@ function Paymentdeposit() {
                   </div>
                 </div>
                 <div className="deposit-content-container-right">
-                  <label className="deposit-content-container-right-lebel">
+                  <label className="deposit-content-container-right-lebel-or">
                     Bank Payment
                   </label>
                 </div>
@@ -92,7 +93,7 @@ function Paymentdeposit() {
                 className="deposit-content-container"
                 onClick={() => selectingPaymentType("PAYPAL")}
               >
-                <div className="deposit-content-container-left">
+                <div className="deposit-content-container-left-deposit">
                   <div
                     className="deposit-content-content-left-content-icon-container"
                     style={{
@@ -107,7 +108,7 @@ function Paymentdeposit() {
                   </div>
                 </div>
                 <div className="deposit-content-container-right">
-                  <label className="deposit-content-container-right-lebel">
+                  <label className="deposit-content-container-right-lebel-or">
                     Paypal Payment
                   </label>
                 </div>
@@ -118,7 +119,7 @@ function Paymentdeposit() {
                 className="deposit-content-container"
                 onClick={() => selectingPaymentType("SKRILL")}
               >
-                <div className="deposit-content-container-left">
+                <div className="deposit-content-container-left-deposit">
                   <div
                     className="deposit-content-content-left-content-icon-container"
                     style={{
@@ -133,7 +134,7 @@ function Paymentdeposit() {
                   </div>
                 </div>
                 <div className="deposit-content-container-right">
-                  <label className="deposit-content-container-right-lebel">
+                  <label className="deposit-content-container-right-lebel-or">
                     Skrill Payment
                   </label>
                 </div>
@@ -147,7 +148,7 @@ function Paymentdeposit() {
             >
               {/** CRYPTO */}
               <div className="deposit-content-container">
-                <div className="deposit-content-container-left">
+                <div className="deposit-content-container-left-deposit">
                   <div
                     className="deposit-content-content-left-content-icon-container"
                     style={{
@@ -162,7 +163,7 @@ function Paymentdeposit() {
                   </div>
                 </div>
                 <div className="deposit-content-container-right">
-                  <label className="deposit-content-container-right-lebel">
+                  <label className="deposit-content-container-right-lebel-or">
                     Crypto Payment
                   </label>
                 </div>

@@ -16,7 +16,7 @@
     font-family: 'MSB';
 }
 
-.deposit-container{
+.deposit-container-or{
     height: 70vh;
     overflow-y: scroll; /* Enable vertical scrolling */
     display: flex;
@@ -24,7 +24,7 @@
     gap: 1vh;
 }
 
-.deposit-content-container-left-upi{
+.deposit-content-container-left-upi-or{
     width: 45%;
     flex: 1;
     border-radius: 2vh;
@@ -41,7 +41,7 @@
     cursor: pointer;
 }
 
-.deposit-content-container-left-upi-left{
+.deposit-content-container-left-upi-left-or{
     width: 45%;
     flex: 1;
 
@@ -64,7 +64,7 @@
     margin-bottom: 1vw;
 }
 
-.deposit-content-container-right-upi-content{
+.deposit-content-container-right-upi-content-or{
     width: 90%;
     background-color: var(--background);
     border-radius: 2vh;
@@ -132,11 +132,10 @@
  
 }
 
-.deposit-content-container-main-upi{
+.deposit-content-container-main-upi-or{
     display: flex;
     flex-direction: row;
     gap: 4vh;
-
     height: 80vh;
 }
 
@@ -162,20 +161,20 @@
 
 }
 
-.formUpiDepositFormContainerContent {
+.formUpiDepositFormContainerContent-or {
     display: flex;
     align-items: flex-start;
     gap: 0.5vw;
     flex-direction: column;
     margin-bottom: 1vw;
 }
-.formUpiDepositFormContainerContentLabel {
+.formUpiDepositFormContainerContentLabel-or {
     font-family: "MR";
     min-width: 20em;
     color: var(--white_s);
 
 }
-.formUpiDepositFormContainerContentInput{
+.formUpiDepositFormContainerContentInput-or{
     font-family: "MR";
     min-width: 100%;
     background-color: var(--white_s);
@@ -210,26 +209,22 @@
         min-width: 18vw;
       
     }
-    .formUpiDepositFormContainerContent {
+    .formUpiDepositFormContainerContent-or {
         display: flex;
         align-items: flex-start;
         gap: 0.5vw;
         flex-direction: column;
         margin-bottom: 1vw;
     }
-    .formUpiDepositFormContainerContentLabel {
+    .formUpiDepositFormContainerContentLabel-or {
         font-family: "MR";
-        min-width: 15em;
         color: var(--white_s);
+        font-size: 0.8em;
     
     }
-    .formUpiDepositFormContainerContentInput{
+    .formUpiDepositFormContainerContentInput-or{
         font-family: "MR";
-        min-width: 100%;
-        background-color: var(--white_s);
-        padding: 0.5vw;
-        border-color: var(--background);
-        border-radius: 0.5vw;
+        
     }
     
     .submit-btn-login-deposit {
@@ -255,7 +250,7 @@
         font-size: 5vw;
         font-family: 'MB';
     }
-    .formUpiDepositFormContainerContentLabel {
+    .formUpiDepositFormContainerContentLabel-or {
         font-family: "MR";
         min-width: 10em;
         color: var(--white_s);
@@ -265,5 +260,68 @@
         flex: 1;
         min-width: 20vw;
   
+    }
+    .deposit-container-or{
+        height: 70vh;
+        overflow-x: scroll; /* Enable vertical scrolling */
+        display: flex;
+        flex-direction: column;
+        gap: 1vh;
+    }
+    .deposit-content-container-main-upi-or{
+        display: flex;
+        flex-direction: column;
+        gap: 4vh;
+        height: 80vh;
+    }
+    .deposit-content-container-left-upi-left-or{
+        width: 100%;
+        flex: 1;
+    
+        border-radius: 2vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-y: scroll;
+       
+      
+    }
+    .deposit-content-container-right-upi-content-or{
+        width: 100%;
+        background-color: var(--background);
+        border-radius: 2vh;
+        display: flex;
+        flex-direction: row;
+        padding: 2vw;
+        margin-bottom: 1vw;
+    }
+    .deposit-content-container-left-upi-or{
+        width: 100%;
+        flex: 1;
+        border-radius: 2vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-y: hidden;
+      
+      
+      
+    }
+    .formUpiDepositFormContainerContentInput-or{
+        font-family: "MR";
+        min-width: 90%;
+        background-color: var(--white_s);
+        padding: 0.5vw;
+        border-color: var(--background);
+        border-radius: 0.5vw;
+    }
+    .formUpiDepositFormContainerContent-or {
+        display: flex;
+        align-items: flex-start;
+       
+        flex-direction: column;
+        
     }
 }

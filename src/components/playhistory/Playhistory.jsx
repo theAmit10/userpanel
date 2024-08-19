@@ -144,7 +144,7 @@ function Playhistory() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">Play History</label>
+      <label className="h-title-label-h">Play History</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container">
         {/** CONTENT */}
@@ -175,10 +175,10 @@ function Playhistory() {
               <div className="h-content-second">
                 <div className="h-content-second-content-container-top">
                   <label className="h-content-second-content-container-top-amount">
-                    Amount{" "}
+                    Amount{" "}:{" "}
                   </label>
                   <label className="h-content-second-content-container-top-amount-val">
-                    : {calculateTotalAmount(item.playnumbers)}{" "}
+                    {calculateTotalAmount(item.playnumbers)}{" "}
                     {user.country.countrycurrencysymbol}
                   </label>
                 </div>

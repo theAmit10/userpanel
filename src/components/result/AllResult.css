@@ -114,7 +114,7 @@ color: var(--white_s);
 
 .h-title-label-medium{
   color: var(--white_s);
-  font-size: 1.5vw;
+  font-size: 1em;
   font-family: 'MR';
 }
 

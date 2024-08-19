@@ -8,6 +8,7 @@
     padding: 2vh;
     flex-direction: column;
     gap: 2vh;
+    overflow-y: hidden;
 }
 
 .h-title-label{
@@ -38,9 +39,8 @@
     cursor: pointer;
 }
 
-.deposit-content-container-left{
+.deposit-content-container-left-deposit{
     flex: 1;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,9 +68,9 @@
     margin-left: 2vw;
 }
 
-.deposit-content-container-right-lebel{
+.deposit-content-container-right-lebel-or{
     color: var(--white_s);
-    font-size: 2vw;
+    font-size: 1.5em;
     font-family: 'MB';
  
 }
@@ -113,5 +113,14 @@
         color: var(--white_s);
         font-size: 5vw;
         font-family: 'MB';
+    }
+    .deposit-content-container-right-lebel-or{
+        color: var(--white_s);
+        font-size: 1em;
+        font-family: 'MB';
+     
+    }
+    .deposit-content-container-left-deposit{
+        display: none;
     }
 }

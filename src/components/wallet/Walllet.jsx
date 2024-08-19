@@ -104,7 +104,8 @@ function Wallet() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label" style={{marginLeft: '1vw'}}>All Wallet</label>
+  
+      <label className="aboutus-title-label">All Wallet</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container-bt">
         {/** CONTENT */}
@@ -112,7 +113,7 @@ function Wallet() {
         {/** LEFT CONTAINER */}
         <div className="left-container-bt" style={{flexDirection: 'row'}}>
           <div className="right-container-bt-one">
-            <label className="h-title-label">
+            <label className="h-title-label-or">
               {user.walletOne.walletName}
             </label>
             <label className="h-title-label-medium">Balance</label>
@@ -127,7 +128,7 @@ function Wallet() {
           </div>
 
           <div className="right-container-bt-two">
-            <label className="h-title-label">
+            <label className="h-title-label-or">
               {user.walletTwo.walletName}
             </label>
             <label className="h-title-label-medium">Balance</label>

@@ -378,7 +378,7 @@ function UpdateProfile() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">Update Profile</label>
+      <label className="aboutus-title-label">Update Profile</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container-bt">
         {/** CONTENT */}
@@ -839,9 +839,9 @@ function UpdateProfile() {
         {/** LEFT CONTAINER END */}
 
         {/** RIGHT CONTAINER */}
-        <div className="right-container-up">
+        <div className="right-container-up-up">
           <div className="right-container-one-up">
-            <div className="imagecontainer-up">
+            <div className="imagecontainer-up-up">
               {user?.avatar?.url ? (
                 <img
                   src={`${serverName}/uploads/${user?.avatar.url}`}

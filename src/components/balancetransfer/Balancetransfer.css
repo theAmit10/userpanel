@@ -91,10 +91,23 @@
    
 }
 
-.h-title-label-medium{
+.h-title-label-medium-bt{
     color: var(--white_s);
-    font-size: 1.5vw;
+    font-size: 1.5em;
     font-family: 'MR';
+}
+
+@media (max-width: 768px) {
+
+    .right-container-bt{
+        display: none;
+    }
+
+    .h-title-label-medium-bt{
+        color: var(--white_s);
+        font-size: 1em;
+        font-family: 'MR';
+    }
 }
 
 

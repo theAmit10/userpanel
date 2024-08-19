@@ -81,12 +81,12 @@
 
 .h-title-label-medium{
     color: var(--white_s);
-    font-size: 1.5vw;
+    font-size: 1em;
     font-family: 'MR';
 }
 .h-title-label-small{
     color: var(--white_s);
-    font-size: 1vw;
+    font-size: 0.8em;
     font-family: 'MR';
 }
 
@@ -118,7 +118,7 @@
 
 .content-label-up{
     color: var(--background);
-    font-size: 1vw;
+    font-size: 1em;
     font-family: 'MR';
     align-self: center;
     padding-left: 1vw;

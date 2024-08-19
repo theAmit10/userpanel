@@ -134,15 +134,15 @@ function Balancetransfer() {
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label">Balance Transfer</label>
+      <label className="aboutus-title-label">Balance Transfer</label>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container-bt">
         {/** CONTENT */}
 
         {/** LEFT CONTAINER */}
         <div className="left-container-bt">
-          <label className="h-title-label-medium">Transfer Amount</label>
-          <label className="h-title-label-medium">
+          <label className="h-title-label-medium-bt">Transfer Amount</label>
+          <label className="h-title-label-medium-bt">
             {user.walletOne.walletName} to {user.walletTwo.walletName}
           </label>
           {/** AMOUNT */}
@@ -151,7 +151,7 @@ function Balancetransfer() {
               Amount
             </label>
             <input
-              className="formUpiDepositFormContainerContentInput"
+              className="formUpiDepositFormContainerContentInputcp"
               type="number"
               name="amount"
               placeholder="Enter amount"

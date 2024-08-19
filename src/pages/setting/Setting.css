@@ -338,7 +338,33 @@
         justify-content: center;
         margin-top: 15%;
     }
+    .leftcontainerS {
+        width: 60px;
+        height: 90vh;
     
+    }
+    .leftsidebartopS {
+      
+        height: 75%;
+        width: 60px;/* Adjust width to account for margin */
+        background: linear-gradient(180deg, #0162AF, #011833);
+        margin: 5%;
+        margin-right: 5%; /* Add specific margin for the right side */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    .lefttopcontinerd {
+        width: 50px;
+        height: 100%;
+        display: flex;
+        padding-left: 5px;
+    }
+   
    
 
   }

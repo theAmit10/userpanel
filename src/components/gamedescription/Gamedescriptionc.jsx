@@ -38,28 +38,19 @@ function Gamedescriptionc() {
     <div className="main-content-container-gamedescrition">
       <div>
         {/* Game desc title */}
-        <div className="title-container">
-          <label className="title-label">Game Description</label>
-        </div>
+        
+        <label className="h-title-label-h">Game Description</label>
 
-        {/* Search Container */}
-        <div className="searchcontainerGD">
-          <div className="search-icon">
+        {/* Search Container */} 
+        <div className="aboutus-search-container">
+          <div className="aboutus-search-icon">
             <CiSearch size={"2rem"} />
           </div>
           <input
-            style={{
-              flex: 1,
-              padding: "0.5vw",
-              backgroundColor: "transparent",
-              border: "none",
-              fontFamily: FONT.Montserrat_Regular,
-              fontSize: "1em",
-              outline: "none",
-            }}
+            className="aboutus-search-input"
             placeholder="Search for location"
             label="Search"
-            onChange={handleSearch} // Use onChange instead of onChangeText
+            onChange={handleSearch}
           />
         </div>
 
@@ -132,3 +123,5 @@ function Gamedescriptionc() {
 }
 
 export default Gamedescriptionc;
+
+

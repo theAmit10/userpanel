@@ -232,8 +232,8 @@ function Paypaldeposit({ selectingPaymentType }) {
 
       {/** Main Conatiner */}
 
-      <div className="deposit-container">
-        <div className="deposit-content-container-main-upi">
+      <div className="deposit-container-ot">
+        <div className="deposit-content-container-main-upi-ot">
           {/** LEFT LIST OF DEPOSIT */}
 
           {loadingAllData ? (
@@ -249,7 +249,7 @@ function Paypaldeposit({ selectingPaymentType }) {
             </div>
           ) : (
             !showPaymentForm && (
-              <div className="deposit-content-container-left-upi-left">
+              <div className="deposit-content-container-left-upi-left-or">
                 {allDepositdata.map((item, index) => (
                   <div
                     key={index}
@@ -295,16 +295,16 @@ function Paypaldeposit({ selectingPaymentType }) {
 
           {/** DEPOSIT FORM */}
           {selectedItem !== "" && showPaymentForm && (
-            <div className="deposit-content-container-left-upi-left">
+            <div className="deposit-content-container-left-upi-left-or">
               <div className="upiDepositFormContainer">
                 
                 {/** AMOUNT */}
-                <div className="formUpiDepositFormContainerContent">
-                  <label className="formUpiDepositFormContainerContentLabel">
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
                     Amount
                   </label>
                   <input
-                    className="formUpiDepositFormContainerContentInput"
+                    className="formUpiDepositFormContainerContentInput-or"
                     type="number"
                     name="amount"
                     placeholder="Enter amount"
@@ -313,12 +313,12 @@ function Paypaldeposit({ selectingPaymentType }) {
                   />
                 </div>
                 {/** TRANSACTION NUMBER */}
-                <div className="formUpiDepositFormContainerContent">
-                  <label className="formUpiDepositFormContainerContentLabel">
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
                     Transaction number
                   </label>
                   <input
-                    className="formUpiDepositFormContainerContentInput"
+                    className="formUpiDepositFormContainerContentInput-or"
                     type="text"
                     name="transaction"
                     placeholder="Enter transaction number"
@@ -328,12 +328,12 @@ function Paypaldeposit({ selectingPaymentType }) {
                 </div>
 
                 {/** RECEIPT */}
-                <div className="formUpiDepositFormContainerContent">
-                  <label className="formUpiDepositFormContainerContentLabel">
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
                     Receipt
                   </label>
                   <input
-                    className="formUpiDepositFormContainerContentInput"
+                    className="formUpiDepositFormContainerContentInput-or"
                     type="file"
                     name="file"
                     onChange={selectDoc}
@@ -341,12 +341,12 @@ function Paypaldeposit({ selectingPaymentType }) {
                 </div>
 
                 {/** REMARK    */}
-                <div className="formUpiDepositFormContainerContent">
-                  <label className="formUpiDepositFormContainerContentLabel">
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
                     Remark
                   </label>
                   <input
-                    className="formUpiDepositFormContainerContentInput"
+                    className="formUpiDepositFormContainerContentInput-or"
                     style={{
                       minHeight: "2vw",
                     }}
@@ -391,8 +391,8 @@ function Paypaldeposit({ selectingPaymentType }) {
 
           {/** SELECTED PAYMENT */}
           {selectedItem !== ""  && (
-            <div className="deposit-content-container-left-upi">
-              <div className="deposit-content-container-right-upi-content">
+            <div className="deposit-content-container-left-upi-or">
+              <div className="deposit-content-container-right-upi-content-or">
                 <div className="deposit-content-container-right">
                 <div className="deposit-content-container-left">
                     <div

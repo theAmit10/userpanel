@@ -131,3 +131,49 @@
     
 
 }
+
+@media (max-width: 768px) {
+
+    .h-content-second-content-container-top-amount{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 0.6em;
+    }
+    .h-content-second-content-container-top-amount-val{
+        color: var(--white_s);
+        font-family: "MB";
+        font-size: 0.6em;
+    }
+    .h-content-second-content-container-top-date{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 0.6em;
+    }
+    .h-content-third-content-container-top-payment{
+        color: var(--white_s);
+        font-family: "MR";
+        font-size: 0.6em;
+    }
+    .h-content-third-content-container-top-payment-val{
+        color: var(--white_s);
+        font-family: "MSB";
+        font-size: 0.6em;
+    }
+    .h-content-third-content-container-bottom-status{
+        color: var(--green);
+        font-family: "MR";
+        font-size: 0.6em;
+    }
+    .h-title-label-h{
+        color: var(--white_s);
+        font-size: 1em;
+        font-family: 'MB';
+    }
+    .h-content-first-history{
+        display: none;
+    }
+    .h-content-first-content{
+       display: none;
+    
+    }
+}
