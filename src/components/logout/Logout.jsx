@@ -5,7 +5,7 @@ import { useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { useGetLogoutQuery } from "../../redux/api";
-import { showSuccessToast } from "../helper/showErrorToast";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 
 
 function Logout() {
@@ -28,6 +28,8 @@ function Logout() {
 
   const loggingOff = () => {
     console.log("STARTING LOGGING OFF");
+    localStorage.clear();
+    navigation("/login");
 
     if (isLoading) {
       console.log("Loading...");
