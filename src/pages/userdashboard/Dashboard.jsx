@@ -226,7 +226,7 @@ const Dashboard = () => {
   };
 
   const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
-  const [selectedComponent, setSelectedComponent] = useState("home");
+  const [selectedComponent, setSelectedComponent] = useState("dashboard");
 
   const handleLocationClick = (location) => {
     console.log("clicked");
@@ -305,7 +305,7 @@ const Dashboard = () => {
               onClick={() => handleComponentClick("allcountry")}
               className="iconcontainertop"
             >
-              <TbWorld color={COLORS.background} size={"3rem"} />
+              <FaWallet color={COLORS.background} size={"3rem"} />
             </div>
 
             <div

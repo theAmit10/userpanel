@@ -1,13 +1,11 @@
-.deposit-main-container{
+.upideposit-main-container{
     display: flex;
     flex: 1;
-    height: 80vh;
-    background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 2vh;
-    border-radius: 2vh;
-    padding: 2vh;
+    background-color: pink;
+    border-radius: 2rem;
+    padding: 2rem;
     flex-direction: column;
-    gap: 2vh;
+    gap: 2rem;
 }
 
 .h-title-label{
@@ -16,84 +14,77 @@
     font-family: 'MSB';
 }
 
-.deposit-container-or{
-    height: 70vh;
-    overflow-y: scroll; /* Enable vertical scrolling */
+.upideposit-container-or{
+    height: 55vh;
     display: flex;
     flex-direction: column;
-    gap: 1vh;
+
 }
 
-.deposit-content-container-left-upi-or{
-    width: 45%;
-    flex: 1;
-    border-radius: 2vh;
+.upideposit-content-container-left-upi-or{
+    width: 50%;
+    border-radius: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow-y: hidden;
-  
-  
+    overflow-y: scroll;
+    background-color: var(--background);
 }
 .deposit-content-container-left-upi-content:hover{
     border: 2px solid var(--green); /* Change border color on hover */
     cursor: pointer;
 }
 
-.deposit-content-container-left-upi-left-or{
+.upideposit-content-container-left-upi-left-or{
     width: 45%;
-    flex: 1;
-
-    border-radius: 2vh;
+    border-radius: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow-y: scroll;
+    background-color: cyan;
+    min-height: 50vh;
   
 }
-.deposit-content-container-left-upi-content{
+.upideposit-content-container-left-upi-content{
     width: 90%;
-    height: 7vw;
+    min-height: 5rem;
     background-color: var(--background);
-    border-radius: 2vh;
+    border-radius: 1rem;
     display: flex;
     flex-direction: row;
-    padding: 2vw;
-    margin-bottom: 1vw;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
-.deposit-content-container-right-upi-content-or{
+.upideposit-content-container-right-upi-content-or{
+    height: 50vh;
     width: 90%;
-    background-color: var(--background);
-    border-radius: 2vh;
+    border-radius: 2rem;
     display: flex;
     flex-direction: row;
-    padding: 2vw;
-    margin-bottom: 1vw;
+    padding: 2rem;
+    margin: 2rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .deposit-content-container-left{
     flex: 1;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-
 }
 
-.deposit-content-container-right{
-    flex: 3;
+.upideposit-content-container-right{
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    padding: 2vh;
+    padding: 2rem;
     flex-direction: column;
-    gap: 1vw;
     justify-content: center;
-    align-self: center;
+  
 
 }
 
@@ -106,21 +97,19 @@
     border-radius: '2vh';
     margin-left: 2vw;
 }
-.deposit-content-content-left-content-icon-container-qrcode{
+.upideposit-content-content-left-content-icon-container-qrcode{
     display: flex;
     justify-content: center;
     align-items: flex-end;
     padding: 1vh;
     background-color: white;
-    border-radius: '2vh';
-    margin-left: 2vw;
-    height: 80%;
-    width: 80%;
+    height: 20rem;
+    width: 20rem;
 }
 
 .deposit-content-container-right-lebel{
     color: var(--white_s);
-    font-size: 1.5vw;
+    font-size: 1.5rem;
     font-family: 'MB';
  
 }
@@ -132,11 +121,14 @@
  
 }
 
-.deposit-content-container-main-upi-or{
+.upideposit-content-container-main-upi-or{
+    flex: 1;
     display: flex;
     flex-direction: row;
-    gap: 4vh;
-    height: 80vh;
+    gap: 4rem;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+    height: 50vh;
 }
 
 .deposit-content-image-setting {
@@ -146,10 +138,10 @@
   
 }
 
-.nextcontatiner-upi-deposit{
+.upinextcontatiner-upi-deposit{
     background-color: var(--green);
-    padding: 0.5vw;
-    border-radius: 1vw;
+    padding: 1rem;
+    border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -323,5 +315,14 @@
        
         flex-direction: column;
         
+    }
+    .upideposit-content-container-main-upi-or{
+        flex-direction: column;
+    }
+    .upideposit-content-container-left-upi-or{
+        width: 100%;
+    }
+    .upideposit-content-container-left-upi-left-or{
+        width: 100%;
     }
 }

@@ -257,13 +257,17 @@ const Setting = () => {
         <div className="top-right-d">
           <div className="top-right-right-d">
             {/** DEPOSIT */}
-            <div className="depositContainer">
+            <div className="depositContainer"
+            onClick={() => handleComponentClick("deposit")}
+            >
               <label className="depositContainerLabel">DEPOSIT</label>
               <PiHandDepositFill color={COLORS.white_s} size={"2rem"} />
             </div>
 
             {/**  WITHDRAW */}
-            <div className="depositContainer">
+            <div className="depositContainer"
+            onClick={() => handleComponentClick("withdraw")}
+            >
               <label className="depositContainerLabel">WITHDRAW</label>
               <PiHandWithdrawFill color={COLORS.white_s} size={"2rem"} />
             </div>
@@ -272,7 +276,7 @@ const Setting = () => {
               onClick={() => handleComponentClick("allcountry")}
               className="iconcontainertop"
             >
-              <TbWorld color={COLORS.background} size={"3rem"} />
+              <FaWallet color={COLORS.background} size={"3rem"} />
             </div>
 
             <div
@@ -283,7 +287,7 @@ const Setting = () => {
             </div>
 
             <div
-               onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/dashboard")}
               className="iconcontainertop"
             >
               <FaHome color={COLORS.background} size={"3rem"} />
@@ -297,8 +301,6 @@ const Setting = () => {
       <div className="adminDashboardMainContainer">
         {/** LEFT  */}
         <div className="adLeftContainer">
-
-
           {/** CONTENT */}
           <div
             className="adLContenContainer"
@@ -450,17 +452,9 @@ const Setting = () => {
             <div className="adLContenContainerIcon">
               <IoIosLogOut color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">About us</label>
+            <label className="adLContenContainerLabel">Log out</label>
           </div>
-
-
-
-            
-          </div>
-
-          
-
-         
+        </div>
 
         {/** RIGHT CONTINER */}
 
@@ -471,26 +465,24 @@ const Setting = () => {
               handleComponentClick={handleComponentClick}
             />
           )}
-          
-
 
           {selectedComponent === "home" && <HomeDashboard />}
-           {selectedComponent === "alllocation" && <AllLocation />}
-           {selectedComponent === "setting" && <Settingc />}
-           {selectedComponent === "history" && <Historyc />}
-           {selectedComponent === "play" && <Play />}
-           {selectedComponent === "playhistory" && <Playhistory />}
-           {selectedComponent === "deposit" && <Paymentdeposit />}
-           {selectedComponent === "withdraw" && <Withdrawpayment />}
-           {selectedComponent === "balancetransfer" && <Balancetransfer />}
-           {selectedComponent === "result" && <AllResult />}
-           {selectedComponent === "aboutus" && <Aboutus />}
-           {selectedComponent === "changepassword" && <ChangePassword />}
-           {selectedComponent === "updateprofile" && <UpdateProfile />}
-           {selectedComponent === "wallet" && <Wallet />}
-           {selectedComponent === "notification" && <Notification />}
-           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
-           {selectedComponent === "logout" && <Logout />}
+          {selectedComponent === "alllocation" && <AllLocation />}
+          {selectedComponent === "setting" && <Settingc />}
+          {selectedComponent === "history" && <Historyc />}
+          {selectedComponent === "play" && <Play />}
+          {selectedComponent === "playhistory" && <Playhistory />}
+          {selectedComponent === "deposit" && <Paymentdeposit />}
+          {selectedComponent === "withdraw" && <Withdrawpayment />}
+          {selectedComponent === "balancetransfer" && <Balancetransfer />}
+          {selectedComponent === "result" && <AllResult />}
+          {selectedComponent === "aboutus" && <Aboutus />}
+          {selectedComponent === "changepassword" && <ChangePassword />}
+          {selectedComponent === "updateprofile" && <UpdateProfile />}
+          {selectedComponent === "wallet" && <Wallet />}
+          {selectedComponent === "notification" && <Notification />}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+          {selectedComponent === "logout" && <Logout />}
         </div>
       </div>
 
@@ -500,8 +492,6 @@ const Setting = () => {
 };
 
 export default Setting;
-
-
 
 // import React, { useEffect, useState } from "react";
 // import "./Setting.css";
@@ -860,215 +850,215 @@ export default Setting;
 //               </div>
 //             </div>
 
-          //   {/** UPDATE PROFILE */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"updateprofile"}
-          //     onClick={() => handleComponentClick("updateprofile")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "updateprofile"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <FaUserPen color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** UPDATE PROFILE */}
+//   <div
+//     className="lscontentS"
+//     key={"updateprofile"}
+//     onClick={() => handleComponentClick("updateprofile")}
+//     style={{
+//       background:
+//         selectedComponent === "updateprofile"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <FaUserPen color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Update Profile</label>
-          //   </div>
+//     <label className="left-content-label">Update Profile</label>
+//   </div>
 
-          //   {/** BALANCE TRANSFER */}
+//   {/** BALANCE TRANSFER */}
 
-          //   <div
-          //     className="lscontentS"
-          //     key={"balancetransfer"}
-          //     onClick={() => handleComponentClick("balancetransfer")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "balancetransfer"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <FaMoneyBillTransfer color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   <div
+//     className="lscontentS"
+//     key={"balancetransfer"}
+//     onClick={() => handleComponentClick("balancetransfer")}
+//     style={{
+//       background:
+//         selectedComponent === "balancetransfer"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <FaMoneyBillTransfer color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Balance Transfer</label>
-          //   </div>
+//     <label className="left-content-label">Balance Transfer</label>
+//   </div>
 
-          //   {/** CHANGE PASSWORD */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"changepassword"}
-          //     onClick={() => handleComponentClick("changepassword")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "changepassword"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <RiLockPasswordLine color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** CHANGE PASSWORD */}
+//   <div
+//     className="lscontentS"
+//     key={"changepassword"}
+//     onClick={() => handleComponentClick("changepassword")}
+//     style={{
+//       background:
+//         selectedComponent === "changepassword"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <RiLockPasswordLine color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Change Password</label>
-          //   </div>
-          //   {/** Results */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"result"}
-          //     onClick={() => handleComponentClick("result")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "result"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <FaTrophy color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//     <label className="left-content-label">Change Password</label>
+//   </div>
+//   {/** Results */}
+//   <div
+//     className="lscontentS"
+//     key={"result"}
+//     onClick={() => handleComponentClick("result")}
+//     style={{
+//       background:
+//         selectedComponent === "result"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <FaTrophy color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Result</label>
-          //   </div>
+//     <label className="left-content-label">Result</label>
+//   </div>
 
-          //   {/** Deposit */}
-          //   {/* <div
-          //     className="lscontentS"
-          //     key={"deposit"}
-          //     onClick={() => handleComponentClick("deposit")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "deposit"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <PiHandDepositBold color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** Deposit */}
+//   {/* <div
+//     className="lscontentS"
+//     key={"deposit"}
+//     onClick={() => handleComponentClick("deposit")}
+//     style={{
+//       background:
+//         selectedComponent === "deposit"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <PiHandDepositBold color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Deposit</label>
-          //   </div> */}
+//     <label className="left-content-label">Deposit</label>
+//   </div> */}
 
-          //   {/** Withdraw */}
-          //   {/* <div
-          //     className="lscontentS"
-          //     key={"withdraw"}
-          //     onClick={() => handleComponentClick("withdraw")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "withdraw"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <PiHandWithdrawFill color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** Withdraw */}
+//   {/* <div
+//     className="lscontentS"
+//     key={"withdraw"}
+//     onClick={() => handleComponentClick("withdraw")}
+//     style={{
+//       background:
+//         selectedComponent === "withdraw"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <PiHandWithdrawFill color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Withdraw</label>
-          //   </div> */}
+//     <label className="left-content-label">Withdraw</label>
+//   </div> */}
 
-          //   {/** Play History */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"playhistory"}
-          //     onClick={() => handleComponentClick("playhistory")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "playhistory"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <TbHistoryToggle color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** Play History */}
+//   <div
+//     className="lscontentS"
+//     key={"playhistory"}
+//     onClick={() => handleComponentClick("playhistory")}
+//     style={{
+//       background:
+//         selectedComponent === "playhistory"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <TbHistoryToggle color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Play History</label>
-          //   </div>
+//     <label className="left-content-label">Play History</label>
+//   </div>
 
-          //   {/** History */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"history"}
-          //     onClick={() => handleComponentClick("history")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "history"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <FaHistory color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** History */}
+//   <div
+//     className="lscontentS"
+//     key={"history"}
+//     onClick={() => handleComponentClick("history")}
+//     style={{
+//       background:
+//         selectedComponent === "history"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <FaHistory color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">History</label>
-          //   </div>
+//     <label className="left-content-label">History</label>
+//   </div>
 
-          //   {/** Game Description */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"gamedescription"}
-          //     onClick={() => handleComponentClick("gamedescription")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "gamedescription"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <TbFileDescription color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** Game Description */}
+//   <div
+//     className="lscontentS"
+//     key={"gamedescription"}
+//     onClick={() => handleComponentClick("gamedescription")}
+//     style={{
+//       background:
+//         selectedComponent === "gamedescription"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <TbFileDescription color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Game Description</label>
-          //   </div>
+//     <label className="left-content-label">Game Description</label>
+//   </div>
 
-          //   {/** About Us */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"aboutus"}
-          //     onClick={() => handleComponentClick("aboutus")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "aboutus"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** About Us */}
+//   <div
+//     className="lscontentS"
+//     key={"aboutus"}
+//     onClick={() => handleComponentClick("aboutus")}
+//     style={{
+//       background:
+//         selectedComponent === "aboutus"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">About Us</label>
-          //   </div>
+//     <label className="left-content-label">About Us</label>
+//   </div>
 
-          //   {/** LOG OUT */}
-          //   <div
-          //     className="lscontentS"
-          //     key={"logout"}
-          //     onClick={() => handleComponentClick("logout")}
-          //     style={{
-          //       background:
-          //         selectedComponent === "logout"
-          //           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-          //           : "linear-gradient(180deg, #011833, #011833)",
-          //     }}
-          //   >
-          //     <div className="left-content-icon-container">
-          //       <IoIosLogOut color={COLORS.white_s} size={"20px"} />
-          //     </div>
+//   {/** LOG OUT */}
+//   <div
+//     className="lscontentS"
+//     key={"logout"}
+//     onClick={() => handleComponentClick("logout")}
+//     style={{
+//       background:
+//         selectedComponent === "logout"
+//           ? "linear-gradient(180deg, #7EC630, #3D6017)"
+//           : "linear-gradient(180deg, #011833, #011833)",
+//     }}
+//   >
+//     <div className="left-content-icon-container">
+//       <IoIosLogOut color={COLORS.white_s} size={"20px"} />
+//     </div>
 
-          //     <label className="left-content-label">Log out</label>
-          //   </div>
-          // </div>
+//     <label className="left-content-label">Log out</label>
+//   </div>
+// </div>
 //         </div>
 
 //         {/** Main Containt */}
@@ -1099,7 +1089,6 @@ export default Setting;
 
 // export default Setting;
 
-
 // .main-parent {
 //   height: 100vh;
 //   width: 100%;
@@ -1124,7 +1113,7 @@ export default Setting;
 
 // .left-content-label{
 //   color: white;
-//   font-family: "MR"; 
+//   font-family: "MR";
 //   font-size: 0.8em; /* Use relative units */
 //   text-align: center;
 //   flex: 1;
@@ -1138,7 +1127,6 @@ export default Setting;
 //   font-size: 3vh;
 //   text-align: "center";
 //   padding: 1vh;
-
 
 // }
 
@@ -1193,7 +1181,7 @@ export default Setting;
 //   display: flex;
 //   justify-content: center;
 //   align-items: center;
- 
+
 // }
 
 // .searchcontainer-setting {
@@ -1224,8 +1212,6 @@ export default Setting;
 //   height: 5vh;
 //   background-color: var(--grayHalfBg);
 // }
-
-
 
 // .contentcontainer {
 //   flex: 1;
@@ -1297,7 +1283,6 @@ export default Setting;
 //   display: flex;
 //   flex: 1;
 
-    
 // }
 
 // .righttopcontinersetting {
@@ -1317,7 +1302,6 @@ export default Setting;
 //   align-items: center;
 //   margin-top: 10%;
 // }
-
 
 // /* Medium devices (tablets) */
 // @media (max-width: 1024px) {
@@ -1347,8 +1331,6 @@ export default Setting;
 //   }
 // }
 
-
-
 // /* Media query to hide the label on small screens */
 // @media (max-width: 768px) {
 //   .left-content-label {
@@ -1366,7 +1348,7 @@ export default Setting;
 //       align-items: center;
 //       border-radius: 8px;
 //       gap: 10px;
-      
+
 //   }
 //   .lscontentd:hover{
 //       border: 2px solid var(--green); /* Change border color on hover */
@@ -1377,7 +1359,7 @@ export default Setting;
 //       min-width: 3vw;
 //       justify-content: center;
 //       align-items: center;
-      
+
 //   }
 //   .leftsidebarmiddled  {
 //       display: none;
@@ -1385,7 +1367,6 @@ export default Setting;
 //   .getTheApplabel{
 //       display: none;
 //   }
-  
 
 //    .depositcontainerd, .iconcontainerd {
 //       padding: 10px;
@@ -1423,11 +1404,10 @@ export default Setting;
 //       display: none;
 //   }
 
- 
 //   .settingContainer{
 //       display: none;
 //   }
-  
+
 //   .lscontentS{
 //       width: calc(100% - 10%); /* Adjust width to account for margin */
 //       height: 10%;
@@ -1443,10 +1423,10 @@ export default Setting;
 //   .leftcontainerS {
 //       width: 60px;
 //       height: 90vh;
-  
+
 //   }
 //   .leftsidebartopS {
-    
+
 //       height: 75%;
 //       width: 60px;/* Adjust width to account for margin */
 //       background: linear-gradient(180deg, #0162AF, #011833);
@@ -1466,7 +1446,5 @@ export default Setting;
 //       display: flex;
 //       padding-left: 5px;
 //   }
- 
- 
 
 // }

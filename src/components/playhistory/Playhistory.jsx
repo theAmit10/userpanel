@@ -10,81 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import CircularProgressBar from "../helper/CircularProgressBar";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
-const historydata = [
-  {
-    id: 1,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 2,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 3,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 4,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 5,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 6,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 7,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 8,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-];
+
 
 function Playhistory() {
   const navigation = useNavigate();
@@ -132,43 +60,34 @@ function Playhistory() {
     return formattedDate;
   };
 
-  const toggleItem = (id) => {
-    setExpandedItems((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
+
 
   console.log(isLoading, historyapidatas);
 
   return (
-    <div className="history-main-container">
+    <div className="history-main-container-org">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label-h">Play History</label>
+      <div className="alCreatLocationTopContainer">
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">Play History</label>
+        </div>
+      </div>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container">
         {/** CONTENT */}
 
         {isLoading ? (
-          <div
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgressBar />
-          </div>
+         <LoadingComponent/>
         ) : (
           historyapidatas.playbets.map((item, index) => (
-            <div className="h-content">
+            <div className="h-content-org">
               {/** FIRST CONTAINER */}
-              <div className="h-content-first">
-                <div className="h-content-first-content">
-                  <div className="h-content-left-content-icon-container">
-                    <FaRegPlayCircle color={COLORS.background} size={"2vw"} />
-                  </div>
+              <div className="h-content-first-history">
+                <div className="iconcontainertop">
+                    <FaRegPlayCircle
+                      color={COLORS.background}
+                      size={"3rem"}
+                    />
                 </div>
               </div>
               {/** SECOND CONTAINER */}

@@ -15,81 +15,9 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { loadProfile } from "../../redux/actions/userAction";
 import { FaWallet } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
-
-const historydata = [
-  {
-    id: 1,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 2,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 3,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 4,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 5,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 6,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 7,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-  {
-    id: 8,
-    type: "deposit",
-    amount: "200INR",
-    date: "Apr 19, 2024 05: 37 PM",
-    paymenmethod: "UPI",
-    transactionid: "3983983838833838",
-    status: "success",
-  },
-];
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdOutlinePriceChange } from "react-icons/md";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 function Balancetransfer() {
   const dispatch = useDispatch();
@@ -121,8 +49,7 @@ function Balancetransfer() {
 
         showSuccessToast(res.message);
         dispatch(loadProfile(accesstoken));
-        setAmountval("")
-
+        setAmountval("");
       } catch (error) {
         console.log("Error during withdraw:", error);
         showErrorToast("Balance transfer failed");
@@ -132,9 +59,16 @@ function Balancetransfer() {
   };
 
   return (
-    <div className="history-main-container">
+    <div className="bt-main-container">
       {/** TITLE CONTAINER */}
-      <label className="aboutus-title-label">Balance Transfer</label>
+
+      <div className="alCreatLocationTopContainer">
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">
+            Balance Transfer
+          </label>
+        </div>
+      </div>
       {/** CONTENT CONTAINER */}
       <div className="h-content-container-bt">
         {/** CONTENT */}
@@ -142,18 +76,20 @@ function Balancetransfer() {
         {/** LEFT CONTAINER */}
         <div className="left-container-bt">
           <label className="h-title-label-medium-bt">Transfer Amount</label>
-          <label className="h-title-label-medium-bt">
+          <label className="alCLLabel">
+            {" "}
             {user.walletOne.walletName} to {user.walletTwo.walletName}
           </label>
           {/** AMOUNT */}
-          <div className="formUpiDepositFormContainerContent">
-            <label className="formUpiDepositFormContainerContentLabel">
-              Amount
-            </label>
+
+          <label className="alCLLabel">Amount</label>
+          <div className="alSearchContainer">
+            <div className="searchIconContainer">
+              <MdOutlinePriceChange color={COLORS.background} size={"2.5rem"} />
+            </div>
+
             <input
-              className="formUpiDepositFormContainerContentInputcp"
-              type="number"
-              name="amount"
+              className="al-search-input"
               placeholder="Enter amount"
               value={amountval}
               onChange={(e) => setAmountval(e.target.value)}
@@ -163,27 +99,18 @@ function Balancetransfer() {
           <div
             style={{
               flex: 1,
-              padding: "2%",
+              padding: "2rem",
               alignContent: "end",
             }}
           >
             {/** DEPOSIT BUTTON */}
             <div
               style={{
-                marginTop: "2vw",
+                marginTop: "2rem",
               }}
             >
-              {false ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    padding: "2vw",
-                  }}
-                >
-                  <CircularProgressBar />
-                </div>
+              {isLoading ? (
+                <LoadingComponent />
               ) : (
                 <button
                   onClick={submitHandler}
@@ -199,36 +126,32 @@ function Balancetransfer() {
         {/** RIGHT CONTAINER */}
         <div className="right-container-bt">
           <div className="right-container-bt-one">
-            <label className="h-title-label-medium">
-              {user.walletOne.walletName}
-            </label>
-            <label className="h-title-label-medium">Balance</label>
+            <label className="alCLLabel">{user.walletOne.walletName}</label>
+            <label className="alCLLabel">Balance</label>
 
             <div className="walletcontainer-bt">
-              <FaWallet color={COLORS.background} size={"30px"} />
+              <FaWallet color={COLORS.background} size={"3rem"} />
             </div>
 
-            <label className="h-title-label-medium">
+            <label className="alCLLabel">
               {user.walletOne.balance} {user?.country?.countrycurrencysymbol}
             </label>
           </div>
           <div className="right-container-bt-two">
-            <label className="h-title-label-medium">
-              {user.walletTwo.walletName}
-            </label>
-            <label className="h-title-label-medium">Balance</label>
+            <label className="alCLLabel">{user.walletTwo.walletName}</label>
+            <label className="alCLLabel">Balance</label>
 
             <div className="walletcontainer-bt">
-              <FaWallet color={COLORS.background} size={"30px"} />
+              <FaWallet color={COLORS.background} size={"3rem"} />
             </div>
 
-            <label className="h-title-label-medium">
+            <label className="alCLLabel">
               {user.walletTwo.balance} {user?.country?.countrycurrencysymbol}
             </label>
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

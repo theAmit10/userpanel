@@ -1,126 +1,105 @@
-.deposit-main-container{
-    display: flex;
+.pdContainer{
     flex: 1;
-    height: 80vh;
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 2vh;
-    border-radius: 2vh;
-    padding: 2vh;
-    flex-direction: column;
-    gap: 2vh;
-    overflow-y: hidden;
+    border-radius: 1rem;
 }
 
-.h-title-label{
-    color: var(--white_s);
-    font-size: 2vw;
-    font-family: 'MSB';
-}
-
-.deposit-container{
-    height: 70vh;
-    overflow-y: scroll; /* Enable vertical scrolling */
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-}
-
-.deposit-content-container{
-    width: 45%;
-    height: 20vh;
-    background-color: var(--background);
-    border-radius: 2vh;
-    display: flex;
-    flex-direction: row;
-}
-
-.deposit-content-container:hover{
-    border: 2px solid var(--green); /* Change border color on hover */
-    cursor: pointer;
-}
-
-.deposit-content-container-left-deposit{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-
-}
-
-.deposit-content-container-right{
-    flex: 3;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 2vh;
-
-}
-
-.deposit-content-content-left-content-icon-container{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding: 1vh;
+.pdiconContainer{
+    height: 5rem;
+    width: 5rem;
     background-color: white;
-    border-radius: '2vh';
-    margin-left: 2vw;
+    border-radius: 50%;
+    overflow: hidden;
+   
 }
 
-.deposit-content-container-right-lebel-or{
-    color: var(--white_s);
-    font-size: 1.5em;
-    font-family: 'MB';
- 
-}
 
-.deposit-content-container-main{
-    display: flex;
-    flex-direction: row;
-    gap: 4vh;
-}
-
-.deposit-content-image-setting {
+.pdicon{
     height: 100%;
     width: 100%;
     object-fit: cover;
-  
+    border-radius: 50%;
+    
 }
 
-@media (max-width: 1024px) {
-    .deposit-content-container-right-lebel{
-        color: var(--white_s);
-        font-size: 2.2vw;
-        font-family: 'MB';
-     
-    }
-    .h-title-label{
-        color: var(--white_s);
-        font-size: 2.2vw;
-        font-family: 'MB';
-    }
+.paymenticon{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-@media (max-width: 768px) {
-    .deposit-content-container-right-lebel{
-        color: var(--white_s);
-        font-size: 2.4vw;
-        font-family: 'MB';
-     
-    }
-    .h-title-label{
-        color: var(--white_s);
-        font-size: 5vw;
-        font-family: 'MB';
-    }
-    .deposit-content-container-right-lebel-or{
-        color: var(--white_s);
-        font-size: 1em;
-        font-family: 'MB';
-     
-    }
-    .deposit-content-container-left-deposit{
-        display: none;
-    }
+.pnMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+   
+   
 }
+
+.hdAllContainer{
+    flex: 1;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    height: 40vh;
+}
+
+.hdAllContainerContent{
+    height: 45%;
+    width: 35rem;
+    background-color: var(--background);
+    margin: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.hdAllContainerContentTop{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    align-items: center;
+}
+.hdAllContainerContentBottom{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    align-items: center;
+}
+
+.hdAllContainerContentTopBoldLabel{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 2.5rem;
+}
+.hdAllContainerContentTopRegularLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.5rem;
+}
+.hdContenContainerIcon{
+    height: 4rem;
+    width: 4rem;
+    background-color: var(--white_s);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 1rem;
+   
+  }

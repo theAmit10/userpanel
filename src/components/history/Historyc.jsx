@@ -12,6 +12,7 @@ import moment from "moment";
 import { MdPendingActions } from "react-icons/md";
 import { FcCancel } from "react-icons/fc";
 import { PiHandWithdrawBold } from "react-icons/pi";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 const historydata = [
   {
@@ -121,52 +122,46 @@ function Historyc() {
   };
 
   return (
-    <div className="history-main-container">
+    <div className="history-main-container-org">
       {/** TITLE CONTAINER */}
-      <label className="h-title-label-h">History</label>
+      <div className="alCreatLocationTopContainer">
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">History</label>
+        </div>
+      </div>
       {/** CONTENT CONTAINER */}
-      <div className="h-content-container">
+      <div className="h-content-container-org">
         {/** CONTENT */}
         {isLoading ? (
-          <div
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgressBar />
-          </div>
+          <LoadingComponent />
         ) : (
           historyapidatas?.transactions.map((item, index) => (
-            <div className="h-content">
+            <div className="h-content-org">
               {/** FIRST CONTAINER */}
               <div className="h-content-first-history">
-                <div className="h-content-first-content">
-                  <div className="h-content-left-content-icon-container">
-                    {item.transactionType === "Deposit" ? (
-                      <PiHandDepositBold
-                        color={COLORS.background}
-                        size={"2vw"}
-                      />
-                    ) : (
-                      <PiHandWithdrawBold
-                        color={COLORS.background}
-                        size={"2vw"}
-                      />
-                    )}
-                  </div>
+                <div className="iconcontainertop">
+                  {item.transactionType === "Deposit" ? (
+                    <PiHandDepositBold
+                      color={COLORS.background}
+                      size={"3rem"}
+                    />
+                  ) : (
+                    <PiHandWithdrawBold
+                      color={COLORS.background}
+                      size={"3rem"}
+                    />
+                  )}
                 </div>
               </div>
+
               {/** SECOND CONTAINER */}
               <div className="h-content-second">
                 <div className="h-content-second-content-container-top">
                   <label className="h-content-second-content-container-top-amount">
-                    Amount{" "}:{" "}
+                    Amount :{" "}
                   </label>
                   <label className="h-content-second-content-container-top-amount-val">
-                    {item.amount} {user.country.countrycurrencysymbol}
+                    {" "}{item.amount} {user.country.countrycurrencysymbol}
                   </label>
                 </div>
                 <div className="h-content-second-content-container-bottom">
@@ -239,3 +234,19 @@ function Historyc() {
 }
 
 export default Historyc;
+
+{
+  /* <div className="h-content-left-content-icon-container">
+{item.transactionType === "Deposit" ? (
+  <PiHandDepositBold
+    color={COLORS.background}
+    size={"2.5rem"}
+  />
+) : (
+  <PiHandWithdrawBold
+    color={COLORS.background}
+    size={"2.5rem"}
+  />
+)}
+</div> */
+}

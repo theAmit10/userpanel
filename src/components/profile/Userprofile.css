@@ -1,5 +1,5 @@
 .history-main-container{
-    display: flex;
+     display: flex;
     flex: 1;
     height: 80vh;
     background: linear-gradient(180deg, #0162AF, #011833);

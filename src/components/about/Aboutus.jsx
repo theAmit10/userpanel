@@ -37,9 +37,12 @@ function Aboutus() {
     <div className="aboutus-container">
       <div>
         {/* Title */}
-        <div className="aboutus-title-container">
-          <label className="aboutus-title-label">About us</label>
+      
+        <div className="alCreatLocationTopContainer">
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">About us</label>
         </div>
+      </div>
 
         {/* Search Container */}
         <div className="aboutus-search-container">

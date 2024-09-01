@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { useGetLogoutQuery } from "../../redux/api";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import images from "../../assets/constants/images";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 
 function Logout() {
@@ -40,61 +42,54 @@ function Logout() {
       navigation("/login");
     } else if (error) {
       showErrorToast("Something went wrong");
+      localStorage.clear();
     }
   };
 
   return (
-    <div className="history-main-container">
-      {/** TITLE CONTAINER */}
-      <label className="h-title-label">Logout</label>
-      <label className="h-title-label">Are you sure?</label>
-
-      {/** CONTENT CONTAINER */}
-      <div className="h-content-container-bt">
-        {/** CONTENT */}
-
-        {/** LEFT CONTAINER */}
-        <div className="left-container-bt">
-          {/** COUNTRY */}
-
-          <div
-            className="content-container-up"
-            style={{
-              maxWidth: "25%",
-            }}
-            onClick={yesHandler}
-          >
-            <label className="content-label-up" style={{ flex: 1 }}>
-              <label
-                className="content-label-up"
-                style={{ fontFamily: FONT.Montserrat_SemiBold }}
-              >
-                Yes
-              </label>
-            </label>
-          </div>
-
-          {/** CURRENCY */}
-          <div
-            className="content-container-up"
-            style={{
-              maxWidth: "25%",
-            }}
-            onClick={noHandler}
-          >
-            <label className="content-label-up" style={{ flex: 1 }}>
-              <label
-                className="content-label-up"
-                style={{ fontFamily: FONT.Montserrat_SemiBold }}
-              >
-                No
-              </label>
-            </label>
-          </div>
-        </div>
+    <div className="cp-container">
+    {/** TOP NAVIGATION CONTATINER */}
+    <div className="alCreatLocationTopContainer">
+      <div className="alCreatLocationTopContaineCL">
+        <label className="alCreatLocationTopContainerlabel">Log out</label>
       </div>
-      <ToastContainer />
     </div>
+    <div
+      className="cp-container-main"
+      style={{ justifyContent: "center", alignItems: "center" }}
+    >
+      <div className="catimagecontainer">
+        <img src={images.cat} alt="cat" className="catandtrophyimg" />
+      </div>
+      <label className="alCLLabel">Are you sure?</label>
+    </div>
+
+    {isLoading ? (
+      <LoadingComponent />
+    ) : (
+      <>
+        <div
+          onClick={yesHandler}
+          className="alBottomContainer"
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <label className="alBottomContainerlabel">Yes</label>
+        </div>
+
+        <div
+          onClick={noHandler}
+          className="alBottomContainer"
+          style={{
+            cursor: "pointer",
+          }}
+        >
+          <label className="alBottomContainerlabel">No</label>
+        </div>
+      </>
+    )}
+  </div>
   );
 }
 

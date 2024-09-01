@@ -14,17 +14,9 @@ import UrlHelper from "../../helper/UrlHelper";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { ToastContainer } from "react-toastify";
-
-const upiapidata = [
-  { name: "Wasu", upiid: "9876543210@ybl", id: "1" },
-  { name: "Aman", upiid: "8876543210@ybl", id: "2" },
-  { name: "Zasu", upiid: "7876543210@ybl", id: "3" },
-  { name: "Masu", upiid: "1876543210@ybl", id: "4" },
-  { name: "Kasu", upiid: "2876543210@ybl", id: "5" },
-];
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 function Upideposit({ selectingPaymentType }) {
-  
   const [amountval, setAmountval] = useState("");
   const [transactionval, setTransactionval] = useState("");
   const [remarkval, setRemarkval] = useState("");
@@ -48,9 +40,8 @@ function Upideposit({ selectingPaymentType }) {
 
   const hideAllform = () => {
     setShowPaymentForm(false);
-    setSelecetedItem("")
-  }
-
+    setSelecetedItem("");
+  };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
 
@@ -80,11 +71,9 @@ function Upideposit({ selectingPaymentType }) {
       return;
     }
     try {
+      console.log("ELSE RUNNING");
+      console.log(amountval, transactionval, remarkval);
 
-      console.log("ELSE RUNNING")
-      console.log(amountval,transactionval,remarkval)
-
-      
       const formData = new FormData();
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
@@ -114,20 +103,14 @@ function Upideposit({ selectingPaymentType }) {
         body: formData,
       }).unwrap();
 
-
-      console.log("Success")
-      console.log(res)
-      console.log(res.message)
-
+      console.log("Success");
+      console.log(res);
+      console.log(res.message);
 
       await showSuccessToast(res.message);
-  
 
       hideAllform();
       goToPreviousPage();
-      
-      
-
     } catch (error) {
       console.log("Error during deposit:", error);
       if (error.response) {
@@ -169,33 +152,27 @@ function Upideposit({ selectingPaymentType }) {
   };
 
   return (
-    <div className="deposit-main-container">
+    <div className="upideposit-main-container">
       {/** TOP CONTAINER */}
-      <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        <IoArrowBackCircleOutline
-          onClick={goToPreviousPage}
-          color={COLORS.white_s}
-          size={"2.5em"}
-        />
 
-        {/** TITLE CONTAINER */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <label className="h-title-label">UPI Deposit</label>
+      <div className="alCreatLocationTopContainer">
+        <div className="searchIconContainer" onClick={goToPreviousPage}>
+          <IoArrowBackCircleOutline color={COLORS.white_s} size={"2.5rem"} />
+        </div>
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">
+            UPI Payment
+          </label>
         </div>
       </div>
 
       {/** TITLE CONTAINER */}
       <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
       >
         <label
           className="h-title-label"
@@ -214,12 +191,12 @@ function Upideposit({ selectingPaymentType }) {
               alignItems: "center",
             }}
           >
-            <div className="nextcontatiner-upi-deposit">
+            <div className="upinextcontatiner-upi-deposit">
               <label
                 className="deposit-content-container-right-lebel"
                 style={{
                   fontFamily: FONT.Montserrat_SemiBold,
-                  fontSize: "1.5vw",
+                  fontSize: "1.5rem",
                   cursor: "pointer",
                 }}
               >
@@ -232,29 +209,20 @@ function Upideposit({ selectingPaymentType }) {
 
       {/** Main Conatiner */}
 
-      <div className="deposit-container-or">
-        <div className="deposit-content-container-main-upi-or">
+      <div className="upideposit-container-or">
+        <div className="upideposit-content-container-main-upi-or">
           {/** LEFT LIST OF DEPOSIT */}
 
           {loadingAllData ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
+            <LoadingComponent />
           ) : (
             !showPaymentForm && (
-              <div className="deposit-content-container-left-upi-left-or">
+              <div className="upideposit-content-container-left-upi-left-or">
                 {allDepositdata.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => selecetingItemForDeposit(item)}
-                    className="deposit-content-container-left-upi-content"
+                    className="upideposit-content-container-left-upi-content"
                     style={{
                       border:
                         selectedItem?._id === item._id
@@ -263,16 +231,12 @@ function Upideposit({ selectingPaymentType }) {
                     }}
                   >
                     <div className="deposit-content-container-left">
-                      <div
-                        className="deposit-content-content-left-content-icon-container"
-                        style={{
-                          borderRadius: "1vh",
-                        }}
-                      >
+                      <div className="hdContenContainerIcon">
                         <img
                           src={images.upi}
-                          alt="UPI"
-                          className="deposit-content-image-setting"
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
                         />
                       </div>
                     </div>
@@ -282,9 +246,13 @@ function Upideposit({ selectingPaymentType }) {
                       </label>
                     </div>
 
+                    <div className="deposit-content-container-right">
                     <label className="deposit-content-container-right-lebel">
                       {item.paymentId}
                     </label>
+                    </div>
+
+                    
                   </div>
                 ))}
               </div>
@@ -293,112 +261,107 @@ function Upideposit({ selectingPaymentType }) {
 
           {/** DEPOSIT FORM */}
           {selectedItem !== "" && showPaymentForm && (
-            <div className="deposit-content-container-left-upi-left-or">
+            <div className="upideposit-content-container-left-upi-left-or">
               <div className="upiDepositFormContainer">
-                
-                  {/** AMOUNT */}
-                  <div className="formUpiDepositFormContainerContent-or">
-                    <label className="formUpiDepositFormContainerContentLabel-or">
-                      Amount
-                    </label>
-                    <input
-                      className="formUpiDepositFormContainerContentInput-or"
-                      type="number"
-                      name="amount"
-                      placeholder="Enter amount"
-                      value={amountval}
-                      onChange={(e) => setAmountval(e.target.value)}
-                    />
-                  </div>
-                  {/** TRANSACTION NUMBER */}
-                  <div className="formUpiDepositFormContainerContent-or">
-                    <label className="formUpiDepositFormContainerContentLabel-or">
-                      Transaction number
-                    </label>
-                    <input
-                      className="formUpiDepositFormContainerContentInput-or"
-                      type="text"
-                      name="transaction"
-                      placeholder="Enter transaction number"
-                      value={transactionval}
-                      onChange={(e) => setTransactionval(e.target.value)}
-                    />
-                  </div>
+                {/** AMOUNT */}
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
+                    Amount
+                  </label>
+                  <input
+                    className="formUpiDepositFormContainerContentInput-or"
+                    type="number"
+                    name="amount"
+                    placeholder="Enter amount"
+                    value={amountval}
+                    onChange={(e) => setAmountval(e.target.value)}
+                  />
+                </div>
+                {/** TRANSACTION NUMBER */}
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
+                    Transaction number
+                  </label>
+                  <input
+                    className="formUpiDepositFormContainerContentInput-or"
+                    type="text"
+                    name="transaction"
+                    placeholder="Enter transaction number"
+                    value={transactionval}
+                    onChange={(e) => setTransactionval(e.target.value)}
+                  />
+                </div>
 
-                  {/** RECEIPT */}
-                  <div className="formUpiDepositFormContainerContent-or">
-                    <label className="formUpiDepositFormContainerContentLabel-or">
-                      Receipt
-                    </label>
-                    <input
-                      className="formUpiDepositFormContainerContentInput-or"
-                      type="file"
-                      name="file"
-                      onChange={selectDoc}
-                    />
-                  </div>
+                {/** RECEIPT */}
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
+                    Receipt
+                  </label>
+                  <input
+                    className="formUpiDepositFormContainerContentInput-or"
+                    type="file"
+                    name="file"
+                    onChange={selectDoc}
+                  />
+                </div>
 
-                  {/** REMARK    */}
-                  <div className="formUpiDepositFormContainerContent-or">
-                    <label className="formUpiDepositFormContainerContentLabel-or">
-                      Remark
-                    </label>
-                    <input
-                      className="formUpiDepositFormContainerContentInput-or"
-                      style={{
-                        minHeight: "2vw",
-                      }}
-                      type="text"
-                      name="remark"
-                      placeholder="Enter remark"
-                      value={remarkval}
-                      onChange={(e) => setRemarkval(e.target.value)}
-                    />
-                  </div>
-
-                  {/** DEPOSIT BUTTON */}
-                  <div
+                {/** REMARK    */}
+                <div className="formUpiDepositFormContainerContent-or">
+                  <label className="formUpiDepositFormContainerContentLabel-or">
+                    Remark
+                  </label>
+                  <input
+                    className="formUpiDepositFormContainerContentInput-or"
                     style={{
-                      marginTop: "2vw",
+                      minHeight: "2vw",
                     }}
-                  >
-                    {isLoading ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          padding: "2vw",
-                        }}
-                      >
-                        <CircularProgressBar />
-                      </div>
-                    ) : (
-                      <button
-                        className="submit-btn-login-deposit"
-                        onClick={submitDepositRequest}
-                      >
-                        Deposit
-                      </button>
-                    )}
-                  </div>
-               
+                    type="text"
+                    name="remark"
+                    placeholder="Enter remark"
+                    value={remarkval}
+                    onChange={(e) => setRemarkval(e.target.value)}
+                  />
+                </div>
+
+                {/** DEPOSIT BUTTON */}
+                <div
+                  style={{
+                    marginTop: "2vw",
+                  }}
+                >
+                  {isLoading ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        padding: "2vw",
+                      }}
+                    >
+                      <CircularProgressBar />
+                    </div>
+                  ) : (
+                    <button
+                      className="submit-btn-login-deposit"
+                      onClick={submitDepositRequest}
+                    >
+                      Deposit
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
           {/** SELECTED PAYMENT */}
           {selectedItem !== "" && (
-            <div className="deposit-content-container-left-upi-or">
-              <div className="deposit-content-container-right-upi-content-or">
-                <div className="deposit-content-container-right">
+            <div className="upideposit-content-container-left-upi-or">
+              <div className="upideposit-content-container-right-upi-content-or">
+                <div className="upideposit-content-container-right">
                   <div
-                    className="deposit-content-content-left-content-icon-container-qrcode"
-                    style={{
-                      borderRadius: "1vh",
-                    }}
+                    className="upideposit-content-content-left-content-icon-container-qrcode"
                   >
-                     <img
+                    <img
                       src="https://imgs.search.brave.com/WG5U5I_hK20P2PRulDBEmG_XZQQvgV5AmR11MbwxWyE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9xcmNv/ZGUudGVjLWl0LmNv/bS9BUEkvUVJDb2Rl/P2RhdGE9UVIrQ29k/ZStHZW5lcmF0b3Ir/YnkrVEVDLUlU.jpeg"
                       alt="UPI"
                       className="deposit-content-image-setting"

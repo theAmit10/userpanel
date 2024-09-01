@@ -23,6 +23,7 @@ import CircularProgressBar from "../helper/CircularProgressBar";
 import { ToastContainer } from "react-toastify";
 import { loadProfile } from "../../redux/actions/userAction";
 import { RiOilFill } from "react-icons/ri";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const upiapidata = [
   { name: "Wasu", upiid: "9876543210@ybl", id: "1" },
@@ -121,119 +122,74 @@ function ChangePassword() {
   
 
   return (
-    <div className="deposit-main-container">
-      {/** TOP CONTAINER */}
-      <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        
-        {/** TITLE CONTAINER */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <label className="h-title-label-h">Change Password</label>
-        </div>
+    <div className="cp-container">
+    {/** TOP NAVIGATION CONTATINER */}
+    <div className="alCreatLocationTopContainer">
+      <div className="alCreatLocationTopContaineCL">
+        <label className="alCreatLocationTopContainerlabel">
+          Change Password
+        </label>
       </div>
-
-      {/** TITLE CONTAINER */}
-      <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      ></div>
-
-      {/** Main Conatiner */}
-
-      <div className="deposit-container">
-        <div className="deposit-content-container-main-upi">
-          {/** LEFT LIST OF DEPOSIT */}
-
-          {/** DEPOSIT FORM */}
-
-          <div className="deposit-content-container-left-upi-left">
-            <div className="upiDepositFormContainer">
-              {/** Old Password */}
-              <div className="formUpiDepositFormContainerContent">
-                <label className="formUpiDepositFormContainerContentLabel">
-                Old Password
-                </label>
-                <input
-                  className="formUpiDepositFormContainerContentInputcp"
-                  type="text"
-                  name="oldPassword"
-                  placeholder="Enter Old Password"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                />
-              </div>
-
-              
-              {/** New Password */}
-              <div className="formUpiDepositFormContainerContent">
-                <label className="formUpiDepositFormContainerContentLabel">
-                New Password
-                </label>
-                <input
-                  className="formUpiDepositFormContainerContentInputcp"
-                  type="text"
-                  name="NewPassword"
-                  placeholder="Enter New Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-
-              {/** Confirm Password */}
-              <div className="formUpiDepositFormContainerContent">
-                <label className="formUpiDepositFormContainerContentLabel">
-                Confirm Password
-                </label>
-                <input
-                  className="formUpiDepositFormContainerContentInputcp"
-                  type="text"
-                  name="ConfirmPassword"
-                  placeholder="Enter Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-
-
-              {/** DEPOSIT BUTTON */}
-              <div
-                style={{
-                  marginTop: "2vw",
-                }}
-              >
-                {showProgressbar ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: "2vw",
-                    }}
-                  >
-                    <CircularProgressBar />
-                  </div>
-                ) : (
-                  <button
-                    className="submit-btn-login-deposit"
-                    onClick={changePasswordHandler}
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ToastContainer />
     </div>
+    <div className="cp-container-main">
+      {/** OLD PASSWORD */}
+      <label className="alCLLabel">Old password</label>
+      <div className="alSearchContainer">
+        <div className="searchIconContainer">
+          <RiLockPasswordLine color={COLORS.background} size={"2.5rem"} />
+        </div>
+
+        <input
+          className="al-search-input"
+          placeholder="Enter Old Password"
+          value={oldPassword}
+          onChange={(e) => setOldPassword(e.target.value)}
+        />
+      </div>
+
+      {/** NEW PASSWORD */}
+      <label className="alCLLabel">New password</label>
+      <div className="alSearchContainer">
+        <div className="searchIconContainer">
+          <RiLockPasswordLine color={COLORS.background} size={"2.5rem"} />
+        </div>
+
+        <input
+          className="al-search-input"
+          placeholder="Enter New Password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+      </div>
+
+      {/** CONFIRM NEW PASSWORD */}
+      <label className="alCLLabel">Confim password</label>
+      <div className="alSearchContainer">
+        <div className="searchIconContainer">
+          <RiLockPasswordLine color={COLORS.background} size={"2.5rem"} />
+        </div>
+
+        <input
+          className="al-search-input"
+          placeholder="Enter Confirm Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </div>
+    </div>
+
+    {showProgressbar ? (
+      <div className="NC">
+        <CircularProgressBar />
+      </div>
+    ) : (
+      <div className="alBottomContainer" onClick={changePasswordHandler}>
+        <label className="alBottomContainerlabel">Change password</label>
+      </div>
+    )}
+
+    <ToastContainer />
+  </div>
   );
 }
 

@@ -1,184 +1,111 @@
-.history-main-container{
-    display: flex;
+.upContainer{
     flex: 1;
-    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.upUserDetail{
+    flex: 1;
     background: linear-gradient(180deg, #0162AF, #011833);
     border-radius: 2rem;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: scroll;
+    height: 40vh;
+}
+
+.alUpdatePContainer{
+    height: 5rem;
+    background-color: var(--grayHalfBg);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
     gap: 2rem;
-    width: 40vw;
-    padding: 1rem;
-}
-
-.h-title-label{
-    color: var(--white_s);
-    font-size: 2vw;
-    font-family: 'MB';
-}
-
-.submit-btn-balance-transfer {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #0179FE;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-}
-
-.h-content-container-bt{
-    
-    height: 70vh;
-    overflow-y: scroll; /* Enable vertical scrolling */
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-    flex-direction: row;
-}
-
-
-.left-container-bt{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1vw;
-}
-
-.right-container-up-up{
-   flex: 1;
-    display: flex;
-    flex-direction: row;
-
-}
-
-.right-container-one-up{
-   
-   flex: 1;
-   height: 80%;
-    background-color: var(--background);
-    margin: 2%;
-    padding: 2%;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    position: relative;
-    margin-top: 4%;
-    
-}
-
-.walletcontainer-up{
-    height: 30px;
-    width: 30px;
-    background-color: var(--white_s);
-    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
-
-.h-title-label-medium{
-    color: var(--white_s);
-    font-size: 1em;
-    font-family: 'MR';
-}
-.h-title-label-small{
-    color: var(--white_s);
-    font-size: 0.8em;
-    font-family: 'MR';
+.upContentContainer{
+    height: 20rem;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }
 
-.imagecontainer-up-up {
-    height: 10em;
-    width: 10em;
+.upuserimage{
+    height: 8rem;
+    width: 8rem;
     background-color: white;
-    padding: 2%;
     border-radius: 50%;
     overflow: hidden;
+    padding: 0.10rem;
+   
+}
+
+.upuserimg{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+.upContentContainerLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.5rem;
+}
+.upContentContainerLabelB{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.5rem;
+}
+
+.userDetailContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.upsMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+    margin: 2rem;
+   
+}
+
+.alSearchContainer{
+    height: 5rem;
+    background-color: var(--grayHalfBg);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+.alCLLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+   padding-left: 2rem;
+}
+
+.imageContainerAC{
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: -1vw;
-    left: 35%;
-}
-
-.profile-content-container{
-    flex: 1;
-
-    margin-top: 9em;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.5vw;
-}
-
-.content-label-up{
-    color: var(--background);
-    font-size: 1em;
-    font-family: 'MR';
-    align-self: center;
-    padding-left: 1vw;
-}
-
-.content-container-up{
-    background-color: var(--white_s);
-    padding: 1vw;
-    border-radius: 1vw;
-    display: flex;
-    flex-direction: row;
-}
-
-.input-container-up{
-    font-family: "MR";
-    min-width: 100%;
-    background-color: var(--white_s);
-    padding: 0.5vw;
-    border-color: var(--background);
-    border-radius: 0.5vw;
-}
-
-
-@media (max-width: 1024px) {
-
-    .imagecontainer-up-up {
-        height: 7em;
-        width: 7em;
-        background-color: white;
-        padding: 2%;
-        border-radius: 50%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: -1vw;
-        left: 35%;
-    }
-}
-
-
-@media (max-width: 768px) {
-
-    .right-container-up-up{
-        display: none;
-    }
-
-    .h-title-label-medium-bt{
-        color: var(--white_s);
-        font-size: 1em;
-        font-family: 'MR';
-    }
-    .content-label-up{
-        color: var(--background);
-        font-size: 0.6em;
-        font-family: 'MR';
-        align-self: center;
-        padding-left: 1vw;
-    }
-
-   
 }

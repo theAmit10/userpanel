@@ -100,7 +100,7 @@ function Gamedescriptionc() {
             <div className="gdcontent-container">
               <div className="title-container-gd">
                 <label className="location-header-label">Title</label>
-                <label className="location-header-label">
+                <label className="subtitle-label">
                   {selectedItem.locationTitle === ""
                     ? "NA"
                     : selectedItem.locationTitle}
@@ -111,7 +111,7 @@ function Gamedescriptionc() {
             <div className="gdcontent-container">
               <div className="title-container-gd">
                 <label className="location-header-label">Description</label>
-                <label className="location-header-label">
+                <label className="subtitle-label">
                   {selectedItem.locationDescription === ""
                     ? "NA"
                     : selectedItem.locationDescription}

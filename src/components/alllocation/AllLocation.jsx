@@ -302,6 +302,7 @@ function AllLocation() {
 
       {selectedItem && (
         <>
+        
           {/** Filter container */}
           <div className="filtercontaineral">
             {alldatafiler.map((item, index) => (
