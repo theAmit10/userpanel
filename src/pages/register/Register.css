@@ -1,302 +1,182 @@
-.login-page {
-    display: flex;
+.loginContainer {
     height: 100vh;
-    background-color: #011833;
-    color: white;
-    overflow: hidden;
-}
-  
-.sidebar {
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    font-family: "MR";
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+
+  }
+
+  .loginContainerLeft{
     width: 20%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+  }
+
+
+  .loginContainerRight{
+    flex: 1;
+
+  }
+
+  .rightParenCR{
+    height: 70vh;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 3rem;
+    margin: 3rem;
+    display: flex;
+    position: relative;
+  }
+
+  .rightParenCMainR{
+   
+    width: 100%;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 3rem;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-left: 10rem;
+    padding-right: 10rem;
+    position: absolute;
+    right: -2rem;
+    top: 2rem;
+    overflow-y: scroll;
+    height: 90vh;
+  
+  }
+
+  .labelHeader{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 3rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .labelSubHeader{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .lBottomContainer{
+    min-height: 5rem;
+    background-color: var(--blue);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    cursor: pointer;
+}
+
+.lfContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.lBottomContainerlabel{
+    color: var(--blue);
+    font-family: "MB";
+    font-size: 1.5rem;
+    align-self: center;
+    cursor: pointer;
+}
+.loginContainerLeftBottom{
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
 }
-  
-.sidebar-top {
-    text-align: left;
-    width: 100%;
-}
-  
-.sidebar-image {
+
+.logcatimagecontainer{
+    height: 30rem;
+    width: 30rem;
+ }
+
+ .logcatandtrophyimg{
+    height: 100%;
     width: 100%;
     object-fit: cover;
-}
-  
-.main-content {
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    padding-top: 5%;
-    position: relative; /* Added this to make it the positioning context */
-}
-  
-.loginparentbox {
-    background: linear-gradient(180deg, #0162AF, #011833);
-    width: 80%;
-    height: 80vh;
-    border-radius: 3vh;
-}
-  
-.loginbox {
-    background: linear-gradient(180deg, #0162AF, #011833);
-    width: 100%;
-    height: 80vh;
-    border-radius: 3vh;
-    margin-top: 5%;
-    margin-left: 5%;
-}
-  
-.gamecontroller-image {
-    width: 14%;
-    object-fit: cover;
-    position: absolute;
-    top: 25%;
-    left: -3%;
-}
-  
-.login-form-register {
-    padding: 10%;
-    border-radius: 10px;
-    width: 80%;
-    height: 90vh;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding-top: 20px;
+ }
+
+ .roleContainerR{
+  min-height: 6rem;
+  margin: 2rem;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 1rem;
+  align-items: center;
+  gap: 2rem;
+ }
+
+ .aC{
+  flex: 1;
+  background-color: var(--green);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+ }
+
+ .sAC{
+  flex: 1;
+  background-color: var(--orange);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+ }
+
+ .c-iconContainer{
  
-    overflow-y: scroll;
-}
-  
-.welcome-label {
-    font-family: "MR";
-    min-width: 20em;
-    margin-bottom: 1vw;
-
-}
-
-.welcome-label-select-country{
-    font-family: "MR";
-    min-width: 20em;
-    flex-grow: 1;
-    padding: 10px;
-    width: 100%;
-    font-size: 1vw;
-    color: var(--darkGray);
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  padding-left: 2px;
 }
 
-.welcome-label-select-country:hover{
-    cursor: pointer;
-}
-
-.form-group-select-country_container{
-    display: flex;
-    align-items: flex-start;
-    flex-direction: row;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-}
-
-.form-group-select-country_container:hover{
-    border: 2px solid var(--green); /* Change border color on hover */
-    cursor: pointer;
-}
-  
-.login-form form {
-    display: flex;
-    flex-direction: column;
-    /* Updated this to create a 20px gap between each form group */
-}
-  
-.form-group {
-    display: flex;
-    align-items: flex-start;
-  
-    flex-direction: column;
-}
-  
-.form-group label {
-    flex-shrink: 0;
-    width: 100px; /* Adjust as needed */
-    text-align: left;
-}
-  
-.form-group input {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-
-.form-group span{
-    color: #0179FE;
-}
-  
-
-.submit-btn-register {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #0179FE;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 2vw;
-    margin-bottom: 2vw;
-}
-  
-.main-content-image {
-    width: 35%;
-    object-fit: cover;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
-
-@media (max-width: 1024px) {
-    .loginparentbox {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 90%;
-        height: 80vh;
-        border-radius: 3vh;
-        
-    }
-      
-    .loginbox {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 105%;
-        height: 80vh;
-        border-radius: 3vh;
-        margin-top: 5%;
-        margin-left: 5%;
-        
-    }
-    .login-form-register {
-        padding: 2%;
-        border-radius: 10px;
-        width: 80%;
-        height: 70vh;
-        position: relative;
-        margin: 5%;
-        justify-content: stretch;
-  
-    }
-    .gamecontroller-image {
-        width: 14%;
-        object-fit: cover;
-        position: absolute;
-        top: 40%;
-        left: -20%;
-    }
-    .form-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 1vw;
-        flex-direction: column;
-    
-    }
-    .welcome-label-select-country{
-        font-family: "MR";
-        min-width: 20em;
-        flex-grow: 1;
-        padding: 10px;
-        width: 100%;
-        font-size: 1.4vw;
-        color: var(--darkGray);
-    }
-}
+ .c-icon{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+ }
 
 
-@media (max-width: 768px) {
-    .loginparentbox {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 90%;
-        height: 80vh;
-        border-radius: 3vh;
-        margin-top: 2%;
-    }
-      
-    .loginbox {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 105%;
-        height: 80vh;
-        border-radius: 3vh;
-        margin-top: 5%;
-        margin-left: 5%;
-        
-    }
-    .login-form-register {
-        padding: 2%;
-        border-radius: 10px;
-        width: 80%;
-        height: 70vh;
-        position: relative;
-        margin: 5%;
-        justify-content: center;
-        gap: 2vw; /* Added this to create a 20px gap between each item */
-     
-        
-        
-    }
-    .gamecontroller-image {
-        width: 14%;
-        object-fit: cover;
-        position: absolute;
-        top: 40%;
-        left: -20%;
-    }
-    .form-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 1vw;
-        flex-direction: column;
-        margin-top: 4vw;
-    }
-    .sidebar{
+ @media (max-width: 768px) {
+    .loginContainerLeft{
         display: none;
     }
-    .main-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-       
-        align-items: center;
-        position: relative; /* Added this to make it the positioning context */
-      
-        width: 90%;
-        height: 80vh;
-
-    }
-    .form-group-select-country_container{
-        display: flex;
-        align-items: flex-start;
-        flex-direction: row;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-    }
-    .welcome-label-select-country{
-        font-family: "MR";
-        min-width: 2em;
-        flex-grow: 1;
-        padding: 10px;
-        width: 100%;
-        font-size: 10px;
-        color: var(--black);
-    }
-    .welcome-label-select-country{
-        font-family: "MR";
-        min-width: 20em;
-        flex-grow: 1;
-        padding: 10px;
-        width: 100%;
-        font-size: 2.4vw;
-        color: var(--darkGray);
     }
 
+
+@media (max-width: 480px) {
+.loginContainerLeft{
+    display: none;
+}
 }

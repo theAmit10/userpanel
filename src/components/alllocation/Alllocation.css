@@ -1,92 +1,33 @@
 .allocationcontainer {
+  flex:1;
   display: flex;
   flex-wrap: wrap;
-  width: 82vw;
-  gap: 2%;
-  height: 80vh; /* Set maximum height to viewport height */
-  overflow-y: auto; /* Enable vertical scrolling */
   background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 2vh;
-  border-radius: 2vh;
- 
-}
-
-.allocationcontainer-all {
-  overflow-x: hidden;
- 
-}
-
-.location-item-all {
-  height: 30%;
-  width: 100%;
-  background: linear-gradient(90deg, #0162AF, #011833);
-  margin: 2%;
-  flex: 1;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-}
-
-.location-details-all {
-  width: 20%;
+  border-radius: 1rem;
+  padding: 1rem;
   flex-direction: column;
-}
-
-.location-header {
-  height: 10%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  
-  padding: 2vh;
-  align-items: center;
-  margin: 2vh;
-  border-radius: 1vh;
-}
-
-.time-items-container {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Adjust the number of columns here */
-  gap: 1vh;
-  padding: 2vh;
-}
-
-.time-item {
-  width: 8vw;
-  height: 5vh;
-  background: var(--background);
-  border-radius: 1vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.time-item:hover{
-  border: 2px solid var(--green); /* Change border color on hover */
-  cursor: pointer;
+ 
 }
 
 .filtercontaineral{
   display: flex;
-  height: 5%;
-  width: calc(100% - 4%);
-  background-color: var(--grayHalfBg);
+  height: 3rem;
+  background-color: var(--white_s);
   justify-content: center;
   align-items: center;
-  border-radius: 40px;
-  margin-left: 2%;
-  margin-right: 2%;
+  border-radius: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  gap: 1rem;
   
 }
 
 .filtercontental{
   display: flex;
-  width: 10%;
-  height: calc(100% - 6%);
+  width: 10rem;
   background-color: var(--background);
-  border-radius: 10px;
-  margin: 2%;
+  border-radius: 1rem;
+  padding: 0.2rem;
   justify-content: center;
   align-items: center;
 }
@@ -97,7 +38,82 @@
   cursor: pointer;
 }
 
+.filtercontentalLabel{
+  color: var(--white_s);
+  font-family: "HR";
+  font-size: 1.5rem;
+}
 
+.allocationcontainer-all {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  overflow-y: scroll;
+  padding-top: 0.5rem;
+
+}
+
+.location-item-all {
+  min-height: 15rem;
+  max-height: fit-content;
+  background: linear-gradient(90deg, #0162AF, #011833);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.location-details-all {
+  width: 20%;
+  flex-direction: column;
+}
+
+.location-header {
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+.time-items-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.time-item {
+  width: 8rem;
+  height: 3rem;
+  background: var(--background);
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.time-items-container-time-label{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 1rem;
+}
+
+.time-item:hover{
+  border: 2px solid var(--green); /* Change border color on hover */
+  cursor: pointer;
+}
+.alLocationTitle{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 2rem;
+  padding-left: 2rem;
+}
 
 .back-container:hover{
   cursor: pointer;
@@ -109,28 +125,14 @@
   width: 82vw;
   display: flex;
   flex-direction: column;
-  gap: 2%;
-  overflow-y: auto; /* Enable vertical scrolling */
-  background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 2vh;
-  border-radius: 2vh;
+  gap: 1rem;
+  overflow-y: scroll; /* Enable vertical scrolling */
 
-}
-
-.date-title-container{
-  height: 10vh;
-
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2vh;
 }
 
 .back-container {
-  padding: 1vh;
-  margin: 1vh;
-  border-radius: 1vh;
+  padding: 1rem;
+  border-radius: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -138,22 +140,47 @@
  
 }
 
+.date-title-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.alLocationNameL{
+  color: var(--white_s);
+  font-size: 1.5rem;
+  font-family: "MR";
+}
+
+.date-title-container-limit-label{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1.2rem;
+}
+
+.alLocationSDL{
+  color: var(--white_s);
+  font-family: "MB";
+  font-size: 1.5rem;
+}
+
 .dateconatainer{
-  height: 60vh;
-  margin: 2vh;
+  height: 70vh;
   overflow-y: scroll;
+
  
 }
 
 .datecontainer-content{
-  height: 10vh;
+  height: 6rem;
   background-color: #011833;
-  border-radius: 2vh;
+  border-radius: 1rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 2vh;
-  margin-bottom: 1vh;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 
@@ -164,17 +191,16 @@
 
 .datecontainer-content-label{
   color: var(--white_s);
-  font-size: 3vh;
-  font-family: 'SFR';
+  font-size: 1.5rem;
+  font-family: 'MR';
 }
 
 
 .resultcontaineral{
   height: 50vh;
-  width: calc(100% - 2%); /* Adjust width to account for margin */
   background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 1%;
-  border-radius: 3vh;
+  margin: 1rem;
+  border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -183,21 +209,21 @@
 }
 
 .resultleftcontaineral{
-  width: 50%;
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .resultrightcontaineral{
-  width: 50%;
-  height: 100%;
+  flex: 1;
   display: flex;
+  background-color: pink;
+  flex-direction: row;
 }
 .rltopcontaineral{
-width: 100%;
-height: 25%;
-display: flex;
+  width: 100%;
+  height: 25%;
+  display: flex;
 }
 
 .rlmiddlecontaineral{
@@ -209,10 +235,10 @@ display: flex;
 .rlbottomcontaineral{
   width: 100%;
   height: 25%;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: aquamarine;
 
 }
 
@@ -220,12 +246,12 @@ display: flex;
   width: 80%;
   height: 80%;
   background-color: var(--background);
-  border-radius: 10px;
+  border-radius: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 1.5rem;
   
 }
 
@@ -243,43 +269,35 @@ display: flex;
 .catcontrolleral{
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
-.filtercontentalLabel{
-  color: var(--white_s);
-  font-family: "HR";
-  font-size: 1.1vw;
-}
+
 .location-header-label{
   color: var(--white_s);
   font-family: "MB";
-  font-size: 1.2vw;
+  font-size: 1.5rem;
 }
 .location-header-max-label{
   color: var(--white_s);
   font-family: "MR";
-  font-size: 0.6vw;
+  font-size: 1rem;
 }
-.time-items-container-time-label{
-  color: var(--white_s);
-  font-family: "MSB";
-  font-size: 1em;
-}
+
 .rltopcontaineralNameLabel{
   color: var(--white_s);
   font-family: "MSB";
-  font-size: 2.5vw;
+  font-size: 2.5rem;
 }
 .rltopcontaineralTimeLabel{
   color: var(--white_s);
   font-family: "MR";
-  font-size: 2vw;
+  font-size: 2rem;
 }
 .rltopcontaineralNumberLabel{
   color: var(--white_s);
   font-family: "HB";
-  font-size: 9vw;
+  font-size: 9rem;
 }
 .imageContainerGame{
   width: 40%;
@@ -289,45 +307,35 @@ display: flex;
   align-items: center;
   justify-content: center;
 }
-.date-title-container-limit-label{
+.rlbottomcontentcontainerCalDateLabel{
   color: var(--white_s);
   font-family: "MR";
-  font-size: 1.2vw;
+  font-size: 1.5rem;
 }
 
 @media (max-width: 1024px) {
   .filtercontentalLabel{
-    color: var(--white_s);
-    font-family: "HR";
-    font-size: 1.4vw;
+    font-size: 1.4rem;
   }
   .location-header-label{
-    color: var(--white_s);
-    font-family: "MB";
-    font-size: 1.4vw;
+    font-size: 1.4rem;
   }
   .location-header-max-label{
-    color: var(--white_s);
-    font-family: "MR";
-    font-size: 0.6vw;
+    font-size: 0.6rem;
   }
   .time-items-container-time-label{
-    color: var(--white_s);
-    font-family: "MSB";
-    font-size: 1.2vw;
+    font-size: 1.2rem;
   }
 }
 
 @media (max-width: 768px) {
   .filtercontentalLabel{
-    color: var(--white_s);
-    font-family: "HR";
-    font-size: 1.8vw;
+    font-size: 1.8rem;
   }
   .location-header-label{
     color: var(--white_s);
     font-family: "MB";
-    font-size: 1.8vw;
+    font-size: 1.8rem;
   }
   .location-header-max-label{
     display: none;
@@ -335,52 +343,35 @@ display: flex;
   .time-items-container-time-label{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 1.4vw;
+    font-size: 1.4rem;
   }
-  .catcontrolleral{
-    width: 100%;
-    height: 100%;
-    object-fit: scale-down;
-  }
-  .catImageContainer{
-    height: max-content;
-  }
+  
   .time-items-container-time-label{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 1.4vw;
+    font-size: 1.4rem;
   }
   .rltopcontaineralNameLabel{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 3vw;
+    font-size: 3rem;
   }
   .rltopcontaineralTimeLabel{
     color: var(--white_s);
     font-family: "MR";
-    font-size: 2.5vw;
+    font-size: 2.5rem;
   }
   .rltopcontaineralNumberLabel{
     color: var(--white_s);
     font-family: "HB";
-    font-size: 15vw;
+    font-size: 15rem;
   }
-  .imageContainerGame{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .resultrightcontaineral{
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+
+  
   .date-title-container-limit-label{
     color: var(--white_s);
     font-family: "MR";
-    font-size: 1.6vw;
+    font-size: 1.6rem;
   }
 }
 
@@ -388,12 +379,12 @@ display: flex;
   .filtercontentalLabel{
     color: var(--white_s);
     font-family: "HR";
-    font-size: 1.8vw;
+    font-size: 1.8rem;
   }
   .location-header-label{
     color: var(--white_s);
     font-family: "MB";
-    font-size: 1.8vw;
+    font-size: 1.8rem;
   }
   .location-header-max-label{
     display: none;
@@ -401,84 +392,35 @@ display: flex;
   .time-items-container-time-label{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 1.4vw;
-  }
-  .catcontrolleral{
-    width: 100%;
-    height: 100%;
-    object-fit: scale-down;
-  }
-  .catImageContainer{
-    height: max-content;
+    font-size: 1.4rem;
   }
   .time-items-container-time-label{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 1.4vw;
+    font-size: 1.4rem;
   }
   .rltopcontaineralNameLabel{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 3vw;
+    font-size: 3rem;
   }
   .rltopcontaineralTimeLabel{
     color: var(--white_s);
     font-family: "MR";
-    font-size: 2.5vw;
+    font-size: 2.5rem;
   }
   .rltopcontaineralNumberLabel{
     color: var(--white_s);
     font-family: "HB";
-    font-size: 15vw;
-  }
-  .imageContainerGame{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .resultrightcontaineral{
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    font-size: 15rem;
   }
   .date-title-container-limit-label{
     color: var(--white_s);
     font-family: "MR";
-    font-size: 1.6vw;
+    font-size: 1.6rem;
   }
-  .location-item-all {
-    min-height: 20%;
-    width: 90%;
-    background: linear-gradient(90deg, #0162AF, #011833);
-    margin: 2%;
-    flex: 1;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: row;
-  }
-  .time-items-container {
-    
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1vh;
-    padding: 2vh;
-  }
-  .time-item {
-    width: 8vw;
-    height: 30px;
-    background: var(--background);
-    border-radius: 1vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .location-details-all {
-    width: 80px;
-    flex-direction: column;
-  }
+ 
+  
   
 }
 

@@ -3,32 +3,32 @@
   flex: 1;
   height: 80vh;
   background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 2vh;
-  border-radius: 2vh;
-  padding: 2vh;
+  border-radius: 2rem;
   flex-direction: column;
-  gap: 2vh;
+  gap: 2rem;
 }
 
 .aboutus-title-container {
   display: flex;
   justify-content: space-between;
-  padding: 2vh;
+  padding-left: 2rem;
+  padding-top: 1rem;
 }
 
 .aboutus-title-label {
   color: white;
   font-family: "MB";
-  font-size: 4vh;
+  font-size: 2rem;
 }
 
 .aboutus-search-container {
   display: flex;
   align-items: center;
-  padding: 1vh;
-  margin: 2vh;
-  border-radius: 2vh;
+  padding: 1rem;
+  margin: 2rem;
+  border-radius: 1rem;
   background-color: var(--white_s);
+  height: 5rem;
 }
 
 .aboutus-search-icon {
@@ -38,11 +38,11 @@
 
 .aboutus-search-input {
   flex: 1;
-  padding: 0.1vw;
+  padding: 0.1rem;
   background-color: transparent;
   border: none;
   font-family: "MR";
-  font-size: 1em;
+  font-size: 1.5rem;
   outline: none;
 }
 
@@ -56,103 +56,99 @@
 .aboutus-content-container {
   display: flex;
   flex-direction: column;
-  gap: 2vh;
-  padding: 2vh;
-  margin: 1vw;
-  border-radius: 2vh;
+  gap: 2rem;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 2rem;
   background: linear-gradient(90deg, #0162af, #011833);
   height: 65vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .aboutus-content {
-  min-height: 20vh;
-  background-color: #011833;
-  border-radius: 2vh;
+  min-height: 10vh;
+  background-color: var(--background);
+  border-radius: 2rem;
 }
 
 .aboutus-content-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 10vh;
+  min-height: 5vh;
 }
 
 .aboutus-content-subtitle {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 10vh;
+  min-height: 8vh;
 }
 
 .aboutus-content-title-label {
   color: white;
   font-family: "MSB";
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 
 .aboutus-content-subtitle-label {
   color: white;
   font-family: "MR";
-  font-size: 1em;
+  font-size: 1.5rem;
 }
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .aboutus-title-label {
-    font-size: 3vh;
+    font-size: 3rem;
   }
 
   .aboutus-search-input {
-    font-size: 0.9em;
+    font-size: 0.9rem;
   }
 
   .aboutus-content-title-label {
-    font-size: 1.2em;
+    font-size: 1.2rem;
   }
 
   .aboutus-content-subtitle-label {
-    font-size: 0.8em;
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 768px) {
   .aboutus-title-label {
-    font-size: 2.5vh;
+    font-size: 2.5rem;
   }
 
   .aboutus-search-input {
-    font-size: 0.8em;
+    font-size: 1.5rem;
   }
 
   .aboutus-content-title-label {
-    font-size: 1em;
+    font-size: 1.5rem;
   }
 
   .aboutus-content-subtitle-label {
-    font-size: 0.7em;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
-  .aboutus-container {
-    padding: 1vh;
-    margin: 1vh;
-  }
-
   .aboutus-title-label {
-    font-size: 4vh;
+    font-size: 2.5rem;
   }
 
   .aboutus-search-input {
-    font-size: 0.7em;
+    font-size: 1.5rem;
   }
 
   .aboutus-content-title-label {
-    font-size: 0.9em;
+    font-size: 1.5rem;
   }
 
   .aboutus-content-subtitle-label {
-    font-size: 0.6em;
+    font-size: 1.5rem;
   }
+  
 }

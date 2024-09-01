@@ -28,9 +28,7 @@ function Logout() {
 
   const loggingOff = () => {
     console.log("STARTING LOGGING OFF");
-    localStorage.clear();
-    navigation("/login");
-
+   
     if (isLoading) {
       console.log("Loading...");
       return;

@@ -1,16 +1,11 @@
-
-
 .main-content-container-gamedescrition {
-
   display: flex;
   flex: 1;
   height: 80vh;
   background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 2vh;
-  border-radius: 2vh;
-  padding: 2vh;
+  border-radius: 2rem;
   flex-direction: column;
-  gap: 2vh;
+  gap: 2rem;
   overflow-y: hidden;
 }
 
@@ -56,13 +51,13 @@
 .gdcontent-container {
   flex: 1;
   display: flex;
-  padding: 2vh;
+  padding: 2rem;
   flex-direction: column;
   overflow-y: scroll;
-  gap: 2vh;
-  border-radius: 2vh;
-  margin-top: 2vh;
-  margin: 1vw;
+  gap: 2rem;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  margin: 2rem;
   background: linear-gradient(90deg, #0162AF, #011833);
 }
 
@@ -90,21 +85,21 @@
 }
 
 .all-location-gd{
-
-  background: linear-gradient(90deg, #0162AF, #011833);
-  border-radius: 10px;
+  height: 7rem;
+  width: 80vw;
+  background-color: var(--background);
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 1rem;
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  justify-content: flex-start;
   align-items: center;
-  margin-left: 1vw;
-  margin-right: 1vw;
-  padding: 0.1vw;
- 
+  overflow-x: scroll;
 }
 
 .title-container-gd{
-  height: 10%;
+  min-height: 10rem;
   background: linear-gradient(90deg, #0162AF, #011833);
   display: flex;
   flex-direction: column;
@@ -112,34 +107,9 @@
 }
 
 @media (max-width: 768px) {
-  .title-label {
-    font-size: 4vh;
-  }
+  
 
-  .search-label {
-    font-size: 2vh;
-  }
-
-  .gdcontent-title {
-    font-size: 2.5vh;
-  }
-  .gdcontent-limit {
-      font-size: 2vh;
-  }
-
-  .main-content-container-gamedescrition {
-
-    display: flex;
-    flex: 1;
-    height: 80vh;
-    background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 2vh;
-    border-radius: 2vh;
-    padding: 2vh;
-    flex-direction: column;
-    gap: 2vh;
-    width: 50vw;
-  }
+  
 }
 
 

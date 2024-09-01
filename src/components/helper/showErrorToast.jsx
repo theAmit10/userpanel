@@ -13,7 +13,8 @@ export const showErrorToast = (message) => {
     draggable: true,
     progress: undefined,
     style:{
-      fontFamily: FONT.Montserrat_Regular
+      fontFamily: FONT.Montserrat_Regular,
+      fontSize: "1.5rem"
     }
   });
 
@@ -30,7 +31,8 @@ export const showSuccessToast = (message) => {
     draggable: true,
     progress: undefined,
     style:{
-      fontFamily: FONT.Montserrat_Regular
+      fontFamily: FONT.Montserrat_Regular,
+      fontSize: "1.5rem"
     }
   });
 };
@@ -46,7 +48,8 @@ export const showWarningToast = (message) => {
     draggable: true,
     progress: undefined,
     style:{
-      fontFamily: FONT.Montserrat_Regular
+      fontFamily: FONT.Montserrat_Regular,
+      fontSize: "1.5rem"
     }
   });
 };

@@ -1,37 +1,51 @@
-.main-parent {
+.adminDashboardContainer {
     height: 100vh;
     width: 100%;
     background-color: var(--background);
     display: flex;
     flex-direction: column;
-}
+    font-family: "MR";
+  }
 
-.topheaderd {
-    display: flex;
+  .top-admin-d{
     height: 10%;
-    width: 100%;
-    margin-right: 2%;
+    display: flex;
     flex-direction: row;
-}
+  
+  }
 
-.lefttopcontinerd {
-    width: 18%;
-    height: 100%;
+  .top-left-d{
+    width: 20%;
     display: flex;
-}
-
-.ltcleftd {
-    display: flex;
+    flex-direction: row;
+  }
+  .top-left-left-d{
     flex: 1;
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    padding-left: 10%;
-}
-
-.ltcrightimaged {
-    height: 60px;
-    width: 60px;
+    padding-left: 2rem;
+  }
+  .top-left-right-d{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hellolabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 2rem;
+  }
+  .usernamelabel{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 2rem;
+    
+  }
+  .userimagecontainer{
+    height: 7rem;
+    width: 7rem;
     background-color: white;
     padding: 2%;
     border-radius: 50%;
@@ -39,435 +53,248 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.user-imaged {
+  }
+  .userprofileimg{
     height: 100%;
     width: 100%;
     object-fit: cover;
     border-radius: 50%;
-}
-
-.ltcrightd {
+  }
+  .top-right-d{
     flex: 1;
     display: flex;
-    flex-direction: row;
+  }
+  .top-right-left-d{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .dashboardlabel{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 3.5rem;
+  }
+  .dcontentlabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 2rem;
+  }
+  
+  .top-right-right-d{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 2rem;
+    gap: 2rem;
+  }
+
+  .iconcontainertop{
+    height: 5rem;
+    width: 5rem;
+    background-color: var(--grayHalfBg);
+    display: flex;
     justify-content: center;
     align-items: center;
-}
+    border-radius: 1rem;
+  }
+  
 
-.searchcontainerd, .depositcontainerd, .iconcontainerd {
-    padding: 5px;
-    margin: 10px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-   
-}
+  /** MAIN CONTAINER START */
 
-
-.searchcontainerd {
-    flex: 1;
-    background-color: var(--grayHalfBg);
-    flex-direction: row;
-    justify-content: flex-start;
-}
-
-.depositcontainerd {
-    height: 50px;
-    background: linear-gradient(180deg, #7EC630, #3D6017);
-}
-
-.walletcontainerd {
-    width: 10%;
-    background-color: var(--grayHalfBg);
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2px;
-}
-
-.iconcontainerd{
-    width: 50px;
-    height: 50px;
-    background-color: var(--grayHalfBg);
-}
-
-.righttopcontinerd {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-}
-
-
-.contentcontainerd {
+  .adminDashboardMainContainer{
     flex: 1;
     display: flex;
-    width: 100%;
+    margin: 1rem;
     flex-direction: row;
-    height: 90vh;
-}
 
-.leftcontainerd {
+  }
+
+  .adLeftContainer{
     width: 15%;
-    height: 90vh;
-
-}
-
-.leftsidebartopd {
-    height: 55%;
-    width: calc(100% - 10%); /* Adjust width to account for margin */
+    height: 80vh;
     background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 5%;
-    margin-right: 5%; /* Add specific margin for the right side */
-    border-radius: 3vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1rem;
     flex-direction: column;
-    gap: 10px;
-}
+    align-items: center;
+    gap: 1rem;
+    overflow-y: scroll;
 
-.lscontentd{
-    width: calc(100% - 10%); /* Adjust width to account for margin */
+  }
+
+  .adLContenContainer{
+    height: 5rem;
+    width: 90%;
     background-color: var(--background);
-    height: 10%;
-    padding: 2%;
+    border-radius: 1rem;
+    padding: 1rem;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 8px;
-    gap: 10px;
-    
-    
-}
+    gap: 1rem;
+  }
 
-.lscontentd:hover{
-    border: 2px solid var(--green); /* Change border color on hover */
-    cursor: pointer;
-}
-
-
-
-
-.leftsidebarmiddled {
-    height: 30%;
-    width: calc(100% - 10%); /* Adjust width to account for margin */
-    background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 5%;
-    margin-right: 5%; /* Add specific margin for the right side */
-    border-radius: 3vh;
+  .adLContenContainerIcon{
+    height: 3rem;
+    width: 3rem;
+    background-color: transparent;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    position: relative; /* Make this container relative */
-    overflow: hidden; /* Hide overflow */
-}
-
-.promotionLable {
-    color: var(--white_s);
-    font-family: "HB";
-    font-size: 1.8vw;
-    margin: 2vh;
-    z-index: 2; /* Ensure the label is above the image */
-}
-
-.ImageSlider {
-    height: 100%; /* Ensure the slider takes the remaining space */
-    width: 100%;
-    position: relative; /* For positioning the nav buttons */
-}
-
-.promotion-bannerd {
-    height: 70%; /* Fixed height for the image container */
-    width: 100%;  /* Full width for the image container */
-    object-fit: cover; /* Ensure the image covers the container while maintaining its aspect ratio */
-}
-
-
-.leftsidebarbottomd {
-    height: 10%;
-    width: calc(100% - 10%); /* Adjust width to account for margin */
-    margin: 5%;
-    margin-right: 5%; /* Add specific margin for the right side */
-    border-radius: 3vh;
-    display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-}
-
-.appiconcontainerd{
-    width: 20%;
-    background-color: var(--grayHalfBg);
-    border-radius: 1vh;
-    padding: 3px;
-}
-
-
-.main-center-contentd{
-    display: flex;
-    flex: 1;
-}
-
-/* Base styles for the label */
-.sidebar-label {
-    color: white;
-    font-family: "MR"; 
-    font-size: 0.8em; /* Use relative units */
-    text-align: center;
-    flex: 1;
-    text-align: left;
-  }
-  .topbar-label {
-    color: black;
-    font-family: "HR"; 
-    font-size: 0.8em; /* Use relative units */
-    text-align: center;
-    flex: 1;
-    text-align: left;
+    border-radius: 1rem;
+   
   }
 
-  .lscontentIconContiner{
-    display: flex;
-    min-width: 3vw;
-    justify-content: right;
-    align-items: center;
-    
-}
-.getTheApplabel{
+  .adLContenContainerLabel{
     color: var(--white_s);
-    font-family: "HR";
-    font-size: medium;
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-
-.helloLabel{
-    color: var(--white_s);
-    font-family: "HR";
-    font-size: 1.4vw;
-}
-.usernameLabel{
-    color: var(--white_s);
-    font-family: "HB";
-    font-size: 1.8vw;
-}
-.searchLabel{
-    color: var(--black);
     font-family: "MR";
-    font-size:  1.2em;
-    padding-left: 10px;
-}
-.depositLabel{
+    font-size: 1.5rem;
+    align-self: center;
+  }
+
+  .adRightContainer{
+    flex: 1;
+    display: flex;
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-right: 1rem;
+  }
+
+  .depositContainer{
+    height: 5rem;
+    width: 10rem;
+    background-color: var(--green);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 1rem;
+    flex-direction: row;
+    cursor: pointer;
+  }
+  .depositContainerLabel{
     color: var(--white_s);
-    font-family: "HR";
-    font-size:  1vw;
-    padding-left: 5px;
-}
-
-  /* Medium devices (tablets) */
-  @media (max-width: 1024px) {
-    /* CSS rules for tablets in landscape mode */
-    .helloLabel{
-        color: var(--white_s);
-        font-family: "HR";
-        font-size: 1.8vw;
-    }
-    .usernameLabel{
-        color: var(--white_s);
-        font-family: "HB";
-        font-size: 2vw;
-    }
-    .topheaderd {
-        display: flex;
-        height: 8%;
-        width: 100%;
-        margin-right: 2%;
-        flex-direction: row;
-    }
-    .searchLabel{
-        color: var(--black);
-        font-family: "MR";
-        font-size:  1em,;
-        padding-left: 10px;
-    }
-    .ltcrightimaged {
-        height: 45px;
-        width: 45px;
-        background-color: white;
-        padding: 2%;
-        border-radius: 50%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .iconcontainerd{
-        width: 45px;
-        height: 45px;
-        background-color: var(--grayHalfBg);
-    }
-    .depositcontainerd {
-        height: 45px;
-        background: linear-gradient(180deg, #7EC630, #3D6017);
-    }
+    font-family: "MR";
+    font-size: 1.1rem;
   }
 
-  
-  
-  /* Media query to hide the label on small screens */
-  @media (max-width: 768px) {
-    .sidebar-label {
-      display: none; /* Hide the label on screens smaller than 768px */
-    }
-
-    .lscontentd{
-        width: calc(100% - 10%); /* Adjust width to account for margin */
-        background-color: var(--background);
-        height: 10%;
-        padding: 2%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
-        gap: 10px;
-        
-    }
-    .lscontentd:hover{
-        border: 2px solid var(--green); /* Change border color on hover */
-        cursor: pointer;
-    }
-    .lscontentIconContiner{
-        display: flex;
-        min-width: 3vw;
-        justify-content: center;
-        align-items: center;
-
-
-        
-    }
-    .leftsidebarmiddled  {
-        display: none;
-    }
-    .getTheApplabel{
-        display: none;
-    }
-    .leftsidebarbottomd {
-        min-width: 60px; /* Adjust width to account for margin */
-        margin: 2%;
-        margin-right: 5%; /* Add specific margin for the right side */
-        border-radius: 1vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 2vh;
-    }
-    .appiconcontainerd{
-        width: 40px;
-        background-color: var(--grayHalfBg);
-        border-radius: 1vh;
-        padding: 3px;
-    }
-    .leftcontainerd {
-        width: 15%;
-        height: 90vh;
-    
-    }
-    .searchcontainerd {
-        width: 50px;
-        background-color: var(--grayHalfBg);
-        flex-direction: row;
-        justify-content: flex-start;
-    }
-    .searchLabel{
-        display: none;
-    }
-
-     .depositcontainerd, .iconcontainerd {
-        padding: 10px;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 40px;
-        width: 40px;
-    }
-    .walletcontainerd,.depositcontainerd,.searchcontainerd{
-        display: none;
-    }
-    .topheaderd {
-        display: flex;
-        height: 8%;
-        width: 100%;
-        margin-right: 2%;
-        flex-direction: row;
-    }
-    .lefttopcontinerd {
-        width: 18%;
-        height: 100%;
-        display: flex;
-        justify-content: left;
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-top: 10px;
-    }
-    .ltcleftd{
-        display: none;
-    }
-
-    .ltcrightimaged {
-        height: 40px;
-        width: 40px;
-        background-color: white;
-        padding: 2%;
-        border-radius: 50%;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .leftsidebartopd {
-        height: 75%;
-        width: 60px;/* Adjust width to account for margin */
-        background: linear-gradient(180deg, #0162AF, #011833);
-        margin: 5%;
-        margin-right: 5%; /* Add specific margin for the right side */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 10px;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-    }
-    .leftcontainerd {
-        width: 65px;
-        height: 90vh;
-    
-    }
-    .lefttopcontinerd {
-        width: 50px;
-        height: 100%;
-        display: flex;
-    }
-   
-    
-    
-   
-
+  .promotionContainerD{
+    max-height: 35rem;
+    min-height: 15rem;
+    width: 100%;
+    background-color: pink;
+    border-radius: 1rem;
   }
 
+  .shereAppContainer{
+    height: 12rem;
+    width: 100%;
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .shereAppContainerLabel{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.1rem;
+    text-align: center;
+  }
+   /** MAIN CONTAINER END */
+
+
+   @media (max-width: 1024px) {
+    .adLContenContainerLabel{
+      font-size: 1.2rem;
+    }
+    .dashboardlabel{
+      font-size: 3rem;
+    }
+    .dcontentlabel{
+      font-size: 1.5rem;
+    }
+   }
+
+   @media (max-width: 768px) {
+    .adLContenContainerLabel{
+      display: none;
+    }
+    .adLContenContainer{
+      justify-content: center;
+      width: 6rem;
+    }
+    .adLeftContainer{
+      width: 8rem;
+    }
+    .top-admin-d{
+      height: 6%;
+    }
+    .top-left-left-d{
+      display: none;
+    }
+    .userimagecontainer{
+      height: 5rem;
+      width: 5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .top-left-right-d{
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .top-left-d{
+      width: 15%;
+    }
+    .dashboardlabel{
+      font-size: 2rem;
+    }
+    .dcontentlabel{
+      font-size: 1.2rem;
+    }
+    .promotionContainerD{
+      display: none;
+    }
+    .shereAppContainer{
+      flex-direction: column;
+    }
+   
+   }
+
+   @media (max-width: 480px) {
+    .adLContenContainerLabel{
+      display: none;
+    }
+    .adLContenContainer{
+      justify-content: center;
+      width: 5rem;
+    }
+    .adLeftContainer{
+      min-width: 8rem;
+    
+    }
+    .top-left-d{
+      width: 10%;
+      display: flex;
+      flex-direction: row;
+      min-height: 15rem;
+    }
+    .depositContainer{
+      height: 5rem;
+      width: 5rem;
+      justify-content: center;
+    
+    }
+    .depositContainerLabel{
+      display: none;
+    }
+   
+   }

@@ -21,6 +21,8 @@ import {
 import CircularProgressBar from "../helper/CircularProgressBar";
 import CountdownTimer from "../helper/CountdownTimer";
 import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
+import { serverName } from "../../redux/store";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 const topWinnerOfTheDay = [
   {
@@ -45,6 +47,112 @@ const topWinnerOfTheDay = [
   },
 ];
 
+
+
+const locationdata = [
+  {
+    id: "1",
+    name: "Canada",
+    limit: "200 - 200X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "12", time: "10:00 AM" },
+      { id: "13", time: "11:00 AM" },
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "2",
+    name: "Japan",
+    limit: "200 - 200X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "12", time: "10:00 AM" },
+      { id: "13", time: "11:00 AM" },
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "3",
+    name: "Punjab",
+    limit: "200 - 200X",
+    times: [
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "4",
+    name: "Pune",
+    limit: "200 - 200X",
+    times: [
+      { id: "13", time: "11:00 AM" },
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "5",
+    name: "China",
+    limit: "100 - 100X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "6",
+    name: "India",
+    limit: "200 - 200X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "12", time: "10:00 AM" },
+      { id: "13", time: "11:00 AM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+  {
+    id: "7",
+    name: "USA",
+    limit: "200 - 200X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "12", time: "10:00 AM" },
+      { id: "13", time: "11:00 AM" },
+      { id: "14", time: "12:00 PM" },
+    ],
+  },
+  {
+    id: "8",
+    name: "Korea",
+    limit: "200 - 200X",
+    times: [
+      { id: "11", time: "09:00 AM" },
+      { id: "12", time: "10:00 AM" },
+      { id: "13", time: "11:00 AM" },
+      { id: "14", time: "12:00 PM" },
+      { id: "15", time: "01:00 PM" },
+      { id: "16", time: "02:00 PM" },
+      { id: "17", time: "03:00 PM" },
+    ],
+  },
+];
+
+
 function HomeDashboard() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -53,6 +161,33 @@ function HomeDashboard() {
   const { loadingResult, results: singleResult } = useSelector(
     (state) => state.result
   );
+
+
+  const [timeVisible, setTimeVisible] = useState(true);
+  const [dateVisible, setDateVisible] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
+
+
+
+const settingTimeVisbility = (val) => {
+  setResultVisible(false);
+  setTimeVisible(true);
+  setDateVisible(false);
+};
+
+const dateBackhandler = () => {
+  setResultVisible(false);
+  setTimeVisible(true);
+  setDateVisible(false);
+};
+
+const resultBackhandler = () => {
+  setResultVisible(false);
+  setTimeVisible(false);
+  setDateVisible(true);
+};
+
+
 
   const [firstTimeClick, setFirstTimeClick] = useState(true);
   useEffect(() => {
@@ -359,387 +494,297 @@ function HomeDashboard() {
   };
 
   return (
-    <div className="main-content-container">
-      {/** Middle Container */}
-
-      <div className="middlecontainer">
-        {/** Result contatiner */}
-        <div className="resultcontainer">
-          <div className="resultleftcontainer">
-            <div className="rltopcontainer">
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <label className="rltopcontainerLocationLabel">
-                  {homeResult?.lotlocation?.lotlocation}
-                </label>
-              </div>
-              <div
-                style={{
-                  width: "40%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <label className="rltopcontainerNextLabel">
-                  {homeResult?.nextresulttime ? "Next Result" : ""}
-                </label>
-                <label className="rltopcontainerNextTimeLabel">
-                  {homeResult?.nextresulttime}
-                </label>
-              </div>
+    <div className="hdcontainer">
+    {/** LEFT CONTAINER */}
+    <div className="hdLeftC">
+      {/** TOP */}
+      <div className="hdLeftCTop">
+        <div className="hdlTL">
+          <div className="hdlTLT">
+            <div className="hdlTLTL">
+              <label className="hdlTLTLCountry">India</label>
             </div>
-
-            <div className="rlmiddlecontainer">
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <label
-                className="rlmiddlecontainer-resultnumber-label"
-                >
-                  {homeResult?.resultNumber}
-                </label>
-              </div>
-              <div
-                style={{
-                  width: "40%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <label className="rltopcontainerTimerLabel">
-                  {/* <Countdown date={targetDate} renderer={renderer} /> */}
-                  {/* {targetDate ? (
-                    <Countdown date={targetDate} renderer={renderer} />
-                  ) : (
-                    <span>Loading...</span>
-                  )} */}
-                  {nextResultTime && (
-                    <CountdownTimer timeString={nextResultTime} />
-                  )}
-                </label>
-              </div>
-            </div>
-            <div className="rlbottomcontainer">
-              <div className="rlbottomcontentcontainer">
-                <div className="rlbottomcontentcontainerCalContainer">
-                  <SlCalender size={"15px"} color={COLORS.white_s} />
-                </div>
-                <label className="rlbottomcontentcontainerCalDateLabel">
-                  {homeResult?.lotdate?.lotdate}
-                </label>
-                <label className="rlbottomcontentcontainerCalDateLabel">
-                  {homeResult?.lottime?.lottime}
-                </label>
-                <label className="rlbottomcontentcontainerCalDateLabel">
-                  {homeResult?.resultNumber}
-                </label>
-              </div>
+            <div className="hdlTLTR">
+              <label className="hdlTLTLNextResult">Next Result</label>
+              <label className="hdlTLTLNR">09:00 AM</label>
             </div>
           </div>
-
-          <div className="resultrightcontainer">
-            <div
-              style={{
-                width: "40%",
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <img
-                src={images.gamecontroller}
-                alt="game controller Image"
-                className="gamecontroller"
-              />
-              <img
-                src={images.cups}
-                alt="game controller Image"
-                className="cupontroller"
-              />
+          <div className="hdlTLM">
+            <div className="hdlTLML">
+              <label className="hdlMNumber">09</label>
             </div>
-            <div className="catContainer">
-              <img
-                src={images.cat}
-                alt="game controller Image"
-                className="catcontroller"
-              />
+            <div className="hdlTLMR">
+              <label className="hdlTLTLNRtimer">00:00:00</label>
             </div>
           </div>
+          <div className="hdlTLB">
+            <label className="hdlTLTLNRB">30-08-2024</label>
+            <label className="hdlTLTLNRB">09:00 AM</label>
+            <label className="hdlTLTLNRB">09</label>
+          </div>
         </div>
-
-        {/** Result list contatiner */}
-        <div className="resultlistcontainer">
-          {filteredData.length === 0 ? (
-            <div>
-              <label className="rltopcontainerLocationLabel">
-                No result available
-              </label>
+        <div className="hdlTR">
+          <div className="hdlTRLeft">
+            <div className="hdlTRLeftT">
+              <img src={images.gamecontroller} className="hdtrophyimage" />
             </div>
-          ) : (
-            filteredData.map((item, index) => (
-              <div
-                onClick={() => settingHomeResultUsingLocation(item, index)}
-                className="resultlistcontentcontainer"
-                style={{
-                  background:
-                    index % 2 === 0
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #1993FF, #0F5899)",
-                }}
-                key={index}
-              >
-                <div
-                  style={{
-                    height: "25%",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <label className="resultlistcontentcontainerLocation-hd">
-                    {item.lotlocation.lotlocation}
-                  </label>
-                </div>
-
-                <div
-                  style={{
-                    flex: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <label className="resultlistcontentcontainerNumber-hd">
-                    {item.resultNumber}
-                  </label>
-                </div>
-
-                <div
-                  style={{
-                    height: "25%",
-                    width: "100%",
-
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <label className="resultlistcontentcontainerTime-hd">
-                    {item.lottime.lottime}
-                  </label>
-                </div>
-              </div>
-            ))
-          )}
+            <div className="hdlTRLeftB">
+              <img src={images.cups} className="hdtrophyimage" />
+            </div>
+          </div>
+          <div className="hdlTRRight">
+            <img src={images.cat} className="hdcatimage" />
+          </div>
+        </div>
+      </div>
+      {/** MIDDLE */}
+      <div className="hdLeftCMiddle">
+        {topWinnerOfTheDay.map((item, index) => (
+          <div
+            className="hdMC"
+            style={{
+              background:
+                index % 2 === 0
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #1993FF, #0F5899)",
+            }}
+            key={index}
+          >
+            <div className="hdMCT">
+              <label className="hdMCTCountry">Paris</label>
+            </div>
+            <div className="hdMCM">
+              <label className="hdMCTResult">09</label>
+            </div>
+            <div className="hdMCB">
+              <label className="hdMCTTime">09:00 AM</label>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/** BOTTOM */}
+      <div className="hdLeftCBottom">
+        {/** FILTER SEARCH CONTAINER */}
+        <div className="hdFContainer">
+          <label className="hdFCContenL">2x</label>
         </div>
 
-        {/** filter contatiner */}
-
-        <div className="filtercontainer">
-          {alldatafilerAllLocation?.map((item, index) => (
+        <div className="hdlocC">
+        <div className="hdLocationContainer">
+      <div className="hdLocationContainerLeft">
+        {false ? (
+          <LoadingComponent/>
+        ) : (
+          locationdata.map((item, index) => (
             <div
-              className="filtercontent"
-              onClick={() => settingFilterData(item)}
-              key={item._id}
+              className="hdLocationContainerLeftContent"
+              onClick={() => selectingLocation(item)}
               style={{
+                background:
+                  index % 2 === 0
+                    ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                    : "linear-gradient(90deg, #7EC630, #3D6017)",
                 borderColor:
-                  selectedFilterAllLocation === item._id
-                    ? COLORS.green
+                  selectedLocation?._id === item._id
+                    ? COLORS.white_s
                     : "transparent", // Use transparent for no border
                 borderWidth: "2px",
                 borderStyle:
-                  selectedFilterAllLocation === item._id ? "solid" : "none", // Apply border style conditionally
+                  selectedLocation?._id === item._id ? "solid" : "none", // Apply border style conditionally
               }}
             >
-              <label className="filtercontentLabel-hd">{item.maximumReturn}</label>
+              <label className="hdLocationContainerLeftContentNameLabel">
+                {item.name}
+              </label>
+              <label className="hdLocationContainerLeftContentLimitLabel">
+                Max {item.limit}
+              </label>
             </div>
-          ))}
-        </div>
-
-        {/** Location contatiner */}
-        <div className="locationcontainer">
-          <div className="leftlocation">
-            {isLoadingAllLocation ? (
-              <div
-                style={{
-                  flex: "1",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <CircularProgressBar />
+          ))
+        )}
+      </div>
+      {/** RIGHT */}
+      <div className="hdLocationContainerRight">
+        {selectedLocation === null ? (
+           <LoadingComponent/>
+        ) : (
+          timeVisible && (
+            <div className="hdLocationContainerRightTimeContainer">
+              {/** TOP */}
+              <div className="hdLocationContainerRightTimeContainerTop">
+                <label className="hdLocationContainerLeftContentNameLabel">
+                  {selectedLocation.name}
+                </label>
+                <label className="hdLocationContainerLeftContentLimitLabel">
+                  Max {selectedLocation.limit}
+                </label>
               </div>
-            ) : (
-              filteredDataAllLocation?.map((item, index) => (
-                <div
-                  className="leftlocationcontent"
-                  style={{
-                    background:
-                      selectedLocation._id === item._id
-                        ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                        : "linear-gradient(180deg, #1993FF, #0F5899)",
-                  }}
-                  key={item.id}
-                  onClick={() => handleLocationClick(item)}
-                >
-                  <label className="leftlocationcontentLabel">
-                    {item.name}
-                  </label>
 
-                  <label className="leftlocationcontentMaxLabel">
-                    {item.limit}
-                  </label>
-                </div>
-              ))
-            )}
-          </div>
-
-          <div className="rightlocation">
-            {!selectedTime &&
-              selectedLocation?.times?.map((item, index) => (
-                <div
-                  className="rightlocationcontent"
-                  key={item._id}
-                  onClick={() => getAllTheDateForLocationHome(item)}
-                >
-                  <label className="rightlocationcontentLabel">
-                    {item.time}
-                  </label>
-                </div>
-              ))}
-
-            {selectedTime &&
-              (loadingdate ? (
-                <div
-                  style={{
-                    flex: "1",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <CircularProgressBar />
-                </div>
-              ) : (
-                dates?.map((item, index) => (
-                  <div
-                    className="rightlocationcontent"
-                    key={item._id}
-                    onClick={() => handleSelectedDateClick(item)}
-                  >
-                    <label className="rightlocationcontentLabel">
-                      {item.lotdate}
+              {/** Time content container */}
+              <div className="hdLocationContainerRightTimeContainerContentContainer">
+                {selectedLocation.times.length === 0 ? (
+                  <div className="NC">
+                    <label className="hdLocationContainerLeftContentNameLabel">
+                      No available time
                     </label>
                   </div>
-                ))
-              ))}
-          </div>
-        </div>
-      </div>
+                ) : (
+                  selectedLocation.times.map((titem, tindex) => (
+                    <div
+                      className="hdLocationContainerRightTimeContainerContentContainer-time"
+                      onClick={() => selectingTimezone(titem)}
+                    >
+                      <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
+                        {titem.time}
+                      </label>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )
+        )}
 
-      <div className="rightcontainer">
-        {/** App sidebar */}
-        {/* <div className="rightsidebartop">
-          <label className="topWinnerOfDayLabel">Top Winners of the day</label>
-
-          {topWinnerOfTheDay.map((item, index) => (
-            <div className="rscontent">
-              <div className="rtcrightimage">
-                <img
-                  src={images.user}
-                  alt="Profile Picture"
-                  className="winner-user-image"
+        {selectedLocation === null && selectedTime === null && loadingdate ? (
+           <LoadingComponent/>
+        ) : (
+          dateVisible && (
+            <div className="hdLocationContainerRightTimeContainer">
+              {/** TOP */}
+              <div
+                onClick={dateBackhandler}
+                className="hdLocationContainerRightTimeContainerTop"
+              >
+                <IoArrowBackCircleOutline
+                  color={COLORS.white_s}
+                  size={"2.5rem"}
                 />
+                <label className="hdLocationContainerLeftContentNameLabel">
+                  {selectedLocation.name}
+                </label>
+                <label className="hdLocationContainerLeftContentLimitLabel">
+                  Max {selectedLocation.limit}
+                </label>
               </div>
 
-              <label className="topWinnerOfDayNameLabel">{item.name}</label>
-              <label className="topWinnerOfDayAmountLabel">{item.amount}</label>
-            </div>
-          ))}
-        </div> */}
-
-        {/** play History */}
-        <div className="rightsidebarmiddle">
-          <label className="topWinnerOfDayLabel" style={{ marginTop: "10px" }}>
-            Game History
-          </label>
-
-          {historyIsLoading ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
-          ) : (
-            <>
-              {historyapidatas?.playbets.length === 0 ? (
-                <div
-                  style={{
-                    flex: "1",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "10vh",
-                  }}
-                >
-                  <label className="h-title-label">No history available</label>
-                </div>
-              ) : (
-                historyapidatas?.playbets?.map((item, index) => (
-                  <div className="rsbottomcontent">
-                    <div className="lefthistory">
-                      <label className="topWinnerOfDayNameLabel">
-                        {item.lotlocation.lotlocation}
-                      </label>
-                    </div>
-                    <div className="middlehistory">
-                      <label className="gameHistoryNumberLabel">
-                        {getPlaynumbersString(item.playnumbers)}
-                      </label>
-                      <label className="gameHistoryDateLabel">
-                        {calculateTotalAmount(item.playnumbers)}{" "}
-                        {user?.country?.countrycurrencysymbol}
-                      </label>
-                    </div>
-                    <div className="righthistory">
-                      <label className="gameHistoryDateLabel">
-                        {item.lottime.lottime}
-                      </label>
-                      <label className="gameHistoryDateLabel">
-                        {formatDate(item.lotdate.lotdate)}
-                      </label>
-                    </div>
+              {/** Time content container */}
+              <div className="hdLocationContainerRightTimeContainerContentContainer">
+                {dates.length === 0 ? (
+                  <div className="NC">
+                    <label className="hdLocationContainerLeftContentNameLabel">
+                      No available date
+                    </label>
                   </div>
-                ))
-              )}
-            </>
-          )}
+                ) : (
+                  dates?.map((item, index) => (
+                    <div
+                      className="hdLocationContainerRightTimeContainerContentContainer-time"
+                      onClick={() => seletingDate(item)}
+                    >
+                      <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
+                        {item.lotdate}
+                      </label>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )
+        )}
+
+        {selectedLocation === null &&
+        selectedTime === null &&
+        selectedDate === null &&
+        loadingResult ? (
+          <div className="NC">
+            <CircularProgressBar />
+          </div>
+        ) : (
+          resultVisible && (
+            <div className="hdLocationContainerRightTimeContainer">
+              {/** TOP */}
+              <div
+                onClick={resultBackhandler}
+                className="hdLocationContainerRightTimeContainerTop"
+              >
+                <IoArrowBackCircleOutline
+                  color={COLORS.white_s}
+                  size={"2.5rem"}
+                />
+                <label className="hdLocationContainerLeftContentNameLabel">
+                  {selectedLocation.name}
+                </label>
+                <label className="hdLocationContainerLeftContentLimitLabel">
+                  Max {selectedLocation.limit}
+                </label>
+              </div>
+
+              {/** Time content container */}
+              <div className="hdLocationContainerRightTimeContainerContentContainer-result">
+                <div className="hdLocationContainerRightTimeContainerContentContainer-resultright">
+                  <div className="trophyimagecontainer">
+                    <img
+                      src={images.cups}
+                      alt="trphy"
+                      className="catandtrophyimg"
+                    />
+                  </div>
+
+                  <div className="hdLocationContainerRightTimeContainerContentContainer-resultleft">
+                    {results.length === 0 ? (
+                      <label className="hdLocationContainerLeftContentNameLabel" style={{marginBottom: "2rem"}}>
+                        Comming soon
+                      </label>
+                    ) : (
+                      <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-number">
+                         {results[0].resultNumber}
+                      </label>
+                    )}
+                    <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-date">
+                      {selectedDate.lotdate}
+                    </label>
+                  </div>
+
+                  <div className="catimagecontainer">
+                    <img
+                      src={images.cat}
+                      alt="cat"
+                      className="catandtrophyimg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        )}
+      </div>
+    </div>
         </div>
       </div>
     </div>
+    {/** RIGHT CONTAINER */}
+    <div className="hdRightC">
+      <label className="hdrLabel">GAME HISTORY</label>
+
+      <div className="hdRightCContainer">
+        {topWinnerOfTheDay.map((item, index) => (
+          <div className="hdrContentC">
+            <div className="hdrcL">
+              <label className="hdrcLLabel">Paris</label>
+            </div>
+            <div className="hdrcM">
+              <label className="hdrcMResultLabel">20</label>
+              <label className="hdrcMAmoutLabel">10 GER</label>
+            </div>
+            <div className="hdrcR">
+              <label className="hdrcRResultLabel">06:00 AM</label>
+              <label className="hdrcMAmoutLabel">Aug 30, 2024</label>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
   );
 }
 

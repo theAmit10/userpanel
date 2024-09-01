@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllLocations } from "../../redux/actions/locationAction";
 import COLORS from "../../assets/constants/colors";
 import CircularProgressBar from "../helper/CircularProgressBar";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 function Gamedescriptionc() {
   const { accesstoken } = useSelector((state) => state.user);
@@ -38,10 +39,16 @@ function Gamedescriptionc() {
     <div className="main-content-container-gamedescrition">
       <div>
         {/* Game desc title */}
-        
-        <label className="h-title-label-h">Game Description</label>
 
-        {/* Search Container */} 
+        <div className="alCreatLocationTopContainer">
+          <div className="alCreatLocationTopContaineCL">
+            <label className="alCreatLocationTopContainerlabel">
+              Game Description
+            </label>
+          </div>
+        </div>
+
+        {/* Search Container */}
         <div className="aboutus-search-container">
           <div className="aboutus-search-icon">
             <CiSearch size={"2rem"} />
@@ -55,67 +62,63 @@ function Gamedescriptionc() {
         </div>
 
         {loading ? (
-          <div
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgressBar />
-          </div>
+          <LoadingComponent />
         ) : (
-          <div className="all-location-gd">
+          <div className="ARLC">
             {filteredData.map((item, index) => (
               <div
-              onClick={() => setSelectedItem(item)}
-                key={item._id}
-                className="location-header-result-allresult"
-                style={{
-                  background:
-                    index % 2 === 0
-                      ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                      : "linear-gradient(90deg, #7EC630, #3D6017)",
-                      border: `2px solid ${selectedItem?._id === item._id ? COLORS.green : 'transparent'}`, // Set border color to green if selected
-                      
-                }}
+                key={index}
+                onClick={() => setSelectedItem(item)}
+                className="ARLocConC"
               >
-                <label className="location-header-label">
-                  {item.lotlocation}
-                </label>
-                <label className="location-header-max-label">
-                  Max {item.maximumRange}
-                </label>
+                <div
+                  className="PLLLocContainer"
+                  style={{
+                    background:
+                      index % 2 === 0
+                        ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                        : "linear-gradient(90deg, #7EC630, #3D6017)",
+                    borderColor:
+                      selectedItem?._id === item._id
+                        ? COLORS.blue
+                        : "transparent", // Use transparent for no border
+                    borderWidth: "2px",
+                    borderStyle:
+                      selectedItem?._id === item._id ? "solid" : "none", // Apply border style conditionally
+                  }}
+                >
+                  <label className="locLabel"> {item.lotlocation}</label>
+                  <label className="limitLabel"> Max {item.maximumRange}</label>
+                </div>
               </div>
             ))}
           </div>
         )}
 
         {selectedItem !== "" && (
-         <>
-          <div className="gdcontent-container">
-            <div className="title-container-gd">
-            <label className="location-header-label">
-                Title
-              </label>
-              <label className="location-header-label">
-                {selectedItem.locationTitle === "" ? "NA" : selectedItem.locationTitle }
-              </label>
+          <>
+            <div className="gdcontent-container">
+              <div className="title-container-gd">
+                <label className="location-header-label">Title</label>
+                <label className="location-header-label">
+                  {selectedItem.locationTitle === ""
+                    ? "NA"
+                    : selectedItem.locationTitle}
+                </label>
+              </div>
             </div>
-          </div>
 
-          <div className="gdcontent-container">
-            <div className="title-container-gd">
-            <label className="location-header-label">
-                Description
-              </label>
-              <label className="location-header-label">
-                {selectedItem.locationDescription === "" ? "NA" : selectedItem.locationDescription }
-              </label>
+            <div className="gdcontent-container">
+              <div className="title-container-gd">
+                <label className="location-header-label">Description</label>
+                <label className="location-header-label">
+                  {selectedItem.locationDescription === ""
+                    ? "NA"
+                    : selectedItem.locationDescription}
+                </label>
+              </div>
             </div>
-          </div>
-         </>
+          </>
         )}
       </div>
     </div>
@@ -123,5 +126,3 @@ function Gamedescriptionc() {
 }
 
 export default Gamedescriptionc;
-
-

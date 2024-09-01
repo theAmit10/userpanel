@@ -1,185 +1,358 @@
-.login-page-login {
-    display: flex;
+.loginContainer {
     height: 100vh;
-    background-color: #011833;
-    color: white;
-}
-  
-.sidebar-login {
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    font-family: "MR";
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+
+  }
+
+  .loginContainerLeft{
     width: 20%;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+  }
+
+
+  .loginContainerRight{
+    flex: 1;
+
+  }
+
+  .rightParenC{
+    height: 70vh;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 3rem;
+    margin: 10rem;
+    display: flex;
+    position: relative;
+  }
+
+  .rightParenCMain{
+    height: 90%;
+    width: 100%;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 3rem;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    position: absolute;
+    right: -3rem;
+    top: 2rem;
+  
+  }
+
+  .labelHeader{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 3rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .labelSubHeader{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .lBottomContainer{
+    height: 5rem;
+    background-color: var(--blue);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    cursor: pointer;
+}
+
+.lfContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.lBottomContainerlabel{
+    color: var(--blue);
+    font-family: "MB";
+    font-size: 1.5rem;
+    align-self: center;
+    cursor: pointer;
+}
+.loginContainerLeftBottom{
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-  
-.sidebar-top-login {
-    text-align: left;
-    width: 100%;
-}
-  
-.sidebar-image-login {
-    width: 100%;
-    object-fit: cover;
-}
-  
-.main-content-login-org {
-    width: 75%;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    padding-top: 5%;
-    position: relative; /* Added this to make it the positioning context */
-}
-  
-.loginparentbox-login {
-    background: linear-gradient(180deg, #0162AF, #011833);
-    width: 80%;
-    height: 80vh;
-    border-radius: 3vh;
-}
-  
-.loginbox-login {
-    background: linear-gradient(180deg, #0162AF, #011833);
-    width: 100%;
-    height: 80vh;
-    border-radius: 3vh;
-    margin-left: 5%;
-}
-  
-.gamecontroller-image-login {
-    width: 14%;
-    object-fit: cover;
-    position: absolute;
-    top: 25%;
-    left: -3%;
-}
-  
-.login-form-login {
-    padding: 20%;
-    border-radius: 10px;
-    width: 80%;
-    height: 60vh;
-    position: relative;
-    margin: 5%;
-    justify-content: stretch;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Updated this to create a 20px gap between each form group */
-}
-  
-.welcome-label-login {
-    font-family: "MR";
-    min-width: 20em;
-}
-  
-.login-form-login form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Updated this to create a 20px gap between each form group */
-}
-  
-.form-group-login {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    flex-direction: column;
-}
-  
-.form-group-login label {
-    flex-shrink: 0;
-    width: 100px; /* Adjust as needed */
-    text-align: left;
-}
-  
-.form-group-login input {
-    flex-grow: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
+    align-items: center;  
 }
 
-.form-group-login span{
-    color: #0179FE;
-}
-  
-.submit-btn-login {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #0179FE;
-    color: white;
-    border: none;
-    cursor: pointer;
-    min-width: 20em;
-}
-  
-.main-content-image-login {
-    width: 35%;
-    object-fit: cover;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-}
+.logcatimagecontainer{
+    height: 30rem;
+    width: 30rem;
+ }
 
-@media (max-width: 768px) {
-    .loginparentbox-login {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 90%;
-        height: 80vh;
-        border-radius: 3vh;
-        margin-top: 30%;
-    }
-      
-    .loginbox-login {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 105%;
-        height: 80vh;
-        border-radius: 3vh;
-        margin-top: 5%;
-        margin-left: 5%; 
-    }
-    .login-form-login {
-        padding: 2%;
-        border-radius: 10px;
-        width: 80%;
-        height: 60vh;
-        position: relative;
-        margin: 5%;
-        justify-content: stretch;
-        gap: 10px; /* Added this to create a 20px gap between each item */
-    }
-    .gamecontroller-image-login {
-        width: 14%;
-        object-fit: cover;
-        position: absolute;
-        top: 40%;
-        left: -20%;
-    }
-    .sidebar{
+ .logcatandtrophyimg{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+ }
+
+ .alCLLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+   padding-left: 2rem;
+}
+.trophyimagecontainer{
+    height: 10rem;
+    width: 10rem;
+
+ }
+
+ @media (max-width: 768px) {
+    .loginContainerLeft{
         display: none;
     }
-    .main-content-login-org {
-   
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     width: 90%;
-     height: 80vh;
+    }
 
-    }
-    .loginparentbox-login {
-        background: linear-gradient(180deg, #0162AF, #011833);
-        width: 80%;
-        height: 40vh;
-        border-radius: 3vh;
-    }
-    .main-content-image-login {
-        width: 25%;
-        object-fit: cover;
-        position: absolute;
-        right: 0;
-        top: -2vh;
-    }
+
+@media (max-width: 480px) {
+.loginContainerLeft{
+    display: none;
+}
+}
+
+
+.allLocationContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.allLocationMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+   
+}
+
+.allLocationMainContainer-time{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 50vh;
+   
+}
+.alSearchContainer{
+    height: 5rem;
+    background-color: var(--grayHalfBg);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+.alBottomContainer{
+    height: 5rem;
+    background-color: var(--green);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    cursor: pointer;
+}
+
+.alBottomContainerlabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.5rem;
+    align-self: center;
+    cursor: pointer;
+}
+
+
+.searchIconContainer{
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.al-search-input{
+    background-color: transparent;
+    flex: 1;
+    color: var(--background);
+    font-family: "MR";
+    font-size: 2rem;
+    border-color: transparent;
+}
+
+.allContentContainer-al{
+    min-height: 6rem;
+    background-color: var(--background);
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.lcnamelimit{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.allContentContainer-al:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+}
+
+.allContentContainerLocationL{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+}
+.allContentContainerLimitL{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.5rem;
+    align-self: center;
+}
+.switchContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    align-content: center;
+}
+
+.allContentContainerIconContainer{
+    height: 4rem;
+    width: 4rem;
+    background-color: var(--white_s);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+
+
+.allLocationBottomContainer{
+    height: 10vh;
+    background-color: orange;
+}
+
+/** FOR CREATE LOCATION */
+
+.alCreatLocationTopContainer{
+    height: 5rem;
+    background-color: var(--background);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.alCreatLocationTopContaineCL{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.alCreatLocationTopContainerlabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+    align-self: center;
+}
+.alCLLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+   padding-left: 2rem;
+}
+
+.allLocationMainContainer-CL{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+    
+   
+}
+
+.alllEditControllerContainer{
+    flex: 1;
+    flex-direction: row;
+    display: flex;
+    padding: 1rem;
+    gap: 2rem;
+    justify-content: flex-end;
+}
+
+.timeContainerAL{
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.allLocationMainContainer-result{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 50vh;
+    background-color: var(--background);
+    margin: 2rem;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.lBottomContainer{
+    min-height: 5rem;
+    background-color: var(--blue);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    cursor: pointer;
 }

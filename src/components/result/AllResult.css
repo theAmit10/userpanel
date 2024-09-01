@@ -1,282 +1,139 @@
-
-.history-main-container{
-  display: flex;
+.alContainer{
   flex: 1;
-  height: 80vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(180deg, #0162AF, #011833);
-  margin: 2vh;
-  border-radius: 2vh;
-  padding: 2vh;
-  flex-direction: column;
-  gap: 2vh;
-  width: 40vw;
+  border-radius: 1rem;
 }
 
-.h-title-label-result{
-  color: var(--white_s);
-  font-size: 2em;
-  font-family: 'MB';
-}
-
-.submit-btn-balance-transfer {
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #0179FE;
-  color: white;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-.h-content-container-result{
-  
-  height: 65vh;
-  overflow-y: scroll; /* Enable vertical scrolling */
-  display: flex;
-  flex-direction: column;
-  gap: 1vh;
-
-}
-
-.result-container{
-height: 55vh;
-width: 80vw;
-background: linear-gradient(180deg, #0162AF, #011833);
-border-radius: 1vw;
-display: flex;
-flex-direction: row;
-overflow-y: scroll;
-overflow-x: scroll;
-}
-
-.result-content-time-container-content-container{
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-}
-
-.result-content-time-container{
-width: 15vw;
-
-border-radius: 1vw;
-display: flex;
-justify-content: flex-start;
-align-items: center;
-padding-left: 0.5vw;
-padding-right: 1vw;
-flex-direction: column;
-gap: 0.5vh;
-}
-
-.result-content-time-container-content-date{
-height: 6vh;
-width: 8vw;
-background-color: var(--background);
-display: flex;
-justify-content: center;
-align-items: center;
-margin-left: 0.2vw;
-border-top-left-radius: 1vh;
-border-bottom-left-radius: 1vh;
-
-}
-
-.result-content-time-container-content-result{
-height: 6vh;
-width: 5vw;
-background-color: var(--background);
-display: flex;
-justify-content: center;
-align-items: center;
-margin-left: 0.2vw;
-border-top-right-radius: 1vh;
-border-bottom-right-radius: 1vh;
-}
-
-.result-content-time-container-content-time{
-min-height: 6vh;
-width: 12vw;
-background-color: var(--background);
-border-radius: 1vw;
-display: flex;
-justify-content: center;
-align-items: center;
-margin-left: 0.5vw;
-}
-
-.result-content-time-container-content-label{
-color: var(--white_s);
-  font-size: 0.8em;
-  font-family: 'MR';
-}
-
-
-.h-title-label-medium{
-  color: var(--white_s);
-  font-size: 1em;
-  font-family: 'MR';
-}
-
-.all-location-result{
-height: 10vh;
-background: linear-gradient(90deg, #0162AF, #011833);
-flex: 1;
-border-radius: 10px;
-display: flex;
-flex-direction: row;
-overflow-x: scroll;
-align-items: center;
-width: 80vw;
-}
-
-.location-item-result {
-  height: 60%;
-  min-width: 20%;
-  background: linear-gradient(90deg, #0162AF, #011833);
-  margin: 2%;
-  flex: 1;
-  border-radius: 10px;
+.ARLC{
+  height: 7rem;
+  width: 80vw;
+  background-color: var(--background);
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 1rem;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll;
 }
 
-.location-details-result {
-  width: 20%;
-  flex-direction: column;
+.ARLocConC {
+  min-width: 30rem; /* Fixed width for the left container */
+  height: 100%;
+
 }
 
-.location-header-result-allresult {
-  height: 50%;
-  min-width: 20%;
+.ARMC{
+  background: linear-gradient(180deg, #0162AF, #011833);
+  width: 80vw;
+  height: 60vh;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.PLLLocContainer{
+  height: 5rem;
+  background-color: var(--background);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 2vh;
+  padding-right: 1rem;
+  padding-left: 1rem;
   align-items: center;
-  margin: 2vh;
-  border-radius: 1vh;
-  border-color: pink;
-  border-width: 10px;
+  margin: 1rem;
+  border-radius: 1rem;
 }
 
+.limitLabel{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1rem;
 
-
-/* Customize the scrollbar for the result-container */
-.result-container::-webkit-scrollbar {
-width: 10px; /* Width of the vertical scrollbar */
-height: 10px; /* Height of the horizontal scrollbar */
 }
 
-/* Track background for both vertical and horizontal scrollbars */
-.result-container::-webkit-scrollbar-track {
-background-color: var(--background);
-border-radius: 1vw; /* Optional: Adjust this for rounded corners */
+.locLabel{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 1.5rem;
+
 }
 
-/* Handle (thumb) of the scrollbar */
-.result-container::-webkit-scrollbar-thumb {
-background-color: #0179FE; /* Customize this color if needed */
-border-radius: 1vw; /* Optional: Adjust this for rounded corners */
+.timeLabel{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 1.2rem;
+
+}
+.pdR{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1.2rem;
 }
 
-/* Handle on hover */
-.result-container::-webkit-scrollbar-thumb:hover {
-background-color: #005bb5; /* Darker shade when hovering over the thumb */
+.ARMCContent{
+  width: 20rem;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
 }
 
-/* For Firefox */
-.result-container {
-scrollbar-color: #0179FE var(--background); /* Thumb color and track color */
-scrollbar-width: thin; /* Adjust scrollbar width */
+.ARMCContentTC{
+  height: 5rem;
+  background-color: var(--background);
+  margin: 1rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.ARMCContentDC{
+  flex: 1;
 
-/* Customize the scrollbar for the all-location-result container */
-.all-location-result::-webkit-scrollbar {
-height: 10px; /* Height of the horizontal scrollbar */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 0.1px;
+  height: 40vh;
+  overflow-y: scroll;
+ 
+}
+.ARMCContentDConC{
+  min-height: 5rem;
+  display: flex;
+  flex-direction: row;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 0.2rem;
+  gap: 2px;
+
 }
 
-/* Track background for the horizontal scrollbar */
-.all-location-result::-webkit-scrollbar-track {
-background-color: var(--background);
-border-radius: 10px; /* Optional: Adjust this for rounded corners */
+.ARMCContentDConCDate{
+  width: 15rem;
+  background-color:  var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
 }
 
-/* Handle (thumb) of the scrollbar */
-.all-location-result::-webkit-scrollbar-thumb {
-background-color: #0179FE; /* Customize this color if needed */
-border-radius: 10px; /* Optional: Adjust this for rounded corners */
-}
-
-/* Handle on hover */
-.all-location-result::-webkit-scrollbar-thumb:hover {
-background-color: #005bb5; /* Darker shade when hovering over the thumb */
-}
-
-/* For Firefox */
-.all-location-result {
-scrollbar-color: #0179FE var(--background); /* Thumb color and track color */
-scrollbar-width: thin; /* Adjust scrollbar width */
-}
-
-
-@media (max-width: 1024px) {
-  .result-content-time-container-content-label{
-    color: var(--white_s);
-      font-size: 0.6em;
-      font-family: 'MR';
-    }
-    
-}
-
-@media (max-width: 768px) {
-  .result-content-time-container-content-label{
-    color: var(--white_s);
-      font-size: 0.5em;
-      font-family: 'MR';
-    }
-    .result-content-time-container{
-      width: 21vw;
-      border-radius: 1vw;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding-left: 0.5vw;
-      padding-right: 1vw;
-      flex-direction: column;
-      gap: 0.5vh;
-      }
-
-      .result-content-time-container-content-date{
-        height: 6vh;
-        width: 12vw;
-        background-color: var(--background);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 0.2vw;
-        border-top-left-radius: 1vh;
-        border-bottom-left-radius: 1vh;
-        
-        }
-        
-        .result-content-time-container-content-result{
-        height: 6vh;
-        width: 8vw;
-        background-color: var(--background);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 0.2vw;
-        border-top-right-radius: 1vh;
-        border-bottom-right-radius: 1vh;
-        }
-
-        .h-title-label-result{
-          color: var(--white_s);
-          font-size: 1.5em;
-          font-family: 'MB';
-        }
-    
+.ARMCContentDConCResult{
+  width: 5rem;
+  background-color: var(--background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }

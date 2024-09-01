@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { ToastContainer } from "react-toastify";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 const filterdata = [
   { val: "All" },
@@ -635,10 +636,9 @@ function Play() {
                 key={item._id}
                 style={{
                   borderColor:
-                    selectedFilter == item._id
-                      ? COLORS.green
-                      : COLORS.grayHalfBg,
+                    selectedFilter === item._id ? COLORS.green : "transparent", // Use transparent for no border
                   borderWidth: "2px",
+                  borderStyle: selectedFilter === item._id ? "solid" : "none", // Apply border style conditionally
                 }}
               >
                 <label className="filtercontentalLabel">
@@ -650,22 +650,13 @@ function Play() {
 
           {/** Location container */}
 
-          <div className="allocationcontainer-play">
+          <div className="allocationcontainer-all">
             {isLoading ? (
-              <div
-                style={{
-                  flex: "1",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <CircularProgressBar />
-              </div>
+              <LoadingComponent />
             ) : (
               filteredData?.map((item, index) => (
-                <div className="location-item" key={index}>
-                  <div className="location-details">
+                <div className="location-item-all" key={index}>
+                  <div className="location-details-all">
                     <div
                       className="location-header"
                       style={{
@@ -710,71 +701,33 @@ function Play() {
         !selectedItem &&
         !submitItemFlag &&
         (isLoadingDate ? (
-          <div
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "70vh",
-              width: "80vw",
-            }}
-          >
-            <CircularProgressBar />
-          </div>
+          <LoadingComponent />
         ) : result === "Current date not found" ? (
           <div className="alllocationdatecontainer">
             <div className="date-title-container">
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "3vh",
-                    marginRight: "2vh",
-                    marginLeft: "2vh",
-                  }}
-                >
-                  {selectedLocation.name}
-                </span>
+              <div>
+                <span>{selectedLocation.name}</span>
 
                 <span className="date-title-container-limit-label">
                   {selectedLocation.limit}
                 </span>
 
-                <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "2.5vh",
-                    marginLeft: "2vh",
-                  }}
-                >
-                  {selectedTime.time}
-                </span>
+                <span>{selectedTime.time}</span>
               </div>
 
               <div
                 style={{
                   flex: 1,
-
                   display: "flex",
                   justifyContent: "flex-end",
+                  backgroundColor: "pink",
                 }}
               >
                 <div
                   className="back-container"
                   onClick={() => removeSelecteditemClick()}
                 >
-                  <RxCrossCircled color={COLORS.red} size={"30px"} />
+                  <RxCrossCircled color={COLORS.red} size={"30rem"} />
                 </div>
               </div>
             </div>
@@ -797,56 +750,16 @@ function Play() {
           </div>
         ) : (
           <div className="alllocationdatecontainer">
-            <div className="date-title-container">
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "3vh",
-                    marginRight: "2vh",
-                    marginLeft: "2vh",
-                  }}
-                >
-                  {selectedLocation.name}
-                </span>
-
-                <span className="date-title-container-limit-label">
-                  {selectedLocation.limit}
-                </span>
-
-                <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_Bold,
-                    fontSize: "2.5vh",
-                    marginLeft: "2vh",
-                  }}
-                >
-                  {selectedTime.time}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
+            <div className="play-title-container">
+              <div className="play-title-container-left">
+                <span className="titleLabel">{selectedLocation.name}</span>
+                <span className="titleLabel">{selectedLocation.limit}</span>
+                <span className="subtitleLabel">{selectedTime.time}</span>
                 <div
                   className="back-container"
                   onClick={() => removeSelecteditemClick()}
                 >
-                  <RxCrossCircled color={COLORS.red} size={"30px"} />
+                  <RxCrossCircled color={COLORS.red} size={"3rem"} />
                 </div>
               </div>
             </div>
@@ -860,21 +773,10 @@ function Play() {
                     onClick={() => addSelectedNumber(item)}
                     className="play-content"
                     key={(item) => item.id.toString()}
-                    style={{
-                      width: "140px",
-                      height: "80px",
-                      backgroundColor: COLORS.background,
-                      position: "relative",
-                      flexDirection: "row",
-                      margin: "1vh",
-                    }}
                   >
                     <div
                       className="play-content-halfcontainer"
                       style={{
-                        width: "70px",
-                        height: "70px",
-
                         background: selectedNumber.some(
                           (selected) => selected.id === item.id
                         )
@@ -885,58 +787,21 @@ function Play() {
                     <div
                       className="play-content-fullcontainer"
                       style={{
-                        width: "130px",
-                        height: "70px",
                         background: selectedNumber.some(
                           (selected) => selected.id === item.id
                         )
                           ? "linear-gradient(180deg, #7EC630, #3D6017)"
                           : "linear-gradient(180deg, #1993FF, #0F5899)",
-                        position: "absolute",
-                        top: 0,
-                        margin: "10px",
                       }}
                     >
-                      <span
-                        style={{
-                          color: COLORS.white_s,
-                          fontFamily: FONT.Montserrat_Regular,
-                          fontSize: "2vh",
-                          bottom: 0,
-                          position: "absolute",
-                          right: "25px",
-                        }}
-                      >
+                      <span className="seletedLabel">
                         {selectedNumber.includes(item) ? "Selected" : "Select"}
                       </span>
-                      <div
-                        style={{
-                          flex: 1,
-                          backgroundColor: "transparent",
-                          height: "70px",
-                          width: "70px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
+                      <div className="play-content-number-con">
                         <span className="play-content-number">{item.name}</span>
                       </div>
 
-                      <div
-                        style={{
-                          width: 0,
-                          height: 0,
-                          borderLeft: "45px solid transparent",
-                          borderRight: "45px solid transparent",
-                          borderBottom: `70px solid ${COLORS.background}`,
-                          position: "absolute",
-                          top: 0,
-                          right: "-25px",
-
-                          transform: "rotate(-90deg)",
-                        }}
-                      ></div>
+                      <div className="numberbgstyle"></div>
                     </div>
                   </div>
                 ))}
@@ -949,15 +814,7 @@ function Play() {
                 className="playcontainer-bottomcontent-container"
                 onClick={() => showSubmitContainer()}
               >
-                <span
-                  style={{
-                    color: COLORS.white_s,
-                    fontFamily: FONT.Montserrat_SemiBold,
-                    fontSize: "2.5vh",
-                  }}
-                >
-                  Confirm
-                </span>
+                <span className="confirmL">Confirm</span>
               </div>
             </div>
           </div>
@@ -972,7 +829,10 @@ function Play() {
                 <span className="alllocation-submit-container-left-top-label">
                   Selected Number
                 </span>
-                <span className="alllocation-submit-container-left-top-label">
+                <span
+                  className="alllocation-submit-container-left-top-label"
+                  style={{ flex: 2 }}
+                >
                   Amount
                 </span>
                 <span className="alllocation-submit-container-left-top-label">
@@ -989,84 +849,7 @@ function Play() {
                     <div className="alllocation-submit-container-left-content-container">
                       {/** LEFT CONTENT */}
                       <div className="alllocation-submit-container-left-content-container-left">
-                        <div
-                          className="play-content"
-                          style={{
-                            width: "140px",
-                            height: "80px",
-                            backgroundColor: COLORS.background,
-                            position: "relative",
-                            flexDirection: "row",
-                            margin: "1vh",
-                          }}
-                        >
-                          <div
-                            className="play-content-halfcontainer"
-                            style={{
-                              width: "70px",
-                              height: "70px",
-
-                              background:
-                                "linear-gradient(180deg, #7EC630, #FFFFFF)",
-                            }}
-                          ></div>
-                          <div
-                            className="play-content-fullcontainer"
-                            style={{
-                              width: "130px",
-                              height: "70px",
-                              background:
-                                "linear-gradient(180deg, #7EC630, #3D6017)",
-
-                              position: "absolute",
-                              top: 0,
-                              margin: "10px",
-                            }}
-                          >
-                            <span
-                              style={{
-                                color: COLORS.white_s,
-                                fontFamily: FONT.Montserrat_Regular,
-                                fontSize: "2vh",
-                                bottom: 0,
-                                position: "absolute",
-                                right: "25px",
-                              }}
-                            >
-                              selected
-                            </span>
-                            <div
-                              style={{
-                                flex: 1,
-                                backgroundColor: "transparent",
-                                height: "70px",
-                                width: "70px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <span className="play-content-number">
-                                {item.name}
-                              </span>
-                            </div>
-
-                            <div
-                              style={{
-                                width: 0,
-                                height: 0,
-                                borderLeft: "45px solid transparent",
-                                borderRight: "45px solid transparent",
-                                borderBottom: `70px solid ${COLORS.background}`,
-                                position: "absolute",
-                                top: 0,
-                                right: "-25px",
-
-                                transform: "rotate(-90deg)",
-                              }}
-                            ></div>
-                          </div>
-                        </div>
+                        <label className="selectedNL">{item.name}</label>
                       </div>
 
                       {/** MIDDLE CONTENT */}
@@ -1077,24 +860,22 @@ function Play() {
                         >
                           <div className="alllocation-submit-container-left-content-container-middle-left-containter">
                             <CiCircleMinus
-                              size={"5vh"}
+                              size={"3rem"}
                               color={COLORS.background}
                             />
                           </div>
                         </div>
                         <div className="alllocation-submit-container-left-content-container-middle-middle">
-                          <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-                            <input
-                              type="number"
-                              placeholder="Enter Amount"
-                              inputMode="numeric"
-                              className="alllocation-submit-container-left-content-container-middle-middle-container-input"
-                              value={inputValues[item.id]?.toString() || ""}
-                              onChange={(event) =>
-                                handleInputChange(event, item.id)
-                              }
-                            />
-                          </div>
+                          <input
+                            className="amountInput"
+                            type="number"
+                            placeholder="Amount"
+                            inputMode="numeric"
+                            value={inputValues[item.id]?.toString() || ""}
+                            onChange={(event) =>
+                              handleInputChange(event, item.id)
+                            }
+                          />
                         </div>
                         <div
                           className="alllocation-submit-container-left-content-container-middle-right"
@@ -1102,7 +883,7 @@ function Play() {
                         >
                           <div className="alllocation-submit-container-left-content-container-middle-left-containter">
                             <CiCirclePlus
-                              size={"5vh"}
+                              size={"3rem"}
                               color={COLORS.background}
                             />
                           </div>
@@ -1110,22 +891,20 @@ function Play() {
                       </div>
 
                       {/** RIGHT CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-right">
-                        <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-                          <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
-                            {isNaN(
-                              winningAmountPrice(
+                      <div className="alllocation-submit-container-left-content-container-left">
+                        <label className="selectedNL">
+                          {isNaN(
+                            winningAmountPrice(
+                              inputValues[item.id]?.toString(),
+                              result?.lottime?.lotlocation?.maximumReturn
+                            )
+                          )
+                            ? 0
+                            : winningAmountPrice(
                                 inputValues[item.id]?.toString(),
                                 result?.lottime?.lotlocation?.maximumReturn
-                              )
-                            )
-                              ? 0
-                              : winningAmountPrice(
-                                  inputValues[item.id]?.toString(),
-                                  result?.lottime?.lotlocation?.maximumReturn
-                                )}
-                          </label>
-                        </div>
+                              )}
+                        </label>
                       </div>
                     </div>
 
@@ -1176,6 +955,15 @@ function Play() {
                   </>
                 ))}
               </div>
+
+              <div className="alllocation-submit-container-total">
+                <span className="alllocation-submit-container-left-top-label">
+                  Total Amount
+                </span>
+                <span className="alllocation-submit-container-left-top-label">
+                  {sumObjectValues(inputValues)}
+                </span>
+              </div>
             </div>
 
             {/** RIGHT CONTAINER */}
@@ -1184,46 +972,20 @@ function Play() {
                 style={{
                   flex: 1,
                   width: "100%",
+                  height:"50%"
                 }}
               >
                 {/** Top Container */}
-                <div className="date-title-container">
-                  <div className="date-title-container-location">
-                    <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Bold,
-                        fontSize: "2vh",
-                        marginRight: "2vh",
-                        marginLeft: "2vh",
-                      }}
-                    >
-                      {selectedLocation?.name}
-                    </span>
-
-                    <span
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Regular,
-                        fontSize: "1.5vh",
-                      }}
-                    >
-                      {selectedLocation?.limit}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      flex: 1,
-                      display: "flex",
-                      justifyContent: "flex-end",
-                    }}
-                  >
+                <div className="play-title-container">
+                  <div className="play-title-container-left" style={{
+                    backgroundColor: 'transparent'
+                  }}>
+                    <span className="titleLabel">{selectedLocation.name}</span>
                     <div
                       className="back-container"
                       onClick={() => hideSubmitContainer()}
                     >
-                      <RxCrossCircled color={COLORS.red} size={"30px"} />
+                      <RxCrossCircled color={COLORS.red} size={"3rem"} />
                     </div>
                   </div>
                 </div>
@@ -1254,25 +1016,15 @@ function Play() {
                 }}
               >
                 {isPlayLoading ? (
-                  <div
-                    style={{
-                      flex: "1",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "1vh",
-                    }}
-                  >
-                    <CircularProgressBar />
-                  </div>
+                  <LoadingComponent/>
                 ) : (
                   <div
                     onClick={submitHandler}
                     style={{
                       width: "90%",
                       backgroundColor: COLORS.green,
-                      padding: "2vh",
-                      borderRadius: "1vh",
+                      padding: "2rem",
+                      borderRadius: "1rem",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -1282,7 +1034,7 @@ function Play() {
                       style={{
                         color: COLORS.white_s,
                         fontFamily: FONT.Montserrat_Bold,
-                        fontSize: "2vh",
+                        fontSize: "2rem",
                       }}
                     >
                       Submit
@@ -1292,15 +1044,6 @@ function Play() {
               </div>
             </div>
           </div>
-
-          <div className="alllocation-submit-container-total">
-            <span className="alllocation-submit-container-left-top-label">
-              Total Amount
-            </span>
-            <span className="alllocation-submit-container-left-top-label">
-              {sumObjectValues(inputValues)}
-            </span>
-          </div>
         </>
       )}
       <ToastContainer />
@@ -1309,3 +1052,844 @@ function Play() {
 }
 
 export default Play;
+
+{
+  /* <div className="playconatainer">
+<div className="playcontainer-content">
+  {betnumberdata?.map((item, index) => (
+    <div
+      onClick={() => addSelectedNumber(item)}
+      className="play-content"
+      key={(item) => item.id.toString()}
+      style={{
+        width: "140px",
+        height: "80px",
+        backgroundColor: COLORS.background,
+        position: "relative",
+        flexDirection: "row",
+        margin: "1vh",
+      }}
+    >
+      <div
+        className="play-content-halfcontainer"
+        style={{
+          width: "70px",
+          height: "70px",
+
+          background: selectedNumber.some(
+            (selected) => selected.id === item.id
+          )
+            ? "linear-gradient(180deg, #7EC630, #FFFFFF)"
+            : "linear-gradient(180deg, #1993FF, #FFFFFF)",
+        }}
+      ></div>
+      <div
+        className="play-content-fullcontainer"
+        style={{
+          width: "130px",
+          height: "70px",
+          background: selectedNumber.some(
+            (selected) => selected.id === item.id
+          )
+            ? "linear-gradient(180deg, #7EC630, #3D6017)"
+            : "linear-gradient(180deg, #1993FF, #0F5899)",
+          position: "absolute",
+          top: 0,
+          margin: "10px",
+        }}
+      >
+        <span
+          style={{
+            color: COLORS.white_s,
+            fontFamily: FONT.Montserrat_Regular,
+            fontSize: "2vh",
+            bottom: 0,
+            position: "absolute",
+            right: "25px",
+          }}
+        >
+          {selectedNumber.includes(item) ? "Selected" : "Select"}
+        </span>
+        <div
+          style={{
+            flex: 1,
+            backgroundColor: "transparent",
+            height: "70px",
+            width: "70px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <span className="play-content-number">{item.name}</span>
+        </div>
+
+        <div
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "45px solid transparent",
+            borderRight: "45px solid transparent",
+            borderBottom: `70px solid ${COLORS.background}`,
+            position: "absolute",
+            top: 0,
+            right: "-25px",
+
+            transform: "rotate(-90deg)",
+          }}
+        ></div>
+      </div>
+    </div>
+  ))}
+</div>
+</div> */
+}
+
+// .main-content-container-all-location{
+//   display: flex;
+//   flex: 1;
+//   height: 80vh;
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+//   padding: 2vh;
+//   flex-direction: column;
+//   gap: 2vh;
+//   width: 40vw;
+// }
+
+// .allocationcontainer-play {
+//   overflow-x: hidden;
+//   width: 80vw;
+
+// }
+
+// .location-item {
+//   height: 20%;
+//   width: 78vw;
+//   background: linear-gradient(90deg, #0162AF, #011833);
+//   margin: 2%;
+//   flex: 1;
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: row;
+// }
+
+// .location-details {
+//   width: 20%;
+
+//   flex-direction: column;
+
+// }
+
+// .location-header {
+//   height: 10%;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   padding: 2vh;
+//   align-items: center;
+//   margin: 2vh;
+//   border-radius: 1vh;
+// }
+
+// .time-items-container {
+//   flex: 1;
+//   display: grid;
+//   grid-template-columns: repeat(6, 1fr); /* Adjust the number of columns here */
+//   gap: 1vh;
+//   padding: 2vh;
+// }
+
+// .time-item {
+//   width: 8vw;
+//   height: 5vh;
+//   background: var(--background);
+//   border-radius: 1vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .time-item:hover{
+//   border: 2px solid var(--green); /* Change border color on hover */
+//   cursor: pointer;
+// }
+
+// .filtercontaineral{
+//   display: flex;
+//   height: 5%;
+//   width: calc(100% - 4%);
+//   background-color: var(--grayHalfBg);
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 40px;
+//   margin-left: 2%;
+//   margin-right: 2%;
+
+// }
+
+// .filtercontental{
+//   display: flex;
+//   width: 10%;
+//   height: calc(100% - 6%);
+//   background-color: var(--background);
+//   border-radius: 10px;
+//   margin: 2%;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .filtercontental:hover{
+//   border: 2px solid var(--green); /* Change border color on hover */
+//   cursor: pointer;
+// }
+
+// .back-container:hover{
+//   cursor: pointer;
+// }
+
+// .alllocationdatecontainer{
+//   flex: 1;
+//   height: 80vh;
+//   width: 80vw;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 2%;
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+
+// }
+
+// .date-title-container{
+//   height: 10vh;
+
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 2vh;
+// }
+
+// .back-container {
+//   padding: 1vh;
+//   margin: 1vh;
+//   border-radius: 1vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: var(--grayHalfBg);
+
+// }
+
+// .dateconatainer{
+//   height: 60vh;
+//   margin: 2vh;
+//   overflow-y: scroll;
+
+// }
+
+// .datecontainer-content{
+//   height: 10vh;
+//   background-color: #011833;
+//   border-radius: 2vh;
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: center;
+//   padding: 2vh;
+//   margin-bottom: 1vh;
+// }
+
+// .datecontainer-content:hover{
+//   border: 2px solid var(--green); /* Change border color on hover */
+//   cursor: pointer;
+// }
+
+// .datecontainer-content-label{
+//   color: var(--white_s);
+//   font-size: 3vh;
+//   font-family: 'SFR';
+// }
+
+// .playconatainer{
+//   height: 60vh;
+//   margin: 2vh;
+//   overflow-y: scroll;
+
+// }
+
+// .playcontainer-content{
+//   background-color: #011833;
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 1vh;
+//   max-height: 80vh; /* Set maximum height to viewport height */
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   margin: 2vh;
+//   border-radius: 2vh;
+
+// }
+
+// .play-content:hover{
+//   cursor: pointer;
+//   .play-content-number{
+//       color: var(--green);
+//     }
+
+// }
+
+// .play-content-number{
+//   color: var(--white_s);
+//   font-family: "MB";
+//   font-size: 3vh;
+
+// }
+
+// .play-content-number:hover{
+//   color: var(--green);
+// }
+
+// .playcontainer-content-label{
+//   color: var(--white_s);
+//   font-size: 3vh;
+//   font-family: 'SFR';
+// }
+
+// .resultcontaineral{
+//   height: 50vh;
+//   width: calc(100% - 2%); /* Adjust width to account for margin */
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 1%;
+//   border-radius: 3vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: row;
+//   display: flex;
+// }
+
+// .resultleftcontaineral{
+//   width: 50%;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .resultrightcontaineral{
+//   width: 50%;
+//   height: 100%;
+//   display: flex;
+// }
+// .rltopcontaineral{
+// width: 100%;
+// height: 25%;
+// display: flex;
+// }
+
+// .rlmiddlecontaineral{
+//   flex: 1;
+//   display: flex;
+
+// }
+
+// .rlbottomcontaineral{
+//   width: 100%;
+//   height: 25%;
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+// }
+
+// .rlbottomcontentcontaineral{
+//   width: 80%;
+//   height: 80%;
+//   background-color: var(--background);
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 15px;
+
+// }
+
+// .gamecontrolleral {
+//   width: 50%;
+//   object-fit: cover;
+
+// }
+
+// .cupontrolleral{
+//   width: 80%;
+//   object-fit: cover;
+// }
+
+// .catcontrolleral{
+//   width: 100%;
+//   height: 100%;
+//   object-fit: cover;
+// }
+
+// .playcontainer-bottomcontent{
+//   height: 10vh;
+
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+// }
+
+// .playcontainer-bottomcontent-container{
+//   width: 20vw;
+//   background-color: var(--green);
+//   padding: 2vh;
+//   border-radius: 1vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-right: 4vh;
+
+// }
+
+// .alllocation-submit-container{
+//   flex: 1;
+//   height: 75vh;
+//   width: 82vw;
+//   display: flex;
+//   flex-direction: row;
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+// }
+
+// .alllocation-submit-container-total{
+//   flex: 1;
+//   height: 10vh;
+//   width: 82vw;
+//   display: flex;
+//   flex-direction: row;
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+//   justify-content: center;
+//   align-items: center;
+// }
+
+// .alllocation-submit-container-left{
+//   flex: 1;
+//   background: linear-gradient(30deg, #0162AF, #011833);
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   border-radius: 2vh 0 0 2vh ;
+// }
+
+// .alllocation-submit-container-right{
+//   width: 20vw;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+// }
+
+// .alllocation-submit-container-left-top{
+//   height: 10vh;
+//   background-color: '#808b99';
+
+//   display: flex;
+//   justify-content: center;
+//   padding: 2vh;
+//   align-items: center;
+// }
+
+// .alllocation-submit-container-left-top-label{
+//   flex: 1;
+//   color: var(--white_s);
+//   font-size: 2vw;
+//   font-family: "MSB";
+//   text-align: center;
+// }
+
+// .alllocation-submit-container-left-container{
+//   flex: 1;
+//   height: 65vh;
+//   background-color: var(--background);
+//   margin: 2vh;
+// }
+
+// .alllocation-submit-container-left-content-container{
+//   height: 15vh;
+//   background-color: var(--background);
+//   padding: 2vh;
+//   display: flex;
+//   flex-direction: row;
+// }
+
+// .alllocation-submit-container-left-content-container-left{
+//   flex: 1;
+//   background-color: var(--background);
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: center;
+
+// }
+
+// .alllocation-submit-container-left-content-container-middle{
+//   flex: 1;
+//   width: 100%;
+//   height: 100%;
+
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: row;
+// }
+
+// .alllocation-submit-container-left-content-container-right{
+//   flex: 1;
+
+//   display: flex;
+//   justify-self: center;
+//   align-items: center;
+// }
+
+// .alllocation-submit-container-left-content-container-middle-left{
+//   width: 25%;
+//   height: 100%;
+//   flex: 1;
+
+//   position: relative;
+
+// }
+// .alllocation-submit-container-left-content-container-middle-middle{
+//   flex: 2;
+
+// }
+// .alllocation-submit-container-left-content-container-middle-right{
+//   width: 25%;
+//   height: 100%;
+//   flex: 1;
+
+// }
+
+// .alllocation-submit-container-left-content-container-middle-left-containter{
+
+//   padding: 1vh;
+//   background-color: var(--grayHalfBg);
+//   margin: 1vh;
+//   border-radius: 50%; /* This makes it circular */
+
+// }
+
+// .alllocation-submit-container-left-content-container-middle-middle-container{
+//   flex: 1;
+//   margin: 1vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+
+// }
+
+// .alllocation-submit-container-left-content-container-middle-middle-container-input{
+//   background-color: var(--grayHalfBg);
+//   padding: 2vh;
+//   border-radius: 2vh;
+//   color: var(--background);
+//   font-size: 2vh;
+//   font-family: 'MB';
+//   text-align: center;
+// }
+
+// .alllocation-submit-container-left-content-container-middle-middle-container-label{
+//  width: 100%;
+//   background-color: var(--grayHalfBg);
+//   padding: 2vh;
+//   border-radius: 2vh;
+//   color: var(--background);
+//   font-size: 2vh;
+//   font-family: 'MB';
+//   text-align: center;
+// }
+
+// .catcontrollerplay{
+//   width: 100%;
+//   height: 100%;
+//   object-fit: contain;
+// }
+
+// .filtercontentalLabel{
+// color: var(--white_s);
+// font-family: "HR";
+// font-size: 1em;
+// }
+// .location-header-label{
+// color: var(--white_s);
+// font-family: "MB";
+// font-size: 1.2vw;
+// }
+// .location-header-max-label{
+// color: var(--white_s);
+// font-family: "MR";
+// font-size: 0.6vw;
+// }
+// .time-items-container-time-label{
+// color: var(--white_s);
+// font-family: "MSB";
+// font-size: 1vw;
+// }
+// .date-title-container-limit-label{
+// color: var(--white_s);
+// font-family: "MR";
+// font-size: 1.2vw;
+// }
+// .date-title-container-location{
+// flex: 2;
+// display: flex;
+// flex-direction: row;
+// justify-content: flex-start;
+// align-items: center;
+// }
+// .alllocation-submit-container-left-content-container-low-screen{
+// display: none;
+// }
+// @media (max-width: 1024px) {
+// .filtercontentalLabel{
+//   color: var(--white_s);
+//   font-family: "HR";
+//   font-size: 1.4vw;
+// }
+// .location-header-label{
+//   color: var(--white_s);
+//   font-family: "MB";
+//   font-size: 1.4vw;
+// }
+// .location-header-max-label{
+//   color: var(--white_s);
+//   font-family: "MR";
+//   font-size: 0.6vw;
+// }
+// .location-header-max-label{
+//   color: var(--white_s);
+//   font-family: "MR";
+//   font-size: 0.6vw;
+// }
+// .time-items-container-time-label{
+//   color: var(--white_s);
+//   font-family: "MSB";
+//   font-size: 1.2vw;
+// }
+// .date-title-container-location{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container-low-screen{
+//   display: flex;
+// }
+
+// }
+
+// @media (max-width: 768px) {
+// .filtercontentalLabel{
+//   color: var(--white_s);
+//   font-family: "HR";
+//   font-size: 0.8em;
+// }
+// .location-header-label{
+//   color: var(--white_s);
+//   font-family: "MB";
+//   font-size: 1.8vw;
+// }
+// .location-header-max-label{
+//   display: none;
+// }
+// .time-items-container-time-label{
+//   color: var(--white_s);
+//   font-family: "MSB";
+//   font-size: 1.4vw;
+// }
+// .date-title-container-limit-label{
+//   color: var(--white_s);
+//   font-family: "MR";
+//   font-size: 1.6vw;
+// }
+// .alllocation-submit-container-left-content-container-middle{
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+
+// }
+// .alllocation-submit-container-left-content-container-middle-middle{
+//  flex: 1
+
+// }
+// .alllocation-submit-container-left-content-container-middle-middle-container-input{
+
+//   background-color: var(--grayHalfBg);
+//   padding: 2vh;
+//   border-radius: 2vh;
+//   color: var(--background);
+//   font-size: 2vh;
+//   font-family: 'MB';
+//   text-align: center;
+//   width: min-content;
+// }
+// .alllocation-submit-container-left-content-container-middle-left, .alllocation-submit-container-left-content-container-middle-right{
+//   display: none;
+// }
+// .date-title-container-location{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container-low-screen{
+//   display: flex;
+// }
+
+// .alllocationdatecontainer{
+//   flex: 1;
+//   height: 80vh;
+//   width: 70vw;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 2%;
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+
+// }
+
+// .location-item {
+//   height: 20%;
+//   width: 74vw;
+//   background: linear-gradient(90deg, #0162AF, #011833);
+//   margin: 2%;
+//   flex: 1;
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: row;
+// }
+
+// }
+
+// @media (max-width: 480px) {
+
+// .filtercontentalLabel{
+//   color: var(--white_s);
+//   font-family: "HR";
+//   font-size: 0.6em;
+// }
+// .filtercontental{
+//   display: flex;
+//   width: 10%;
+//   height: calc(100% - 6%);
+//   background-color: var(--background);
+//   border-radius: 5px;
+//   margin: 2%;
+//   justify-content: center;
+//   align-items: center;
+// }
+// .location-header-label{
+//   color: var(--white_s);
+//   font-family: "MB";
+//   font-size: 1.8vw;
+// }
+// .location-header-max-label{
+//   display: none;
+// }
+// .time-items-container-time-label{
+//   color: var(--white_s);
+//   font-family: "MSB";
+//   font-size: 1.4vw;
+// }
+// .date-title-container-limit-label{
+//   color: var(--white_s);
+//   font-family: "MR";
+//   font-size: 1.6vw;
+// }
+// .alllocation-submit-container-left-content-container-middle{
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+
+// }
+// .alllocation-submit-container-left-content-container-middle-middle{
+//  flex: 1
+
+// }
+// .alllocation-submit-container-left-content-container-middle-middle-container-input{
+
+//   background-color: var(--grayHalfBg);
+//   padding: 2vh;
+//   border-radius: 2vh;
+//   color: var(--background);
+//   font-size: 2vh;
+//   font-family: 'MB';
+//   text-align: center;
+//   width: min-content;
+// }
+// .alllocation-submit-container-left-content-container-middle-left, .alllocation-submit-container-left-content-container-middle-right{
+//   display: none;
+// }
+// .date-title-container-location{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container{
+//   display: none;
+// }
+// .alllocation-submit-container-left-content-container-low-screen{
+//   display: flex;
+// }
+
+// .alllocationdatecontainer{
+//   flex: 1;
+//   height: 80vh;
+//   width: 50vw;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 2%;
+//   overflow-y: auto; /* Enable vertical scrolling */
+//   background: linear-gradient(180deg, #0162AF, #011833);
+//   margin: 2vh;
+//   border-radius: 2vh;
+
+// }
+
+// .location-item {
+//   min-height: 20%;
+//   width: 90%;
+//   background: linear-gradient(90deg, #0162AF, #011833);
+//   margin: 2%;
+//   flex: 1;
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: row;
+// }
+// .time-items-container {
+//   flex: 1;
+//   display: flex;
+//   flex-wrap: wrap;
+//   gap: 1vh;
+//   padding: 2vh;
+// }
+// .time-item {
+//   width: 8vw;
+//   height: 30px;
+//   background: var(--background);
+//   border-radius: 1vh;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
+// .location-details {
+//   width: 80px;
+//   flex-direction: column;
+// }
+
+// }

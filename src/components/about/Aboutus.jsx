@@ -7,6 +7,7 @@ import { getAllLocations } from "../../redux/actions/locationAction";
 import COLORS from "../../assets/constants/colors";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { loadAllAboutUs } from "../../redux/actions/userAction";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 function Aboutus() {
   const { accesstoken, loadingAbout, abouts } = useSelector(
@@ -55,9 +56,7 @@ function Aboutus() {
 
         <div className="aboutus-content-container">
           {loadingAbout ? (
-            <div className="aboutus-loading-container">
-              <CircularProgressBar />
-            </div>
+            <LoadingComponent/>
           ) : (
             filteredData?.map((item, index) => (
               <div key={index} className="aboutus-content">

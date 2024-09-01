@@ -1,0 +1,64 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5) !important; /* Force semi-transparent black */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: linear-gradient(180deg, #0162AF, #011833);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  width: 30rem;
+  z-index: 1000;
+}
+
+/* Set explicit opacity just in case */
+.modal-overlay {
+  opacity: 0.9 !important; /* Force opacity */
+}
+
+
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+  }
+  
+  .ios-button {
+    background-color: var(--background);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    font-family: "MR";
+    cursor: pointer;
+    box-shadow: 0rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+  }
+  
+  .ios-button:hover {
+    background-color: var(--green);
+    font-family: 'MB';
+  }
+  
+  .textp{
+    font-family: "MR";
+    color: var(--white_s);
+    font-size: 2rem;
+  }
+
+  .imgconM{
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

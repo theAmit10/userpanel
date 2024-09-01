@@ -15,6 +15,8 @@ import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateActio
 import { ToastContainer } from "react-toastify";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
+import moment from "moment-timezone";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 const filterdata = [
   { val: "All" },
@@ -189,15 +191,15 @@ function AllLocation() {
   };
 
   const handleSelectedDateClick = (datedate) => {
-    console.log("Starting Result work")
-    console.log("date data : "+JSON.stringify(datedate))
+    console.log("Starting Result work");
+    console.log("date data : " + JSON.stringify(datedate));
     setSelectedDate(datedate);
     dispatch(
       getResultAccordingToLocationTimeDate(
         accesstoken,
         datedate._id,
         datedate.lottime._id,
-        datedate.lottime.lotlocation._id,
+        datedate.lottime.lotlocation._id
       )
     );
   };
@@ -295,7 +297,7 @@ function AllLocation() {
   console.log("results :: ", JSON.stringify(results));
 
   return (
-    <div className="main-content-container-all-location">
+    <div className="allocationcontainer">
       {/** Location and time */}
 
       {selectedItem && (
@@ -309,12 +311,9 @@ function AllLocation() {
                 key={item._id}
                 style={{
                   borderColor:
-                  selectedFilter === item._id
-                  ? COLORS.green
-                  : "transparent", // Use transparent for no border
-              borderWidth: "2px",
-              borderStyle:
-              selectedFilter === item._id ? "solid" : "none", // Apply border style conditionally
+                    selectedFilter === item._id ? COLORS.green : "transparent", // Use transparent for no border
+                  borderWidth: "2px",
+                  borderStyle: selectedFilter === item._id ? "solid" : "none", // Apply border style conditionally
                 }}
               >
                 <label className="filtercontentalLabel">
@@ -326,20 +325,9 @@ function AllLocation() {
 
           {/** Location container */}
 
-       
-
           <div className="allocationcontainer-all">
             {isLoading ? (
-              <div
-                style={{
-                  flex: "1",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <CircularProgressBar />
-              </div>
+              <LoadingComponent />
             ) : (
               filteredData?.map((item, index) => (
                 <div className="location-item-all" key={index}>
@@ -393,26 +381,17 @@ function AllLocation() {
                 flexDirection: "row",
                 justifyContent: "flex-start",
                 alignItems: "center",
+                gap: "1rem",
               }}
             >
               <div
                 className="back-container"
                 onClick={() => removeSelecteditemClick()}
               >
-                <IoIosArrowRoundBack color={COLORS.background} size={"30px"} />
+                <IoIosArrowRoundBack color={COLORS.background} size={"2rem"} />
               </div>
 
-              <span
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.Montserrat_Bold,
-                  fontSize: "1.5em",
-                  marginRight: "2vh",
-                  marginLeft: "2vh",
-                }}
-              >
-                {selectedLocation.name}
-              </span>
+              <span className="alLocationNameL">{selectedLocation.name}</span>
 
               <span className="date-title-container-limit-label">
                 {selectedLocation.limit}
@@ -422,52 +401,26 @@ function AllLocation() {
             <div
               style={{
                 flex: 1,
-
                 display: "flex",
                 justifyContent: "flex-end",
               }}
             >
-              <span
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.Montserrat_Bold,
-                  fontSize: "1.5em",
-                }}
-              >
-                {selectedTime.time}
-              </span>
+              <span className="alLocationNameL">{selectedTime.time}</span>
             </div>
           </div>
 
           {/** select date */}
-          <span
-            style={{
-              color: COLORS.white_s,
-              fontFamily: FONT.Montserrat_Bold,
-              fontSize: "1.5em",
-              paddingLeft: "3vh",
-            }}
-          >
-            Select Date
-          </span>
+          <span className="alLocationSDL">Select Date</span>
 
           {/** date container */}
           <>
             {loadingdate ? (
-              <div
-                style={{
-                  flex: "1",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <CircularProgressBar />
-              </div>
+              <LoadingComponent />
             ) : (
               <div className="dateconatainer">
                 {dates?.map((item, index) => (
                   <div
+                    key={index}
                     onClick={() => handleSelectedDateClick(item)}
                     className="datecontainer-content"
                   >
@@ -500,45 +453,24 @@ function AllLocation() {
                 className="back-container"
                 onClick={() => removeSelecteditemClick()}
               >
-                <IoIosArrowRoundBack color={COLORS.background} size={"30px"} />
+                <IoIosArrowRoundBack color={COLORS.background} size={"2rem"} />
               </div>
 
               {/** selected date */}
-              <span
-                style={{
-                  color: COLORS.white_s,
-                  fontFamily: FONT.Montserrat_Bold,
-                  fontSize: "4vh",
-                  paddingLeft: "3vh",
-                }}
-              >
-                Result
-              </span>
+              <span className="alLocationTitle">Result</span>
             </div>
           </div>
 
           {/** result container */}
 
           {loadingResult ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
+            <LoadingComponent />
           ) : results.length === 0 ? (
             <div className="dateconatainer">
               {/** Result contatiner */}
               <div className="resultcontaineral">
                 <div className="resultleftcontaineral">
-                  <div className="rltopcontaineral">
-                   
-                   
-                  </div>
+                  <div className="rltopcontaineral"></div>
                   <div className="rlmiddlecontaineral">
                     <div
                       style={{
@@ -548,7 +480,10 @@ function AllLocation() {
                         alignItems: "center",
                       }}
                     >
-                      <label className="rltopcontaineralNumberLabel" style={{fontSize: '4vw', textAlign: 'end'}}>
+                      <label
+                        className="rltopcontaineralNumberLabel"
+                        style={{ fontSize: "4rem", textAlign: "end" }}
+                      >
                         Comming soon...
                       </label>
                     </div>
@@ -561,7 +496,6 @@ function AllLocation() {
                       }}
                     ></div>
                   </div>
-                  
                 </div>
                 <div className="resultrightcontaineral">
                   <div className="imageContainerGame">
@@ -589,93 +523,45 @@ function AllLocation() {
           ) : (
             <div className="dateconatainer">
               {/** Result contatiner */}
-              <div className="resultcontaineral">
-                <div className="resultleftcontaineral">
-                  <div className="rltopcontaineral">
-                    <div
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <label className="rltopcontaineralNameLabel">
-                        {results[0]?.lotlocation?.lotlocation}
-                      </label>
+              <div className="hdLeftCTop">
+                <div className="hdlTL">
+                  <div className="hdlTLT">
+                    <div className="hdlTLTL">
+                      <label className="hdlTLTLCountry">{results[0]?.lotlocation?.lotlocation}</label>
                     </div>
-                    <div
-                      style={{
-                        width: "40%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <label className="rltopcontaineralTimeLabel">
-                        {results[0].lottime.lottime}
-                      </label>
+                    <div className="hdlTLTR">
+                      <label className="hdlTLTLNextResult">Next Result</label>
+                      <label className="hdlTLTLNR">{results[0]?.nextresulttime}</label>
                     </div>
                   </div>
-                  <div className="rlmiddlecontaineral">
-                    <div
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                      }}
-                    >
-                      <label className="rltopcontaineralNumberLabel">
-                        {results[0].resultNumber}
-                      </label>
+                  <div className="hdlTLM">
+                    <div className="hdlTLML">
+                      <label className="hdlMNumber">{results[0].resultNumber}</label>
                     </div>
-                    <div
-                      style={{
-                        width: "40%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    ></div>
+                    <div className="hdlTLMR">
+                      <label className="hdlTLTLNRtimer"></label>
+                    </div>
                   </div>
-                  <div className="rlbottomcontaineral">
-                    <div className="rlbottomcontentcontaineral">
-                      <div className="rlbottomcontentcontainerCalContainer">
-                        <SlCalender size={"20px"} color={COLORS.background} />
-                      </div>
-                      <label className="rlbottomcontentcontainerCalDateLabel">
-                        {results[0].lotdate.lotdate}
-                      </label>
-                      <label className="rlbottomcontentcontainerCalDateLabel">
-                        {results[0].lottime.lottime}
-                      </label>
-                      <label className="rlbottomcontentcontainerCalDateLabel">
-                        {results[0].resultNumber}
-                      </label>
-                    </div>
+                  <div className="hdlTLB">
+                    <label className="hdlTLTLNRB">{results[0].lotdate.lotdate}</label>
+                    <label className="hdlTLTLNRB">{results[0].lottime.lottime}</label>
+                    <label className="hdlTLTLNRB">{results[0].resultNumber}</label>
                   </div>
                 </div>
-                <div className="resultrightcontaineral">
-                  <div className="imageContainerGame">
-                    <img
-                      src={images.gamecontroller}
-                      alt="game controller Image"
-                      className="gamecontrolleral"
-                    />
-                    <img
-                      src={images.cups}
-                      alt="game controller Image"
-                      className="cupontrolleral"
-                    />
+                <div className="hdlTR">
+                  <div className="hdlTRLeft">
+                    <div className="hdlTRLeftT">
+                      <img
+                        src={images.gamecontroller}
+                        className="hdtrophyimage"
+                      />
+                    </div>
+                    <div className="hdlTRLeftB">
+                      <img src={images.cups} className="hdtrophyimage" />
+                    </div>
                   </div>
-                  <div className="catImageContainer">
-                    <img
-                      src={images.cat}
-                      alt="game controller Image"
-                      className="catcontrolleral"
-                    />
+                  <div className="hdlTRRight">
+                    <img src={images.cat} className="hdcatimage" />
                   </div>
                 </div>
               </div>
@@ -689,11 +575,121 @@ function AllLocation() {
   );
 }
 
+{/* <div className="resultcontaineral">
+<div className="resultleftcontaineral">
+  <div className="rltopcontaineral">
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: 'cyan'
+      }}
+    >
+      <label className="rltopcontaineralNameLabel">
+        {results[0]?.lotlocation?.lotlocation}
+      </label>
+    </div>
+    <div
+      style={{
+        width: "40%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        backgroundColor: 'green'
+      }}
+    >
+      <label className="rltopcontaineralTimeLabel">
+        {results[0].lottime.lottime}
+      </label>
+    </div>
+  </div>
+  <div className="rlmiddlecontaineral">
+    <div
+      style={{
+        flex: 1,
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        backgroundColor: 'pink'
+      }}
+    >
+      <label className="rltopcontaineralNumberLabel">
+        {results[0].resultNumber}
+      </label>
+    </div>
+    <div
+      style={{
+        width: "40%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: 'red'
+      }}
+    ></div>
+  </div>
+  <div className="rlbottomcontaineral">
+    <div className="rlbottomcontentcontaineral">
+      <div className="rlbottomcontentcontainerCalContainer">
+        <SlCalender size={"2rem"} color={COLORS.white_s} />
+      </div>
+      <label className="rlbottomcontentcontainerCalDateLabel">
+        {results[0].lotdate.lotdate}
+      </label>
+      <label className="rlbottomcontentcontainerCalDateLabel">
+        {results[0].lottime.lottime}
+      </label>
+      <label className="rlbottomcontentcontainerCalDateLabel">
+        {results[0].resultNumber}
+      </label>
+    </div>
+  </div>
+</div>
+<div className="resultrightcontaineral">
+  <div className="imageContainerGame">
+    <img
+      src={images.gamecontroller}
+      alt="game controller Image"
+      className="gamecontrolleral"
+    />
+    <img
+      src={images.cups}
+      alt="game controller Image"
+      className="cupontrolleral"
+    />
+  </div>
+  <div className="catImageContainer">
+    <img
+      src={images.cat}
+      alt="game controller Image"
+      className="catcontrolleral"
+    />
+  </div>
+</div>
+</div> */}
+
 export default AllLocation;
 
+export function getTimeAccordingToTimezone(time, targetTimeZone) {
+  // Get the current date in "DD-MM-YYYY" format
+  const todayDate = moment().format("DD-MM-YYYY");
 
+  // Combine the current date and time into a full datetime string
+  const dateTimeIST = `${todayDate} ${time}`;
 
-// .allocationcontainer 
+  // Convert the combined date and time to a moment object in the IST timezone
+  const istTime = moment.tz(dateTimeIST, "DD-MM-YYYY hh:mm A", "Asia/Kolkata");
+
+  // Convert the IST time to the target timezone
+  const targetTime = istTime.clone().tz(targetTimeZone);
+
+  // Return only the time in the target timezone
+  return targetTime.format("hh:mm A");
+}
+
+// .allocationcontainer
 // display: flex;
 // flex-wrap: wrap;
 // gap: 2%;

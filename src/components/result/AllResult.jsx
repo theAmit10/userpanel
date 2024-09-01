@@ -19,6 +19,8 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { loadProfile } from "../../redux/actions/userAction";
 import { FaWallet } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
+import { LoadingComponent } from "../helper/LoadingComponent";
+import { NodataFound } from "../helper/NodataFound";
 
 const locationdata = [
   {
@@ -1837,127 +1839,94 @@ function AllResult() {
 
   useEffect(() => {
     if (alllocation) {
-      console.log("Calling allresult only:: "+allresultIsLoading);
+      console.log("Calling allresult only:: " + allresultIsLoading);
       console.log(allocationIsLoading, allresult);
     }
-  }, [ allresult, selectedItem]);
+  }, [allresult, selectedItem]);
 
   const getAllResultForOtherLocation = (item) => {
     console.log("GETTING RESULT...");
     setSelectedItem(item);
-    console.log("allresult :: "+allresultIsLoading)
-    console.log(JSON.stringify(selectedItem))
+    console.log("allresult :: " + allresultIsLoading);
+    console.log(JSON.stringify(selectedItem));
   };
 
   return (
-    <div className="history-main-container">
-      {/** TITLE CONTAINER */}
-      <label className="h-title-label-result">Results</label>
-      {/** CONTENT CONTAINER */}
-      <div className="h-content-container-result">
-        {/** LOCATION CONTAINER */}
-        <div className="all-location-result">
-          {allocationIsLoading ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
-          ) : (
-            alllocation?.locationData?.map((item, index) => (
+    <div className="alContainer">
+      {/** TOP NAVIGATION CONTATINER */}
+      <div className="alCreatLocationTopContainer">
+        <div className="alCreatLocationTopContaineCL">
+          <label className="alCreatLocationTopContainerlabel">All Result</label>
+        </div>
+      </div>
+      {allocationIsLoading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="PLContainerMain">
+          <div className="ARLC">
+            {alllocation?.locationData?.map((item, index) => (
               <div
                 key={index}
                 onClick={() => getAllResultForOtherLocation(item)}
-                className="location-header-result-allresult"
-                style={{
-                  background:
-                    index % 2 === 0
-                      ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                      : "linear-gradient(90deg, #7EC630, #3D6017)",
-                      borderColor: selectedItem?._id === item._id ? COLORS.blue : 'transparent', // Use transparent for no border
-                      borderWidth: '2px',
-                      borderStyle: selectedItem?._id === item._id ? 'solid' : 'none', // Apply border style conditionally
-
-                }}
+                className="ARLocConC"
               >
-                <span className="location-header-label">{item.name}</span>
-                <span className="location-header-max-label">
-                  Max {item.limit}
-                </span>
-              </div>
-            ))
-          )}
-        </div>
-
-        {/** RESULT CONTAINER */}
-        <div className="result-container">
-          {allresultIsLoading ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
-          ) : (
-            <>
-              {allresult?.results?.length === 0 ? (
                 <div
+                  className="PLLLocContainer"
                   style={{
-                    flex: "1",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "10vh"
+                    background:
+                      index % 2 === 0
+                        ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                        : "linear-gradient(90deg, #7EC630, #3D6017)",
+                    borderColor:
+                      selectedItem?._id === item._id
+                        ? COLORS.blue
+                        : "transparent", // Use transparent for no border
+                    borderWidth: "2px",
+                    borderStyle:
+                      selectedItem?._id === item._id ? "solid" : "none", // Apply border style conditionally
                   }}
                 >
-                  <label className="h-title-label">{allresult ? "No reault available" : "Loading..."}</label>
+                  <label className="locLabel">{item.name}</label>
+                  <label className="limitLabel">Max {item.limit}</label>
                 </div>
-              ) : (
-                allresult?.results?.map((item, index) => (
-                  <div className="result-content-time-container">
-                    <div className="result-content-time-container-content-time">
-                      <label className="result-content-time-container-content-label">
-                        {item.lottime.lottime}
-                      </label>
-                    </div>
-                    {/** FOR DATE  */}
+              </div>
+            ))}
+          </div>
+
+          {/** ALL RESULT MAIN */}
+          <div className="ARMC">
+            {allresultIsLoading ? (
+              <LoadingComponent />
+            ) : allresult?.results?.length === 0 ? (
+              <NodataFound title={"No data available"} />
+            ) : (
+              allresult?.results.map((item, index) => (
+                <div className="ARMCContent" key={index}>
+                  <div className="ARMCContentTC">
+                    <label className="pdR"> {item.lottime.lottime}</label>
+                  </div>
+                  <div className="ARMCContentDC">
                     {item.dates.map((dateitem, dateindex) => (
-                      <div
-                        key={dateitem._id}
-                        className="result-content-time-container-content-container"
-                      >
-                        <div className="result-content-time-container-content-date">
-                          <label className="result-content-time-container-content-label">
+                      <div className="ARMCContentDConC" key={dateindex}>
+                        <div className="ARMCContentDConCDate">
+                          <label className="pdR">
                             {dateitem.lotdate.lotdate}
                           </label>
                         </div>
-                        <div className="result-content-time-container-content-result">
-                          <label className="result-content-time-container-content-label">
+                        <div className="ARMCContentDConCResult">
+                          <label className="pdR">
                             {dateitem.results[0].resultNumber}
                           </label>
                         </div>
                       </div>
                     ))}
                   </div>
-                ))
-              )}
-            </>
-          )}
-
-          {/** END RESULT CONTAINER */}
+                </div>
+              ))
+            )}
+          </div>
         </div>
-      </div>
-
-      <ToastContainer />
+      )}
     </div>
   );
 }

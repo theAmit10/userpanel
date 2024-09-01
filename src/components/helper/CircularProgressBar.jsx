@@ -15,7 +15,7 @@ const CircularProgressBar = () => {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: 30, height: 30 }}>
+    <div style={{ position: 'relative', width: "2.5rem", height: "2.5rem" }}>
       <Circle
         percent={percent}
         strokeWidth="8"

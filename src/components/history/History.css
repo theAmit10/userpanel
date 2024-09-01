@@ -3,11 +3,10 @@
     flex: 1;
     height: 80vh;
     background: linear-gradient(180deg, #0162AF, #011833);
-    margin: 2vh;
-    border-radius: 2vh;
-    padding: 2vh;
+    border-radius: 2rem;
+    padding: 2rem;
     flex-direction: column;
-    gap: 2vh;
+    gap: 2rem;
 }
 
 .h-title-label-h{
