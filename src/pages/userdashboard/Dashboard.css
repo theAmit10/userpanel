@@ -184,12 +184,12 @@
     max-height: 35rem;
     min-height: 15rem;
     width: 100%;
-    background-color: pink;
+    background-color: var(--background);
     border-radius: 1rem;
   }
 
   .shereAppContainer{
-    height: 12rem;
+    max-height: 12rem;
     width: 100%;
     background-color: var(--background);
     border-radius: 1rem;

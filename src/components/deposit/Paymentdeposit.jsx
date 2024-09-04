@@ -10,6 +10,7 @@ import Skrilldeposit from "./Skrilldeposit";
 import Paypaldeposit from "./Paypaldeposit";
 import Cryptodeposit from "./Cryptodeposit";
 import { CiEdit } from "react-icons/ci";
+import { UD } from "./UD";
 
 function Paymentdeposit() {
   const [selectedPayment, setSelectedPayment] = useState("");
@@ -192,7 +193,7 @@ function Paymentdeposit() {
       )}
 
       {selectedPayment === "upi" && (
-        <Upideposit selectingPaymentType={selectingPaymentType} />
+        <UD selectingPaymentType={selectingPaymentType} />
       )}
       {selectedPayment === "bank" && (
         <Bankdeposit selectingPaymentType={selectingPaymentType} />

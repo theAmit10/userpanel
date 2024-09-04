@@ -207,6 +207,9 @@ const HD = () => {
   return (
     <div className="hdcontainer">
       {/** LEFT CONTAINER */}
+      {
+        
+      }
       <div className="hdLeftC">
         {/** TOP */}
         <div className="hdLeftCTop">

@@ -23,6 +23,9 @@ import CountdownTimer from "../helper/CountdownTimer";
 import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
 import { serverName } from "../../redux/store";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { NodataFound } from "../helper/NodataFound";
+import { getTimeAccordingToTimezone } from "../../pages/userdashboard/Dashboard";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 const topWinnerOfTheDay = [
   {
@@ -46,8 +49,6 @@ const topWinnerOfTheDay = [
     amount: "8000 INR",
   },
 ];
-
-
 
 const locationdata = [
   {
@@ -152,7 +153,6 @@ const locationdata = [
   },
 ];
 
-
 function HomeDashboard() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -162,32 +162,37 @@ function HomeDashboard() {
     (state) => state.result
   );
 
-
   const [timeVisible, setTimeVisible] = useState(true);
   const [dateVisible, setDateVisible] = useState(false);
   const [resultVisible, setResultVisible] = useState(false);
 
+  const settingTimeVisbility = () => {
+    setResultVisible(false);
+    setTimeVisible(true);
+    setDateVisible(false);
+  };
 
+  const dateBackhandler = () => {
+    setResultVisible(false);
+    setTimeVisible(true);
+    setDateVisible(false);
+  };
 
-const settingTimeVisbility = (val) => {
-  setResultVisible(false);
-  setTimeVisible(true);
-  setDateVisible(false);
-};
+  const resultBackhandler = () => {
+    setResultVisible(false);
+    setTimeVisible(false);
+    setDateVisible(true);
+  };
 
-const dateBackhandler = () => {
-  setResultVisible(false);
-  setTimeVisible(true);
-  setDateVisible(false);
-};
+  // const handleSelecteditemClick = (item, timedata) => {
+  //   setSelectedItem(false);
+  //   setSelectedLocation(item);
+  //   setSelectedTime(timedata);
 
-const resultBackhandler = () => {
-  setResultVisible(false);
-  setTimeVisible(false);
-  setDateVisible(true);
-};
-
-
+  //   dispatch(
+  //     getDateAccordingToLocationAndTime(accesstoken, timedata._id, item._id)
+  //   );
+  // };
 
   const [firstTimeClick, setFirstTimeClick] = useState(true);
   useEffect(() => {
@@ -195,7 +200,7 @@ const resultBackhandler = () => {
   }, [selectedLocation]);
 
   const { user, accesstoken, loading } = useSelector((state) => state.user);
-  const [showDate, setShowDate] = useState(true);
+  const [showDate, setShowDate] = useState(false);
   const [nextResultTime, setNextResultTime] = useState(null);
 
   const navigation = useNavigate();
@@ -209,18 +214,45 @@ const resultBackhandler = () => {
     dispatch(loadProfile(accesstoken));
   }, [dispatch]);
 
+  // Use useEffect to log the state when it changes
+  useEffect(() => {
+    console.log("TIME VISIBLE :: ", timeVisible);
+    console.log("DATE VISIBLE :: ", dateVisible);
+    console.log("RESULT VISIBLE :: ", resultVisible);
+  }, [timeVisible, dateVisible, resultVisible]);
+
   const handleLocationClick = (location) => {
-    console.log("clicked");
+    console.log(" loacation clicked");
     console.log(JSON.stringify(location));
 
+    // setSelectedTime(null);
+    setSelectedDate(null);
+    // setShowDate(false);
+    // setResultVisible(false);
+    // setTimeVisible(true);
+    settingTimeVisbility();
     setSelectedLocation(location);
-    setSelectedTime(null);
   };
 
   const getAllTheDateForLocationHome = (item) => {
     console.log("time clicked");
     console.log(JSON.stringify(item));
     console.log(JSON.stringify(selectedLocation));
+    setSelectedTime(item);
+
+    dispatch(
+      getDateAccordingToLocationAndTime(
+        accesstoken,
+        item._id,
+        selectedLocation._id
+      )
+    );
+
+    setTimeVisible(false);
+    setDateVisible(true);
+  };
+
+  const handleSelecteditemClick = (item) => {
     setSelectedTime(item);
 
     dispatch(
@@ -422,7 +454,9 @@ const resultBackhandler = () => {
   const [filteredDataAllLocation, setFilteredDataAllLocation] = useState([]);
 
   useEffect(() => {
-    setFilteredDataAllLocation(dataAllLocation?.locationData); // Update filteredData whenever locations change
+    if (dataAllLocation) {
+      setFilteredDataAllLocation(dataAllLocation?.locationData); // Update filteredData whenever locations change
+    }
   }, [dataAllLocation]);
 
   // FOR GETTING GAME HISTORY
@@ -495,296 +529,395 @@ const resultBackhandler = () => {
 
   return (
     <div className="hdcontainer">
-    {/** LEFT CONTAINER */}
-    <div className="hdLeftC">
-      {/** TOP */}
-      <div className="hdLeftCTop">
-        <div className="hdlTL">
-          <div className="hdlTLT">
-            <div className="hdlTLTL">
-              <label className="hdlTLTLCountry">India</label>
-            </div>
-            <div className="hdlTLTR">
-              <label className="hdlTLTLNextResult">Next Result</label>
-              <label className="hdlTLTLNR">09:00 AM</label>
-            </div>
-          </div>
-          <div className="hdlTLM">
-            <div className="hdlTLML">
-              <label className="hdlMNumber">09</label>
-            </div>
-            <div className="hdlTLMR">
-              <label className="hdlTLTLNRtimer">00:00:00</label>
-            </div>
-          </div>
-          <div className="hdlTLB">
-            <label className="hdlTLTLNRB">30-08-2024</label>
-            <label className="hdlTLTLNRB">09:00 AM</label>
-            <label className="hdlTLTLNRB">09</label>
-          </div>
-        </div>
-        <div className="hdlTR">
-          <div className="hdlTRLeft">
-            <div className="hdlTRLeftT">
-              <img src={images.gamecontroller} className="hdtrophyimage" />
-            </div>
-            <div className="hdlTRLeftB">
-              <img src={images.cups} className="hdtrophyimage" />
-            </div>
-          </div>
-          <div className="hdlTRRight">
-            <img src={images.cat} className="hdcatimage" />
-          </div>
-        </div>
-      </div>
-      {/** MIDDLE */}
-      <div className="hdLeftCMiddle">
-        {topWinnerOfTheDay.map((item, index) => (
-          <div
-            className="hdMC"
-            style={{
-              background:
-                index % 2 === 0
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #1993FF, #0F5899)",
-            }}
-            key={index}
-          >
-            <div className="hdMCT">
-              <label className="hdMCTCountry">Paris</label>
-            </div>
-            <div className="hdMCM">
-              <label className="hdMCTResult">09</label>
-            </div>
-            <div className="hdMCB">
-              <label className="hdMCTTime">09:00 AM</label>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/** BOTTOM */}
-      <div className="hdLeftCBottom">
-        {/** FILTER SEARCH CONTAINER */}
-        <div className="hdFContainer">
-          <label className="hdFCContenL">2x</label>
-        </div>
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <>
+          {/** LEFT CONTAINER */}
 
-        <div className="hdlocC">
-        <div className="hdLocationContainer">
-      <div className="hdLocationContainerLeft">
-        {false ? (
-          <LoadingComponent/>
-        ) : (
-          locationdata.map((item, index) => (
-            <div
-              className="hdLocationContainerLeftContent"
-              onClick={() => selectingLocation(item)}
-              style={{
-                background:
-                  index % 2 === 0
-                    ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                    : "linear-gradient(90deg, #7EC630, #3D6017)",
-                borderColor:
-                  selectedLocation?._id === item._id
-                    ? COLORS.white_s
-                    : "transparent", // Use transparent for no border
-                borderWidth: "2px",
-                borderStyle:
-                  selectedLocation?._id === item._id ? "solid" : "none", // Apply border style conditionally
-              }}
-            >
-              <label className="hdLocationContainerLeftContentNameLabel">
-                {item.name}
-              </label>
-              <label className="hdLocationContainerLeftContentLimitLabel">
-                Max {item.limit}
-              </label>
-            </div>
-          ))
-        )}
-      </div>
-      {/** RIGHT */}
-      <div className="hdLocationContainerRight">
-        {selectedLocation === null ? (
-           <LoadingComponent/>
-        ) : (
-          timeVisible && (
-            <div className="hdLocationContainerRightTimeContainer">
-              {/** TOP */}
-              <div className="hdLocationContainerRightTimeContainerTop">
-                <label className="hdLocationContainerLeftContentNameLabel">
-                  {selectedLocation.name}
-                </label>
-                <label className="hdLocationContainerLeftContentLimitLabel">
-                  Max {selectedLocation.limit}
-                </label>
-              </div>
-
-              {/** Time content container */}
-              <div className="hdLocationContainerRightTimeContainerContentContainer">
-                {selectedLocation.times.length === 0 ? (
-                  <div className="NC">
-                    <label className="hdLocationContainerLeftContentNameLabel">
-                      No available time
-                    </label>
-                  </div>
-                ) : (
-                  selectedLocation.times.map((titem, tindex) => (
-                    <div
-                      className="hdLocationContainerRightTimeContainerContentContainer-time"
-                      onClick={() => selectingTimezone(titem)}
-                    >
-                      <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
-                        {titem.time}
+          <div className="hdLeftC">
+            {/** TOP MAIN RESULT DATA */}
+            {homeResult && homeResult.length === 0 ? (
+              <NodataFound title={"No data available"} />
+            ) : (
+              <div className="hdLeftCTop">
+                <div className="hdlTL">
+                  <div className="hdlTLT">
+                    <div className="hdlTLTL">
+                      <label className="hdlTLTLCountry">
+                        {homeResult?.lotlocation?.lotlocation}
                       </label>
                     </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )
-        )}
-
-        {selectedLocation === null && selectedTime === null && loadingdate ? (
-           <LoadingComponent/>
-        ) : (
-          dateVisible && (
-            <div className="hdLocationContainerRightTimeContainer">
-              {/** TOP */}
-              <div
-                onClick={dateBackhandler}
-                className="hdLocationContainerRightTimeContainerTop"
-              >
-                <IoArrowBackCircleOutline
-                  color={COLORS.white_s}
-                  size={"2.5rem"}
-                />
-                <label className="hdLocationContainerLeftContentNameLabel">
-                  {selectedLocation.name}
-                </label>
-                <label className="hdLocationContainerLeftContentLimitLabel">
-                  Max {selectedLocation.limit}
-                </label>
-              </div>
-
-              {/** Time content container */}
-              <div className="hdLocationContainerRightTimeContainerContentContainer">
-                {dates.length === 0 ? (
-                  <div className="NC">
-                    <label className="hdLocationContainerLeftContentNameLabel">
-                      No available date
-                    </label>
-                  </div>
-                ) : (
-                  dates?.map((item, index) => (
-                    <div
-                      className="hdLocationContainerRightTimeContainerContentContainer-time"
-                      onClick={() => seletingDate(item)}
-                    >
-                      <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
-                        {item.lotdate}
-                      </label>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          )
-        )}
-
-        {selectedLocation === null &&
-        selectedTime === null &&
-        selectedDate === null &&
-        loadingResult ? (
-          <div className="NC">
-            <CircularProgressBar />
-          </div>
-        ) : (
-          resultVisible && (
-            <div className="hdLocationContainerRightTimeContainer">
-              {/** TOP */}
-              <div
-                onClick={resultBackhandler}
-                className="hdLocationContainerRightTimeContainerTop"
-              >
-                <IoArrowBackCircleOutline
-                  color={COLORS.white_s}
-                  size={"2.5rem"}
-                />
-                <label className="hdLocationContainerLeftContentNameLabel">
-                  {selectedLocation.name}
-                </label>
-                <label className="hdLocationContainerLeftContentLimitLabel">
-                  Max {selectedLocation.limit}
-                </label>
-              </div>
-
-              {/** Time content container */}
-              <div className="hdLocationContainerRightTimeContainerContentContainer-result">
-                <div className="hdLocationContainerRightTimeContainerContentContainer-resultright">
-                  <div className="trophyimagecontainer">
-                    <img
-                      src={images.cups}
-                      alt="trphy"
-                      className="catandtrophyimg"
-                    />
-                  </div>
-
-                  <div className="hdLocationContainerRightTimeContainerContentContainer-resultleft">
-                    {results.length === 0 ? (
-                      <label className="hdLocationContainerLeftContentNameLabel" style={{marginBottom: "2rem"}}>
-                        Comming soon
-                      </label>
-                    ) : (
-                      <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-number">
-                         {results[0].resultNumber}
-                      </label>
+                    {loaderForNextResult ? null : (
+                      <div className="hdlTLTR">
+                        <label className="hdlTLTLNextResult">Next Result</label>
+                        <label className="hdlTLTLNR">
+                          {getTimeAccordingToTimezone(
+                            homeResult?.nextresulttime,
+                            user?.country?.timezone
+                          )}
+                        </label>
+                      </div>
                     )}
-                    <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-date">
-                      {selectedDate.lotdate}
+                  </div>
+                  <div className="hdlTLM">
+                    <div className="hdlTLML">
+                      <label className="hdlMNumber">
+                        {homeResult?.resultNumber}
+                      </label>
+                    </div>
+                    {loaderForNextResult ? (
+                      <LoadingComponent />
+                    ) : (
+                      <div className="hdlTLMR">
+                        <label className="hdlTLTLNRtimer">
+                          <CountdownTimer
+                            timeString={getTimeAccordingToTimezone(
+                              homeResult?.nextresulttime,
+                              user?.country?.timezone
+                            )}
+                          />
+                        </label>
+                      </div>
+                    )}
+                  </div>
+                  <div className="hdlTLB">
+                    <label className="hdlTLTLNRB">
+                      {homeResult?.lotdate?.lotdate}
+                    </label>
+                    <label className="hdlTLTLNRB">
+                      {" "}
+                      {getTimeAccordingToTimezone(
+                        homeResult?.lottime?.lottime,
+                        user?.country?.timezone
+                      )}
+                    </label>
+                    <label className="hdlTLTLNRB">
+                      {homeResult?.resultNumber}
                     </label>
                   </div>
-
-                  <div className="catimagecontainer">
-                    <img
-                      src={images.cat}
-                      alt="cat"
-                      className="catandtrophyimg"
-                    />
+                </div>
+                <div className="hdlTR">
+                  <div className="hdlTRLeft">
+                    <div className="hdlTRLeftT">
+                      <img
+                        src={images.gamecontroller}
+                        className="hdtrophyimage"
+                      />
+                    </div>
+                    <div className="hdlTRLeftB">
+                      <img src={images.cups} className="hdtrophyimage" />
+                    </div>
+                  </div>
+                  <div className="hdlTRRight">
+                    <img src={images.cat} className="hdcatimage" />
                   </div>
                 </div>
               </div>
-            </div>
-          )
-        )}
-      </div>
-    </div>
-        </div>
-      </div>
-    </div>
-    {/** RIGHT CONTAINER */}
-    <div className="hdRightC">
-      <label className="hdrLabel">GAME HISTORY</label>
+            )}
 
-      <div className="hdRightCContainer">
-        {topWinnerOfTheDay.map((item, index) => (
-          <div className="hdrContentC">
-            <div className="hdrcL">
-              <label className="hdrcLLabel">Paris</label>
-            </div>
-            <div className="hdrcM">
-              <label className="hdrcMResultLabel">20</label>
-              <label className="hdrcMAmoutLabel">10 GER</label>
-            </div>
-            <div className="hdrcR">
-              <label className="hdrcRResultLabel">06:00 AM</label>
-              <label className="hdrcMAmoutLabel">Aug 30, 2024</label>
-            </div>
+            {/** MIDDLE RESULT LIST CONTAINER */}
+            {filteredData.length === 0 ? (
+              <NodataFound title={"No result available"} />
+            ) : (
+              <div className="hdLeftCMiddle">
+                {filteredData.map((item, index) => (
+                  <div
+                    className="hdMC"
+                    onClick={() => settingHomeResultUsingLocation(item, index)}
+                    style={{
+                      background:
+                        index % 2 === 0
+                          ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                          : "linear-gradient(180deg, #1993FF, #0F5899)",
+                    }}
+                    key={index}
+                  >
+                    <div className="hdMCT">
+                      <label className="hdMCTCountry">
+                        {item.lotlocation.lotlocation}
+                      </label>
+                    </div>
+                    <div className="hdMCM">
+                      <label className="hdMCTResult">{item.resultNumber}</label>
+                    </div>
+                    <div className="hdMCB">
+                      <label className="hdMCTTime">
+                        {getTimeAccordingToTimezone(
+                          item.lottime.lottime,
+                          user?.country?.timezone
+                        )}
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/** BOTTOM LOCATION AND THE FITER */}
+            {isLoadingAllLocation ? (
+              <LoadingComponent />
+            ) : (
+              <div className="hdLeftCBottom">
+                {/** FILTER SEARCH CONTAINER */}
+                <div className="hdFContainer">
+                  {alldatafilerAllLocation.map((item, index) => (
+                    <label
+                      onClick={() => settingFilterData(item)}
+                      key={item._id}
+                      className="hdFCContenL"
+                      style={{
+                        borderColor:
+                          selectedFilterAllLocation === item._id
+                            ? COLORS.green
+                            : "transparent", // Use transparent for no border
+                        borderWidth: "2px",
+                        borderStyle:
+                          selectedFilterAllLocation === item._id
+                            ? "solid"
+                            : "none", // Apply border style conditionally
+                      }}
+                    >
+                      {item.maximumReturn}
+                    </label>
+                  ))}
+                </div>
+
+                <div className="hdlocC">
+                  <div className="hdLocationContainer">
+                    <div className="hdLocationContainerLeft">
+                      {isLoadingAllLocation ? (
+                        <LoadingComponent />
+                      ) : (
+                        filteredDataAllLocation.map((item, index) => (
+                          <div
+                            className="hdLocationContainerLeftContent"
+                            onClick={() => handleLocationClick(item)}
+                            style={{
+                              background:
+                                index % 2 === 0
+                                  ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                                  : "linear-gradient(90deg, #7EC630, #3D6017)",
+                              borderColor:
+                                selectedLocation?._id === item._id
+                                  ? COLORS.white_s
+                                  : "transparent", // Use transparent for no border
+                              borderWidth: "2px",
+                              borderStyle:
+                                selectedLocation?._id === item._id
+                                  ? "solid"
+                                  : "none", // Apply border style conditionally
+                            }}
+                          >
+                            <label className="hdLocationContainerLeftContentNameLabel">
+                              {item.name}
+                            </label>
+                            <label className="hdLocationContainerLeftContentLimitLabel">
+                              Max {item.limit}
+                            </label>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                    {/** RIGHT */}
+                    <div className="hdLocationContainerRight">
+                      {timeVisible &&
+                        (selectedLocation === null ? (
+                          <LoadingComponent />
+                        ) : (
+                          <div className="hdLocationContainerRightTimeContainer">
+                            {/** TOP */}
+                            <div className="hdLocationContainerRightTimeContainerTop">
+                              <label className="hdLocationContainerLeftContentNameLabel">
+                                {selectedLocation.name}
+                              </label>
+                              <label className="hdLocationContainerLeftContentLimitLabel">
+                                Max {selectedLocation.limit}
+                              </label>
+                            </div>
+
+                            {/** Time content container */}
+                            <div className="hdLocationContainerRightTimeContainerContentContainer">
+                              {selectedLocation.times.length === 0 ? (
+                                <div className="NC">
+                                  <label className="hdLocationContainerLeftContentNameLabel">
+                                    No available time
+                                  </label>
+                                </div>
+                              ) : (
+                                selectedLocation.times.map((titem, tindex) => (
+                                  <div
+                                    key={tindex}
+                                    className="hdLocationContainerRightTimeContainerContentContainer-time"
+                                    onClick={() =>
+                                      getAllTheDateForLocationHome(titem)
+                                    }
+                                  >
+                                    <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
+                                      {titem.time}
+                                    </label>
+                                  </div>
+                                ))
+                              )}
+                            </div>
+                          </div>
+                        ))}
+
+                      {dateVisible &&
+                        (selectedLocation === null &&
+                        selectedTime === null &&
+                        loadingdate ? (
+                          <LoadingComponent />
+                        ) : (
+                          <div className="hdLocationContainerRightTimeContainer">
+                            {/** TOP */}
+                            <div
+                              onClick={dateBackhandler}
+                              className="hdLocationContainerRightTimeContainerTop"
+                            >
+                              <IoArrowBackCircleOutline
+                                color={COLORS.white_s}
+                                size={"2.5rem"}
+                              />
+                              <label className="hdLocationContainerLeftContentNameLabel">
+                                {selectedLocation.name}
+                              </label>
+                              <label className="hdLocationContainerLeftContentLimitLabel">
+                                Max {selectedLocation.limit}
+                              </label>
+                            </div>
+
+                            {/** Time content container */}
+                            <div className="hdLocationContainerRightTimeContainerContentContainer">
+                              {dates.length === 0 ? (
+                                <div className="NC">
+                                  <label className="hdLocationContainerLeftContentNameLabel">
+                                    No available date
+                                  </label>
+                                </div>
+                              ) : (
+                                dates?.map((item, index) => (
+                                  <div
+                                    key={index}
+                                    className="hdLocationContainerRightTimeContainerContentContainer-time"
+                                    onClick={() =>
+                                      handleSelectedDateClick(item)
+                                    }
+                                  >
+                                    <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
+                                      {item.lotdate}
+                                    </label>
+                                  </div>
+                                ))
+                              )}
+                            </div>
+                          </div>
+                        ))}
+
+                      {resultVisible &&
+                        (selectedLocation === null &&
+                        selectedTime === null &&
+                        selectedDate === null &&
+                        loadingResult ? (
+                          <div className="NC">
+                            <CircularProgressBar />
+                          </div>
+                        ) : (
+                          <div className="hdLocationContainerRightTimeContainer">
+                            {/** TOP */}
+                            <div
+                              onClick={resultBackhandler}
+                              className="hdLocationContainerRightTimeContainerTop"
+                            >
+                              <IoArrowBackCircleOutline
+                                color={COLORS.white_s}
+                                size={"2.5rem"}
+                              />
+                              <label className="hdLocationContainerLeftContentNameLabel">
+                                {selectedLocation.name}
+                              </label>
+                              <label className="hdLocationContainerLeftContentLimitLabel">
+                                Max {selectedLocation.limit}
+                              </label>
+                            </div>
+
+                            {/** Time content container */}
+                            <div className="hdLocationContainerRightTimeContainerContentContainer-result">
+                              <div className="hdLocationContainerRightTimeContainerContentContainer-resultright">
+                                <div className="trophyimagecontainer">
+                                  <img
+                                    src={images.cups}
+                                    alt="trphy"
+                                    className="catandtrophyimg"
+                                  />
+                                </div>
+
+                                <div className="hdLocationContainerRightTimeContainerContentContainer-resultleft">
+                                  {results.length === 0 ? (
+                                    <label
+                                      className="hdLocationContainerLeftContentNameLabel"
+                                      style={{ marginBottom: "2rem" }}
+                                    >
+                                      Comming soon
+                                    </label>
+                                  ) : (
+                                    <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-number">
+                                      {results[0].resultNumber}
+                                    </label>
+                                  )}
+                                  <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-date">
+                                    {selectedDate.lotdate}
+                                  </label>
+                                </div>
+
+                                <div className="catimagecontainer">
+                                  <img
+                                    src={images.cat}
+                                    alt="cat"
+                                    className="catandtrophyimg"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        ))}
-      </div>
+          {/** RIGHT CONTAINER */}
+          <div className="hdRightC">
+            <label className="hdrLabel">GAME HISTORY</label>
+
+            {historyIsLoading ? (
+              <LoadingComponent />
+            ) : historyapidatas.playbets.length === 0 ? (
+              <NodataFound title={"No data found"} />
+            ) : (
+              <div className="hdRightCContainer">
+                {historyapidatas.playbets.map((item, index) => (
+                  <div className="hdrContentC" key={index}>
+                    <div className="hdrcL">
+                      <label className="hdrcLLabel"> {item.lotlocation.lotlocation}</label>
+                    </div>
+                    <div className="hdrcM">
+                      <label className="hdrcMResultLabel">{getPlaynumbersString(item.playnumbers)}</label>
+                      <label className="hdrcMAmoutLabel">{calculateTotalAmount(item.playnumbers)} {user.country.countrycurrencysymbol}</label>
+                    </div>
+                    <div className="hdrcR">
+                      <label className="hdrcRResultLabel">{getTimeAccordingToTimezone(item.lottime.lottime, user?.country?.timezone)}</label>
+                      <label className="hdrcMAmoutLabel"> {formatDate(item.lotdate.lotdate)}</label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
-  </div>
   );
 }
 

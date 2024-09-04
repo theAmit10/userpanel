@@ -13,14 +13,13 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
 import CircularProgressBar from "../helper/CircularProgressBar";
+import { FaCopy } from "react-icons/fa";
+import { NodataFound } from "../helper/NodataFound";
+import { serverName } from "../../redux/store";
+import { PiSubtitles } from "react-icons/pi";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
-const upiapidata = [
-  { name: "Wasu", upiid: "9876543210@ybl", id: "1" },
-  { name: "Aman", upiid: "8876543210@ybl", id: "2" },
-  { name: "Zasu", upiid: "7876543210@ybl", id: "3" },
-  { name: "Masu", upiid: "1876543210@ybl", id: "4" },
-  { name: "Kasu", upiid: "2876543210@ybl", id: "5" },
-];
+
 
 function Cryptodeposit({ selectingPaymentType }) {
   const [amountval, setAmountval] = useState("");
@@ -38,6 +37,8 @@ function Cryptodeposit({ selectingPaymentType }) {
 
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
+    setShowCU(true);
+    setShowAllUpi(false)
   };
 
   const showingPaymentForm = () => {
@@ -157,268 +158,236 @@ function Cryptodeposit({ selectingPaymentType }) {
     }
   };
 
+  const [showAllUpi, setShowAllUpi] = useState(true);
+
+  const handleCopyClick = (stringToCopy) => {
+    navigator.clipboard
+      .writeText(stringToCopy)
+      .then(() => {
+        showSuccessToast("Text Copied");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+  };
+
+
+  const [showCU, setShowCU] = useState(false);
+
+  const backHandlerShowCreateUpi = () => {
+    setShowCU(false);
+    setShowAllUpi(true)
+  };
+
   return (
-    <div className="deposit-main-container">
-      {/** TOP CONTAINER */}
-      <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        <IoArrowBackCircleOutline
-          onClick={goToPreviousPage}
-          color={COLORS.white_s}
-          size={"2.5em"}
-        />
-
-        {/** TITLE CONTAINER */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <label className="h-title-label">Crypto Deposit</label>
-        </div>
-      </div>
-
-      {/** TITLE CONTAINER */}
-      <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-      >
-        <label
-          className="h-title-label"
-          style={{ fontFamily: FONT.Montserrat_Regular }}
-        >
-          Choose Method
-        </label>
-        {/** NEXT CONTAINER AFTER SELECTING PAYMENT */}
-        {selectedItem !== "" && !showPaymentForm && (
-          <div
-            onClick={showingPaymentForm}
-            style={{
-              flex: 1,
-              display: "flex",
-              justifyContent: "end",
-              alignItems: "center",
-            }}
-          >
-            <div className="nextcontatiner-upi-deposit">
-              <label
-                className="deposit-content-container-right-lebel"
-                style={{
-                  fontFamily: FONT.Montserrat_SemiBold,
-                  fontSize: "1.5vw",
-                  cursor: "pointer",
-                }}
-              >
-                Next
-              </label>
-            </div>
+    <div className="udC">
+    {showAllUpi && (
+      <div className="udMainCon">
+        {/** TOP HEADER CONATINER */}
+        <div className="alCreatLocationTopContainer">
+          <div className="searchIconContainer" onClick={goToPreviousPage}>
+            <IoArrowBackCircleOutline
+              color={COLORS.white_s}
+              size={"2.5rem"}
+            />
           </div>
-        )}
-      </div>
+          <div className="alCreatLocationTopContaineCL">
+            <label className="alCreatLocationTopContainerlabel">
+            Crypto Deposit
+            </label>
+          </div>
+        </div>
 
-      {/** Main Conatiner */}
-
-      <div className="deposit-container-or">
-        <div className="deposit-content-container-main-upi-or">
-          {/** LEFT LIST OF DEPOSIT */}
-
-          {loadingAllData ? (
-            <div
-              style={{
-                flex: "1",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CircularProgressBar />
-            </div>
-          ) : (
-            !showPaymentForm && (
-              <div className="deposit-content-container-left-upi-left-or">
+        {loadingAllData ? (
+          <LoadingComponent />
+        ) : (
+          <>
+            {allDepositdata.length === 0 ? (
+              <NodataFound title={"No data available"} />
+            ) : (
+              <>
+                <div className="upipdMainContainer"
+                >
                 {allDepositdata.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => selecetingItemForDeposit(item)}
-                    className="deposit-content-container-left-upi-content"
-                    style={{
-                      border:
-                        selectedItem?._id === item._id
-                          ? `2px solid ${COLORS.green}`
-                          : "none",
-                    }}
-                  >
-                    <div className="deposit-content-container-left">
-                      <div
-                        className="deposit-content-content-left-content-icon-container"
-                        style={{
-                          borderRadius: "1vh",
-                        }}
-                      >
+                  <div key={item._id} 
+                  onClick={() => selecetingItemForDeposit(item)}
+                  className="upipdContentContainer">
+                    {/** TOP */}
+                    <div className="uCCTopC">
+                      <div className="hdContenContainerIcon">
                         <img
                           src={images.crypto}
-                          alt="UPI"
-                          className="deposit-content-image-setting"
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+
+                      <label className="pdB">Crypto {item.paymentId}</label>
+
+                    </div>
+                    {/** TOP */}
+
+                    {/** TOP */}
+                    <div className="uCCMidC">
+                      <div className="uCCTopFC">
+                        <label className="pdSB">Wallet address</label>
+                      </div>
+                      <div className="uCCTopSC">
+                        <label className="pdR">{item.walletaddress}</label>
+                      </div>
+                      <div
+                        onClick={() => handleCopyClick(item.walletaddress)}
+                        className="copyCon"
+                      >
+                        <FaCopy color={COLORS.background} size={"2rem"} />
+                      </div>
+                    </div>
+                    {/** TOP */}
+
+                    {/** TOP */}
+                    <div className="uCCMidC">
+                      <div className="uCCTopFC">
+                        <label className="pdSB">Network type</label>
+                      </div>
+                      <div className="uCCTopSC">
+                        <label className="pdR">  {item.networktype}</label>
+                      </div>
+                      <div
+                        onClick={() => handleCopyClick(item.networktype)}
+                        className="copyCon"
+                      >
+                        <FaCopy color={COLORS.background} size={"2rem"} />
+                      </div>
+                    </div>
+                    {/** TOP */}
+
+                    <div className="qrcontiner">
+                      <div className="qrcontinerMain">
+                        <img
+                          src={`${serverName}/uploads/cryptoqrcode/${item.qrcode}`}
+                          className="qrimg"
                         />
                       </div>
                     </div>
-                    <div className="deposit-content-container-right">
-                      <label className="deposit-content-container-right-lebel">
-                        Crypto ID
-                      </label>
-                    </div>
-
-                    <label className="deposit-content-container-right-lebel">
-                      {item.paymentId}
-                    </label>
                   </div>
                 ))}
               </div>
-            )
-          )}
-
-          {/** DEPOSIT FORM */}
-          {selectedItem !== "" && showPaymentForm && (
-            <div className="deposit-content-container-left-upi-left-or">
-              <div className="upiDepositFormContainer">
-                
-                {/** AMOUNT */}
-                <div className="formUpiDepositFormContainerContent-or">
-                  <label className="formUpiDepositFormContainerContentLabel-or">
-                    Amount
-                  </label>
-                  <input
-                    className="formUpiDepositFormContainerContentInput-or"
-                    type="number"
-                    name="amount"
-                    placeholder="Enter amount"
-                    value={amountval}
-                    onChange={(e) => setAmountval(e.target.value)}
-                  />
-                </div>
-                {/** TRANSACTION NUMBER */}
-                <div className="formUpiDepositFormContainerContent-or">
-                  <label className="formUpiDepositFormContainerContentLabel-or">
-                    Transaction number
-                  </label>
-                  <input
-                    className="formUpiDepositFormContainerContentInput-or"
-                    type="text"
-                    name="transaction"
-                    placeholder="Enter transaction number"
-                    value={transactionval}
-                    onChange={(e) => setTransactionval(e.target.value)}
-                  />
-                </div>
-
-                {/** RECEIPT */}
-                <div className="formUpiDepositFormContainerContent-or">
-                  <label className="formUpiDepositFormContainerContentLabel-or">
-                    Receipt
-                  </label>
-                  <input
-                    className="formUpiDepositFormContainerContentInput-or"
-                    type="file"
-                    name="file"
-                    onChange={selectDoc}
-                  />
-                </div>
-
-                {/** REMARK    */}
-                <div className="formUpiDepositFormContainerContent-or">
-                  <label className="formUpiDepositFormContainerContentLabel-or">
-                    Remark
-                  </label>
-                  <input
-                    className="formUpiDepositFormContainerContentInput-or"
-                    style={{
-                      minHeight: "2vw",
-                    }}
-                    type="text"
-                    name="remark"
-                    placeholder="Enter remark"
-                    value={remarkval}
-                    onChange={(e) => setRemarkval(e.target.value)}
-                  />
-                </div>
-
-                {/** DEPOSIT BUTTON */}
-                <div
-                  style={{
-                    marginTop: "2vw",
-                  }}
-                >
-                  {isLoading ? (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        padding: "2vw",
-                      }}
-                    >
-                      <CircularProgressBar />
-                    </div>
-                  ) : (
-                    <button
-                      className="submit-btn-login-deposit"
-                      onClick={submitDepositRequest}
-                    >
-                      Deposit
-                    </button>
-                  )}
-                </div>
-             
-            </div>
-            </div>
-          )}
-
-          {/** SELECTED PAYMENT */}
-          {selectedItem !== "" && (
-            <div className="deposit-content-container-left-upi-or">
-              <div className="deposit-content-container-right-upi-content-or">
-                <div className="deposit-content-container-right">
-                <div
-                    className="deposit-content-content-left-content-icon-container-qrcode"
-                    style={{
-                      borderRadius: "1vh",
-                    }}
-                  >
-                    <img
-                      src="https://imgs.search.brave.com/WG5U5I_hK20P2PRulDBEmG_XZQQvgV5AmR11MbwxWyE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9xcmNv/ZGUudGVjLWl0LmNv/bS9BUEkvUVJDb2Rl/P2RhdGE9UVIrQ29k/ZStHZW5lcmF0b3Ir/YnkrVEVDLUlU.jpeg"
-                      alt="UPI"
-                      className="deposit-content-image-setting"
-                    />
-                  </div>
-                  <label
-                    className="deposit-content-container-right-lebel-title"
-                    style={{ fontFamily: FONT.Montserrat_Regular }}
-                  >
-                    Wallet Address
-                  </label>
-                  <label className="deposit-content-container-right-lebel">
-                    {selectedItem.walletaddress}
-                  </label>
-                  <label
-                    className="deposit-content-container-right-lebel-title"
-                    style={{ fontFamily: FONT.Montserrat_Regular }}
-                  >
-                    Network type
-                  </label>
-                  <label className="deposit-content-container-right-lebel">
-                    {selectedItem.networktype}
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
+              </>
+            )}
+          </>
+        )}
       </div>
-    </div>
+    )}
+
+    {showCU && (
+      <>
+        {/** TOP NAVIGATION CONTATINER */}
+        <div className="alCreatLocationTopContainer">
+          <div
+            className="searchIconContainer"
+            onClick={backHandlerShowCreateUpi}
+          >
+            <IoArrowBackCircleOutline
+              color={COLORS.white_s}
+              size={"2.5rem"}
+            />
+          </div>
+          <div className="alCreatLocationTopContaineCL">
+            <label className="alCreatLocationTopContainerlabel">
+              Create Crypto Deposit
+            </label>
+          </div>
+        </div>
+        {/** TOP NAVIGATION CONTATINER */}
+
+        <div className="allLocationMainContainer">
+          {/** Amount */}
+          <label className="alCLLabel">Amount</label>
+          <div className="alSearchContainer">
+            <div className="searchIconContainer">
+              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+            </div>
+
+            <input
+              className="al-search-input"
+              type="number"
+              name="amount"
+              placeholder="Enter amount"
+              value={amountval}
+              onChange={(e) => setAmountval(e.target.value)}
+            />
+          </div>
+
+          {/** Transaction number */}
+          <label className="alCLLabel">Transaction number</label>
+          <div className="alSearchContainer">
+            <div className="searchIconContainer">
+              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+            </div>
+
+            <input
+              className="al-search-input"
+              type="text"
+              name="transaction"
+              placeholder="Enter transaction number"
+              value={transactionval}
+              onChange={(e) => setTransactionval(e.target.value)}
+            />
+          </div>
+          {/** RECEIPT */}
+
+          {/** TITLE */}
+          <label className="alCLLabel">Receipt</label>
+          <div className="alSearchContainer">
+            <div className="searchIconContainer">
+              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+            </div>
+
+            <div className="imageContainerAC">
+              <input
+                className="al-search-input"
+                placeholder="Receipt"
+                type="file"
+                name="file"
+                onChange={selectDoc}
+              />
+            </div>
+          </div>
+
+          <label className="alCLLabel">Remark</label>
+          <div className="alSearchContainer">
+            <div className="searchIconContainer">
+              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+            </div>
+
+            <input
+              className="al-search-input"
+              style={{
+                minHeight: "5rem",
+              }}
+              type="text"
+              name="remark"
+              placeholder="Enter remark"
+              value={remarkval}
+              onChange={(e) => setRemarkval(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <div className="alBottomContainer" onClick={submitDepositRequest}>
+            <label className="alBottomContainerlabel">Submit</label>
+          </div>
+        )}
+      </>
+    )}
+  </div>
   );
 }
 
 export default Cryptodeposit;
+
+

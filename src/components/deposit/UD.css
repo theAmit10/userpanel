@@ -1,0 +1,156 @@
+.udC{
+    display: flex;
+    flex: 1;
+    height: 80vh;
+    border-radius: 2rem;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.udMainCon{
+    display: flex;
+    flex: 1;
+    height: 80vh;
+    border-radius: 2rem;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.upicontiner{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.upipdMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    max-height: 60vh;
+    max-width: 80vw;
+    margin-left:2rem;
+    margin-right: 2rem;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 2rem;
+   
+}
+
+.upipdContentContainer{
+    height: 30rem;
+    width: 35rem;
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.upipdContentContainer:hover{
+    border: 2px solid var(--green); /* Change border color on hover */
+    cursor: pointer;
+}
+
+.uCCTopC{
+    height: 6rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.uCCMidC{
+    height: 5rem;
+   
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.uCCTopFC{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+    
+
+}
+
+.uCCTopSC{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+}
+
+.pdB{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.5rem;
+}
+
+.pdSB{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.2rem;
+   
+}
+
+.pdR{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.2rem;
+}
+
+.qrcontiner{
+    flex: 1;
+   
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qrcontinerMain{
+    width: 50%;
+    height: 100%;
+
+}
+.qrimg{
+    height: 100%;
+    width: 100%;
+
+}
+
+.copyCon{
+    height: 3rem;
+    width: 3rem;
+    background-color: var(--white_s);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+.upipdMainContainerV{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: row;
+    overflow-Y: scroll;
+    max-height: 60vh;
+    margin-left:2rem;
+    margin-right: 2rem;
+   
+   
+}

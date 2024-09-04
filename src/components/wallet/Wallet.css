@@ -1,100 +1,56 @@
-.history-main-container{
-    display: flex;
+.pn-containter{
     flex: 1;
-    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.pnMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+   
+}
+
+.hdAllContainer{
+    flex: 1;
     background: linear-gradient(180deg, #0162AF, #011833);
     border-radius: 2rem;
-    flex-direction: column;
-    gap: 2rem;
-    width: 40vw;
-    padding: 1rem;
-}
-
-.h-title-label-or{
-    color: var(--white_s);
-    font-size: 1.8em;
-    font-family: 'MB';
-}
-
-.submit-btn-balance-transfer {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #0179FE;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    font-family: 'MR';
-}
-
-.h-content-container-bt{
-    
-    height: 70vh;
-    overflow-y: scroll; /* Enable vertical scrolling */
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-    flex-direction: row;
-}
-
-
-.left-container-bt{
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1vw;
-}
-
-.right-container-bt{
-   flex: 1;
-  
     display: flex;
     flex-direction: row;
-
-}
-
-.right-container-bt-one{
-   
-    width: 50%;
-    height: 60%;
-    background-color: var(--background);
-    margin: 2%;
-    padding: 2%;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    
-}
-
-.walletcontainer-bt{
-    height: 40px;
-    width: 40px;
-    background-color: var(--white_s);
-    border-radius: 5px;
-    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 2vw;
+    overflow-y: scroll;
+    height: 40vh;
 }
 
-.right-container-bt-two{
-    width: 50%;
-    height: 60%;
-    background-color: var(--background);
-    margin: 2%;
-    padding: 2%;
-    border-radius: 10px;
+.alluMainContainer{
+    flex: 1;
+    border-radius: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-   
+    overflow-y: scroll;
+    max-height: 70vh;
 }
 
-.h-title-label-medium{
-    color: var(--white_s);
-    font-size: 1em;
-    font-family: 'MR';
+.allNotificataionContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
 }
 
-
+.allNotificataionContainerContent{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+}

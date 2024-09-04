@@ -312,29 +312,31 @@ export const loadAllAboutUs = (accesstoken) => async dispatch => {
 
 
   // Load All Notification
-export const loadAllNotification = (accesstoken) => async dispatch => {
-  try {
-    dispatch({
-      type: 'getAllNotificationRequest',
-  });
-  
-    const {data} = await axios.get(UrlHelper.NOTIFICATION_API, {
-      headers: {
-        Authorization: `Bearer ${accesstoken}`,
-      },
+  export const loadAllNotification = (accesstoken,id) => async dispatch => {
+    try {
+      dispatch({
+        type: 'getAllNotificationRequest',
     });
   
-    dispatch({
-      type: 'getAllNotificationSuccess',
-      payload: data.notifications,
-    });
-  } catch (error) {
-    console.log(error);
-    console.log(error.response);
-  
-    dispatch({
-      type: 'getAllNotificationFail',
-      payload: error.response.data.message,
-    });
-  }
-  };
+    const url = `${UrlHelper.NOTIFICATION_API}${id}/notifications`
+    
+      const {data} = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      });
+    
+      dispatch({
+        type: 'getAllNotificationSuccess',
+        payload: data.notifications,
+      });
+    } catch (error) {
+      console.log(error);
+      console.log(error.response);
+    
+      dispatch({
+        type: 'getAllNotificationFail',
+        payload: error.response.data.message,
+      });
+    }
+    };

@@ -25,7 +25,11 @@ import Historyc from "../../components/history/Historyc";
 import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loadProfile } from "../../redux/actions/userAction";
+import {
+  loadAllNotification,
+  loadAllPromotion,
+  loadProfile,
+} from "../../redux/actions/userAction";
 import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import { PiHandDepositFill } from "react-icons/pi";
@@ -45,6 +49,10 @@ import { MdPayments } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import HD from "../../components/dashboard/HD";
+import moment from "moment-timezone";
+import Paypaldeposit from "../../components/deposit/Paypaldeposit";
+import { MdNotificationsActive } from "react-icons/md";
+import { LoadingComponent } from "../../components/helper/LoadingComponent";
 
 const locationdata = [
   {
@@ -197,6 +205,23 @@ const imagesdata = [
   "https://img.freepik.com/free-vector/geometric-background_23-2148101184.jpg?w=1060&t=st=1723879573~exp=1723880173~hmac=a4ca0aa35d3e224973bc3293b9eb217d00e8fc6bc23fab46077c51bb3f7d1432",
 ];
 
+export function getTimeAccordingToTimezone(time, targetTimeZone) {
+  // Get the current date in "DD-MM-YYYY" format
+  const todayDate = moment().format("DD-MM-YYYY");
+
+  // Combine the current date and time into a full datetime string
+  const dateTimeIST = `${todayDate} ${time}`;
+
+  // Convert the combined date and time to a moment object in the IST timezone
+  const istTime = moment.tz(dateTimeIST, "DD-MM-YYYY hh:mm A", "Asia/Kolkata");
+
+  // Convert the IST time to the target timezone
+  const targetTime = istTime.clone().tz(targetTimeZone);
+
+  // Return only the time in the target timezone
+  return targetTime.format("hh:mm A");
+}
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -251,6 +276,51 @@ const Dashboard = () => {
 
   console.log(loading, user);
 
+  // FOR NOTIFICATION
+
+  const { notifications, loadingNotification } = useSelector(
+    (state) => state.user
+  );
+
+  const [newNotification, setNewNotification] = useState(true);
+
+  useEffect(() => {
+    dispatch(loadAllNotification(accesstoken, user?._id));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if ((!loadingNotification && notifications, user)) {
+      checkingForNewNotification();
+    }
+  }, [loadingNotification, notifications, user]);
+
+  const checkingForNewNotification = () => {
+    console.log("CHECKING FOR NEW NOTIFCATION");
+    if (notifications) {
+      const noti =
+        notifications?.length === 0 ? true : notifications[0]?.seennow;
+      console.log("seennow noti len :: " + notifications?.length);
+      console.log("seennow :: " + noti);
+      setNewNotification(noti);
+    }
+  };
+
+  // FOR PROMOTION
+
+  const { loadingPromotion, promotions } = useSelector(
+    (state) => state.promotion
+  );
+
+  useEffect(() => {
+    dispatch(loadAllPromotion(accesstoken));
+  }, [dispatch]);
+
+  const sliderData = promotions?.map(
+    (promotion) => `${serverName}/uploads/promotion/${promotion.url}`
+  );
+
+  console.log(sliderData?.length);
+
   return (
     <div className="adminDashboardContainer">
       {/** TOP CONTAINER */}
@@ -290,19 +360,25 @@ const Dashboard = () => {
         <div className="top-right-d">
           <div className="top-right-right-d">
             {/** DEPOSIT */}
-            <div className="depositContainer">
+            <div
+              className="depositContainer"
+              onClick={() => handleComponentClick("deposit")}
+            >
               <label className="depositContainerLabel">DEPOSIT</label>
               <PiHandDepositFill color={COLORS.white_s} size={"2rem"} />
             </div>
 
             {/**  WITHDRAW */}
-            <div className="depositContainer">
+            <div
+              className="depositContainer"
+              onClick={() => handleComponentClick("withdraw")}
+            >
               <label className="depositContainerLabel">WITHDRAW</label>
               <PiHandWithdrawFill color={COLORS.white_s} size={"2rem"} />
             </div>
 
             <div
-              onClick={() => handleComponentClick("allcountry")}
+              onClick={() => handleComponentClick("wallet")}
               className="iconcontainertop"
             >
               <FaWallet color={COLORS.background} size={"3rem"} />
@@ -312,13 +388,17 @@ const Dashboard = () => {
               onClick={() => handleComponentClick("notification")}
               className="iconcontainertop"
             >
-              <IoIosNotifications color={COLORS.background} size={"3rem"} />
+              {newNotification ? (
+                <IoIosNotifications color={COLORS.background} size={"3rem"} />
+              ) : (
+                <MdNotificationsActive
+                  color={COLORS.result_yellow}
+                  size={"3rem"}
+                />
+              )}
             </div>
 
-            <div
-              onClick={gotoNavigation}
-              className="iconcontainertop"
-            >
+            <div onClick={gotoNavigation} className="iconcontainertop">
               <IoIosSettings color={COLORS.background} size={"3rem"} />
             </div>
           </div>
@@ -435,9 +515,13 @@ const Dashboard = () => {
 
           {/** FOR PROMOTIONS */}
 
-          <div className="promotionContainerD">
-            <ImageSlider images={imagesdata} />
-          </div>
+          {loadingPromotion ? (
+            <LoadingComponent />
+          ) : sliderData.length === 0 ? null : (
+            <div className="promotionContainerD">
+              <ImageSlider images={sliderData} />
+            </div>
+          )}
 
           <div className="shereAppContainer">
             <div
@@ -472,7 +556,7 @@ const Dashboard = () => {
           {selectedComponent === "alllocation" && <AllLocation />}
           {selectedComponent === "play" && <Play />}
           {selectedComponent === "history" && <Historyc />}
-          {selectedComponent === "gamedescription" && <Gamedescriptionc/>}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
           {selectedComponent === "wallet" && <Wallet />}
           {selectedComponent === "notification" && <Notification />}
           {selectedComponent === "deposit" && <Paymentdeposit />}

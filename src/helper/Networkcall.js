@@ -174,6 +174,18 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    // For CHECKING ALL NOTFICATION SEEN
+    checkNotificationSeen: builder.mutation({
+      query: ({accessToken, id}) => ({
+        url: `${UrlHelper.NOTIFICATION_SEEN_API}${id}/notifications/seen`,
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+    }),
+
 
 
     // ######## END #########
@@ -193,6 +205,7 @@ export const {
   useGetAllCountryQuery,
   useTransferWalletBalanceMutation,
   useCreateLoginMutation,
-  useCreateRegisterMutation
+  useCreateRegisterMutation,
+  useCheckNotificationSeenMutation
 } = sincelotUserApi;
 

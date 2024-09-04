@@ -29,7 +29,8 @@ const ALL_ABOUT_API = server + 'user/getallabout';
 
 // For Reset and Forgot password
 const FORGOT_PASSWORD_API = server + 'user/forgetpassword';
-const NOTIFICATION_API = server + 'user/allnotification';
+const NOTIFICATION_API = server + 'user/';
+const NOTIFICATION_SEEN_API = server + 'user/';
 
 // Payment Deposit
 const ALL_UPI_API = server + 'result/allupipaymets';
@@ -92,5 +93,6 @@ export default {
   DEPOSIT_API,
   WITHDRAW_PAYMENT_API,
   CREATE_PLAY_API,
-  BALANCE_TRANSFER_TO_WALLET_TWO_API
+  BALANCE_TRANSFER_TO_WALLET_TWO_API,
+  NOTIFICATION_SEEN_API
 };

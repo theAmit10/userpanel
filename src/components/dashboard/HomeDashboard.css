@@ -59,7 +59,7 @@
 .hdrcLLabel{
     color: var(--white_s);
     font-family: "MSB";
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .hdrcMResultLabel{
@@ -146,7 +146,7 @@
 .hdlTLTLNRtimer{
     color: var(--white_s);
     font-family: "MR";
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-align: center;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
@@ -323,13 +323,12 @@
     min-height: 31vh;
     flex: 1;
     width: 66vw;
-
     display: flex;
     flex-direction: column;
 }
 
 .hdFContainer{
-    height: 3rem;
+    height: 4rem;
     background-color: var(--white_s);
     margin-left: 2rem;
     margin-right: 2rem;
@@ -341,6 +340,8 @@
     max-width: 62vw;
     overflow-x: scroll;
     margin-bottom: 0.5rem;
+    gap: 0.5rem;
+    overflow-y: hidden;
 }
 
 

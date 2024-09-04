@@ -15,6 +15,8 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { loadProfile } from "../../redux/actions/userAction";
 import { FaWallet } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
+import { CiEdit } from "react-icons/ci";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
 const historydata = [
   {
@@ -94,59 +96,86 @@ const historydata = [
 function Wallet() {
   const dispatch = useDispatch();
 
-  const { accesstoken, user } = useSelector((state) => state.user);
+  const { accesstoken, user, loading } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(loadProfile(accesstoken))
-  },[])
+    dispatch(loadProfile(accesstoken));
+  }, []);
 
+  const [showPN, setShowPN] = useState(true);
+  const [showAU, setShowAU] = useState(false);
 
   return (
-    <div className="history-main-container">
-      {/** TITLE CONTAINER */}
-  
-      <label className="aboutus-title-label">All Wallet</label>
-      {/** CONTENT CONTAINER */}
-      <div className="h-content-container-bt">
-        {/** CONTENT */}
-
-        {/** LEFT CONTAINER */}
-        <div className="left-container-bt" style={{flexDirection: 'row'}}>
-          <div className="right-container-bt-one">
-            <label className="h-title-label-or">
-              {user.walletOne.walletName}
-            </label>
-            <label className="h-title-label-medium">Balance</label>
-
-            <div className="walletcontainer-bt">
-              <FaWallet color={COLORS.background} size={"30px"} />
+    <div className="pn-containter">
+      {/** TOP NAVIGATION CONTATINER */}
+      {/** SHOWING ALL WALLET */}
+      {showPN && (
+        <>
+          <div className="alCreatLocationTopContainer">
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                All Wallet
+              </label>
             </div>
-
-            <label className="h-title-label-medium">
-              {user.walletOne.balance} {user?.country?.countrycurrencysymbol}
-            </label>
           </div>
 
-          <div className="right-container-bt-two">
-            <label className="h-title-label-or">
-              {user.walletTwo.walletName}
-            </label>
-            <label className="h-title-label-medium">Balance</label>
+          {loading ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              <div className="pnMainContainer">
+                <div
+                  className="hdAllContainer"
+                  style={{ background: "transparent" }}
+                >
+                  {/** ALL USERS */}
+                  <div className="hdAllContainerContent">
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        {user.walletOne?.walletName}
+                      </label>
+                      {/* <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div> */}
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        {user.walletOne.balance}{" "}
+                        {user?.country?.countrycurrencysymbol}
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaWallet color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                  </div>
 
-            <div className="walletcontainer-bt">
-              <FaWallet color={COLORS.background} size={"30px"} />
-            </div>
+                  {/** SINGLE USERS */}
+                  <div className="hdAllContainerContent">
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        {user.walletTwo?.walletName}
+                      </label>
+                      {/* <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div> */}
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        {user.walletTwo.balance}{" "}
+                        {user?.country?.countrycurrencysymbol}
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaWallet color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </>
+      )}
 
-            <label className="h-title-label-medium">
-              {user.walletTwo.balance} {user?.country?.countrycurrencysymbol}
-            </label>
-          </div>
-        </div>
-
-
-   
-        
-      </div>
       <ToastContainer />
     </div>
   );
