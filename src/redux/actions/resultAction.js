@@ -79,7 +79,7 @@ export const getResultDetails = (accesstoken,id) => async dispatch => {
         },
       });
 
-      console.log("ACTION result :: "+data.results)
+      console.log("ACTION result :: "+JSON.stringify(data.results))
 
       dispatch({
         type: 'getAllResultSuccess',

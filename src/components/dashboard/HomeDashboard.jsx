@@ -26,6 +26,8 @@ import { LoadingComponent } from "../helper/LoadingComponent";
 import { NodataFound } from "../helper/NodataFound";
 import { getTimeAccordingToTimezone } from "../../pages/userdashboard/Dashboard";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import UrlHelper from "../../helper/UrlHelper";
+import axios from "axios";
 
 const topWinnerOfTheDay = [
   {
@@ -264,34 +266,67 @@ function HomeDashboard() {
     );
   };
 
-  const handleSelectedDateClick = (datedate) => {
+  const handleSelectedDateClick = async (datedate) => {
     setSelectedDate(datedate);
-    dispatch(
-      getResultAccordingToLocationTimeDate(
-        accesstoken,
-        datedate._id,
-        datedate.lottime._id,
-        datedate.lottime.lotlocation
-      )
-    );
+    // dispatch(
+    //   getResultAccordingToLocationTimeDate(
+    //     accesstoken,
+    //     datedate._id,
+    //     datedate.lottime._id,
+    //     datedate.lottime.lotlocation._id
+    //   )
+    // );
 
-    if (singleResult) {
-      console.log("Result FOUND");
-      console.log(JSON.stringify(singleResult[0]));
-      setHomeResult(singleResult[0]);
-      setNextResultTime(singleResult[0]?.nextresulttime);
-      setFirstTimeClick(false);
+    console.log("SELECTED LOCATION"+datedate.lottime.lotlocation.lotlocation)
+    console.log("SELECTED TIME"+datedate.lottime.lottime)
+    console.log("SELECTED DATE"+ datedate.lotdate)
 
-      dispatch(getAllResult(accesstoken));
-      dispatch(
-        getAllResultAccordingToLocation(
-          accesstoken,
-          homeResult?.lotlocation?._id
-        )
-      );
-      setSelectedDate(null);
-      setSelectedTime(null);
+
+    try {
+      const url = `${UrlHelper.RESULT_API}?lotdateId=${datedate._id}&lottimeId=${datedate.lottime._id}&lotlocationId=${datedate.lottime.lotlocation._id}`;
+      console.log("URL :: " + url);
+
+      const { data } = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      });
+
+      console.log("ACTION result :: " + JSON.stringify(data.results));
+
+      // Check if the results array is empty
+      if (data.results.length !== 0) {
+        // setResult("Current date not found");
+        setHomeResult(data.results[0]);
+        setNextResultTime(data.results[0]?.nextresulttime);
+        setFirstTimeClick(false);
+      }
+       else {
+        // setResult(currentDate); // Set to the current date object if results are found
+        console.log("no result found")
+      }
+    } catch (error) {
+      console.log(error)
+      console.log("Error message:", error.response?.data?.message);
     }
+
+    // if (singleResult) {
+    //   console.log("Result FOUND");
+    //   console.log(JSON.stringify(singleResult[0]));
+      // setHomeResult(singleResult[0]);
+      // setNextResultTime(singleResult[0]?.nextresulttime);
+      // setFirstTimeClick(false);
+
+    //   // dispatch(getAllResult(accesstoken));
+    //   // dispatch(
+    //   //   getAllResultAccordingToLocation(
+    //   //     accesstoken,
+    //   //     homeResult?.lotlocation?._id
+    //   //   )
+    //   // );
+      // setSelectedDate(null);
+      // setSelectedTime(null);
+    // }
   };
 
   // console.log("Show date :: "+showDate)
@@ -691,6 +726,7 @@ function HomeDashboard() {
                       ) : (
                         filteredDataAllLocation.map((item, index) => (
                           <div
+                          key={index}
                             className="hdLocationContainerLeftContent"
                             onClick={() => handleLocationClick(item)}
                             style={{
@@ -754,7 +790,10 @@ function HomeDashboard() {
                                     }
                                   >
                                     <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
-                                      {titem.time}
+                                      {getTimeAccordingToTimezone(
+                                        titem.time,
+                                        user?.country?.timezone
+                                      )}
                                     </label>
                                   </div>
                                 ))
@@ -764,8 +803,7 @@ function HomeDashboard() {
                         ))}
 
                       {dateVisible &&
-                        (selectedLocation === null &&
-                        selectedTime === null &&
+                        (
                         loadingdate ? (
                           <LoadingComponent />
                         ) : (
@@ -815,13 +853,9 @@ function HomeDashboard() {
                         ))}
 
                       {resultVisible &&
-                        (selectedLocation === null &&
-                        selectedTime === null &&
-                        selectedDate === null &&
+                        (
                         loadingResult ? (
-                          <div className="NC">
-                            <CircularProgressBar />
-                          </div>
+                          <LoadingComponent/>
                         ) : (
                           <div className="hdLocationContainerRightTimeContainer">
                             {/** TOP */}
@@ -900,15 +934,31 @@ function HomeDashboard() {
                 {historyapidatas.playbets.map((item, index) => (
                   <div className="hdrContentC" key={index}>
                     <div className="hdrcL">
-                      <label className="hdrcLLabel"> {item.lotlocation.lotlocation}</label>
+                      <label className="hdrcLLabel">
+                        {" "}
+                        {item.lotlocation.lotlocation}
+                      </label>
                     </div>
                     <div className="hdrcM">
-                      <label className="hdrcMResultLabel">{getPlaynumbersString(item.playnumbers)}</label>
-                      <label className="hdrcMAmoutLabel">{calculateTotalAmount(item.playnumbers)} {user.country.countrycurrencysymbol}</label>
+                      <label className="hdrcMResultLabel">
+                        {getPlaynumbersString(item.playnumbers)}
+                      </label>
+                      <label className="hdrcMAmoutLabel">
+                        {calculateTotalAmount(item.playnumbers)}{" "}
+                        {user.country.countrycurrencysymbol}
+                      </label>
                     </div>
                     <div className="hdrcR">
-                      <label className="hdrcRResultLabel">{getTimeAccordingToTimezone(item.lottime.lottime, user?.country?.timezone)}</label>
-                      <label className="hdrcMAmoutLabel"> {formatDate(item.lotdate.lotdate)}</label>
+                      <label className="hdrcRResultLabel">
+                        {getTimeAccordingToTimezone(
+                          item.lottime.lottime,
+                          user?.country?.timezone
+                        )}
+                      </label>
+                      <label className="hdrcMAmoutLabel">
+                        {" "}
+                        {formatDate(item.lotdate.lotdate)}
+                      </label>
                     </div>
                   </div>
                 ))}

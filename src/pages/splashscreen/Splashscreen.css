@@ -1,14 +1,26 @@
 .splash-page {
     display: flex;
     height: 100vh;
-    
     background: linear-gradient(10deg, #0162AF, #011833);
-    color: white;
     justify-content: center;
     align-items: center;
+    padding: 0; /* Ensure no padding is applied */
+    margin: 0;  /* Ensure no margin is applied */
+    overflow: hidden;
 }
   
-.logo-container{
+.logo-container {
     height: 100px;
     width: 100px;
+    padding: 0;
+    margin: 0;
+}
+
+.logo-imaged {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block; /* Removes inline spacing */
+    margin: 0;
+    padding: 0;
 }

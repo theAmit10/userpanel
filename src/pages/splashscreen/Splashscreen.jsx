@@ -54,13 +54,12 @@ function Splashscreen() {
 
   return (
     <div className="splash-page">
-        <div className="logo-container">
-        <img src={images.logo} alt="Profile Picture" className="user-imaged" />
-        </div>
-     
-
-      <ToastContainer />
+    <div className="logo-container">
+      <img src={images.logo} alt="Profile Picture" className="logo-imaged" />
     </div>
+
+    <ToastContainer />
+  </div>
   );
 }
 

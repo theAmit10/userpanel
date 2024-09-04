@@ -168,6 +168,8 @@ const datedata = [
   },
 ];
 
+
+
 function AllLocation() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -175,6 +177,7 @@ function AllLocation() {
   const [selectedItem, setSelectedItem] = useState(true);
 
   const { loadingResult, results } = useSelector((state) => state.result);
+  const { user, accesstoken } = useSelector((state) => state.user);
 
   const handleLocationClick = (location) => {
     setSelectedLocation(location);
@@ -220,7 +223,7 @@ function AllLocation() {
   }, [selectedItem, selectedLocation, selectedDate]);
 
   const navigation = useNavigate();
-  const { accesstoken } = useSelector((state) => state.user);
+ 
   const [alldatafiler, setalldatafilter] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const dispatch = useDispatch();
@@ -302,7 +305,6 @@ function AllLocation() {
 
       {selectedItem && (
         <>
-        
           {/** Filter container */}
           <div className="filtercontaineral">
             {alldatafiler.map((item, index) => (
@@ -357,7 +359,10 @@ function AllLocation() {
                         key={timeindex}
                       >
                         <span className="time-items-container-time-label">
-                          {timedata.time}
+                          {getTimeAccordingToTimezone(
+                            timedata.time,
+                            user?.country?.timezone
+                          )}
                         </span>
                       </div>
                     ))}
@@ -406,7 +411,12 @@ function AllLocation() {
                 justifyContent: "flex-end",
               }}
             >
-              <span className="alLocationNameL">{selectedTime.time}</span>
+              <span className="alLocationNameL">
+                {getTimeAccordingToTimezone(
+                  selectedTime.time,
+                  user?.country?.timezone
+                )}
+              </span>
             </div>
           </div>
 
@@ -528,25 +538,43 @@ function AllLocation() {
                 <div className="hdlTL">
                   <div className="hdlTLT">
                     <div className="hdlTLTL">
-                      <label className="hdlTLTLCountry">{results[0]?.lotlocation?.lotlocation}</label>
+                      <label className="hdlTLTLCountry">
+                        {results[0]?.lotlocation?.lotlocation}
+                      </label>
                     </div>
                     <div className="hdlTLTR">
                       <label className="hdlTLTLNextResult">Next Result</label>
-                      <label className="hdlTLTLNR">{results[0]?.nextresulttime}</label>
+                      <label className="hdlTLTLNR">
+                        {getTimeAccordingToTimezone(
+                          results[0]?.nextresulttime,
+                          user?.country?.timezone
+                        )}
+                      </label>
                     </div>
                   </div>
                   <div className="hdlTLM">
                     <div className="hdlTLML">
-                      <label className="hdlMNumber">{results[0].resultNumber}</label>
+                      <label className="hdlMNumber">
+                        {results[0].resultNumber}
+                      </label>
                     </div>
                     <div className="hdlTLMR">
                       <label className="hdlTLTLNRtimer"></label>
                     </div>
                   </div>
                   <div className="hdlTLB">
-                    <label className="hdlTLTLNRB">{results[0].lotdate.lotdate}</label>
-                    <label className="hdlTLTLNRB">{results[0].lottime.lottime}</label>
-                    <label className="hdlTLTLNRB">{results[0].resultNumber}</label>
+                    <label className="hdlTLTLNRB">
+                      {results[0].lotdate.lotdate}
+                    </label>
+                    <label className="hdlTLTLNRB">
+                      {getTimeAccordingToTimezone(
+                        results[0].lottime.lottime,
+                        user?.country?.timezone
+                      )}
+                    </label>
+                    <label className="hdlTLTLNRB">
+                      {results[0].resultNumber}
+                    </label>
                   </div>
                 </div>
                 <div className="hdlTR">
@@ -576,7 +604,8 @@ function AllLocation() {
   );
 }
 
-{/* <div className="resultcontaineral">
+{
+  /* <div className="resultcontaineral">
 <div className="resultleftcontaineral">
   <div className="rltopcontaineral">
     <div
@@ -669,7 +698,8 @@ function AllLocation() {
     />
   </div>
 </div>
-</div> */}
+</div> */
+}
 
 export default AllLocation;
 
