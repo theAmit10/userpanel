@@ -410,7 +410,7 @@
     margin-left: 1rem;
     margin-right: 1rem;
     border-radius: 1rem;
-    overflow-y: scroll;
+
 }
 
 .hdLocationContainerRightTimeContainer{
@@ -440,6 +440,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    max-height: 35vh;
+    overflow-y: scroll;
 }
 
 .hdLocationContainerRightTimeContainerContentContainer-result{
