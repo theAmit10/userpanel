@@ -1,17 +1,16 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import UrlHelper from '../helper/UrlHelper';
-
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import UrlHelper from "../helper/UrlHelper";
 
 export const sincelotUserApi = createApi({
-  reducerPath: 'sincelotUserApi',
+  reducerPath: "sincelotUserApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://adminbackend-lyyx.onrender.com/api/v1/',
+    baseUrl: "https://adminbackend-lyyx.onrender.com/api/v1/",
   }),
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getData: builder.query({
-      query: accessToken => ({
-        url: 'user/profile',
-        method: 'get',
+      query: (accessToken) => ({
+        url: "user/profile",
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -20,12 +19,12 @@ export const sincelotUserApi = createApi({
 
     // FOR CREATE A WITHDRAW REQUEST
     createWithdraw: builder.mutation({
-      query: ({accessToken, body}) => ({
+      query: ({ accessToken, body }) => ({
         url: UrlHelper.WITHDRAW_PAYMENT_API,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body,
       }),
@@ -33,9 +32,9 @@ export const sincelotUserApi = createApi({
 
     // FOR GETTING ALL THE LOCATION WITH TIME
     getAllLocationWithTime: builder.query({
-      query: accessToken => ({
-        url: 'result/alllotlocationwithtime',
-        method: 'get',
+      query: (accessToken) => ({
+        url: "result/alllotlocationwithtime",
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -44,7 +43,7 @@ export const sincelotUserApi = createApi({
 
     // FOR BETTING
 
-     // FOR GETTING DATE ACCORDING TO THE LOCATION, TIME
+    // FOR GETTING DATE ACCORDING TO THE LOCATION, TIME
     //  getDateAccToLocTime: builder.query({
     //     query: (accessToken, lottimeId,lotlocationId) => ({
     //       url: `result/searchdate?lottimeId=${lottimeId}&lotlocationId=${lotlocationId}`,
@@ -57,57 +56,55 @@ export const sincelotUserApi = createApi({
     getDateAccToLocTime: builder.query({
       query: ({ accessToken, lottimeId, lotlocationId }) => ({
         url: `result/searchdate?lottimeId=${lottimeId}&lotlocationId=${lotlocationId}`,
-        method: 'get',
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }),
     }),
-    
 
     // FOR GETTING BET ACCORDING TO THE LOCATION, TIME AND CURRENT DATE
     getBetAccToLocTimeDate: builder.query({
       query: (accessToken, lotlocation, lottime, lotdate) => ({
         url: `result/playzone/singleplay?lotlocation=${lotlocation}&lottime=${lottime}&lotdate=${lotdate}`,
-        method: 'get',
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }),
     }),
 
-     // FOR CREATE A PLAY REQUEST
-     createPlay: builder.mutation({
-      query: ({accessToken, body}) => ({
+    // FOR CREATE A PLAY REQUEST
+    createPlay: builder.mutation({
+      query: ({ accessToken, body }) => ({
         url: UrlHelper.CREATE_PLAY_API,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body,
       }),
     }),
 
-
     // FOR HISTORIES
 
-     // FOR GETTING USERS PLAY HISTORY
-     getPlayHistory: builder.query({
-      query: accessToken => ({
-        url: 'result/singleuser/playbets',
-        method: 'get',
+    // FOR GETTING USERS PLAY HISTORY
+    getPlayHistory: builder.query({
+      query: (accessToken) => ({
+        url: "result/singleuser/playbets",
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }),
     }),
 
-     // FOR GETTING USERS HISTORY
-     getHistory: builder.query({
-      query: ({accesstoken,userId}) => ({
-        url: "user/getuserdeposit/?userid="+userId,
-        method: 'get',
+    // FOR GETTING USERS HISTORY
+    getHistory: builder.query({
+      query: ({ accesstoken, userId }) => ({
+        url: "user/getuserdeposit/?userid=" + userId,
+        method: "get",
         headers: {
           Authorization: `Bearer ${accesstoken}`,
         },
@@ -116,9 +113,9 @@ export const sincelotUserApi = createApi({
 
     // FOR CREATE A DEPOSIT REQUEST
     createDeposit: builder.mutation({
-      query: ({accessToken, body}) => ({
+      query: ({ accessToken, body }) => ({
         url: UrlHelper.DEPOSIT_API,
-        method: 'POST',
+        method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -130,7 +127,7 @@ export const sincelotUserApi = createApi({
     getAllCountry: builder.query({
       query: () => ({
         url: `result/allcurrencies`,
-        method: 'get',
+        method: "get",
         headers: {
           "Content-Type": "application/json",
         },
@@ -139,24 +136,24 @@ export const sincelotUserApi = createApi({
 
     // FOR CREATE A BALANCE TRANSFER REQUEST
     transferWalletBalance: builder.mutation({
-      query: ({accessToken, body}) => ({
+      query: ({ accessToken, body }) => ({
         url: UrlHelper.BALANCE_TRANSFER_TO_WALLET_TWO_API,
-        method: 'PUT',
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body,
       }),
     }),
 
-     // FOR A LOGIN TEST
-     createLogin: builder.mutation({
-      query: ({body}) => ({
+    // FOR A LOGIN TEST
+    createLogin: builder.mutation({
+      query: ({ body }) => ({
         url: "user/login",
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body,
       }),
@@ -164,34 +161,43 @@ export const sincelotUserApi = createApi({
 
     // FOR REGISTER
     createRegister: builder.mutation({
-      query: ({ body}) => ({
+      query: ({ body }) => ({
         url: UrlHelper.REGISTER_API,
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body,
       }),
     }),
 
-
     // FOR LOGGING OFF
     getLogout: builder.query({
-      query: accessToken => ({
-        url: 'user/logout',
-        method: 'get',
+      query: (accessToken) => ({
+        url: "user/logout",
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }),
     }),
-
 
     // GET ALL THE RESULT
     getAllResultWeb: builder.query({
-      query: ({accessToken,locationid}) => ({
+      query: ({ accessToken, locationid }) => ({
         url: `result/allresultwithtime?locationid=${locationid}`,
-        method: 'get',
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    }),
+
+    // GET ALL THE RESULT
+    getResultLocMonYear: builder.query({
+      query: ({ accessToken, locationid, year, month }) => ({
+        url: `result/allresultlocmonyear?locationid=${locationid}&year=${year}&month=${month}`,
+        method: "get",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -199,6 +205,17 @@ export const sincelotUserApi = createApi({
     }),
 
 
+
+    // GET APP LINK
+    getAppLink: builder.query({
+      query: (accesstoken ) => ({
+        url: `result/getapplink`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
 
     // ######## END #########
   }),
@@ -220,5 +237,6 @@ export const {
   useCreateRegisterMutation,
   useGetLogoutQuery,
   useGetAllResultWebQuery,
+  useGetResultLocMonYearQuery,
+  useGetAppLinkQuery
 } = sincelotUserApi;
-

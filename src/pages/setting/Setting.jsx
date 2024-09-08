@@ -235,7 +235,6 @@ const Setting = () => {
                 alt="Profile Picture"
                 className="userprofileimg"
               /> */}
-
               <img
                 src={
                   user?.avatar?.url
@@ -257,23 +256,25 @@ const Setting = () => {
         <div className="top-right-d">
           <div className="top-right-right-d">
             {/** DEPOSIT */}
-            <div className="depositContainer"
-            onClick={() => handleComponentClick("deposit")}
+            <div
+              className="depositContainer"
+              onClick={() => handleComponentClick("deposit")}
             >
               <label className="depositContainerLabel">DEPOSIT</label>
               <PiHandDepositFill color={COLORS.white_s} size={"2rem"} />
             </div>
 
             {/**  WITHDRAW */}
-            <div className="depositContainer"
-            onClick={() => handleComponentClick("withdraw")}
+            <div
+              className="depositContainer"
+              onClick={() => handleComponentClick("withdraw")}
             >
               <label className="depositContainerLabel">WITHDRAW</label>
               <PiHandWithdrawFill color={COLORS.white_s} size={"2rem"} />
             </div>
 
             <div
-              onClick={() => handleComponentClick("allcountry")}
+              onClick={() => handleComponentClick("wallet")}
               className="iconcontainertop"
             >
               <FaWallet color={COLORS.background} size={"3rem"} />
@@ -302,74 +303,8 @@ const Setting = () => {
         {/** LEFT  */}
         <div className="adLeftContainer">
           {/** CONTENT */}
-          <div
-            className="adLContenContainer"
-            key={"updateprofile"}
-            onClick={() => handleComponentClick("updateprofile")}
-            style={{
-              background:
-                selectedComponent === "updateprofile"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <FaUserPen color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Update Profile</label>
-          </div>
 
-          <div
-            className="adLContenContainer"
-            key={"balancetransfer"}
-            onClick={() => handleComponentClick("balancetransfer")}
-            style={{
-              background:
-                selectedComponent === "balancetransfer"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <FaMoneyBillTransfer color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Balance Transfer</label>
-          </div>
-
-          <div
-            className="adLContenContainer"
-            key={"changepassword"}
-            onClick={() => handleComponentClick("changepassword")}
-            style={{
-              background:
-                selectedComponent === "changepassword"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <RiLockPasswordLine color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Change Password</label>
-          </div>
-
-          <div
-            className="adLContenContainer"
-            key={"result"}
-            onClick={() => handleComponentClick("result")}
-            style={{
-              background:
-                selectedComponent === "result"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <GiTrophy color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Result</label>
-          </div>
-
+          {/** PLAY HISTORY */}
           <div
             className="adLContenContainer"
             key={"playhistory"}
@@ -387,6 +322,25 @@ const Setting = () => {
             <label className="adLContenContainerLabel">Play History</label>
           </div>
 
+          {/** BALANCE TRANSFER */}
+          <div
+            className="adLContenContainer"
+            key={"balancetransfer"}
+            onClick={() => handleComponentClick("balancetransfer")}
+            style={{
+              background:
+                selectedComponent === "balancetransfer"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <FaMoneyBillTransfer color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Balance Transfer</label>
+          </div>
+
+          {/** HISTORY */}
           <div
             className="adLContenContainer"
             key={"history"}
@@ -404,6 +358,61 @@ const Setting = () => {
             <label className="adLContenContainerLabel">History</label>
           </div>
 
+          {/** RESULT */}
+          <div
+            className="adLContenContainer"
+            key={"result"}
+            onClick={() => handleComponentClick("result")}
+            style={{
+              background:
+                selectedComponent === "result"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <GiTrophy color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Result</label>
+          </div>
+
+          {/** CHANGE PASSWORD */}
+          <div
+            className="adLContenContainer"
+            key={"changepassword"}
+            onClick={() => handleComponentClick("changepassword")}
+            style={{
+              background:
+                selectedComponent === "changepassword"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <RiLockPasswordLine color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Change Password</label>
+          </div>
+
+          {/** UPDATE PROFILE */}
+          <div
+            className="adLContenContainer"
+            key={"updateprofile"}
+            onClick={() => handleComponentClick("updateprofile")}
+            style={{
+              background:
+                selectedComponent === "updateprofile"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <FaUserPen color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Update Profile</label>
+          </div>
+
+          {/** GAME DESCRIPTION */}
           <div
             className="adLContenContainer"
             key={"gamedescription"}
@@ -421,6 +430,7 @@ const Setting = () => {
             <label className="adLContenContainerLabel">Game Desc</label>
           </div>
 
+          {/** ABOUT US */}
           <div
             className="adLContenContainer"
             key={"aboutus"}
@@ -438,6 +448,7 @@ const Setting = () => {
             <label className="adLContenContainerLabel">About us</label>
           </div>
 
+          {/** LOGOUT */}
           <div
             className="adLContenContainer"
             key={"logout"}

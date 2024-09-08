@@ -13,7 +13,7 @@ import {
   getNextResult,
   getResultAccordingToLocationTimeDate,
 } from "../../redux/actions/resultAction";
-import { showErrorToast } from "../helper/showErrorToast";
+import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
 import {
   useGetAllLocationWithTimeQuery,
   useGetPlayHistoryQuery,
@@ -28,6 +28,7 @@ import { getTimeAccordingToTimezone } from "../../pages/userdashboard/Dashboard"
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
 
 const topWinnerOfTheDay = [
   {
@@ -267,6 +268,7 @@ function HomeDashboard() {
   };
 
   const handleSelectedDateClick = async (datedate) => {
+    showWarningToast("Processing, Please wait...")
     setSelectedDate(datedate);
     // dispatch(
     //   getResultAccordingToLocationTimeDate(
@@ -296,6 +298,7 @@ function HomeDashboard() {
 
       // Check if the results array is empty
       if (data.results.length !== 0) {
+        showSuccessToast("Result available")
         // setResult("Current date not found");
         setHomeResult(data.results[0]);
         setNextResultTime(data.results[0]?.nextresulttime);
@@ -304,6 +307,7 @@ function HomeDashboard() {
        else {
         // setResult(currentDate); // Set to the current date object if results are found
         console.log("no result found")
+        showSuccessToast("Result not available")
       }
     } catch (error) {
       console.log(error)
@@ -967,6 +971,7 @@ function HomeDashboard() {
           </div>
         </>
       )}
+      <ToastContainer/>
     </div>
   );
 }

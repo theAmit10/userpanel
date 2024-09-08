@@ -53,6 +53,7 @@ import moment from "moment-timezone";
 import Paypaldeposit from "../../components/deposit/Paypaldeposit";
 import { MdNotificationsActive } from "react-icons/md";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
+import { useGetAppLinkQuery } from "../../redux/api";
 
 const locationdata = [
   {
@@ -321,6 +322,30 @@ const Dashboard = () => {
 
   console.log(sliderData?.length);
 
+
+  const { data: appLinkData, error: appLinkError, isLoading: appLinkLoading } = useGetAppLinkQuery(accesstoken);
+
+    const androidAppLink = () => {
+      const link = appLinkData?.appLink?.androidLink;
+      if (link) {
+        window.open(link, '_blank'); // Opens the link in a new tab
+        showSuccessToast(link);
+      } else {
+        showSuccessToast('No valid link found.');
+      }
+    }
+
+    const iosAppLink = () => {
+     
+      const link = appLinkData?.appLink?.iosLink;
+      if (link) {
+        window.open(link, '_blank'); // Opens the link in a new tab
+        showSuccessToast(link);
+      } else {
+        showSuccessToast('No valid link found.');
+      }
+    }
+
   return (
     <div className="adminDashboardContainer">
       {/** TOP CONTAINER */}
@@ -457,7 +482,10 @@ const Dashboard = () => {
             }}
           >
             <div className="adLContenContainerIcon">
-              <FaPlay color={COLORS.white_s} size={"2.5rem"} />
+            <img src={images.play} style={{
+                height: '5rem',
+                width: '5rem',
+              }}/>
             </div>
             <label className="adLContenContainerLabel">Play</label>
           </div>
@@ -525,7 +553,7 @@ const Dashboard = () => {
 
           <div className="shereAppContainer">
             <div
-              onClick={() => handleComponentClick("notification")}
+              onClick={iosAppLink}
               className="iconcontainertop"
             >
               <FaApple color={COLORS.background} size={"3rem"} />
@@ -534,7 +562,7 @@ const Dashboard = () => {
             <label className="shereAppContainerLabel">Get Apps</label>
 
             <div
-              onClick={() => handleComponentClick("notification")}
+              onClick={androidAppLink}
               className="iconcontainertop"
             >
               <AiFillAndroid color={COLORS.background} size={"3rem"} />

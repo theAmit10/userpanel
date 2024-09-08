@@ -35,40 +35,14 @@ function Withdrawpayment() {
       {selectedPayment === "" && (
         <div className="pnMainContainer">
           <div className="hdAllContainer" style={{ background: "transparent" }}>
-            {/** UPI  */}
+            {/** CRYPTO  */}
             <div
               className="hdAllContainerContent"
-              onClick={() => selectingPaymentType("upi")}
-            >
-              <div className="hdAllContainerContentTop">
-                <label className="hdAllContainerContentTopBoldLabel">UPI</label>
-                <div className="hdContenContainerIcon">
-                  <CiEdit color={COLORS.background} size={"2.5rem"} />
-                </div>
-              </div>
-              <div className="hdAllContainerContentBottom">
-                <label className="hdAllContainerContentTopRegularLabel">
-                  Create UPI Payment Withdraw
-                </label>
-                <div className="hdContenContainerIcon">
-                  <img
-                    src={images.upi}
-                    color={COLORS.background}
-                    size={"1rem"}
-                    className="paymenticon"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/** Bank */}
-            <div
-              className="hdAllContainerContent"
-              onClick={() => selectingPaymentType("bank")}
+              onClick={() => selectingPaymentType("crypto")}
             >
               <div className="hdAllContainerContentTop">
                 <label className="hdAllContainerContentTopBoldLabel">
-                  Bank
+                  Crypto
                 </label>
                 <div className="hdContenContainerIcon">
                   <CiEdit color={COLORS.background} size={"2.5rem"} />
@@ -76,14 +50,14 @@ function Withdrawpayment() {
               </div>
               <div className="hdAllContainerContentBottom">
                 <label className="hdAllContainerContentTopRegularLabel">
-                  Create Bank Payment Withdraw
+                  Create Crypto Payment Withdraw
                 </label>
                 <div className="hdContenContainerIcon">
                   <img
-                    src={images.bank}
+                    src={images.crypto}
                     color={COLORS.background}
-                    className="pdicon"
                     size={"2.5rem"}
+                    className="paymenticon"
                   />
                 </div>
               </div>
@@ -145,14 +119,14 @@ function Withdrawpayment() {
               </div>
             </div>
 
-            {/** CRYPTO  */}
+            {/** Bank */}
             <div
               className="hdAllContainerContent"
-              onClick={() => selectingPaymentType("crypto")}
+              onClick={() => selectingPaymentType("bank")}
             >
               <div className="hdAllContainerContentTop">
                 <label className="hdAllContainerContentTopBoldLabel">
-                  Crypto
+                  Bank
                 </label>
                 <div className="hdContenContainerIcon">
                   <CiEdit color={COLORS.background} size={"2.5rem"} />
@@ -160,18 +134,45 @@ function Withdrawpayment() {
               </div>
               <div className="hdAllContainerContentBottom">
                 <label className="hdAllContainerContentTopRegularLabel">
-                  Create Crypto Payment Withdraw
+                  Create Bank Payment Withdraw
                 </label>
                 <div className="hdContenContainerIcon">
                   <img
-                    src={images.crypto}
+                    src={images.bank}
                     color={COLORS.background}
+                    className="pdicon"
                     size={"2.5rem"}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/** UPI  */}
+            <div
+              className="hdAllContainerContent"
+              onClick={() => selectingPaymentType("upi")}
+            >
+              <div className="hdAllContainerContentTop">
+                <label className="hdAllContainerContentTopBoldLabel">UPI</label>
+                <div className="hdContenContainerIcon">
+                  <CiEdit color={COLORS.background} size={"2.5rem"} />
+                </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  Create UPI Payment Withdraw
+                </label>
+                <div className="hdContenContainerIcon">
+                  <img
+                    src={images.upi}
+                    color={COLORS.background}
+                    size={"1rem"}
                     className="paymenticon"
                   />
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       )}
@@ -191,12 +192,12 @@ function Withdrawpayment() {
       {selectedPayment === "crypto" && (
         <CryptoWithdraw selectingPaymentType={selectingPaymentType} />
       )}
+      <ToastContainer/>
     </div>
   );
 }
 
 export default Withdrawpayment;
-
 
 // import React, { useState } from "react";
 // import "./Withdrawpayment.css";
@@ -354,7 +355,7 @@ export default Withdrawpayment;
 //                       borderRadius: "1vh",
 //                     }}
 //                   >
-                    
+
 //                     <img
 //                       src={images.crypto}
 //                       alt="UPI"

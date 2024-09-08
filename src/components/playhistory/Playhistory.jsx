@@ -11,8 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
-
-
+import { locationdata } from "../../pages/setting/Setting";
 
 function Playhistory() {
   const navigation = useNavigate();
@@ -60,7 +59,12 @@ function Playhistory() {
     return formattedDate;
   };
 
-
+  const toggleItem = (id) => {
+    setExpandedItems((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   console.log(isLoading, historyapidatas);
 
@@ -69,7 +73,9 @@ function Playhistory() {
       {/** TITLE CONTAINER */}
       <div className="alCreatLocationTopContainer">
         <div className="alCreatLocationTopContaineCL">
-          <label className="alCreatLocationTopContainerlabel">Play History</label>
+          <label className="alCreatLocationTopContainerlabel">
+            Play History
+          </label>
         </div>
       </div>
       {/** CONTENT CONTAINER */}
@@ -77,75 +83,129 @@ function Playhistory() {
         {/** CONTENT */}
 
         {isLoading ? (
-         <LoadingComponent/>
+          <LoadingComponent />
         ) : (
           historyapidatas.playbets.map((item, index) => (
-            <div className="h-content-org">
-              {/** FIRST CONTAINER */}
-              <div className="h-content-first-history">
-                <div className="iconcontainertop">
-                    <FaRegPlayCircle
-                      color={COLORS.background}
-                      size={"3rem"}
-                    />
+            <div
+              key={(item) => item._id.toString()}
+              onClick={() => toggleItem(item._id)}
+              style={{
+                minHeight: expandedItems[item._id] ? "40rem" : "8rem",
+                backgroundColor: COLORS.background,
+                borderRadius: "2rem",
+              }}
+            >
+              <div className="h-content-org">
+                {/** FIRST CONTAINER */}
+                <div className="h-content-first-history">
+                  <div className="iconcontainertop">
+                    <FaRegPlayCircle color={COLORS.background} size={"3rem"} />
+                  </div>
                 </div>
-              </div>
-              {/** SECOND CONTAINER */}
-              <div className="h-content-second">
-                <div className="h-content-second-content-container-top">
-                  <label className="h-content-second-content-container-top-amount">
-                    Amount{" "}:{" "}
-                  </label>
-                  <label className="h-content-second-content-container-top-amount-val">
-                    {calculateTotalAmount(item.playnumbers)}{" "}
-                    {user.country.countrycurrencysymbol}
-                  </label>
+                {/** SECOND CONTAINER */}
+                <div className="h-content-second">
+                  <div className="h-content-second-content-container-top">
+                    <label className="h-content-second-content-container-top-amount">
+                      Amount :{" "}
+                    </label>
+                    <label className="h-content-second-content-container-top-amount-val">
+                      {calculateTotalAmount(item.playnumbers)}{" "}
+                      {user.country.countrycurrencysymbol}
+                    </label>
+                  </div>
+                  <div className="h-content-second-content-container-bottom">
+                    <label className="h-content-second-content-container-top-date">
+                      {formatDate(item.lotdate.lotdate)}
+                    </label>
+                  </div>
                 </div>
-                <div className="h-content-second-content-container-bottom">
-                  <label className="h-content-second-content-container-top-date">
-                    {formatDate(item.lotdate.lotdate)}
-                  </label>
+                {/** THIRD CONTAINER */}
+                <div className="h-content-third">
+                  <div className="h-content-third-content-container-top">
+                    <label className="h-content-third-content-container-top-payment">
+                      Location
+                    </label>
+                  </div>
+                  <div className="h-content-third-content-container-bottom">
+                    <label className="h-content-third-content-container-top-payment-val">
+                      {item.lotlocation.lotlocation}
+                    </label>
+                  </div>
                 </div>
-              </div>
-              {/** THIRD CONTAINER */}
-              <div className="h-content-third">
-                <div className="h-content-third-content-container-top">
-                  <label className="h-content-third-content-container-top-payment">
-                    Location
-                  </label>
+                {/** FOURTH CONTAINER */}
+                <div className="h-content-fourth">
+                  <div className="h-content-third-content-container-top">
+                    <label className="h-content-third-content-container-top-payment">
+                      Time
+                    </label>
+                  </div>
+                  <div className="h-content-third-content-container-bottom">
+                    <label className="h-content-third-content-container-top-payment-val">
+                      {item.lottime.lottime}
+                    </label>
+                  </div>
                 </div>
-                <div className="h-content-third-content-container-bottom">
-                  <label className="h-content-third-content-container-top-payment-val">
-                    {item.lotlocation.lotlocation}
-                  </label>
-                </div>
-              </div>
-              {/** FOURTH CONTAINER */}
-              <div className="h-content-fourth">
-                <div className="h-content-third-content-container-top">
-                  <label className="h-content-third-content-container-top-payment">
-                    Time
-                  </label>
-                </div>
-                <div className="h-content-third-content-container-bottom">
-                  <label className="h-content-third-content-container-top-payment-val">
-                    {item.lottime.lottime}
-                  </label>
-                </div>
-              </div>
-              {/** FIFTH CONTAINER */}
-              <div className="h-content-fifth">
-                <div className="h-content-third-content-container-top">
-                  <label className="h-content-third-content-container-top-payment">
+
+                <div className="h-content-fourth">
+                  <div className="h-content-third-content-container-top">
+                    <label className="h-content-third-content-container-top-payment">
                     Number
-                  </label>
-                </div>
-                <div className="h-content-third-content-container-bottom">
-                  <label className="h-content-third-content-container-top-payment-val">
+                    </label>
+                  </div>
+                  <div className="h-content-third-content-container-bottom">
+                    <label className="h-content-third-content-container-top-payment-val">
                     {getPlaynumbersString(item.playnumbers)}
-                  </label>
+                    </label>
+                  </div>
                 </div>
+               
               </div>
+
+              {expandedItems[item._id] && (
+                <>
+                  <div className="headerContainerPH">
+                    <div className="hcphFirst">
+                      <label className="h-content-third-content-container-top-payment-val">
+                        Number
+                      </label>
+                    </div>
+                    <div className="hcphSecond">
+                      <label className="h-content-third-content-container-top-payment-val">
+                        Amount
+                      </label>
+                    </div>
+                    <div className="hcphThird">
+                      <label className="h-content-third-content-container-top-payment-val">
+                        Win Amt.
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="contentContainerPHD">
+                    {item.playnumbers.map((pitem, pindex) => (
+                      <div 
+                      key={pindex}
+                      className="contentContainerPHDC">
+                        <div className="hcphFirst">
+                          <label className="h-content-third-content-container-top-payment-val">
+                          {pitem.playnumber}
+                          </label>
+                        </div>
+                        <div className="hcphSecond">
+                          <label className="h-content-third-content-container-top-payment-val">
+                          {pitem.amount}
+                          </label>
+                        </div>
+                        <div className="hcphThird">
+                          <label className="h-content-third-content-container-top-payment-val">
+                          {pitem.winningamount}
+                          </label>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           ))
         )}

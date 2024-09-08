@@ -64,12 +64,12 @@ function Gamedescriptionc() {
         {loading ? (
           <LoadingComponent />
         ) : (
-          <div className="ARLC">
+          <div className="ARLCC">
             {filteredData.map((item, index) => (
               <div
                 key={index}
                 onClick={() => setSelectedItem(item)}
-                className="ARLocConC"
+                className="ARLocConCC"
               >
                 <div
                   className="PLLLocContainer"

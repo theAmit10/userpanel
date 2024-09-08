@@ -1,0 +1,40 @@
+.mcontainer {
+    background: linear-gradient(180deg, #0162AF, #011833);
+    padding: 2rem;
+    border-radius: 1rem;
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    right: 20%;
+    box-shadow: 0rem 0.4rem 0.6rem rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    height: 60vh;
+    overflow-y: scroll;
+  }
+  
+  .mtitle {
+    text-align: center;
+    font-family: 'MB'; /* Replace with your actual font */
+    font-size: 2rem;
+    color: #000000; /* Replace with actual color */
+    margin-bottom: 20px;
+  }
+  
+  .mbtn {
+    background-color: var(--background); /* Replace with actual background color */
+    padding: 2rem;
+    text-align: center;
+    font-family: 'MSB'; /* Replace with your actual font */
+    font-size: 1.5rem;
+    color: #ffffff; /* Replace with actual white color */
+    border: none;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .mbtn:hover {
+    background-color: var(--green); /* Replace with actual hover background color */
+  }
+  

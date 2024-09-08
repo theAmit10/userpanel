@@ -118,7 +118,7 @@ function Historyc() {
   };
 
   const formatDateTime = (dateTimeString) => {
-    return moment(dateTimeString).format("MMMM DD, YYYY hh:mm A");
+    return moment(dateTimeString).format("MMMM DD, YYYY");
   };
 
   return (

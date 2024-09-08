@@ -65,19 +65,19 @@ function Play() {
 
   const [selectedNumber, setSelectedNumber] = useState([]);
 
-  const addSelectedNumber = (val) => {
+  const addSelectedNumber = (number) => {
     console.log("ADDING NUMBER TO LIST");
 
     setSelectedNumber((prevSelectedNumbers) => {
       const updatedList = [...prevSelectedNumbers];
 
-      const index = updatedList.indexOf(val);
+      const index = updatedList.indexOf(number);
       if (index > -1) {
         // Number is already present, remove it
         updatedList.splice(index, 1);
       } else {
         // Number is not present, add it
-        updatedList.push(val);
+        updatedList.push(number);
       }
 
       console.log("SELECTED NUMBER :: ", updatedList);
@@ -140,7 +140,6 @@ function Play() {
     //   "Selected item location :: " + JSON.stringify(selectedLocation)
     // );
     console.log("Selected item time :: " + JSON.stringify(selectedTime));
-
   }, [selectedItem, selectedLocation]);
 
   const [alldatafiler, setalldatafilter] = useState([]);
@@ -269,6 +268,8 @@ function Play() {
     removeAmountForInput(id);
   };
   const winningAmountPrice = (str1, str2) => {
+    console.log("WINNING AMOUNT ::  ", str1, " :: ", str2);
+
     // Convert the first string to a number
     const number1 = parseFloat(str1);
 
@@ -356,7 +357,10 @@ function Play() {
         setResult("Current date not found");
       } else {
         console.log("Setting to Result ELSE :: " + JSON.stringify(currentDate));
-        console.log("Setting to Location ELSE :: " + JSON.stringify(selectedLocation.maximumNumber));
+        console.log(
+          "Setting to Location ELSE :: " +
+            JSON.stringify(selectedLocation.maximumNumber)
+        );
         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
         if (maximumNumber) {
           const generatedArray = createLocationDataArray(maximumNumber);
@@ -420,14 +424,14 @@ function Play() {
     if (result) {
       console.log("Result LENGTH data :: " + JSON.stringify(result));
     }
-  }, [result,showPlay]);
+  }, [result, showPlay]);
 
-  useEffect(
-    useCallback(() => {
-      // Refetch the data when the screen is focused
-      refetchDate();
-    }, [refetchDate])
-  );
+  // useEffect(
+  //   useCallback(() => {
+  //     // Refetch the data when the screen is focused
+  //     refetchDate();
+  //   }, [refetchDate])
+  // );
 
   const addingNumberForBetting = (number) => {
     console.log("ADDING NUMBER TO LIST");
@@ -515,14 +519,20 @@ function Play() {
       showErrorToast("Add betting amount for all numbers");
     } else {
       try {
+
+        console.log("SELECTED LOCATION",JSON.stringify(selectedLocation))
+        console.log("SELECTED TIME",JSON.stringify(selectedTime))
+        console.log("SELECTED DATE",JSON.stringify(selectedDate))
+        console.log("SELECTED Current date",JSON.stringify(currentDate))
+       
         const body = {
           playnumbers: transformData(
             inputValues,
-            result?.lottime?.lotlocation?.maximumReturn
+            selectedLocation.maximumReturn
           ),
-          lotdate: result._id,
-          lottime: result?.lottime?._id,
-          lotlocation: result?.lottime?.lotlocation?._id,
+          lotdate: currentDate._id,
+          lottime: selectedTime?._id,
+          lotlocation: selectedLocation?._id,
         };
 
         console.log("Request body :: " + JSON.stringify(body));
@@ -537,7 +547,10 @@ function Play() {
           showSuccessToast("Order Placed Successfully");
         }
 
-        removeSelecteditemClick();
+        setInputValues({})
+
+        // removeSelecteditemClick();
+        hideSubmitContainer()
         setSubmitItemFlag(false);
       } catch (error) {
         console.log("Error during withdraw:", error);
@@ -545,6 +558,23 @@ function Play() {
       }
     }
   };
+
+  function addLeadingZero(value) {
+    // Convert the input to a string to handle both string and number inputs
+    const stringValue = value.toString();
+
+    // Check if the value is between 1 and 9 (inclusive) and add a leading zero
+    if (
+      stringValue.length === 1 &&
+      parseInt(stringValue) >= 1 &&
+      parseInt(stringValue) <= 9
+    ) {
+      return "0" + stringValue;
+    }
+
+    // If the value is 10 or more, return it as is
+    return stringValue;
+  }
 
   return (
     <div className="main-content-container-all-location">
@@ -688,7 +718,7 @@ function Play() {
                   <div
                     onClick={() => addSelectedNumber(item)}
                     className="play-content"
-                    key={(item) => item.id.toString()}
+                    key={index}
                   >
                     <div
                       className="play-content-halfcontainer"
@@ -714,7 +744,9 @@ function Play() {
                         {selectedNumber.includes(item) ? "Selected" : "Select"}
                       </span>
                       <div className="play-content-number-con">
-                        <span className="play-content-number">{item.name}</span>
+                        <span className="play-content-number">
+                          {addLeadingZero(item.name)}
+                        </span>
                       </div>
 
                       <div className="numberbgstyle"></div>
@@ -726,18 +758,19 @@ function Play() {
 
             {/** Confirm Container */}
             <div className="playcontainer-bottomcontent">
-              <div
-                className="playcontainer-bottomcontent-container"
-                onClick={() => showSubmitContainer()}
-              >
-                <span className="confirmL">Confirm</span>
-              </div>
+              {selectedNumber.length !== 0 && !showSelectedVisible && (
+                <div
+                  className="playcontainer-bottomcontent-container"
+                  onClick={() => showSubmitContainer()}
+                >
+                  <span className="confirmL">Confirm</span>
+                </div>
+              )}
             </div>
           </div>
         ))}
 
       {submitItemFlag && (
-        <>
           <div className="alllocation-submit-container">
             <div className="alllocation-submit-container-left">
               {/** TOP TITLE CONTAINER */}
@@ -761,114 +794,80 @@ function Play() {
                 {/** ALL SELECTED NUMBERS */}
 
                 {selectedNumber.map((item, index) => (
-                  <>
-                    <div className="alllocation-submit-container-left-content-container">
-                      {/** LEFT CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-left">
-                        <label className="selectedNL">{item.name}</label>
-                      </div>
+                  <div
+                  key={index.toString()}
+                  className="alllocation-submit-container-left-content-container">
+                    {/** LEFT CONTENT */}
+                    <div className="alllocation-submit-container-left-content-container-left">
+                      <label className="selectedNL">{addLeadingZero(item.name)}</label>
+                    </div>
 
-                      {/** MIDDLE CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-middle">
-                        <div
-                          className="alllocation-submit-container-left-content-container-middle-left"
-                          onClick={() => handleRemoveClick(item.id)}
-                        >
-                          <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-                            <CiCircleMinus
-                              size={"3rem"}
-                              color={COLORS.background}
-                            />
-                          </div>
-                        </div>
-                        <div className="alllocation-submit-container-left-content-container-middle-middle">
-                          <input
-                            className="amountInput"
-                            type="number"
-                            placeholder="Amount"
-                            inputMode="numeric"
-                            value={inputValues[item.id]?.toString() || ""}
-                            onChange={(event) =>
-                              handleInputChange(event, item.id)
-                            }
+                    {/** MIDDLE CONTENT */}
+                    <div className="alllocation-submit-container-left-content-container-middle">
+                      <div
+                        className="alllocation-submit-container-left-content-container-middle-left"
+                        onClick={() => handleRemoveClick(item.id)}
+                      >
+                        <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+                          <CiCircleMinus
+                            size={"3rem"}
+                            color={COLORS.background}
                           />
                         </div>
-                        <div
-                          className="alllocation-submit-container-left-content-container-middle-right"
-                          onClick={() => handleAddClick(item.id)}
-                        >
-                          <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-                            <CiCirclePlus
-                              size={"3rem"}
-                              color={COLORS.background}
-                            />
-                          </div>
+                      </div>
+                      <div className="alllocation-submit-container-left-content-container-middle-middle">
+                        <input
+                          className="amountInput"
+                          type="number"
+                          placeholder="Amount"
+                          inputMode="numeric"
+                          value={inputValues[item.id]?.toString() || ""}
+                          onChange={(event) =>
+                            handleInputChange(event, item.id)
+                          }
+                        />
+                      </div>
+                      <div
+                        className="alllocation-submit-container-left-content-container-middle-right"
+                        onClick={() => handleAddClick(item.id)}
+                      >
+                        <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+                          <CiCirclePlus
+                            size={"3rem"}
+                            color={COLORS.background}
+                          />
                         </div>
                       </div>
+                    </div>
 
-                      {/** RIGHT CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-left">
-                        <label className="selectedNL">
-                          {isNaN(
-                            winningAmountPrice(
+                    {/** RIGHT CONTENT */}
+                    <div className="alllocation-submit-container-left-content-container-left">
+                      <label className="selectedNL">
+                        {/* {isNaN(
+                          winningAmountPrice(
+                            inputValues[item.id]?.toString(),
+                            result?.lottime?.lotlocation?.maximumReturn
+                          )
+                        )
+                          ? 0
+                          : winningAmountPrice(
                               inputValues[item.id]?.toString(),
                               result?.lottime?.lotlocation?.maximumReturn
-                            )
+                            )} */}
+                              {isNaN(
+                            winningAmountPrice(
+                              inputValues[item.id]?.toString(),
+                              selectedLocation.maximumReturn,
+                            ),
                           )
                             ? 0
                             : winningAmountPrice(
                                 inputValues[item.id]?.toString(),
-                                result?.lottime?.lotlocation?.maximumReturn
+                                selectedLocation.maximumReturn,
                               )}
-                        </label>
-                      </div>
+                      </label>
                     </div>
-
-                    <div className="alllocation-submit-container-left-content-container-low-screen">
-                      {/** LEFT CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-right">
-                        <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-                          <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
-                            {item.name}
-                          </label>
-                        </div>
-                      </div>
-
-                      {/** MIDDLE CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-right">
-                        <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-                          <input
-                            type="number"
-                            placeholder="Enter Amount"
-                            className="alllocation-submit-container-left-content-container-middle-middle-container-label"
-                            value={inputValues[item.id]?.toString() || ""}
-                            onChange={(event) =>
-                              handleInputChange(event, item.id)
-                            }
-                          />
-                        </div>
-                      </div>
-
-                      {/** RIGHT CONTENT */}
-                      <div className="alllocation-submit-container-left-content-container-right">
-                        <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-                          <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
-                            {isNaN(
-                              winningAmountPrice(
-                                inputValues[item.id]?.toString(),
-                                result?.lottime?.lotlocation?.maximumReturn
-                              )
-                            )
-                              ? 0
-                              : winningAmountPrice(
-                                  inputValues[item.id]?.toString(),
-                                  result?.lottime?.lotlocation?.maximumReturn
-                                )}
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </>
+                  </div>
                 ))}
               </div>
 
@@ -963,7 +962,6 @@ function Play() {
               </div>
             </div>
           </div>
-        </>
       )}
       <ToastContainer />
     </div>

@@ -9,6 +9,7 @@ import bank from "../image/bank.png"
 import skrill from "../image/skrill.png"
 import paypal from "../image/paypal.png"
 import crypto from "../image/crypto.png"
+import play from "../image/play.png"
 
 export default {
     logo,
@@ -20,5 +21,6 @@ export default {
     bank,
     skrill,
     paypal,
-    crypto
+    crypto,
+    play
 }

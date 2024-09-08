@@ -1,139 +1,266 @@
-.alContainer{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, #0162AF, #011833);
-  border-radius: 1rem;
+/* Set a fixed width and height for the Lot Date column */
+.resultTable th.lotdate-column,
+.resultTable td.lotdate-column {
+  min-width: 12rem;
+  min-height: 5rem; /* Set the height to 4rem */
 }
 
-.ARLC{
-  height: 7rem;
-  width: 80vw;
+/* Set fixed width and height for the Time cells */
+.resultTable th.time-column,
+.resultTable td.time-column {
+    min-width: 8rem;  /* Set the width to 8rem */
+    min-height: 4rem; /* Set the height to 4rem */
+}
+
+/* Set fixed width and height for the Result cells */
+.resultTable td.result-column {
+    min-width: 8rem;  /* Set the width to 8rem */
+    min-height: 4rem; /* Set the height to 4rem */
+}
+
+/* Existing styles for the table */
+.resultTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.resultTable th,
+.resultTable td {
+  padding: 1rem;
+  text-align: center;
+  border: 0.1rem solid var(--result_lightblue);
   background-color: var(--background);
-  margin-left: 2rem;
-  margin-right: 2rem;
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  overflow-x: scroll;
+  
 }
 
-.ARLocConC {
-  min-width: 30rem; /* Fixed width for the left container */
-  height: 100%;
-
+.resultTable th {
+  background-color: var(--result_lightblue);
+  border-radius: 0.5rem;
+  color: white;
+  padding: 1rem;
+  border: 0.2rem solid var(--background);
 }
 
-.ARMC{
-  background: linear-gradient(180deg, #0162AF, #011833);
-  width: 80vw;
-  height: 60vh;
-  margin-left: 2rem;
-  margin-right: 2rem;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: row;
-
-}
-
-.PLLLocContainer{
-  height: 5rem;
-  background-color: var(--background);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-right: 1rem;
-  padding-left: 1rem;
-  align-items: center;
-  margin: 1rem;
-  border-radius: 1rem;
-}
-
-.limitLabel{
+.tdlabel {
   color: var(--white_s);
-  font-family: "MR";
-  font-size: 1rem;
-
-}
-
-.locLabel{
-  color: var(--white_s);
-  font-family: "MSB";
   font-size: 1.5rem;
-
-}
-
-.timeLabel{
-  color: var(--white_s);
-  font-family: "MSB";
-  font-size: 1.2rem;
-
-}
-.pdR{
-  color: var(--white_s);
   font-family: "MR";
-  font-size: 1.2rem;
+  background-color: var(--green);
 }
 
-.ARMCContent{
-  width: 20rem;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
+.time-column{
+    color: var(--white_s);
+    font-size: 1rem;
+    font-family: "MSB";
 }
 
-.ARMCContentTC{
-  height: 5rem;
-  background-color: var(--background);
-  margin: 1rem;
-  border-radius: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.thlabel {
+  color: var(--white_s);
+  font-size: 1.5rem;
+  font-family: "MSB";
+  background-color: var(--green);
 }
 
-.ARMCContentDC{
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  gap: 0.1px;
-  height: 40vh;
-  overflow-y: scroll;
- 
-}
-.ARMCContentDConC{
-  min-height: 5rem;
-  display: flex;
-  flex-direction: row;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  margin-bottom: 0.2rem;
-  gap: 2px;
-
+.tddatelabel {
+  color: var(--white_s);
+  font-size: 1.5rem;
+  font-family: "MSB";
+  background-color: cyan;
 }
 
-.ARMCContentDConCDate{
-  width: 15rem;
-  background-color:  var(--background);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
-}
+/* Add horizontal and vertical scroll behavior */
 
-.ARMCContentDConCResult{
-  width: 5rem;
-  background-color: var(--background);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
+
+  .alContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+  }
+  
+  .ARLCC{
+    height: 7rem;
+    width: 80vw;
+    background-color: var(--background);
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: scroll;
+  }
+  
+  .ARLocConCC {
+    min-width: 30rem; /* Fixed width for the left container */
+    height: 100%;
+  
+  }
+
+  .PLLLocContainer{
+    height: 5rem;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    align-items: center;
+    margin: 1rem;
+    border-radius: 1rem;
+  }
+
+  .limitLabel{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1rem;
+
+  }
+
+  .locLabel{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+
+  }
+  
+  .ARMC{
+    background: linear-gradient(180deg, #0162AF, #011833);
+    width: 80vw;
+    height: 60vh;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: row;
+  
+  }
+  
+  .ARMCContent{
+    width: 20rem;
+    height: 100%;
+  
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ARMCContentTC{
+    height: 5rem;
+    background-color: var(--background);
+    margin: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .ARMCContentDC{
+    flex: 1;
+  
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    gap: 0.1px;
+    height: 40vh;
+    overflow-y: scroll;
+   
+  }
+  .ARMCContentDConC{
+    min-height: 5rem;
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 0.2rem;
+    gap: 2px;
+  
+  }
+  
+  .ARMCContentDConCDate{
+    width: 15rem;
+    background-color:  var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+  
+  .ARMCContentDConCResult{
+    width: 5rem;
+    background-color: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }
+  
+  .tdlabel{
+    color: var(--white_s);
+    font-size: 1.5rem;
+    font-family: "MR";
+    background-color: var(--green);
+  }
+
+  .thlabel{
+    color: var(--white_s);
+    font-size: 1.5rem;
+    font-family: "MSB";
+    background-color: var(--green);
+  }
+
+  .tddatelabel{
+    color: var(--white_s);
+    font-size: 1.5rem;
+    font-family: "MSB";
+    background-color: cyan;
+  }
+
+  .stitle{
+    color: var(--background);
+    background-color: var(--green);
+    font-size: 2rem;
+    font-family: "MR";
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .SRMC{
+    background: linear-gradient(180deg, #0162AF, #011833);
+    width: 80vw;
+    height: 60vh;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+  
+  }
+
+  .yeartitle{
+    color: var(--white_s);
+    background-color: var(--background);
+    font-size: 2rem;
+    font-family: "MR";
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem;
+    border-radius: 1rem;
+  }
+
+  .submitTitleCon{
+    color: var(--white_s);
+    background-color: var(--green);
+    font-size: 2rem;
+    font-family: "MR";
+    text-align: center;
+    padding: 1.5rem;
+    margin: 2rem;
+    border-radius: 1rem;
+    min-width: 90%;
+    
+  }
