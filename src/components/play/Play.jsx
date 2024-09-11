@@ -2,31 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 import FONT from "../../assets/constants/fonts";
 import "./Play.css";
 import COLORS from "../../assets/constants/colors";
-import { FaWallet } from "react-icons/fa";
-import { IoIosArrowRoundBack } from "react-icons/io";
 import images from "../../assets/constants/images";
-import { SlCalender } from "react-icons/sl";
 import { RxCrossCircled } from "react-icons/rx";
 import { CiCircleMinus } from "react-icons/ci";
 import { CiCirclePlus } from "react-icons/ci";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
-import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
 import { loadProfile } from "../../redux/actions/userAction";
 import {
   useCreatePlayMutation,
   useGetAllLocationWithTimeQuery,
   useGetDateAccToLocTimeQuery,
 } from "../../redux/api";
-import { useNavigate } from "react-router-dom";
-import CircularProgressBar from "../helper/CircularProgressBar";
 import { ToastContainer } from "react-toastify";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import { NodataFound } from "../helper/NodataFound";
+import moment from "moment-timezone";
 
 const getCurrentDate = () => {
   const today = new Date();
@@ -36,9 +31,9 @@ const getCurrentDate = () => {
   return `${day}-${month}-${year}`;
 };
 
-const findCurrentDateObject = (data) => {
+const findCurrentDateObject = (data, currentDate) => {
   console.log("Checking for the current date is availble in the database");
-  const currentDate = getCurrentDate();
+  // const currentDate = getCurrentDate();
 
   console.log("current data : " + currentDate);
   const lotdates = data.lotdates || [];
@@ -47,6 +42,7 @@ const findCurrentDateObject = (data) => {
 
   return found ? found : "Current date not found";
 };
+
 const createLocationDataArray = (maximumNumber) => {
   return Array.from({ length: maximumNumber }, (_, index) => ({
     id: index + 1,
@@ -56,13 +52,12 @@ const createLocationDataArray = (maximumNumber) => {
 
 function Play() {
   const { user, accesstoken } = useSelector((state) => state.user);
+
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedItem, setSelectedItem] = useState(true);
-
   const [submitItemFlag, setSubmitItemFlag] = useState(false);
-
   const [selectedNumber, setSelectedNumber] = useState([]);
 
   const addSelectedNumber = (number) => {
@@ -112,18 +107,43 @@ function Play() {
 
   const dispatch = useDispatch();
 
-  const handleLocationClick = (location) => {
-    setSelectedLocation(location);
-  };
-
   const handleSelecteditemClick = (item, timedata) => {
-    setSelectedItem(false);
-    setSelectedLocation(item);
-    setSelectedTime(timedata);
+    
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-    dispatch(
-      getDateAccordingToLocationAndTime(accesstoken, timedata._id, item._id)
+    const lotTimeMoment = moment.tz(
+      timedata?.time,
+      "hh:mm A",
+      user?.country?.timezone
     );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(15, 'minutes');
+    
+    const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+        console.log("Navigating to PlayArena...");
+        showWarningToast("Entry is close for this session")
+        showWarningToast("Please choose next available time")
+       
+    } else {
+      setSelectedItem(false);
+      setSelectedLocation(item);
+      setSelectedTime(timedata);
+  
+      dispatch(
+        getDateAccordingToLocationAndTime(accesstoken, timedata._id, item._id)
+      );
+    }
+
+
+
+
   };
 
   const removeSelecteditemClick = () => {
@@ -136,9 +156,6 @@ function Play() {
   };
 
   useEffect(() => {
-    // console.log(
-    //   "Selected item location :: " + JSON.stringify(selectedLocation)
-    // );
     console.log("Selected item time :: " + JSON.stringify(selectedTime));
   }, [selectedItem, selectedLocation]);
 
@@ -207,16 +224,6 @@ function Play() {
   const [betnumberdata, setBetnumberdata] = useState([]);
   const [showSelectedVisible, setshowSelectedVisible] = useState(false);
   const [inputValues, setInputValues] = useState({});
-
-  // const handleInputChange = (text, id) => {
-  //   // const text = text.target.value;
-
-  //   console.log("HANDLING INPUT :: "+text,id)
-  //   setInputValues((prevValues) => ({
-  //     ...prevValues,
-  //     [id]: text,
-  //   }));
-  // };
 
   const handleInputChange = (event, id) => {
     const text = event.target.value;
@@ -294,7 +301,6 @@ function Play() {
 
   const {
     data: dataDate,
-    error: errorDate,
     isLoading: isLoadingDate,
     refetch: refetchDate,
   } = useGetDateAccToLocTimeQuery({
@@ -306,32 +312,6 @@ function Play() {
   const [result, setResult] = useState(null);
   const [currentDate, setCurrentDate] = useState(null);
   const [showPlay, setShowPlay] = useState(false);
-
-  // useEffect(() => {
-  //   if (!isLoadingDate && dataDate) {
-  //     console.log("GETTING LOCATION AND TIME ID");
-  //     console.log("LOCATION ID : " + selectedLocation?._id);
-  //     console.log("TIME ID : " + selectedTime?._id);
-  //     console.log("All Date length :: " + dataDate.lotdates.length);
-  //     console.log("All Date :: " + JSON.stringify(dataDate));
-  //     const currentDateObject = findCurrentDateObject(dataDate);
-  //     setResult(currentDateObject);
-
-  //     console.log("Today Play :: " + JSON.stringify(result));
-
-  //     if (result !== "Current date not found") {
-  //       console.log(" result !==  Current date not found ");
-  //       // const maximumNumber = locationdata.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //       const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //       console.log("Maximum number :: " + maximumNumber);
-  //       if (maximumNumber) {
-  //         const generatedArray = createLocationDataArray(maximumNumber);
-  //         setBetnumberdata(generatedArray);
-  //         console.log(generatedArray);
-  //       }
-  //     }
-  //   }
-  // }, [isLoadingDate, dataDate, result]);
 
   const getResultAccordingToLocationTimeDate = async (
     lotdateId,
@@ -379,43 +359,106 @@ function Play() {
   useEffect(() => {
     if (!isLoadingDate && dataDate) {
       setShowPlay(true);
-      const currentDateObject = findCurrentDateObject(dataDate);
-      setResult(currentDateObject);
-      setCurrentDate(currentDateObject);
 
-      console.log("Today Play :: " + JSON.stringify(currentDateObject));
+      const now = moment.tz(user?.country?.timezone);
+      console.log("Current Time: ", now.format("hh:mm A"));
+      console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-      if (currentDateObject !== "Current date not found") {
-        console.log('result !== "Current date not found"');
+      const lotTimeMoment = moment.tz(
+        selectedTime?.time,
+        "hh:mm A",
+        user?.country?.timezone
+      );
 
-        const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
-        if (maximumNumber) {
-          const generatedArray = createLocationDataArray(maximumNumber);
-          setBetnumberdata(generatedArray);
+      console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+      const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
+
+      const nextDay = now.clone().add(1, "day");
+
+      console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
+      console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
+
+      if (isLotTimePassed) {
+        const currentDate = nextDay.format("DD-MM-YYYY");
+        console.log("Current Date :: " + currentDate);
+        const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        setResult(currentDateObject);
+        setCurrentDate(currentDateObject);
+        setSelectedDate(currentDateObject);
+        console.log("Today Play :: " + JSON.stringify(currentDateObject));
+        if (currentDateObject !== "Current date not found") {
+          console.log('result !== "Current date not found"');
+
+          const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+          if (maximumNumber) {
+            const generatedArray = createLocationDataArray(maximumNumber);
+            setBetnumberdata(generatedArray);
+          }
+
+          console.log("GETTING THE DATA TO GET THE RESULT");
+          console.log(
+            "Date ID " + currentDateObject._id,
+            " :: " + currentDateObject.lotdate
+          );
+          console.log(
+            "Time ID " + currentDateObject?.lottime?._id,
+            " :: " + currentDateObject?.lottime?.lottime
+          );
+          console.log(
+            "Result ID " +
+              currentDateObject?.lottime?.lotlocation?._id +
+              " :: " +
+              currentDateObject?.lottime?.lotlocation?.lotlocation
+          );
+
+          // Fetch results using the API function
+          getResultAccordingToLocationTimeDate(
+            currentDateObject._id,
+            currentDateObject?.lottime?._id,
+            currentDateObject?.lottime?.lotlocation?._id
+          );
         }
+      } else {
+        const currentDate = getCurrentDate();
+        console.log("Current Date :: " + currentDate);
+        const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        setResult(currentDateObject);
+        setCurrentDate(currentDateObject);
+        setSelectedDate(currentDateObject);
+        console.log("Today Play :: " + JSON.stringify(currentDateObject));
+        if (currentDateObject !== "Current date not found") {
+          console.log('result !== "Current date not found"');
 
-        console.log("GETTING THE DATA TO GET THE RESULT");
-        console.log(
-          "Date ID " + currentDateObject._id,
-          " :: " + currentDateObject.lotdate
-        );
-        console.log(
-          "Time ID " + currentDateObject?.lottime?._id,
-          " :: " + currentDateObject?.lottime?.lottime
-        );
-        console.log(
-          "Result ID " +
-            currentDateObject?.lottime?.lotlocation?._id +
-            " :: " +
-            currentDateObject?.lottime?.lotlocation?.lotlocation
-        );
+          const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+          if (maximumNumber) {
+            const generatedArray = createLocationDataArray(maximumNumber);
+            setBetnumberdata(generatedArray);
+          }
 
-        // Fetch results using the API function
-        getResultAccordingToLocationTimeDate(
-          currentDateObject._id,
-          currentDateObject?.lottime?._id,
-          currentDateObject?.lottime?.lotlocation?._id
-        );
+          console.log("GETTING THE DATA TO GET THE RESULT");
+          console.log(
+            "Date ID " + currentDateObject._id,
+            " :: " + currentDateObject.lotdate
+          );
+          console.log(
+            "Time ID " + currentDateObject?.lottime?._id,
+            " :: " + currentDateObject?.lottime?.lottime
+          );
+          console.log(
+            "Result ID " +
+              currentDateObject?.lottime?.lotlocation?._id +
+              " :: " +
+              currentDateObject?.lottime?.lotlocation?.lotlocation
+          );
+
+          // Fetch results using the API function
+          getResultAccordingToLocationTimeDate(
+            currentDateObject._id,
+            currentDateObject?.lottime?._id,
+            currentDateObject?.lottime?.lotlocation?._id
+          );
+        }
       }
     }
   }, [isLoadingDate, dataDate]);
@@ -432,6 +475,38 @@ function Play() {
   //     refetchDate();
   //   }, [refetchDate])
   // );
+
+  const navigationHandler = (item, timeItem) => {
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+    const lotTimeMoment = moment.tz(
+      timeItem?.time,
+      "hh:mm A",
+      user?.country?.timezone
+    );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(15, 'minutes');
+    
+    const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+        console.log("Navigating to PlayArena...");
+        showWarningToast("Entry is close for this session")
+        showWarningToast("Please choose next available time")
+       
+    } else {
+        console.log("It's too early or past the lot time.");
+         navigation.navigate('PlayArena', {
+          locationdata: item,
+          timedata: timeItem,
+        })
+    }
+};
 
   const addingNumberForBetting = (number) => {
     console.log("ADDING NUMBER TO LIST");
@@ -519,12 +594,11 @@ function Play() {
       showErrorToast("Add betting amount for all numbers");
     } else {
       try {
+        console.log("SELECTED LOCATION", JSON.stringify(selectedLocation));
+        console.log("SELECTED TIME", JSON.stringify(selectedTime));
+        console.log("SELECTED DATE", JSON.stringify(selectedDate));
+        console.log("SELECTED Current date", JSON.stringify(currentDate));
 
-        console.log("SELECTED LOCATION",JSON.stringify(selectedLocation))
-        console.log("SELECTED TIME",JSON.stringify(selectedTime))
-        console.log("SELECTED DATE",JSON.stringify(selectedDate))
-        console.log("SELECTED Current date",JSON.stringify(currentDate))
-       
         const body = {
           playnumbers: transformData(
             inputValues,
@@ -547,10 +621,10 @@ function Play() {
           showSuccessToast("Order Placed Successfully");
         }
 
-        setInputValues({})
+        setInputValues({});
 
         // removeSelecteditemClick();
-        hideSubmitContainer()
+        hideSubmitContainer();
         setSubmitItemFlag(false);
       } catch (error) {
         console.log("Error during withdraw:", error);
@@ -655,7 +729,6 @@ function Play() {
 
       {selectedLocation &&
         selectedTime &&
-        !selectedDate &&
         !selectedItem &&
         !submitItemFlag &&
         (showPlay ? (
@@ -666,7 +739,7 @@ function Play() {
               <div className="play-title-container-left">
                 <span className="titleLabel">{selectedLocation.name}</span>
                 <span className="titleLabel">{selectedLocation.limit}</span>
-                <span className="subtitleLabel">
+                <span className="titleLabel">
                   {getTimeAccordingToTimezone(
                     selectedTime.time,
                     user?.country?.timezone
@@ -695,12 +768,13 @@ function Play() {
               <div className="play-title-container-left">
                 <span className="titleLabel">{selectedLocation.name}</span>
                 <span className="titleLabel">{selectedLocation.limit}</span>
-                <span className="subtitleLabel">
+                <span className="titleLabel">
                   {getTimeAccordingToTimezone(
                     selectedTime.time,
                     user?.country?.timezone
                   )}
                 </span>
+                <span className="titleLabel">{selectedDate?.lotdate}</span>
                 <div
                   className="back-container"
                   onClick={() => removeSelecteditemClick()}
@@ -771,79 +845,77 @@ function Play() {
         ))}
 
       {submitItemFlag && (
-          <div className="alllocation-submit-container">
-            <div className="alllocation-submit-container-left">
-              {/** TOP TITLE CONTAINER */}
-              <div className="alllocation-submit-container-left-top">
-                <span className="alllocation-submit-container-left-top-label">
-                  Selected Number
-                </span>
-                <span
-                  className="alllocation-submit-container-left-top-label"
-                  style={{ flex: 2 }}
-                >
-                  Amount
-                </span>
-                <span className="alllocation-submit-container-left-top-label">
-                  You Win
-                </span>
-              </div>
+        <div className="alllocation-submit-container">
+          <div className="alllocation-submit-container-left">
+            {/** TOP TITLE CONTAINER */}
+            <div className="alllocation-submit-container-left-top">
+              <span className="alllocation-submit-container-left-top-label">
+                Selected Number
+              </span>
+              <span
+                className="alllocation-submit-container-left-top-label"
+                style={{ flex: 2 }}
+              >
+                Amount
+              </span>
+              <span className="alllocation-submit-container-left-top-label">
+                You Win
+              </span>
+            </div>
 
-              {/** CONTENT CONTAINER */}
-              <div className="alllocation-submit-container-left-container">
-                {/** ALL SELECTED NUMBERS */}
+            {/** CONTENT CONTAINER */}
+            <div className="alllocation-submit-container-left-container">
+              {/** ALL SELECTED NUMBERS */}
 
-                {selectedNumber.map((item, index) => (
-                  <div
+              {selectedNumber.map((item, index) => (
+                <div
                   key={index.toString()}
-                  className="alllocation-submit-container-left-content-container">
-                    {/** LEFT CONTENT */}
-                    <div className="alllocation-submit-container-left-content-container-left">
-                      <label className="selectedNL">{addLeadingZero(item.name)}</label>
-                    </div>
+                  className="alllocation-submit-container-left-content-container"
+                >
+                  {/** LEFT CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-left">
+                    <label className="selectedNL">
+                      {addLeadingZero(item.name)}
+                    </label>
+                  </div>
 
-                    {/** MIDDLE CONTENT */}
-                    <div className="alllocation-submit-container-left-content-container-middle">
-                      <div
-                        className="alllocation-submit-container-left-content-container-middle-left"
-                        onClick={() => handleRemoveClick(item.id)}
-                      >
-                        <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-                          <CiCircleMinus
-                            size={"3rem"}
-                            color={COLORS.background}
-                          />
-                        </div>
-                      </div>
-                      <div className="alllocation-submit-container-left-content-container-middle-middle">
-                        <input
-                          className="amountInput"
-                          type="number"
-                          placeholder="Amount"
-                          inputMode="numeric"
-                          value={inputValues[item.id]?.toString() || ""}
-                          onChange={(event) =>
-                            handleInputChange(event, item.id)
-                          }
+                  {/** MIDDLE CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-middle">
+                    <div
+                      className="alllocation-submit-container-left-content-container-middle-left"
+                      onClick={() => handleRemoveClick(item.id)}
+                    >
+                      <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+                        <CiCircleMinus
+                          size={"3rem"}
+                          color={COLORS.background}
                         />
                       </div>
-                      <div
-                        className="alllocation-submit-container-left-content-container-middle-right"
-                        onClick={() => handleAddClick(item.id)}
-                      >
-                        <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-                          <CiCirclePlus
-                            size={"3rem"}
-                            color={COLORS.background}
-                          />
-                        </div>
+                    </div>
+                    <div className="alllocation-submit-container-left-content-container-middle-middle">
+                      <input
+                        className="amountInput"
+                        type="number"
+                        placeholder="Amount"
+                        inputMode="numeric"
+                        value={inputValues[item.id]?.toString() || ""}
+                        onChange={(event) => handleInputChange(event, item.id)}
+                      />
+                    </div>
+                    <div
+                      className="alllocation-submit-container-left-content-container-middle-right"
+                      onClick={() => handleAddClick(item.id)}
+                    >
+                      <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+                        <CiCirclePlus size={"3rem"} color={COLORS.background} />
                       </div>
                     </div>
+                  </div>
 
-                    {/** RIGHT CONTENT */}
-                    <div className="alllocation-submit-container-left-content-container-left">
-                      <label className="selectedNL">
-                        {/* {isNaN(
+                  {/** RIGHT CONTENT */}
+                  <div className="alllocation-submit-container-left-content-container-left">
+                    <label className="selectedNL">
+                      {/* {isNaN(
                           winningAmountPrice(
                             inputValues[item.id]?.toString(),
                             result?.lottime?.lotlocation?.maximumReturn
@@ -854,114 +926,114 @@ function Play() {
                               inputValues[item.id]?.toString(),
                               result?.lottime?.lotlocation?.maximumReturn
                             )} */}
-                              {isNaN(
-                            winningAmountPrice(
-                              inputValues[item.id]?.toString(),
-                              selectedLocation.maximumReturn,
-                            ),
-                          )
-                            ? 0
-                            : winningAmountPrice(
-                                inputValues[item.id]?.toString(),
-                                selectedLocation.maximumReturn,
-                              )}
-                      </label>
-                    </div>
+                      {isNaN(
+                        winningAmountPrice(
+                          inputValues[item.id]?.toString(),
+                          selectedLocation.maximumReturn
+                        )
+                      )
+                        ? 0
+                        : winningAmountPrice(
+                            inputValues[item.id]?.toString(),
+                            selectedLocation.maximumReturn
+                          )}
+                    </label>
                   </div>
-                ))}
-              </div>
-
-              <div className="alllocation-submit-container-total">
-                <span className="alllocation-submit-container-left-top-label">
-                  Total Amount
-                </span>
-                <span className="alllocation-submit-container-left-top-label">
-                  {sumObjectValues(inputValues)}
-                </span>
-              </div>
+                </div>
+              ))}
             </div>
 
-            {/** RIGHT CONTAINER */}
-            <div className="alllocation-submit-container-right">
-              <div
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  height: "50%",
-                }}
-              >
-                {/** Top Container */}
-                <div className="play-title-container">
+            <div className="alllocation-submit-container-total">
+              <span className="alllocation-submit-container-left-top-label">
+                Total Amount
+              </span>
+              <span className="alllocation-submit-container-left-top-label">
+                {sumObjectValues(inputValues)}
+              </span>
+            </div>
+          </div>
+
+          {/** RIGHT CONTAINER */}
+          <div className="alllocation-submit-container-right">
+            <div
+              style={{
+                flex: 1,
+                width: "100%",
+                height: "50%",
+              }}
+            >
+              {/** Top Container */}
+              <div className="play-title-container">
+                <div
+                  className="play-title-container-left"
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <span className="titleLabel">{selectedLocation.name}</span>
                   <div
-                    className="play-title-container-left"
-                    style={{
-                      backgroundColor: "transparent",
-                    }}
+                    className="back-container"
+                    onClick={() => hideSubmitContainer()}
                   >
-                    <span className="titleLabel">{selectedLocation.name}</span>
-                    <div
-                      className="back-container"
-                      onClick={() => hideSubmitContainer()}
-                    >
-                      <RxCrossCircled color={COLORS.red} size={"3rem"} />
-                    </div>
+                    <RxCrossCircled color={COLORS.red} size={"3rem"} />
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div
-                style={{
-                  flex: 2,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "flex-end",
-                }}
-              >
-                <img
-                  src={images.cat}
-                  alt="game controller Image"
-                  className="catcontrollerplay"
-                />
-              </div>
+            <div
+              style={{
+                flex: 2,
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
+              }}
+            >
+              <img
+                src={images.cat}
+                alt="game controller Image"
+                className="catcontrollerplay"
+              />
+            </div>
 
-              <div
-                style={{
-                  width: "100%",
-                  height: "20vh",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "flex-start",
-                }}
-              >
-                {isPlayLoading ? (
-                  <LoadingComponent />
-                ) : (
-                  <div
-                    onClick={submitHandler}
+            <div
+              style={{
+                width: "100%",
+                height: "20vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
+              {isPlayLoading ? (
+                <LoadingComponent />
+              ) : (
+                <div
+                  onClick={submitHandler}
+                  style={{
+                    width: "90%",
+                    backgroundColor: COLORS.green,
+                    padding: "2rem",
+                    borderRadius: "1rem",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <label
                     style={{
-                      width: "90%",
-                      backgroundColor: COLORS.green,
-                      padding: "2rem",
-                      borderRadius: "1rem",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      color: COLORS.white_s,
+                      fontFamily: FONT.Montserrat_Bold,
+                      fontSize: "2rem",
                     }}
                   >
-                    <label
-                      style={{
-                        color: COLORS.white_s,
-                        fontFamily: FONT.Montserrat_Bold,
-                        fontSize: "2rem",
-                      }}
-                    >
-                      Submit
-                    </label>
-                  </div>
-                )}
-              </div>
+                    Submit
+                  </label>
+                </div>
+              )}
             </div>
           </div>
+        </div>
       )}
       <ToastContainer />
     </div>
@@ -974,24 +1046,18 @@ export default Play;
 // import FONT from "../../assets/constants/fonts";
 // import "./Play.css";
 // import COLORS from "../../assets/constants/colors";
-// import { FaWallet } from "react-icons/fa";
-// import { IoIosArrowRoundBack } from "react-icons/io";
 // import images from "../../assets/constants/images";
-// import { SlCalender } from "react-icons/sl";
 // import { RxCrossCircled } from "react-icons/rx";
 // import { CiCircleMinus } from "react-icons/ci";
 // import { CiCirclePlus } from "react-icons/ci";
-// import { connect, useDispatch, useSelector } from "react-redux";
+// import {  useDispatch, useSelector } from "react-redux";
 // import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
-// import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
 // import { loadProfile } from "../../redux/actions/userAction";
 // import {
 //   useCreatePlayMutation,
 //   useGetAllLocationWithTimeQuery,
 //   useGetDateAccToLocTimeQuery,
 // } from "../../redux/api";
-// import { useNavigate } from "react-router-dom";
-// import CircularProgressBar from "../helper/CircularProgressBar";
 // import { ToastContainer } from "react-toastify";
 // import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 // import { LoadingComponent } from "../helper/LoadingComponent";
@@ -1000,156 +1066,6 @@ export default Play;
 // import axios from "axios";
 // import { NodataFound } from "../helper/NodataFound";
 
-// const filterdata = [
-//   { val: "All" },
-//   { val: "2X" },
-//   { val: "5X" },
-//   { val: "10X" },
-//   { val: "50X" },
-//   { val: "100X" },
-//   { val: "200X" },
-// ];
-
-// const locationdata = [
-//   {
-//     id: "1",
-//     name: "Canada",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "12", time: "10:00 AM" },
-//       { id: "13", time: "11:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//       { id: "18", time: "09:00 AM" },
-//       { id: "19", time: "10:00 AM" },
-//       { id: "20", time: "11:00 AM" },
-//       { id: "21", time: "12:00 PM" },
-//       { id: "22", time: "01:00 PM" },
-//       { id: "23", time: "02:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "2",
-//     name: "Japan",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "12", time: "10:00 AM" },
-//       { id: "13", time: "11:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "3",
-//     name: "Punjab",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "4",
-//     name: "Pune",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "13", time: "11:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "5",
-//     name: "China",
-//     limit: "100 - 100X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "6",
-//     name: "India",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "12", time: "10:00 AM" },
-//       { id: "13", time: "11:00 AM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "7",
-//     name: "USA",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "12", time: "10:00 AM" },
-//       { id: "13", time: "11:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//     ],
-//   },
-//   {
-//     id: "8",
-//     name: "Korea",
-//     limit: "200 - 200X",
-//     times: [
-//       { id: "11", time: "09:00 AM" },
-//       { id: "12", time: "10:00 AM" },
-//       { id: "13", time: "11:00 AM" },
-//       { id: "14", time: "12:00 PM" },
-//       { id: "15", time: "01:00 PM" },
-//       { id: "16", time: "02:00 PM" },
-//       { id: "17", time: "03:00 PM" },
-//     ],
-//   },
-// ];
-
-// const datedata = [
-//   {
-//     date: "29-04-2024",
-//     id: "1",
-//   },
-//   {
-//     date: "28-04-2024",
-//     id: "2",
-//   },
-
-//   {
-//     date: "27-04-2024",
-//     id: "3",
-//   },
-//   {
-//     date: "26-04-2024",
-//     id: "4",
-//   },
-//   {
-//     date: "25-04-2024",
-//     id: "5",
-//   },
-//   {
-//     date: "24-04-2024",
-//     id: "6",
-//   },
-//   {
-//     date: "23-04-2024",
-//     id: "7",
-//   },
-// ];
-
 // const getCurrentDate = () => {
 //   const today = new Date();
 //   const day = String(today.getDate()).padStart(2, "0");
@@ -1157,7 +1073,6 @@ export default Play;
 //   const year = today.getFullYear();
 //   return `${day}-${month}-${year}`;
 // };
-
 // const findCurrentDateObject = (data) => {
 //   console.log("Checking for the current date is availble in the database");
 //   const currentDate = getCurrentDate();
@@ -1178,28 +1093,27 @@ export default Play;
 
 // function Play() {
 //   const { user, accesstoken } = useSelector((state) => state.user);
+
 //   const [selectedLocation, setSelectedLocation] = useState(null);
 //   const [selectedTime, setSelectedTime] = useState(null);
 //   const [selectedDate, setSelectedDate] = useState(null);
 //   const [selectedItem, setSelectedItem] = useState(true);
-
 //   const [submitItemFlag, setSubmitItemFlag] = useState(false);
-
 //   const [selectedNumber, setSelectedNumber] = useState([]);
 
-//   const addSelectedNumber = (val) => {
+//   const addSelectedNumber = (number) => {
 //     console.log("ADDING NUMBER TO LIST");
 
 //     setSelectedNumber((prevSelectedNumbers) => {
 //       const updatedList = [...prevSelectedNumbers];
 
-//       const index = updatedList.indexOf(val);
+//       const index = updatedList.indexOf(number);
 //       if (index > -1) {
 //         // Number is already present, remove it
 //         updatedList.splice(index, 1);
 //       } else {
 //         // Number is not present, add it
-//         updatedList.push(val);
+//         updatedList.push(number);
 //       }
 
 //       console.log("SELECTED NUMBER :: ", updatedList);
@@ -1232,7 +1146,6 @@ export default Play;
 //   //  STARTED
 //   // ######################
 
-//   const { loadingResult, results } = useSelector((state) => state.result);
 //   const dispatch = useDispatch();
 
 //   const handleLocationClick = (location) => {
@@ -1249,35 +1162,21 @@ export default Play;
 //     );
 //   };
 
-//   const handleSelectedDateClick = (datedate) => {
-//     setSelectedDate(datedate);
-//     dispatch(
-//       getResultAccordingToLocationTimeDate(
-//         accesstoken,
-//         datedate._id,
-//         datedate.lottime._id,
-//         datedate.lottime.lotlocation
-//       )
-//     );
-//   };
-
 //   const removeSelecteditemClick = () => {
 //     setSelectedItem(true);
 //     setSelectedLocation(null);
 //     setSelectedTime(null);
-//     setSelectedDate(null);
 //     setResult(null);
-//     setCurrentDate(null)
+//     setCurrentDate(null);
 //     setSelectedNumber([]);
 //   };
 
 //   useEffect(() => {
-//     console.log(
-//       "Selected item location :: " + JSON.stringify(selectedLocation)
-//     );
+//     // console.log(
+//     //   "Selected item location :: " + JSON.stringify(selectedLocation)
+//     // );
 //     console.log("Selected item time :: " + JSON.stringify(selectedTime));
-//     console.log("Selected item date :: " + JSON.stringify(selectedDate));
-//   }, [selectedItem, selectedLocation, selectedDate]);
+//   }, [selectedItem, selectedLocation]);
 
 //   const [alldatafiler, setalldatafilter] = useState([]);
 //   const [selectedFilter, setSelectedFilter] = useState(null);
@@ -1345,16 +1244,6 @@ export default Play;
 //   const [showSelectedVisible, setshowSelectedVisible] = useState(false);
 //   const [inputValues, setInputValues] = useState({});
 
-//   // const handleInputChange = (text, id) => {
-//   //   // const text = text.target.value;
-
-//   //   console.log("HANDLING INPUT :: "+text,id)
-//   //   setInputValues((prevValues) => ({
-//   //     ...prevValues,
-//   //     [id]: text,
-//   //   }));
-//   // };
-
 //   const handleInputChange = (event, id) => {
 //     const text = event.target.value;
 //     console.log("HANDLING INPUT :: " + text, id);
@@ -1405,6 +1294,8 @@ export default Play;
 //     removeAmountForInput(id);
 //   };
 //   const winningAmountPrice = (str1, str2) => {
+//     console.log("WINNING AMOUNT ::  ", str1, " :: ", str2);
+
 //     // Convert the first string to a number
 //     const number1 = parseFloat(str1);
 
@@ -1483,6 +1374,7 @@ export default Play;
 //         },
 //       });
 
+//       console.log("ACTION result length :: " + data.results.length);
 //       console.log("ACTION result :: " + JSON.stringify(data.results));
 
 //       // Check if the results array is empty
@@ -1491,13 +1383,16 @@ export default Play;
 //         setResult("Current date not found");
 //       } else {
 //         console.log("Setting to Result ELSE :: " + JSON.stringify(currentDate));
-//         const maximumNumber = currentDate?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+//         console.log(
+//           "Setting to Location ELSE :: " +
+//             JSON.stringify(selectedLocation.maximumNumber)
+//         );
+//         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
 //         if (maximumNumber) {
 //           const generatedArray = createLocationDataArray(maximumNumber);
 //           setBetnumberdata(generatedArray);
 //         }
-//         setResult(currentDate); // Set to the current date object if results are found
-
+//         setResult("yes"); // Set to the current date object if results are found
 //       }
 //       setShowPlay(false);
 //     } catch (error) {
@@ -1513,6 +1408,7 @@ export default Play;
 //       const currentDateObject = findCurrentDateObject(dataDate);
 //       setResult(currentDateObject);
 //       setCurrentDate(currentDateObject);
+//       setSelectedDate(currentDateObject);
 
 //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
 
@@ -1553,17 +1449,16 @@ export default Play;
 
 //   useEffect(() => {
 //     if (result) {
-//       console.log("Result LENGTH :: " + result.length);
 //       console.log("Result LENGTH data :: " + JSON.stringify(result));
 //     }
-//   }, [result]);
+//   }, [result, showPlay]);
 
-//   useEffect(
-//     useCallback(() => {
-//       // Refetch the data when the screen is focused
-//       refetchDate();
-//     }, [refetchDate])
-//   );
+//   // useEffect(
+//   //   useCallback(() => {
+//   //     // Refetch the data when the screen is focused
+//   //     refetchDate();
+//   //   }, [refetchDate])
+//   // );
 
 //   const addingNumberForBetting = (number) => {
 //     console.log("ADDING NUMBER TO LIST");
@@ -1651,14 +1546,20 @@ export default Play;
 //       showErrorToast("Add betting amount for all numbers");
 //     } else {
 //       try {
+
+//         console.log("SELECTED LOCATION",JSON.stringify(selectedLocation))
+//         console.log("SELECTED TIME",JSON.stringify(selectedTime))
+//         console.log("SELECTED DATE",JSON.stringify(selectedDate))
+//         console.log("SELECTED Current date",JSON.stringify(currentDate))
+
 //         const body = {
 //           playnumbers: transformData(
 //             inputValues,
-//             result?.lottime?.lotlocation?.maximumReturn
+//             selectedLocation.maximumReturn
 //           ),
-//           lotdate: result._id,
-//           lottime: result?.lottime?._id,
-//           lotlocation: result?.lottime?.lotlocation?._id,
+//           lotdate: currentDate._id,
+//           lottime: selectedTime?._id,
+//           lotlocation: selectedLocation?._id,
 //         };
 
 //         console.log("Request body :: " + JSON.stringify(body));
@@ -1673,7 +1574,10 @@ export default Play;
 //           showSuccessToast("Order Placed Successfully");
 //         }
 
-//         removeSelecteditemClick();
+//         setInputValues({})
+
+//         // removeSelecteditemClick();
+//         hideSubmitContainer()
 //         setSubmitItemFlag(false);
 //       } catch (error) {
 //         console.log("Error during withdraw:", error);
@@ -1681,6 +1585,23 @@ export default Play;
 //       }
 //     }
 //   };
+
+//   function addLeadingZero(value) {
+//     // Convert the input to a string to handle both string and number inputs
+//     const stringValue = value.toString();
+
+//     // Check if the value is between 1 and 9 (inclusive) and add a leading zero
+//     if (
+//       stringValue.length === 1 &&
+//       parseInt(stringValue) >= 1 &&
+//       parseInt(stringValue) <= 9
+//     ) {
+//       return "0" + stringValue;
+//     }
+
+//     // If the value is 10 or more, return it as is
+//     return stringValue;
+//   }
 
 //   return (
 //     <div className="main-content-container-all-location">
@@ -1761,7 +1682,6 @@ export default Play;
 
 //       {selectedLocation &&
 //         selectedTime &&
-//         !selectedDate &&
 //         !selectedItem &&
 //         !submitItemFlag &&
 //         (showPlay ? (
@@ -1772,7 +1692,7 @@ export default Play;
 //               <div className="play-title-container-left">
 //                 <span className="titleLabel">{selectedLocation.name}</span>
 //                 <span className="titleLabel">{selectedLocation.limit}</span>
-//                 <span className="subtitleLabel">
+//                 <span className="titleLabel">
 //                   {getTimeAccordingToTimezone(
 //                     selectedTime.time,
 //                     user?.country?.timezone
@@ -1801,12 +1721,13 @@ export default Play;
 //               <div className="play-title-container-left">
 //                 <span className="titleLabel">{selectedLocation.name}</span>
 //                 <span className="titleLabel">{selectedLocation.limit}</span>
-//                 <span className="subtitleLabel">
+//                 <span className="titleLabel">
 //                   {getTimeAccordingToTimezone(
 //                     selectedTime.time,
 //                     user?.country?.timezone
 //                   )}
 //                 </span>
+//                 <span className="titleLabel">{selectedDate?.lotdate}</span>
 //                 <div
 //                   className="back-container"
 //                   onClick={() => removeSelecteditemClick()}
@@ -1824,7 +1745,7 @@ export default Play;
 //                   <div
 //                     onClick={() => addSelectedNumber(item)}
 //                     className="play-content"
-//                     key={(item) => item.id.toString()}
+//                     key={index}
 //                   >
 //                     <div
 //                       className="play-content-halfcontainer"
@@ -1850,7 +1771,9 @@ export default Play;
 //                         {selectedNumber.includes(item) ? "Selected" : "Select"}
 //                       </span>
 //                       <div className="play-content-number-con">
-//                         <span className="play-content-number">{item.name}</span>
+//                         <span className="play-content-number">
+//                           {addLeadingZero(item.name)}
+//                         </span>
 //                       </div>
 
 //                       <div className="numberbgstyle"></div>
@@ -1862,18 +1785,19 @@ export default Play;
 
 //             {/** Confirm Container */}
 //             <div className="playcontainer-bottomcontent">
-//               <div
-//                 className="playcontainer-bottomcontent-container"
-//                 onClick={() => showSubmitContainer()}
-//               >
-//                 <span className="confirmL">Confirm</span>
-//               </div>
+//               {selectedNumber.length !== 0 && !showSelectedVisible && (
+//                 <div
+//                   className="playcontainer-bottomcontent-container"
+//                   onClick={() => showSubmitContainer()}
+//                 >
+//                   <span className="confirmL">Confirm</span>
+//                 </div>
+//               )}
 //             </div>
 //           </div>
 //         ))}
 
 //       {submitItemFlag && (
-//         <>
 //           <div className="alllocation-submit-container">
 //             <div className="alllocation-submit-container-left">
 //               {/** TOP TITLE CONTAINER */}
@@ -1897,114 +1821,80 @@ export default Play;
 //                 {/** ALL SELECTED NUMBERS */}
 
 //                 {selectedNumber.map((item, index) => (
-//                   <>
-//                     <div className="alllocation-submit-container-left-content-container">
-//                       {/** LEFT CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-left">
-//                         <label className="selectedNL">{item.name}</label>
-//                       </div>
+//                   <div
+//                   key={index.toString()}
+//                   className="alllocation-submit-container-left-content-container">
+//                     {/** LEFT CONTENT */}
+//                     <div className="alllocation-submit-container-left-content-container-left">
+//                       <label className="selectedNL">{addLeadingZero(item.name)}</label>
+//                     </div>
 
-//                       {/** MIDDLE CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-middle">
-//                         <div
-//                           className="alllocation-submit-container-left-content-container-middle-left"
-//                           onClick={() => handleRemoveClick(item.id)}
-//                         >
-//                           <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-//                             <CiCircleMinus
-//                               size={"3rem"}
-//                               color={COLORS.background}
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="alllocation-submit-container-left-content-container-middle-middle">
-//                           <input
-//                             className="amountInput"
-//                             type="number"
-//                             placeholder="Amount"
-//                             inputMode="numeric"
-//                             value={inputValues[item.id]?.toString() || ""}
-//                             onChange={(event) =>
-//                               handleInputChange(event, item.id)
-//                             }
+//                     {/** MIDDLE CONTENT */}
+//                     <div className="alllocation-submit-container-left-content-container-middle">
+//                       <div
+//                         className="alllocation-submit-container-left-content-container-middle-left"
+//                         onClick={() => handleRemoveClick(item.id)}
+//                       >
+//                         <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+//                           <CiCircleMinus
+//                             size={"3rem"}
+//                             color={COLORS.background}
 //                           />
 //                         </div>
-//                         <div
-//                           className="alllocation-submit-container-left-content-container-middle-right"
-//                           onClick={() => handleAddClick(item.id)}
-//                         >
-//                           <div className="alllocation-submit-container-left-content-container-middle-left-containter">
-//                             <CiCirclePlus
-//                               size={"3rem"}
-//                               color={COLORS.background}
-//                             />
-//                           </div>
+//                       </div>
+//                       <div className="alllocation-submit-container-left-content-container-middle-middle">
+//                         <input
+//                           className="amountInput"
+//                           type="number"
+//                           placeholder="Amount"
+//                           inputMode="numeric"
+//                           value={inputValues[item.id]?.toString() || ""}
+//                           onChange={(event) =>
+//                             handleInputChange(event, item.id)
+//                           }
+//                         />
+//                       </div>
+//                       <div
+//                         className="alllocation-submit-container-left-content-container-middle-right"
+//                         onClick={() => handleAddClick(item.id)}
+//                       >
+//                         <div className="alllocation-submit-container-left-content-container-middle-left-containter">
+//                           <CiCirclePlus
+//                             size={"3rem"}
+//                             color={COLORS.background}
+//                           />
 //                         </div>
 //                       </div>
+//                     </div>
 
-//                       {/** RIGHT CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-left">
-//                         <label className="selectedNL">
-//                           {isNaN(
-//                             winningAmountPrice(
+//                     {/** RIGHT CONTENT */}
+//                     <div className="alllocation-submit-container-left-content-container-left">
+//                       <label className="selectedNL">
+//                         {/* {isNaN(
+//                           winningAmountPrice(
+//                             inputValues[item.id]?.toString(),
+//                             result?.lottime?.lotlocation?.maximumReturn
+//                           )
+//                         )
+//                           ? 0
+//                           : winningAmountPrice(
 //                               inputValues[item.id]?.toString(),
 //                               result?.lottime?.lotlocation?.maximumReturn
-//                             )
+//                             )} */}
+//                               {isNaN(
+//                             winningAmountPrice(
+//                               inputValues[item.id]?.toString(),
+//                               selectedLocation.maximumReturn,
+//                             ),
 //                           )
 //                             ? 0
 //                             : winningAmountPrice(
 //                                 inputValues[item.id]?.toString(),
-//                                 result?.lottime?.lotlocation?.maximumReturn
+//                                 selectedLocation.maximumReturn,
 //                               )}
-//                         </label>
-//                       </div>
+//                       </label>
 //                     </div>
-
-//                     <div className="alllocation-submit-container-left-content-container-low-screen">
-//                       {/** LEFT CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-right">
-//                         <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-//                           <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
-//                             {item.name}
-//                           </label>
-//                         </div>
-//                       </div>
-
-//                       {/** MIDDLE CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-right">
-//                         <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-//                           <input
-//                             type="number"
-//                             placeholder="Enter Amount"
-//                             className="alllocation-submit-container-left-content-container-middle-middle-container-label"
-//                             value={inputValues[item.id]?.toString() || ""}
-//                             onChange={(event) =>
-//                               handleInputChange(event, item.id)
-//                             }
-//                           />
-//                         </div>
-//                       </div>
-
-//                       {/** RIGHT CONTENT */}
-//                       <div className="alllocation-submit-container-left-content-container-right">
-//                         <div className="alllocation-submit-container-left-content-container-middle-middle-container">
-//                           <label className="alllocation-submit-container-left-content-container-middle-middle-container-label">
-//                             {isNaN(
-//                               winningAmountPrice(
-//                                 inputValues[item.id]?.toString(),
-//                                 result?.lottime?.lotlocation?.maximumReturn
-//                               )
-//                             )
-//                               ? 0
-//                               : winningAmountPrice(
-//                                   inputValues[item.id]?.toString(),
-//                                   result?.lottime?.lotlocation?.maximumReturn
-//                                 )}
-//                           </label>
-//                         </div>
-//                       </div>
-//                     </div>
-//                   </>
+//                   </div>
 //                 ))}
 //               </div>
 
@@ -2099,7 +1989,6 @@ export default Play;
 //               </div>
 //             </div>
 //           </div>
-//         </>
 //       )}
 //       <ToastContainer />
 //     </div>

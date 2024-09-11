@@ -6,7 +6,7 @@ import UrlHelper from './UrlHelper';
 export const sincelotUserApi = createApi({
   reducerPath: 'sincelotUserApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru/api/v1/',
+    baseUrl: 'https://jenny.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru/api/v1/',
   }),
   endpoints: builder => ({
     getData: builder.query({

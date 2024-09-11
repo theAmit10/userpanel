@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import FONT from "../../assets/constants/fonts";
 import images from "../../assets/constants/images";
-import { CiSearch } from "react-icons/ci";
-import { BsBank2 } from "react-icons/bs";
 import COLORS from "../../assets/constants/colors";
 import { FaWallet } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
@@ -12,12 +9,7 @@ import { AiFillAndroid } from "react-icons/ai";
 import { FaApple } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { IoLocationSharp } from "react-icons/io5";
-import { FaTrophy } from "react-icons/fa6";
-import { FaPlay } from "react-icons/fa";
 import { FaHistory } from "react-icons/fa";
-import { TbFileDescription } from "react-icons/tb";
-import { IoIosInformationCircle } from "react-icons/io";
-import { SlCalender } from "react-icons/sl";
 import HomeDashboard from "../../components/dashboard/HomeDashboard";
 import AllLocation from "../../components/alllocation/AllLocation";
 import Play from "../../components/play/Play";
@@ -30,10 +22,8 @@ import {
   loadAllPromotion,
   loadProfile,
 } from "../../redux/actions/userAction";
-import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import { PiHandDepositFill } from "react-icons/pi";
-import { AiFillNotification } from "react-icons/ai";
 import Wallet from "../../components/wallet/Walllet";
 import Notification from "../../components/notification/Notification";
 import Paymentdeposit from "../../components/deposit/Paymentdeposit";
@@ -44,13 +34,9 @@ import Aboutus from "../../components/about/Aboutus";
 import ImageSlider from "../../components/helper/ImageSlider";
 import { showSuccessToast } from "../../components/helper/showErrorToast";
 import { serverName } from "../../redux/store";
-import { TbWorld } from "react-icons/tb";
-import { MdPayments } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
-import HD from "../../components/dashboard/HD";
 import moment from "moment-timezone";
-import Paypaldeposit from "../../components/deposit/Paypaldeposit";
 import { MdNotificationsActive } from "react-icons/md";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
 import { useGetAppLinkQuery } from "../../redux/api";
@@ -259,10 +245,22 @@ const Dashboard = () => {
     console.log(JSON.stringify(location));
     setSelectedLocation(location);
   };
+  const [reloadTrigger, setReloadTrigger] = useState(false);
+
+  // const handleComponentClick = (comp) => {
+  //   console.log("clicked");
+  //   setSelectedComponent(comp);
+  // };
 
   const handleComponentClick = (comp) => {
-    console.log("clicked");
-    setSelectedComponent(comp);
+    if (selectedComponent === comp) {
+      // If the same component is selected, force a re-render
+      console.log("Reloading the selected component...");
+      setReloadTrigger((prev) => !prev); // Toggle the state to force re-render
+    } else {
+      console.log("Clicked a new component");
+      setSelectedComponent(comp);
+    }
   };
 
   useEffect(() => {
@@ -581,11 +579,11 @@ const Dashboard = () => {
               handleComponentClick={handleComponentClick}
             />
           )}
-          {selectedComponent === "alllocation" && <AllLocation />}
+          {selectedComponent === "alllocation" && <AllLocation key={reloadTrigger ? 1 : 0} />}
           {selectedComponent === "play" && <Play />}
-          {selectedComponent === "history" && <Historyc />}
+          {selectedComponent === "history" && <Historyc key={reloadTrigger ? 1 : 0} />}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
-          {selectedComponent === "wallet" && <Wallet />}
+          {selectedComponent === "wallet" && <Wallet key={reloadTrigger ? 1 : 0} />}
           {selectedComponent === "notification" && <Notification />}
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
