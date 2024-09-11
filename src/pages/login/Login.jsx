@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userAction";
 import CircularProgressBar from "../../components/helper/CircularProgressBar";
 import { PiSubtitles } from "react-icons/pi";
+import { MdOutlineMail } from "react-icons/md";
+import { MdOutlinePassword } from "react-icons/md";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -145,7 +147,7 @@ function Login() {
             <label className="alCLLabel">Email</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                <MdOutlineMail color={COLORS.background} size={"2.5rem"} />
               </div>
 
               <input
@@ -160,7 +162,7 @@ function Login() {
             <label className="alCLLabel">Password</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                <MdOutlinePassword color={COLORS.background} size={"2.5rem"} />
               </div>
 
               <input

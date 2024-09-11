@@ -111,6 +111,54 @@
   font-size: 1.5rem;
 }
 
+.PLLLocContainer{
+  height: 5rem;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  align-items: center;
+  margin: 1rem;
+  border-radius: 1rem;
+}
+
+.limitLabel{
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1rem;
+
+}
+
+.locLabel{
+  color: var(--white_s);
+  font-family: "MSB";
+  font-size: 1.5rem;
+
+}
+
+  
+.ARLCC{
+  max-height: 7rem;
+  width: 80vw;
+  background-color: var(--background);
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.ARLocConCC {
+  min-width: 30rem; /* Fixed width for the left container */
+  height: 100%;
+
+}
+
 @media (max-width: 768px) {
   
 

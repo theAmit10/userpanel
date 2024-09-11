@@ -64,7 +64,7 @@ function Logout() {
       <label className="alCLLabel">Are you sure?</label>
     </div>
 
-    {isLoading ? (
+    {false ? (
       <LoadingComponent />
     ) : (
       <>

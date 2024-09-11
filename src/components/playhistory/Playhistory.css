@@ -41,13 +41,14 @@
 
 }
 .h-content-second{
-    height: 100%;
+
     flex: 1;
- 
+
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-top: 1rem;
 
 }
 .h-content-third{

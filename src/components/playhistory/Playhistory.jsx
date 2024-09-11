@@ -1,21 +1,15 @@
+
+
 import React, { useCallback, useEffect, useState } from "react";
 import "./Playhistory.css";
-import { PiHandDepositBold } from "react-icons/pi";
-import { PiHandWithdrawFill } from "react-icons/pi";
 import COLORS from "../../assets/constants/colors";
-import FONT from "../../assets/constants/fonts";
-import { FaRegCheckCircle } from "react-icons/fa";
 import { FaRegPlayCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
-import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
-import { locationdata } from "../../pages/setting/Setting";
 
 function Playhistory() {
-  const navigation = useNavigate();
-  const dispatch = useDispatch();
+
   const { accesstoken, user } = useSelector((state) => state.user);
   const [expandedItems, setExpandedItems] = useState({});
 
@@ -149,16 +143,16 @@ function Playhistory() {
                 <div className="h-content-fourth">
                   <div className="h-content-third-content-container-top">
                     <label className="h-content-third-content-container-top-payment">
-                    Number
+                    Total bets
                     </label>
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                    {getPlaynumbersString(item.playnumbers)}
+                    {item.playnumbers.length}
                     </label>
                   </div>
                 </div>
-               
+
               </div>
 
               {expandedItems[item._id] && (
@@ -183,7 +177,7 @@ function Playhistory() {
 
                   <div className="contentContainerPHD">
                     {item.playnumbers.map((pitem, pindex) => (
-                      <div 
+                      <div
                       key={pindex}
                       className="contentContainerPHDC">
                         <div className="hcphFirst">
