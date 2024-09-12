@@ -5,12 +5,14 @@
     display: flex;
     flex-direction: column;
     font-family: "MR";
+    overflow-y: hidden;
   }
 
   .top-admin-d{
     height: 10%;
     display: flex;
     flex-direction: row;
+
   
   }
 
@@ -18,6 +20,7 @@
     width: 20%;
     display: flex;
     flex-direction: row;
+
   }
   .top-left-left-d{
     flex: 1;
@@ -281,10 +284,10 @@
     
     }
     .top-left-d{
-      width: 10%;
+      width: 15%;
       display: flex;
       flex-direction: row;
-      min-height: 15rem;
+      
     }
     .depositContainer{
       height: 5rem;

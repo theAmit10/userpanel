@@ -328,20 +328,7 @@
     flex-direction: column;
 }
 
-.hdFContainer{
-    height: 3rem;
-    background-color: var(--white_s);
-    margin-left: 2rem;
-    margin-right: 2rem;
-    border-radius: 2rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    max-width: 62vw;
-    overflow-x: scroll;
-    margin-bottom: 0.5rem;
-}
+
 
 
 
@@ -556,9 +543,7 @@
     .hdLeftCBottom{
         width: 82vw;
     }
-    .hdFContainer{
-        max-width: 82vw;
-    }
+    
    
 }
 

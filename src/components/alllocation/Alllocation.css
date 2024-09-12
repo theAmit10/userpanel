@@ -11,13 +11,14 @@
 
 .filtercontaineral{
   display: flex;
-  height: 3rem;
+
   background-color: var(--white_s);
   justify-content: center;
   align-items: center;
   border-radius: 2rem;
   margin-left: 2rem;
   margin-right: 2rem;
+  padding: 0.5rem;
   gap: 1rem;
   
 }
