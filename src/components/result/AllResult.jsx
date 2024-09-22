@@ -18,7 +18,7 @@ import { CiSearch } from "react-icons/ci";
 import { FaDownload } from "react-icons/fa6";
 import { MdArrowDropDownCircle } from "react-icons/md";
 
-function AllResult() {
+function AllResult({reloadKey}) {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth(); // 0-based index (0 = January, 11 = December)

@@ -25,6 +25,7 @@ const COLORS = {
     background: '#011833',
     card: '#fff',
     border: '#eee',
+    iconcol: "#818b98",
   
     // dark
     darkTitle: '#20212D',

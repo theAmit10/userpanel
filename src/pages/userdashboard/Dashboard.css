@@ -17,9 +17,11 @@
   }
 
   .top-left-d{
-    width: 20%;
+    width: 15%;
     display: flex;
     flex-direction: row;
+
+    margin-left: 2rem;
 
   }
   .top-left-left-d{
@@ -66,6 +68,7 @@
   .top-right-d{
     flex: 1;
     display: flex;
+
   }
   .top-right-left-d{
     flex: 1;

@@ -21,7 +21,8 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background-color: #011833;
-  border-radius: 0.5rem;
+
+  border-radius: 2rem;
 }
 
 /* Handle on hover */
@@ -64,6 +65,10 @@ a {
 @media (max-width: 480px) {
   html{
     font-size: 30%;
+  }
+  * {
+    scrollbar-width: none;
+    scrollbar-color: #011833 #011833;
   }
 }
 @media (max-width: 350px){

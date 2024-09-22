@@ -1,21 +1,3 @@
-.udC{
-    display: flex;
-    flex: 1;
-    height: 80vh;
-    border-radius: 2rem;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.udMainCon{
-    display: flex;
-    flex: 1;
-    height: 80vh;
-    border-radius: 2rem;
-    flex-direction: column;
-    gap: 2rem;
-}
-
 .upicontiner{
     flex: 1;
     display: flex;
@@ -43,17 +25,12 @@
 }
 
 .upipdContentContainer{
-    height: 30rem;
+    min-height: 35rem;
     width: 35rem;
     background-color: var(--background);
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-}
-
-.upipdContentContainer:hover{
-    border: 2px solid var(--green); /* Change border color on hover */
-    cursor: pointer;
 }
 
 .uCCTopC{
@@ -68,12 +45,24 @@
 
 .uCCMidC{
     height: 5rem;
-   
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: 1rem;
+
+    
+}
+
+.uCCBottomC{
+    height: 5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
 }
 
 .uCCTopFC{
@@ -87,10 +76,27 @@
 
 .uCCTopSC{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex: 2;
+  
 }
+
+
+
+.uCCBottomSC{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 2;
+   
+    margin-right: 3rem;
+    overflow-y: auto;
+    max-height: 4rem;
+    text-align: left;
+    white-space: 'normal'
+}
+
 
 .pdB{
     color: var(--white_s);
@@ -111,9 +117,18 @@
     font-size: 1.2rem;
 }
 
+
+
+.pdRBottom{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 1.2rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
 .qrcontiner{
     flex: 1;
-   
     margin: 1rem;
     display: flex;
     justify-content: center;
@@ -121,8 +136,8 @@
 }
 
 .qrcontinerMain{
-    width: 50%;
-    height: 100%;
+    width: 15rem;
+    height: 15rem;
 
 }
 .qrimg{
@@ -153,4 +168,13 @@
     margin-right: 2rem;
    
    
+
+}
+.NC{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
 }

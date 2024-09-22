@@ -1,18 +1,24 @@
 .allocationcontainer {
   flex:1;
+  height: 80vh;
   display: flex;
-  flex-wrap: wrap;
   background: linear-gradient(180deg, #0162AF, #011833);
   border-radius: 1rem;
   padding: 1rem;
   flex-direction: column;
- 
+  overflow-y: scroll;
+  gap: 0.5rem;
+
+}
+
+.highlighted {
+  border: 0.3rem solid orange;
 }
 
 .filtercontaineral{
   display: flex;
 
-  background-color: var(--white_s);
+  background-color: #bcc3c6;
   justify-content: center;
   align-items: center;
   border-radius: 2rem;
@@ -20,17 +26,19 @@
   margin-right: 2rem;
   padding: 0.5rem;
   gap: 1rem;
+  overflow-x: auto;
   
 }
 
 .filtercontental{
-  display: flex;
-  width: 10rem;
+  color: var(--white_s);
+  font-family: "MR";
+  font-size: 1.5rem;
   background-color: var(--background);
+  min-width: 9rem;
+  padding: 0.5rem;
+  text-align: center;
   border-radius: 1rem;
-  padding: 0.2rem;
-  justify-content: center;
-  align-items: center;
 }
 
 
@@ -58,7 +66,7 @@
 .location-item-all {
  
   max-height: fit-content;
-  background: linear-gradient(90deg, #0162AF, #011833);
+  border-bottom: 1px solid var(--background);
   border-radius: 1rem;
   display: flex;
   flex-direction: row;
@@ -206,20 +214,21 @@
 
 .resultcontaineral{
   height: 50vh;
-  background: linear-gradient(180deg, #0162AF, #011833);
+  background: linear-gradient(90deg, #0162AF, #011833);
   margin: 1rem;
   border-radius: 2rem;
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   display: flex;
+  flex: 1;
 }
 
 .resultleftcontaineral{
   flex: 1;
   display: flex;
   flex-direction: column;
+
 }
 
 .resultrightcontaineral{
@@ -381,6 +390,10 @@
     font-family: "MR";
     font-size: 1.6rem;
   }
+  .filtercontaineral{
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -427,7 +440,10 @@
     font-family: "MR";
     font-size: 1.6rem;
   }
- 
+  .filtercontaineral{
+    justify-content: flex-start;
+        align-items: center;
+  }
   
   
 }

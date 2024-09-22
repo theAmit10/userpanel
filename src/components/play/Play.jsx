@@ -650,6 +650,29 @@ function Play() {
     return stringValue;
   }
 
+  const getNextTimeForHighlights = (times) => {
+    if (times.length === 1) {
+      return times[0];
+    }
+
+    const currentISTTime = moment().tz("Asia/Kolkata").format("hh:mm A");
+    const sortedTimes = [...times].sort((a, b) =>
+      moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+    );
+
+    for (let i = 0; i < sortedTimes.length; i++) {
+      if (
+        moment(currentISTTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].time, "hh:mm A")
+        )
+      ) {
+        return sortedTimes[i];
+      }
+    }
+
+    return sortedTimes[0];
+  };
+
   return (
     <div className="main-content-container-all-location">
       {/** Location and time */}
@@ -683,7 +706,9 @@ function Play() {
             {isLoading ? (
               <LoadingComponent />
             ) : (
-              filteredData?.map((item, index) => (
+              filteredData?.map((item, index) => { 
+                const nextTime = getNextTimeForHighlights(item?.times);
+                return(
                 <div className="location-item-all" key={index}>
                   <div className="location-details-all">
                     <div
@@ -706,7 +731,10 @@ function Play() {
                     {item.times.map((timedata, timeindex) => (
                       <div
                         onClick={() => handleSelecteditemClick(item, timedata)}
-                        className="time-item"
+                       
+                        className={`time-item ${
+                          timedata.time === nextTime.time ? "highlighted" : ""
+                        }`}
                         key={timeindex}
                       >
                         <span className="time-items-container-time-label">
@@ -719,7 +747,7 @@ function Play() {
                     ))}
                   </div>
                 </div>
-              ))
+              )})
             )}
           </div>
         </>
@@ -811,7 +839,7 @@ function Play() {
                           (selected) => selected.id === item.id
                         )
                           ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                          : "linear-gradient(180deg, #1993FF, #0F5899)",
+                          : "linear-gradient(180deg, #1792fe, #1792fe)",
                       }}
                     >
                       <span className="seletedLabel">

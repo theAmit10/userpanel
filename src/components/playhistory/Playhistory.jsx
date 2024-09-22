@@ -7,8 +7,9 @@ import { FaRegPlayCircle } from "react-icons/fa";
 import {  useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { showWarningToast } from "../helper/showErrorToast";
 
-function Playhistory() {
+function Playhistory({reloadKey}) {
 
   const { accesstoken, user } = useSelector((state) => state.user);
   const [expandedItems, setExpandedItems] = useState({});
@@ -20,12 +21,18 @@ function Playhistory() {
     refetch,
   } = useGetPlayHistoryQuery(accesstoken);
 
-  useEffect(
-    useCallback(() => {
-      // Refetch the data when the screen is focused
-      refetch();
-    }, [refetch])
-  );
+  // useEffect(
+  //   useCallback(() => {
+  //     // Refetch the data when the screen is focused
+  //     refetch();
+  //   }, [refetch])
+  // );
+
+  useEffect(() => {
+    refetch();
+    console.log("Relaoding again")
+    showWarningToast("Loading...")
+  },[refetch,reloadKey])
 
   const getPlaynumbersString = (playbets) => {
     // Map the array to extract playnumber and join them with ', '
@@ -100,7 +107,7 @@ function Playhistory() {
                 <div className="h-content-second">
                   <div className="h-content-second-content-container-top">
                     <label className="h-content-second-content-container-top-amount">
-                      Amount :{" "}
+                    {`Amount : \u00A0`}
                     </label>
                     <label className="h-content-second-content-container-top-amount-val">
                       {calculateTotalAmount(item.playnumbers)}{" "}

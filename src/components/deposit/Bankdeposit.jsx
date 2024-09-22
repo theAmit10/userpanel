@@ -77,7 +77,7 @@ function Bankdeposit({ selectingPaymentType }) {
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
     setShowCU(true);
-    setShowAllUpi(false)
+    setShowAllUpi(false);
   };
   const showingPaymentForm = () => {
     setShowPaymentForm(true);
@@ -86,7 +86,6 @@ function Bankdeposit({ selectingPaymentType }) {
   const hideAllform = () => {
     setShowPaymentForm(false);
     setSelecetedItem("");
-  
   };
 
   const [showAllUpi, setShowAllUpi] = useState(true);
@@ -94,7 +93,7 @@ function Bankdeposit({ selectingPaymentType }) {
 
   const backHandlerShowCreateUpi = () => {
     setShowCU(false);
-    setShowAllUpi(true)
+    setShowAllUpi(true);
   };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
@@ -132,7 +131,7 @@ function Bankdeposit({ selectingPaymentType }) {
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append('paymenttype', 'Bank');
+      formData.append("paymenttype", "Bank");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -214,239 +213,273 @@ function Bankdeposit({ selectingPaymentType }) {
       });
   };
 
-
   return (
     <div className="udC">
-    {showAllUpi && (
-      <div className="udMainCon">
-        {/** TOP HEADER CONATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div className="searchIconContainer" onClick={goToPreviousPage}>
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
+      {showAllUpi && (
+        <div className="udMainCon">
+          {/** TOP HEADER CONATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div className="searchIconContainer" onClick={goToPreviousPage}>
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
+            </div>
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Bank Payment
+              </label>
+            </div>
           </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              UPI Payment
-            </label>
-          </div>
-        </div>
 
-        {loadingAllData ? (
-          <LoadingComponent />
-        ) : (
-          <>
-            {allDepositdata.length === 0 ? (
-              <NodataFound title={"No data available"} />
-            ) : (
-              <>
-                 <div className="upipdMainContainer">
-                {allDepositdata.map((item, index) => (
-                  <div key={item._id} className="upipdContentContainer"
-                  onClick={() => selecetingItemForDeposit(item)}
-                  >
-                    {/** TOP */}
-                    <div className="uCCTopC">
-                      <div className="hdContenContainerIcon">
-                        <img
-                          src={images.bank}
-                          color={COLORS.background}
-                          size={"2.5rem"}
-                          className="paymenticon"
-                        />
-                      </div>
-
-                      <label className="pdB">Bank {item.paymentId}</label>
-                      
-                    </div>
-                    {/** TOP */}
-
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">Bank name</label>
-                      </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR">{item.bankname}</label>
-                      </div>
+          {loadingAllData ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {allDepositdata.length === 0 ? (
+                <NodataFound title={"This payment method is temporarily unavailable."} />
+              ) : (
+                <>
+                  <div className="upipdMainContainer">
+                    {allDepositdata.map((item, index) => (
                       <div
-                        onClick={() => handleCopyClick(item.bankname)}
-                        className="copyCon"
+                        key={item._id}
+                        className="upipdContentContainer"
+                        onClick={() => selecetingItemForDeposit(item)}
                       >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-                    </div>
-                    {/** TOP */}
+                        {/** TOP */}
+                        <div className="uCCTopC">
+                          <div className="hdContenContainerIcon">
+                            <img
+                              src={images.bank}
+                              color={COLORS.background}
+                              size={"2.5rem"}
+                              className="paymenticon"
+                            />
+                          </div>
 
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">Acc. Holder Name</label>
-                      </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR">{item.accountholdername}</label>
-                      </div>
-                      <div
-                        onClick={() => handleCopyClick(item.accountholdername)}
-                        className="copyCon"
-                      >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-                    </div>
-                    {/** TOP */}
+                          <label className="pdB">Bank {item.paymentId}</label>
+                        </div>
+                        {/** TOP */}
 
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">Acc. No.</label>
-                      </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR">{item.accountnumber}</label>
-                      </div>
-                      <div
-                        onClick={() => handleCopyClick(item.accountnumber)}
-                        className="copyCon"
-                      >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-                    </div>
-                    {/** TOP */}
+                        {/** TOP */}
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Bank name</label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">{item.bankname}</label>
+                          </div>
+                          <div
+                            onClick={() => handleCopyClick(item.bankname)}
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                        </div>
+                        {/** TOP */}
 
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">IFSC code</label>
+                        {/** TOP */}
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Acc. Holder Name</label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">
+                              {item.accountholdername}
+                            </label>
+                          </div>
+                          <div
+                            onClick={() =>
+                              handleCopyClick(item.accountholdername)
+                            }
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                        </div>
+                        {/** TOP */}
+
+                        {/** TOP */}
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Acc. No.</label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">{item.accountnumber}</label>
+                          </div>
+                          <div
+                            onClick={() => handleCopyClick(item.accountnumber)}
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                        </div>
+                        {/** TOP */}
+
+                        {/** TOP */}
+                        {/** TOP */}
+
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Swift code</label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">{item.swiftcode}</label>
+                          </div>
+                          <div
+                            onClick={() => handleCopyClick(item.swiftcode)}
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                        </div>
+
+                        {/** TOP */}
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">
+                              Routing No. / IFSC code
+                            </label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">{item.ifsccode}</label>
+                          </div>
+                          <div
+                            onClick={() => handleCopyClick(item.ifsccode)}
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                        </div>
+                        {/** TOP */}
+                        <div className="uCCBottomC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Note</label>
+                          </div>
+                          <div className="uCCBottomSC">
+                            <label className="pdRBottom">
+                              {item.paymentnote}
+                            </label>
+                          </div>
+                        </div>
                       </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR">{item.ifsccode}</label>
-                      </div>
-                      <div
-                        onClick={() => handleCopyClick(item.ifsccode)}
-                        className="copyCon"
-                      >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-                    </div>
-                    {/** TOP */}
+                    ))}
                   </div>
-                ))}
-              </div>
-              </>
-            )}
-          </>
-        )}
-      </div>
-    )}
-
-    {showCU && (
-      <>
-        {/** TOP NAVIGATION CONTATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div
-            className="searchIconContainer"
-            onClick={backHandlerShowCreateUpi}
-          >
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
-          </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              Create Bank Deposit
-            </label>
-          </div>
+                </>
+              )}
+            </>
+          )}
         </div>
-        {/** TOP NAVIGATION CONTATINER */}
+      )}
 
-        <div className="allLocationMainContainer">
-          {/** Amount */}
-          <label className="alCLLabel">Amount</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+      {showCU && (
+        <>
+          {/** TOP NAVIGATION CONTATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div
+              className="searchIconContainer"
+              onClick={backHandlerShowCreateUpi}
+            >
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
             </div>
-
-            <input
-              className="al-search-input"
-              type="number"
-              name="amount"
-              placeholder="Enter amount"
-              value={amountval}
-              onChange={(e) => setAmountval(e.target.value)}
-            />
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Create Bank Deposit
+              </label>
+            </div>
           </div>
+          {/** TOP NAVIGATION CONTATINER */}
 
-          {/** Transaction number */}
-          <label className="alCLLabel">Transaction number</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
+          <div className="allLocationMainContainer">
+            {/** Amount */}
+            <label className="alCLLabel">Send Amount</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
 
-            <input
-              className="al-search-input"
-              type="text"
-              name="transaction"
-              placeholder="Enter transaction number"
-              value={transactionval}
-              onChange={(e) => setTransactionval(e.target.value)}
-            />
-          </div>
-          {/** RECEIPT */}
-
-          {/** TITLE */}
-          <label className="alCLLabel">Receipt</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
-
-            <div className="imageContainerAC">
               <input
                 className="al-search-input"
-                placeholder="Receipt"
-                type="file"
-                name="file"
-                onChange={selectDoc}
+                type="number"
+                name="amount"
+                placeholder="Enter amount"
+                value={amountval}
+                onChange={(e) => setAmountval(e.target.value)}
+              />
+            </div>
+
+            {/** Transaction number */}
+            <label className="alCLLabel">Transaction number</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                type="text"
+                name="transaction"
+                placeholder="Enter transaction number"
+                value={transactionval}
+                onChange={(e) => setTransactionval(e.target.value)}
+              />
+            </div>
+            {/** RECEIPT */}
+
+            {/** TITLE */}
+            <label className="alCLLabel">Upload Receipt</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <div className="imageContainerAC">
+                <input
+                  className="al-search-input"
+                  placeholder="Receipt"
+                  type="file"
+                  name="file"
+                  accept="image/*"
+                  onChange={selectDoc}
+                />
+              </div>
+            </div>
+
+            <label className="alCLLabel">Remark</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                style={{
+                  minHeight: "5rem",
+                }}
+                type="text"
+                name="remark"
+                placeholder="Enter remark"
+                value={remarkval}
+                onChange={(e) => setRemarkval(e.target.value)}
               />
             </div>
           </div>
 
-          <label className="alCLLabel">Remark</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          {isLoading ? (
+            <LoadingComponent />
+          ) : (
+            <div className="alBottomContainer" onClick={submitDepositRequest}>
+              <label className="alBottomContainerlabel">Submit</label>
             </div>
-
-            <input
-              className="al-search-input"
-              style={{
-                minHeight: "5rem",
-              }}
-              type="text"
-              name="remark"
-              placeholder="Enter remark"
-              value={remarkval}
-              onChange={(e) => setRemarkval(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {isLoading ? (
-          <LoadingComponent />
-        ) : (
-          <div className="alBottomContainer" onClick={submitDepositRequest}>
-            <label className="alBottomContainerlabel">Submit</label>
-          </div>
-        )}
-      </>
-    )}
-  </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
 export default Bankdeposit;
-

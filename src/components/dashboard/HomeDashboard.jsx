@@ -13,10 +13,15 @@ import {
   getNextResult,
   getResultAccordingToLocationTimeDate,
 } from "../../redux/actions/resultAction";
-import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "../helper/showErrorToast";
 import {
   useGetAllLocationWithTimeQuery,
   useGetPlayHistoryQuery,
+  useGetTopWinnerQuery,
 } from "../../redux/api";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import CountdownTimer from "../helper/CountdownTimer";
@@ -29,6 +34,7 @@ import { IoArrowBackCircleOutline } from "react-icons/io5";
 import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import { MdOutlineDateRange } from "react-icons/md";
 
 const topWinnerOfTheDay = [
   {
@@ -156,8 +162,36 @@ const locationdata = [
   },
 ];
 
-function HomeDashboard() {
-  const [selectedLocation, setSelectedLocation] = useState(null);
+function HomeDashboard({filteredDataAllLocation,
+  alldatafilterAllLocation,
+  settingFilterData,
+  selectedFilterAllLocation,
+  isLoadingAllLocation,
+  selectedLocation, setSelectedLocation
+}) {
+  const dispatch = useDispatch();
+
+  const getUserAccessToken = async () => {
+    try {
+      const val = await localStorage.getItem("accesstoken");
+      console.log("From SS Access Token :: " + val);
+      // dispatch(getUserAccessToken(val));
+      dispatch({
+        type: "getaccesstoken",
+        payload: val,
+      });
+
+      dispatch(loadProfile(val));
+    } catch (error) {
+      console.log("error" + error);
+    }
+  };
+
+  useEffect(() => {
+    getUserAccessToken();
+  }, []);
+
+  // const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const { loading: loadingdate, dates } = useSelector((state) => state.date);
@@ -205,9 +239,6 @@ function HomeDashboard() {
   const { user, accesstoken, loading } = useSelector((state) => state.user);
   const [showDate, setShowDate] = useState(false);
   const [nextResultTime, setNextResultTime] = useState(null);
-
-  const navigation = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadAllPromotion(accesstoken));
@@ -268,7 +299,7 @@ function HomeDashboard() {
   };
 
   const handleSelectedDateClick = async (datedate) => {
-    showWarningToast("Processing, Please wait...")
+    showWarningToast("Processing, Please wait...");
     setSelectedDate(datedate);
     // dispatch(
     //   getResultAccordingToLocationTimeDate(
@@ -279,10 +310,9 @@ function HomeDashboard() {
     //   )
     // );
 
-    console.log("SELECTED LOCATION"+datedate.lottime.lotlocation.lotlocation)
-    console.log("SELECTED TIME"+datedate.lottime.lottime)
-    console.log("SELECTED DATE"+ datedate.lotdate)
-
+    console.log("SELECTED LOCATION" + datedate.lottime.lotlocation.lotlocation);
+    console.log("SELECTED TIME" + datedate.lottime.lottime);
+    console.log("SELECTED DATE" + datedate.lotdate);
 
     try {
       const url = `${UrlHelper.RESULT_API}?lotdateId=${datedate._id}&lottimeId=${datedate.lottime._id}&lotlocationId=${datedate.lottime.lotlocation._id}`;
@@ -298,28 +328,27 @@ function HomeDashboard() {
 
       // Check if the results array is empty
       if (data.results.length !== 0) {
-        showSuccessToast("Result available")
+        showSuccessToast("Result available");
         // setResult("Current date not found");
         setHomeResult(data.results[0]);
         setNextResultTime(data.results[0]?.nextresulttime);
         setFirstTimeClick(false);
-      }
-       else {
+      } else {
         // setResult(currentDate); // Set to the current date object if results are found
-        console.log("no result found")
-        showSuccessToast("Result not available")
+        console.log("no result found");
+        showSuccessToast("Result not available");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.log("Error message:", error.response?.data?.message);
     }
 
     // if (singleResult) {
     //   console.log("Result FOUND");
     //   console.log(JSON.stringify(singleResult[0]));
-      // setHomeResult(singleResult[0]);
-      // setNextResultTime(singleResult[0]?.nextresulttime);
-      // setFirstTimeClick(false);
+    // setHomeResult(singleResult[0]);
+    // setNextResultTime(singleResult[0]?.nextresulttime);
+    // setFirstTimeClick(false);
 
     //   // dispatch(getAllResult(accesstoken));
     //   // dispatch(
@@ -328,8 +357,8 @@ function HomeDashboard() {
     //   //     homeResult?.lotlocation?._id
     //   //   )
     //   // );
-      // setSelectedDate(null);
-      // setSelectedTime(null);
+    // setSelectedDate(null);
+    // setSelectedTime(null);
     // }
   };
 
@@ -366,7 +395,7 @@ function HomeDashboard() {
   }, [dispatch]);
 
   useEffect(() => {
-    const firstThreeElements = results.slice(0, 7);
+    const firstThreeElements = results.slice(0, 15);
     if (firstTimeClick) {
       setHomeResult(firstThreeElements[0]);
     }
@@ -374,7 +403,7 @@ function HomeDashboard() {
   }, [results, homeResult]);
 
   useEffect(() => {
-    const firstThreeElements = results.slice(0, 7);
+    const firstThreeElements = results.slice(0, 15);
 
     setFilteredData(firstThreeElements);
   }, [results]);
@@ -433,70 +462,70 @@ function HomeDashboard() {
 
   // FOR FILTER AND BELOW CONTAINER
 
-  const [alldatafilerAllLocation, setalldatafilterAllLocation] = useState([]);
-  const [selectedFilterAllLocation, setSelectedFilterAllLocation] =
-    useState(null);
+  // const [alldatafilerAllLocation, setalldatafilterAllLocation] = useState([]);
+  // const [selectedFilterAllLocation, setSelectedFilterAllLocation] =
+  //   useState(null);
 
-  const {
-    data: dataAllLocation,
-    error: errorAllLocation,
-    isLoading: isLoadingAllLocation,
-  } = useGetAllLocationWithTimeQuery(accesstoken);
+  // const {
+  //   data: dataAllLocation,
+  //   error: errorAllLocation,
+  //   isLoading: isLoadingAllLocation,
+  // } = useGetAllLocationWithTimeQuery(accesstoken);
 
-  // FOR ALL FILTER TYPE DATA
-  useEffect(() => {
-    console.log("STARTING FOUND DATA :: ");
-    if (!isLoadingAllLocation && dataAllLocation) {
-      console.log("found data", dataAllLocation);
-      const uniqueItems = new Set();
-      const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
+  // // FOR ALL FILTER TYPE DATA
+  // useEffect(() => {
+  //   console.log("STARTING FOUND DATA :: ");
+  //   if (!isLoadingAllLocation && dataAllLocation) {
+  //     console.log("found data", dataAllLocation);
+  //     const uniqueItems = new Set();
+  //     const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
 
-      dataAllLocation.locationData.forEach((item) => {
-        const key = item.maximumReturn;
-        if (!uniqueItems.has(key)) {
-          uniqueItems.add(key);
-          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
-        }
-      });
+  //     dataAllLocation.locationData.forEach((item) => {
+  //       const key = item.maximumReturn;
+  //       if (!uniqueItems.has(key)) {
+  //         uniqueItems.add(key);
+  //         filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+  //       }
+  //     });
 
-      // Sorting the filtertype array
-      filtertype.sort((a, b) => {
-        if (a.maximumReturn === "All") return -1;
-        if (b.maximumReturn === "All") return 1;
-        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
-        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
-        return aReturn - bReturn;
-      });
+  //     // Sorting the filtertype array
+  //     filtertype.sort((a, b) => {
+  //       if (a.maximumReturn === "All") return -1;
+  //       if (b.maximumReturn === "All") return 1;
+  //       const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+  //       const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
+  //       return aReturn - bReturn;
+  //     });
 
-      setalldatafilterAllLocation(filtertype);
-      setSelectedFilterAllLocation(filtertype[0]._id);
-      setSelectedLocation(dataAllLocation.locationData[0]);
+  //     setalldatafilterAllLocation(filtertype);
+  //     setSelectedFilterAllLocation(filtertype[0]._id);
+  //     setSelectedLocation(dataAllLocation.locationData[0]);
 
-      console.log(filtertype);
-    }
-  }, [isLoadingAllLocation, dataAllLocation]);
+  //     console.log(filtertype);
+  //   }
+  // }, [isLoadingAllLocation, dataAllLocation]);
 
-  const settingFilterData = (itemf) => {
-    setSelectedFilterAllLocation(itemf._id);
-    if (itemf.maximumReturn.toLowerCase() === "all") {
-      setFilteredDataAllLocation(dataAllLocation?.locationData);
-    } else {
-      const filtered = dataAllLocation?.locationData.filter((item) =>
-        item.maximumReturn
-          .toLowerCase()
-          .includes(itemf.maximumReturn.toLowerCase())
-      );
-      setFilteredDataAllLocation(filtered);
-    }
-  };
+  // const settingFilterData = (itemf) => {
+  //   setSelectedFilterAllLocation(itemf._id);
+  //   if (itemf.maximumReturn.toLowerCase() === "all") {
+  //     setFilteredDataAllLocation(dataAllLocation?.locationData);
+  //   } else {
+  //     const filtered = dataAllLocation?.locationData.filter((item) =>
+  //       item.maximumReturn
+  //         .toLowerCase()
+  //         .includes(itemf.maximumReturn.toLowerCase())
+  //     );
+  //     setFilteredDataAllLocation(filtered);
+  //   }
+  // };
 
-  const [filteredDataAllLocation, setFilteredDataAllLocation] = useState([]);
+  // const [filteredDataAllLocation, setFilteredDataAllLocation] = useState([]);
 
-  useEffect(() => {
-    if (dataAllLocation) {
-      setFilteredDataAllLocation(dataAllLocation?.locationData); // Update filteredData whenever locations change
-    }
-  }, [dataAllLocation]);
+  // useEffect(() => {
+  //   if (dataAllLocation) {
+  //     setFilteredDataAllLocation(dataAllLocation?.locationData); // Update filteredData whenever locations change
+  //   }
+  // }, [dataAllLocation]);
 
   // FOR GETTING GAME HISTORY
   const {
@@ -566,6 +595,11 @@ function HomeDashboard() {
     }
   };
 
+  // FOR GETTING TOP WINNER
+
+  const { data: dataTopWinner, isLoading: isLoadingTopWinner } =
+    useGetTopWinnerQuery(accesstoken);
+
   return (
     <div className="hdcontainer">
       {loading ? (
@@ -621,6 +655,12 @@ function HomeDashboard() {
                     )}
                   </div>
                   <div className="hdlTLB">
+                    <div className="hdlTLBCal">
+                      <MdOutlineDateRange
+                        color={COLORS.white_s}
+                        size={"2rem"}
+                      />
+                    </div>
                     <label className="hdlTLTLNRB">
                       {homeResult?.lotdate?.lotdate}
                     </label>
@@ -683,7 +723,7 @@ function HomeDashboard() {
                     <div className="hdMCB">
                       <label className="hdMCTTime">
                         {getTimeAccordingToTimezone(
-                          item.lottime.lottime,
+                          item?.lottime?.lottime,
                           user?.country?.timezone
                         )}
                       </label>
@@ -700,7 +740,7 @@ function HomeDashboard() {
               <div className="hdLeftCBottom">
                 {/** FILTER SEARCH CONTAINER */}
                 <div className="hdFContainer">
-                  {alldatafilerAllLocation.map((item, index) => (
+                  {alldatafilterAllLocation.map((item, index) => (
                     <label
                       onClick={() => settingFilterData(item)}
                       key={item._id}
@@ -730,7 +770,7 @@ function HomeDashboard() {
                       ) : (
                         filteredDataAllLocation.map((item, index) => (
                           <div
-                          key={index}
+                            key={index}
                             className="hdLocationContainerLeftContent"
                             onClick={() => handleLocationClick(item)}
                             style={{
@@ -807,8 +847,7 @@ function HomeDashboard() {
                         ))}
 
                       {dateVisible &&
-                        (
-                        loadingdate ? (
+                        (loadingdate ? (
                           <LoadingComponent />
                         ) : (
                           <div className="hdLocationContainerRightTimeContainer">
@@ -857,9 +896,8 @@ function HomeDashboard() {
                         ))}
 
                       {resultVisible &&
-                        (
-                        loadingResult ? (
-                          <LoadingComponent/>
+                        (loadingResult ? (
+                          <LoadingComponent />
                         ) : (
                           <div className="hdLocationContainerRightTimeContainer">
                             {/** TOP */}
@@ -927,141 +965,122 @@ function HomeDashboard() {
           </div>
           {/** RIGHT CONTAINER */}
           <div className="hdRightC">
-            <label className="hdrLabel">GAME HISTORY</label>
+            <div className="hdRightCTop">
+              <label className="hdrLabel">Top Winner Of The Day</label>
 
-            {historyIsLoading ? (
-              <LoadingComponent />
-            ) : historyapidatas.playbets.length === 0 ? (
-              <NodataFound title={"No data found"} />
-            ) : (
-              <div className="hdRightCContainer">
-                {historyapidatas.playbets.map((item, index) => (
-                  <div className="hdrContentC" key={index}>
-                    <div className="hdrcL">
-                      <label className="hdrcLLabel">
-                        {" "}
-                        {item.lotlocation.lotlocation}
-                      </label>
+              {isLoadingTopWinner ? (
+                <LoadingComponent />
+              ) : dataTopWinner.topwinners.length === 0 ? (
+                <NodataFound title={"No data found"} />
+              ) : (
+                <div className="hdRightCContainer">
+                  {dataTopWinner.topwinners.map((item, index) => (
+                    <div
+                      className="hdrContentC"
+                      key={index}
+                      style={{
+                        paddingLeft: "0.5rem",
+                        paddingRight: "0.5rem",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <div
+                        className="hdrcL"
+                        style={{
+                          flex: "0.5",
+                        }}
+                      >
+                        <div className="winnerimagecontainer">
+                          <img
+                            src={
+                              user?.avatar?.url
+                                ? `${serverName}/uploads/${user?.avatar.url}`
+                                : images.user
+                            }
+                            alt="Profile Picture"
+                            className="winnerprofileimg"
+                            onError={(e) => {
+                              e.target.onerror = null; // Prevents looping
+                              e.target.src = images.user; // Fallback to default image on error
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="hdrcM"
+                        style={{
+                          flex: 2,
+                          justifyContent: "center",
+                          alignItems: "flex-start",
+                        }}
+                      >
+                        <label className="hdrcLLabel">{item.name}</label>
+                      </div>
+                      <div
+                        className="hdrcR"
+                        style={{
+                          flex: "1.5",
+                        }}
+                      >
+                        <label className="hdrcLLabel">
+                          {`${item.winningamount} ${item.currency.countrycurrencysymbol}`}
+                        </label>
+                      </div>
                     </div>
-                    <div className="hdrcM">
-                      <label className="hdrcMResultLabel">
-                        {getPlaynumbersString(item.playnumbers)}
-                      </label>
-                      <label className="hdrcMAmoutLabel">
-                        {calculateTotalAmount(item.playnumbers)}{" "}
-                        {user.country.countrycurrencysymbol}
-                      </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="hdRightCBottom">
+              <label className="hdrLabel">GAME HISTORY</label>
+
+              {historyIsLoading ? (
+                <LoadingComponent />
+              ) : historyapidatas.playbets.length === 0 ? (
+                <NodataFound title={"No data found"} />
+              ) : (
+                <div className="hdRightCContainer">
+                  {historyapidatas.playbets.map((item, index) => (
+                    <div className="hdrContentC" key={index}>
+                      <div className="hdrcL">
+                        <label className="hdrcLLabel">
+                          {" "}
+                          {item.lotlocation.lotlocation}
+                        </label>
+                      </div>
+                      <div className="hdrcM">
+                        <label className="hdrcMResultLabel">
+                          {item.playnumbers.length}
+                        </label>
+                        <label className="hdrcMAmoutLabel">
+                          {calculateTotalAmount(item.playnumbers)}{" "}
+                          {user.country.countrycurrencysymbol}
+                        </label>
+                      </div>
+                      <div className="hdrcR">
+                        <label className="hdrcRResultLabel">
+                          {getTimeAccordingToTimezone(
+                            item.lottime.lottime,
+                            user?.country?.timezone
+                          )}
+                        </label>
+                        <label className="hdrcMAmoutLabel">
+                          {" "}
+                          {formatDate(item.lotdate.lotdate)}
+                        </label>
+                      </div>
                     </div>
-                    <div className="hdrcR">
-                      <label className="hdrcRResultLabel">
-                        {getTimeAccordingToTimezone(
-                          item.lottime.lottime,
-                          user?.country?.timezone
-                        )}
-                      </label>
-                      <label className="hdrcMAmoutLabel">
-                        {" "}
-                        {formatDate(item.lotdate.lotdate)}
-                      </label>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }
-
-const htmlStyles = `
-*{
-  border: 0;
-  box-sizing: content-box;
-  color: inherit;
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  vertical-align: top;
-}
-
-h1 { font: bold 100% sans-serif; letter-spacing: 0.5em; text-align: center; text-transform: uppercase; }
-
-/* table */
-
-table { font-size: 75%; table-layout: fixed; width: 100%; }
-table { border-collapse: separate; border-spacing: 2px; }
-th, td { border-width: 1px; padding: 0.5em; position: relative; text-align: center; }
-th, td { border-radius: 0.25em; border-style: solid; }
-th { background: #EEE; border-color: #BBB; }
-td { border-color: #DDD; }
-
-/* page */
-
-html { font: 16px/1 'Open Sans', sans-serif; overflow: auto; }
-html { background: #999; cursor: default; }
-
-body { box-sizing: border-box;margin: 0 auto; overflow: hidden; padding: 0.25in; }
-body { background: #FFF; border-radius: 1px; box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5); }
-
-/* header */
-
-header { margin: 0 0 3em; }
-header:after { clear: both; content: ""; display: table; }
-
-header h1 { background: #000; border-radius: 0.25em; color: #FFF; margin: 0 0 1em; padding: 0.5em 0; }
-header address { float: left; font-size: 75%; font-style: normal; line-height: 1.25; margin: 0 1em 1em 0; }
-header address p { margin: 0 0 0.25em; }
-header span, header img { display: block; float: right; }
-header span { margin: 0 0 1em 1em; max-height: 25%; max-width: 60%; position: relative; }
-header img { max-height: 100%; max-width: 100%; }
-
-/* article */
-
-article, article address, table.meta, table.inventory { margin: 0 0 3em; }
-article:after { clear: both; content: ""; display: table; }
-article h1 { clip: rect(0 0 0 0); position: absolute; }
-
-article address { float: left; font-size: 125%; font-weight: bold; }
-
-/* table meta & balance */
-
-table.meta, table.balance { float: right; width: 36%; }
-table.meta:after, table.balance:after { clear: both; content: ""; display: table; }
-
-/* table meta */
-
-table.meta th { width: 40%; }
-table.meta td { width: 60%; }
-
-/* table items */
-
-table.inventory { clear: both; width: 100%; }
-table.inventory th { font-weight: bold; text-align: center; }
-
-table.inventory td:nth-child(1) { width: 26%; }
-table.inventory td:nth-child(2) { width: 38%; }
-table.inventory td:nth-child(3) { text-align: center; width: 12%; }
-table.inventory td:nth-child(4) { text-align: center; width: 12%; }
-table.inventory td:nth-child(5) { text-align: center; width: 12%; }
-
-/* table balance */
-
-table.balance th, table.balance td { width: 50%; }
-table.balance td { text-align: right; }
-
-/* aside */
-
-aside h1 { border: none; border-width: 0 0 1px; margin: 0 0 1em; }
-aside h1 { border-color: #999; border-bottom-style: solid; }
-`;
 
 export default HomeDashboard;

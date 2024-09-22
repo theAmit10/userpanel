@@ -168,8 +168,6 @@ const datedata = [
   },
 ];
 
-
-
 function AllLocation() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -223,7 +221,7 @@ function AllLocation() {
   }, [selectedItem, selectedLocation, selectedDate]);
 
   const navigation = useNavigate();
- 
+
   const [alldatafiler, setalldatafilter] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const dispatch = useDispatch();
@@ -283,6 +281,29 @@ function AllLocation() {
 
   const [filteredData, setFilteredData] = useState([]);
 
+  const getNextTimeForHighlights = (times) => {
+    if (times.length === 1) {
+      return times[0];
+    }
+
+    const currentISTTime = moment().tz("Asia/Kolkata").format("hh:mm A");
+    const sortedTimes = [...times].sort((a, b) =>
+      moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+    );
+
+    for (let i = 0; i < sortedTimes.length; i++) {
+      if (
+        moment(currentISTTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].time, "hh:mm A")
+        )
+      ) {
+        return sortedTimes[i];
+      }
+    }
+
+    return sortedTimes[0];
+  };
+
   const handleSearch = (text) => {
     const filtered = data?.locationData.filter((item) =>
       item.name.toLowerCase().includes(text.toLowerCase())
@@ -328,47 +349,57 @@ function AllLocation() {
 
           {/** Location container */}
 
-          <div className="allocationcontainer-all">
+          <div className="allocationcontainer">
             {isLoading ? (
               <LoadingComponent />
             ) : (
-              filteredData?.map((item, index) => (
-                <div className="location-item-all" key={index}>
-                  <div className="location-details-all">
-                    <div
-                      className="location-header"
-                      style={{
-                        background:
-                          index % 2 === 0
-                            ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                            : "linear-gradient(90deg, #7EC630, #3D6017)",
-                      }}
-                    >
-                      <span className="location-header-label">{item.name}</span>
-                      <span className="location-header-max-label">
-                        Max {item.limit}
-                      </span>
-                    </div>
-                  </div>
+              filteredData?.map((item, index) => {
+                const nextTime = getNextTimeForHighlights(item?.times);
 
-                  <div className="time-items-container">
-                    {item.times.map((timedata, timeindex) => (
+                return (
+                  <div className="location-item-all" key={index}>
+                    <div className="location-details-all">
                       <div
-                        onClick={() => handleSelecteditemClick(item, timedata)}
-                        className="time-item"
-                        key={timeindex}
+                        className="location-header"
+                        style={{
+                          background:
+                            index % 2 === 0
+                              ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                              : "linear-gradient(90deg, #7EC630, #3D6017)",
+                        }}
                       >
-                        <span className="time-items-container-time-label">
-                          {getTimeAccordingToTimezone(
-                            timedata.time,
-                            user?.country?.timezone
-                          )}
+                        <span className="location-header-label">
+                          {item.name}
+                        </span>
+                        <span className="location-header-max-label">
+                          Max {item.limit}
                         </span>
                       </div>
-                    ))}
+                    </div>
+
+                    <div className="time-items-container">
+                      {item.times.map((timedata, timeindex) => (
+                        <div
+                          onClick={() =>
+                            handleSelecteditemClick(item, timedata)
+                          }
+                          className={`time-item ${
+                            timedata.time === nextTime.time ? "highlighted" : ""
+                          }`}
+                          key={timeindex}
+                        >
+                          <span className="time-items-container-time-label">
+                            {getTimeAccordingToTimezone(
+                              timedata.time,
+                              user?.country?.timezone
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </>
@@ -481,7 +512,6 @@ function AllLocation() {
               {/** Result contatiner */}
               <div className="resultcontaineral">
                 <div className="resultleftcontaineral">
-                  <div className="rltopcontaineral"></div>
                   <div className="rlmiddlecontaineral">
                     <div
                       style={{
@@ -493,40 +523,11 @@ function AllLocation() {
                     >
                       <label
                         className="rltopcontaineralNumberLabel"
-                        style={{ fontSize: "4rem", textAlign: "end" }}
+                        style={{ fontSize: "2rem", textAlign: "center" }}
                       >
-                        Comming soon...
+                        No Result found
                       </label>
                     </div>
-                    <div
-                      style={{
-                        width: "40%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    ></div>
-                  </div>
-                </div>
-                <div className="resultrightcontaineral">
-                  <div className="imageContainerGame">
-                    <img
-                      src={images.gamecontroller}
-                      alt="game controller Image"
-                      className="gamecontrolleral"
-                    />
-                    <img
-                      src={images.cups}
-                      alt="game controller Image"
-                      className="cupontrolleral"
-                    />
-                  </div>
-                  <div className="catImageContainer">
-                    <img
-                      src={images.cat}
-                      alt="game controller Image"
-                      className="catcontrolleral"
-                    />
                   </div>
                 </div>
               </div>

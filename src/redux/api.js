@@ -219,6 +219,16 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    getTopWinner: builder.query({
+      query: (accesstoken ) => ({
+        url: `result/topwinner`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
+
     // ######## END #########
   }),
 });
@@ -240,5 +250,6 @@ export const {
   useGetLogoutQuery,
   useGetAllResultWebQuery,
   useGetResultLocMonYearQuery,
-  useGetAppLinkQuery
+  useGetAppLinkQuery,
+  useGetTopWinnerQuery
 } = sincelotUserApi;

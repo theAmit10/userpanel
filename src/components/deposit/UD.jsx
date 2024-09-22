@@ -194,7 +194,7 @@ export const UD = ({ selectingPaymentType }) => {
           ) : (
             <>
               {allDepositdata.length === 0 ? (
-                <NodataFound title={"No data available"} />
+                <NodataFound title={"This payment method is temporarily unavailable."} />
               ) : (
                 <>
                   <div className="upipdMainContainer">
@@ -259,6 +259,17 @@ export const UD = ({ selectingPaymentType }) => {
                             />
                           </div>
                         </div>
+
+                        <div className="uCCBottomC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Note</label>
+                          </div>
+                          <div className="uCCBottomSC">
+                            <label className="pdRBottom">
+                              {item.paymentnote}
+                            </label>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -292,7 +303,7 @@ export const UD = ({ selectingPaymentType }) => {
 
           <div className="allLocationMainContainer">
             {/** Amount */}
-            <label className="alCLLabel">Amount</label>
+            <label className="alCLLabel">Send Amount</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -327,7 +338,7 @@ export const UD = ({ selectingPaymentType }) => {
             {/** RECEIPT */}
 
             {/** TITLE */}
-            <label className="alCLLabel">Receipt</label>
+            <label className="alCLLabel">Upload Receipt</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -340,6 +351,7 @@ export const UD = ({ selectingPaymentType }) => {
                   type="file"
                   name="file"
                   onChange={selectDoc}
+                  accept="image/*"
                 />
               </div>
             </div>

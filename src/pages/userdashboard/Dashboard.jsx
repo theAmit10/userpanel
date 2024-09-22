@@ -32,14 +32,20 @@ import Userprofile from "../../components/profile/Userprofile";
 import AllResult from "../../components/result/AllResult";
 import Aboutus from "../../components/about/Aboutus";
 import ImageSlider from "../../components/helper/ImageSlider";
-import { showSuccessToast } from "../../components/helper/showErrorToast";
+import { showSuccessToast, showWarningToast } from "../../components/helper/showErrorToast";
 import { serverName } from "../../redux/store";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import moment from "moment-timezone";
 import { MdNotificationsActive } from "react-icons/md";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
-import { useGetAppLinkQuery } from "../../redux/api";
+import {
+  useGetAllLocationWithTimeQuery,
+  useGetAppLinkQuery,
+} from "../../redux/api";
+import { CiSearch } from "react-icons/ci";
+import { TbHistoryToggle } from "react-icons/tb";
+import Playhistory from "../../components/playhistory/Playhistory";
 
 const locationdata = [
   {
@@ -237,7 +243,7 @@ const Dashboard = () => {
     navigate("/setting");
   };
 
-  const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState("dashboard");
 
   const handleLocationClick = (location) => {
@@ -252,14 +258,29 @@ const Dashboard = () => {
   //   setSelectedComponent(comp);
   // };
 
+  // const handleComponentClick = (comp) => {
+  //   if (selectedComponent === comp) {
+  //     // If the same component is selected, force a re-render
+  //     console.log("Reloading the selected component...");
+  //     setReloadTrigger((prev) => !prev); // Toggle the state to force re-render
+  //   } else {
+  //     console.log("Clicked a new component");
+  //     setSelectedComponent(comp);
+  //   }
+  // };
+
+  const [reloadKey, setReloadKey] = useState(0); // Key to force re-render
+
   const handleComponentClick = (comp) => {
     if (selectedComponent === comp) {
-      // If the same component is selected, force a re-render
-      console.log("Reloading the selected component...");
-      setReloadTrigger((prev) => !prev); // Toggle the state to force re-render
+      // If the same component is clicked, increment the reloadKey to force a reload
+      setReloadKey((prevKey) => prevKey + 1);
+      showWarningToast("processing :: "+reloadKey)
     } else {
-      console.log("Clicked a new component");
+      // Otherwise, set the selected component and reset the key
+      showWarningToast("processing :: "+reloadKey)
       setSelectedComponent(comp);
+      setReloadKey(0);
     }
   };
 
@@ -320,29 +341,114 @@ const Dashboard = () => {
 
   console.log(sliderData?.length);
 
+  const {
+    data: appLinkData,
+    error: appLinkError,
+    isLoading: appLinkLoading,
+  } = useGetAppLinkQuery(accesstoken);
 
-  const { data: appLinkData, error: appLinkError, isLoading: appLinkLoading } = useGetAppLinkQuery(accesstoken);
-
-    const androidAppLink = () => {
-      const link = appLinkData?.appLink?.androidLink;
-      if (link) {
-        window.open(link, '_blank'); // Opens the link in a new tab
-        showSuccessToast(link);
-      } else {
-        showSuccessToast('No valid link found.');
-      }
+  const androidAppLink = () => {
+    const link = appLinkData?.appLink?.androidLink;
+    if (link) {
+      window.open(link, "_blank"); // Opens the link in a new tab
+      showSuccessToast(link);
+    } else {
+      showSuccessToast("No valid link found.");
     }
+  };
 
-    const iosAppLink = () => {
-     
-      const link = appLinkData?.appLink?.iosLink;
-      if (link) {
-        window.open(link, '_blank'); // Opens the link in a new tab
-        showSuccessToast(link);
-      } else {
-        showSuccessToast('No valid link found.');
-      }
+  const iosAppLink = () => {
+    const link = appLinkData?.appLink?.iosLink;
+    if (link) {
+      window.open(link, "_blank"); // Opens the link in a new tab
+      showSuccessToast(link);
+    } else {
+      showSuccessToast("No valid link found.");
     }
+  };
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  // const handleSearch = (e) => {
+  //   const text = e.target.value;
+  //   const filtered = locations.filter((item) =>
+  //     item.lotlocation.toLowerCase().includes(text.toLowerCase())
+  //   );
+  //   setFilteredData(filtered);
+  //   // const text = e.target.value;
+  //   // const filtered = allLocationData?.locationData.filter((item) =>
+  //   //   item.name.toLowerCase().includes(text.toLowerCase())
+  //   // );
+  //   // setFilteredDataL(filtered);
+  // };
+
+  const [filteredDataAllLocation, setFilteredDataAllLocation] = useState([]);
+  const [alldatafilterAllLocation, setalldatafilterAllLocation] = useState([]);
+  const [selectedFilterAllLocation, setSelectedFilterAllLocation] = useState(null);
+  
+  const { data: dataAllLocation, isLoading: isLoadingAllLocation } =
+    useGetAllLocationWithTimeQuery(accesstoken);
+
+  // Update filtered data when locations change
+  useEffect(() => {
+    if (dataAllLocation) {
+      setFilteredDataAllLocation(dataAllLocation?.locationData);
+    }
+  }, [dataAllLocation]);
+
+   // For filter type data
+   useEffect(() => {
+    if (!isLoadingAllLocation && dataAllLocation) {
+      const uniqueItems = new Set();
+      const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
+
+      dataAllLocation.locationData.forEach((item) => {
+        const key = item.maximumReturn;
+        if (!uniqueItems.has(key)) {
+          uniqueItems.add(key);
+          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+        }
+      });
+
+      // Sorting the filtertype array
+      filtertype.sort((a, b) => {
+        if (a.maximumReturn === "All") return -1;
+        if (b.maximumReturn === "All") return 1;
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
+        return aReturn - bReturn;
+      });
+
+      setalldatafilterAllLocation(filtertype);
+      setSelectedFilterAllLocation(filtertype[0]._id);
+      setSelectedLocation(dataAllLocation.locationData[0]);
+    }
+  }, [isLoadingAllLocation, dataAllLocation]);
+
+    // Handle search input changes
+    const handleSearch = (e) => {
+      const text = e.target.value;
+      const filtered = dataAllLocation?.locationData.filter((item) =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredDataAllLocation(filtered);
+    };
+
+      // Handle filter selection
+  const settingFilterData = (itemf) => {
+    setSelectedFilterAllLocation(itemf._id);
+    if (itemf.maximumReturn.toLowerCase() === "all") {
+      setFilteredDataAllLocation(dataAllLocation?.locationData);
+    } else {
+      const filtered = dataAllLocation?.locationData.filter((item) =>
+        item.maximumReturn
+          .toLowerCase()
+          .includes(itemf.maximumReturn.toLowerCase())
+      );
+      setFilteredDataAllLocation(filtered);
+    }
+  };
+  
 
   return (
     <div className="adminDashboardContainer">
@@ -382,6 +488,37 @@ const Dashboard = () => {
         {/** TOP RIGHT */}
         <div className="top-right-d">
           <div className="top-right-right-d">
+            {/** SEARCH */}
+
+            <div
+              className="aboutus-search-container"
+              style={{
+                flex: 1,
+                gap: "1rem",
+                backgroundColor: COLORS.iconcol,
+              }}
+            >
+              <div className="aboutus-search-icon">
+                <CiSearch size={"2rem"} color={COLORS.white_s} />
+              </div>
+              <style>
+                {`
+          .aboutus-search-input::placeholder {
+            color: ${COLORS.white_s}; /* Placeholder color */
+            opacity: 1; /* Optional: Set opacity to ensure full color */
+          }
+        `}
+              </style>
+              <input
+                className="aboutus-search-input"
+                placeholder="Search for location"
+                label="Search"
+                onChange={handleSearch}
+                style={{
+                  color: COLORS.white_s,
+                }}
+              />
+            </div>
             {/** DEPOSIT */}
             <div
               className="depositContainer"
@@ -394,22 +531,33 @@ const Dashboard = () => {
             {/**  WITHDRAW */}
             <div
               className="depositContainer"
-              onClick={() => handleComponentClick("withdraw")}
+              onClick={() => handleComponentClick("wallet")}
+              style={{
+                gap: "0.5rem",
+                paddingLeft: "0.5rem",
+                backgroundColor: COLORS.iconcol,
+              }}
             >
-              <label className="depositContainerLabel">WITHDRAW</label>
-              <PiHandWithdrawFill color={COLORS.white_s} size={"2rem"} />
+              <FaWallet color={COLORS.white_s} size={"2rem"} />
+              <label className="depositContainerLabel">{user ? `${user?.walletTwo?.balance} ${user?.country?.countrycurrencysymbol}` : 'Loading'}</label>
             </div>
 
             <div
-              onClick={() => handleComponentClick("wallet")}
+              onClick={() => handleComponentClick("withdraw")}
               className="iconcontainertop"
+              style={{
+                backgroundColor: COLORS.iconcol,
+              }}
             >
-              <FaWallet color={COLORS.background} size={"3rem"} />
+              <PiHandWithdrawFill color={COLORS.background} size={"3rem"} />
             </div>
 
             <div
               onClick={() => handleComponentClick("notification")}
               className="iconcontainertop"
+              style={{
+                backgroundColor: COLORS.iconcol,
+              }}
             >
               {newNotification ? (
                 <IoIosNotifications color={COLORS.background} size={"3rem"} />
@@ -421,7 +569,13 @@ const Dashboard = () => {
               )}
             </div>
 
-            <div onClick={gotoNavigation} className="iconcontainertop">
+            <div
+              onClick={gotoNavigation}
+              style={{
+                backgroundColor: COLORS.iconcol,
+              }}
+              className="iconcontainertop"
+            >
               <IoIosSettings color={COLORS.background} size={"3rem"} />
             </div>
           </div>
@@ -480,10 +634,13 @@ const Dashboard = () => {
             }}
           >
             <div className="adLContenContainerIcon">
-            <img src={images.play} style={{
-                height: '5rem',
-                width: '5rem',
-              }}/>
+              <img
+                src={images.play}
+                style={{
+                  height: "5rem",
+                  width: "5rem",
+                }}
+              />
             </div>
             <label className="adLContenContainerLabel">Play</label>
           </div>
@@ -519,24 +676,26 @@ const Dashboard = () => {
             <div className="adLContenContainerIcon">
               <FaHistory color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">History</label>
+            <label className="adLContenContainerLabel">
+              Transacation History
+            </label>
           </div>
 
           <div
             className="adLContenContainer"
-            key={"aboutus"}
-            onClick={() => handleComponentClick("aboutus")}
+            key={"playhistory"}
+            onClick={() => handleComponentClick("playhistory")}
             style={{
               background:
-                selectedComponent === "aboutus"
+                selectedComponent === "playhistory"
                   ? "linear-gradient(180deg, #7EC630, #3D6017)"
                   : "linear-gradient(180deg, #011833, #011833)",
             }}
           >
             <div className="adLContenContainerIcon">
-              <FaInfoCircle color={COLORS.white_s} size={"2.5rem"} />
+              <TbHistoryToggle color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">About us</label>
+            <label className="adLContenContainerLabel">Play History</label>
           </div>
 
           {/** FOR PROMOTIONS */}
@@ -550,19 +709,13 @@ const Dashboard = () => {
           )}
 
           <div className="shereAppContainer">
-            <div
-              onClick={iosAppLink}
-              className="iconcontainertop"
-            >
+            <div onClick={iosAppLink} className="iconcontainertop">
               <FaApple color={COLORS.background} size={"3rem"} />
             </div>
 
             <label className="shereAppContainerLabel">Get Apps</label>
 
-            <div
-              onClick={androidAppLink}
-              className="iconcontainertop"
-            >
+            <div onClick={androidAppLink} className="iconcontainertop">
               <AiFillAndroid color={COLORS.background} size={"3rem"} />
             </div>
           </div>
@@ -577,19 +730,33 @@ const Dashboard = () => {
             <HomeDashboard
               selectedComponent={selectedComponent}
               handleComponentClick={handleComponentClick}
+              filteredDataAllLocation={filteredDataAllLocation}
+              alldatafilterAllLocation={alldatafilterAllLocation}
+              settingFilterData={settingFilterData}
+              selectedFilterAllLocation={selectedFilterAllLocation}
+              isLoadingAllLocation={isLoadingAllLocation}
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
             />
           )}
-          {selectedComponent === "alllocation" && <AllLocation key={reloadTrigger ? 1 : 0} />}
+          {selectedComponent === "alllocation" && (
+            <AllLocation key={reloadTrigger ? 1 : 0} />
+          )}
           {selectedComponent === "play" && <Play />}
-          {selectedComponent === "history" && <Historyc key={reloadTrigger ? 1 : 0} />}
+          {selectedComponent === "history" && (
+            <Historyc reloadKey={reloadKey} />
+          )}
           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
-          {selectedComponent === "wallet" && <Wallet key={reloadTrigger ? 1 : 0} />}
+          {selectedComponent === "wallet" && (
+            <Wallet key={reloadTrigger ? 1 : 0} />
+          )}
           {selectedComponent === "notification" && <Notification />}
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
           {selectedComponent === "userprofile" && <Userprofile />}
-          {selectedComponent === "result" && <AllResult />}
+          {selectedComponent === "result" && <AllResult reloadKey={reloadKey} />}
           {selectedComponent === "aboutus" && <Aboutus />}
+          {selectedComponent === "playhistory" && <Playhistory reloadKey={reloadKey} />}
         </div>
       </div>
 
@@ -600,973 +767,3 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-{
-  /* <div className="adRightContainer">
-{selectedComponent === "dashboard" && (
-  <HomeDashboard
-    selectedComponent={selectedComponent}
-    handleComponentClick={handleComponentClick}
-  />
-)}
-{selectedComponent === "alllocation" && <AllLocation />}
-{selectedComponent === "createresult" && <AllLocation />}
-{/* {selectedComponent === "gamedescription" && <GameDescription />} */
-}
-// {selectedComponent === "alldeposit" && <AllDeposit />}
-// {selectedComponent === "withdraw" && <AllWithdraw />}
-// {selectedComponent === "aboutus" && <Aboutus />}
-// {/* {selectedComponent === "balancesheet" && <Balancesheet />} */}
-// {selectedComponent === "changepassword" && <ChangePassword />}
-// {selectedComponent === "logout" && (
-//   <Logout
-//     selectedComponent={selectedComponent}
-//     handleComponentClick={handleComponentClick}
-//   />
-// )}
-// {selectedComponent === "notification" && <Notification />}
-// {/* {selectedComponent === "pushnotification" && <PushNotification />} */}
-// {selectedComponent === "allcountry" && <AllCountry />}
-// {/* {selectedComponent === "walletmod" && <AllWallet />} */}
-// {selectedComponent === "promotion" && <Promotion />}
-// {selectedComponent === "subadmin" && <AllSubAdmin />}
-// {selectedComponent === "updateprofile" && <UpdateProfile />}
-// {selectedComponent === "payment" && <PaymentDeposit />}
-// {selectedComponent === "play" && <PlayLocation />}
-// {selectedComponent === "alluser" && <AllUser />}
-// {selectedComponent === "newuser" && <NewUser />}
-// {selectedComponent === "allresults" && <AllResults />}
-// </div> */}
-
-// main content
-
-// import React, { useEffect, useState } from "react";
-// import "./Dashboard.css";
-// import FONT from "../../assets/constants/fonts";
-// import images from "../../assets/constants/images";
-// import { CiSearch } from "react-icons/ci";
-// import { BsBank2 } from "react-icons/bs";
-// import COLORS from "../../assets/constants/colors";
-// import { FaWallet } from "react-icons/fa";
-// import { IoIosNotifications } from "react-icons/io";
-// import { IoIosSettings } from "react-icons/io";
-// import { AiFillAndroid } from "react-icons/ai";
-// import { FaApple } from "react-icons/fa";
-// import { FaHome } from "react-icons/fa";
-// import { IoLocationSharp } from "react-icons/io5";
-// import { FaTrophy } from "react-icons/fa6";
-// import { FaPlay } from "react-icons/fa";
-// import { FaHistory } from "react-icons/fa";
-// import { TbFileDescription } from "react-icons/tb";
-// import { IoIosInformationCircle } from "react-icons/io";
-// import { SlCalender } from "react-icons/sl";
-// import HomeDashboard from "../../components/dashboard/HomeDashboard";
-// import AllLocation from "../../components/alllocation/AllLocation";
-// import Play from "../../components/play/Play";
-// import Historyc from "../../components/history/Historyc";
-// import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc";
-// import { useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { loadProfile } from "../../redux/actions/userAction";
-// import { PiHandDepositBold } from "react-icons/pi";
-// import { PiHandWithdrawFill } from "react-icons/pi";
-// import Wallet from "../../components/wallet/Walllet";
-// import Notification from "../../components/notification/Notification";
-// import Paymentdeposit from "../../components/deposit/Paymentdeposit";
-// import Withdrawpayment from "../../components/withdraw/Withdrawpayment";
-// import Userprofile from "../../components/profile/Userprofile";
-// import AllResult from "../../components/result/AllResult";
-// import Aboutus from "../../components/about/Aboutus";
-// import ImageSlider from "../../components/helper/ImageSlider";
-// import { showSuccessToast } from "../../components/helper/showErrorToast";
-// import { serverName } from "../../redux/store";
-
-// const timedata = [
-//   {
-//     val: "09:00 AM",
-//   },
-//   {
-//     val: "10:00 AM",
-//   },
-//   {
-//     val: "11:00 AM",
-//   },
-//   {
-//     val: "12:00 PM",
-//   },
-//   {
-//     val: "01:00 PM",
-//   },
-
-//   {
-//     val: "02:00 PM",
-//   },
-//   {
-//     val: "03:00 PM",
-//   },
-
-//   {
-//     val: "04:00 PM",
-//   },
-//   {
-//     val: "04:00 PM",
-//   },
-//   {
-//     val: "06:00 PM",
-//   },
-
-//   {
-//     val: "07:00 PM",
-//   },
-//   {
-//     val: "08:00 PM",
-//   },
-// ];
-
-// const imagesdata = [
-//   "https://img.freepik.com/premium-vector/big-sale-banner-template-abstract-background_219363-47.jpg?w=1800",
-//   "https://img.freepik.com/free-vector/sales-banner-origami-style_23-2148399967.jpg?w=1800&t=st=1723879042~exp=1723879642~hmac=f9cfd426b3814e6e88981c431f20daf1611dd0e064bdd3ab33441ce2e3145743",
-//   "https://img.freepik.com/free-vector/geometric-background_23-2148101184.jpg?w=1060&t=st=1723879573~exp=1723880173~hmac=a4ca0aa35d3e224973bc3293b9eb217d00e8fc6bc23fab46077c51bb3f7d1432",
-// ];
-
-// const Dashboard = () => {
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-
-//   const getUserAccessToken = async () => {
-//     try {
-//       const val = await localStorage.getItem("accesstoken");
-//       console.log("From SS Access Token :: " + val);
-//       // dispatch(getUserAccessToken(val));
-//       dispatch({
-//         type: "getaccesstoken",
-//         payload: val,
-//       });
-
-//       dispatch(loadProfile(val));
-//     } catch (error) {
-//       console.log("error" + error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     getUserAccessToken();
-//   }, []);
-
-//   const gotoNavigation = () => {
-//     navigate("/setting");
-//   };
-
-//   const [selectedLocation, setSelectedLocation] = useState(locationdata[0]);
-//   const [selectedComponent, setSelectedComponent] = useState("home");
-
-//   const handleLocationClick = (location) => {
-//     console.log("clicked");
-//     console.log(JSON.stringify(location));
-//     setSelectedLocation(location);
-//   };
-
-//   const handleComponentClick = (comp) => {
-//     console.log("clicked");
-//     setSelectedComponent(comp);
-//   };
-
-//   useEffect(() => {
-//     console.log("location changed");
-//   }, [selectedLocation, selectedComponent]);
-
-//   const { user, accesstoken, loading } = useSelector((state) => state.user);
-
-//   useEffect(() => {
-//     dispatch(loadProfile(accesstoken));
-//   }, []);
-
-//   console.log(loading, user);
-
-//   return (
-//     <div className="main-parent">
-//       {/** Top bar */}
-//       <div className="topheaderd">
-//         <div className="lefttopcontinerd">
-//           <div className="ltcleftd">
-//             <label className="helloLabel">Hello,</label>
-//             <label className="usernameLabel">{user ? user.name : ""}</label>
-//           </div>
-//           <div
-//             className="ltcrightd"
-//             onClick={() => setSelectedComponent("userprofile")}
-//           >
-//             <div className="ltcrightimaged">
-//                {user?.avatar?.url ? (
-//                 <img
-//                   src={`${serverName}/uploads/${user?.avatar.url}`}
-//                   alt="Profile Picture"
-//                   className="user-imaged"
-//                 />
-//               ) : (
-//                 <img
-//                   src={images.user}
-//                   alt="Profile Picture"
-//                   className="user-imaged"
-//                 />
-//               )}
-//             </div>
-//           </div>
-//         </div>
-//         <div className="righttopcontinerd">
-//           {/** search */}
-//           {/* <div className="searchcontainerd">
-//             <div style={{ justifyContent: "center", alignItems: "center" }}>
-//               <CiSearch size={"25px"} />
-//             </div>
-
-//             <label className="searchLabel">Search for location</label>
-//           </div> */}
-//           {/** deposit */}
-//           <div
-//             className="depositcontainerd"
-//             style={{ cursor: "pointer" }}
-//             onClick={() => setSelectedComponent("deposit")}
-//           >
-//             <div
-//               style={{
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <PiHandDepositBold color={COLORS.white_s} size={"1.5vw"} />
-//             </div>
-
-//             <label className="depositLabel" style={{ cursor: "pointer" }}>
-//               DEPOSIT
-//             </label>
-//           </div>
-
-//           {/** withdraw */}
-//           <div
-//             className="depositcontainerd"
-//             style={{ cursor: "pointer" }}
-//             onClick={() => setSelectedComponent("withdraw")}
-//           >
-//             <div
-//               style={{
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <PiHandWithdrawFill color={COLORS.white_s} size={"1.5vw"} />
-//             </div>
-
-//             <label className="depositLabel" style={{ cursor: "pointer" }}>
-//               WITHDRAW
-//             </label>
-//           </div>
-//           {/** location */}
-//           <div
-//             className="iconcontainerd"
-//             onClick={() => handleComponentClick("wallet")}
-//             style={{ cursor: "pointer" }}
-//           >
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <FaWallet color={COLORS.background} size={"25px"} />
-//             </div>
-//           </div>
-//           {/** notification */}
-//           <div
-//             className="iconcontainerd"
-//             style={{ cursor: "pointer" }}
-//             onClick={() => handleComponentClick("notification")}
-//           >
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <IoIosNotifications color={COLORS.background} size={"25px"} />
-//             </div>
-//           </div>
-//           {/** setting */}
-//           <div
-//             className="iconcontainerd"
-//             onClick={gotoNavigation}
-//             style={{ cursor: "pointer" }}
-//           >
-//             <div
-//               style={{
-//                 display: "flex",
-//                 justifyContent: "center",
-//                 alignItems: "center",
-//                 cursor: "pointer",
-//               }}
-//             >
-//               <IoIosSettings color={COLORS.background} size={"25px"} />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//       {/** content */}
-//       <div className="contentcontainerd">
-//         {/** Left Container */}
-//         <div className="leftcontainerd">
-//           {/** App sidebar left */}
-//           <div className="leftsidebartopd">
-//             {/** Home */}
-//             <div
-//               className="lscontentd"
-//               key={"home"}
-//               onClick={() => handleComponentClick("home")}
-//               style={{
-//                 background:
-//                   selectedComponent === "home"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <FaHome color={COLORS.white_s} size={"20px"} />
-//               </div>
-
-//               <label className="sidebar-label">Home</label>
-//             </div>
-//             {/** All Location */}
-//             <div
-//               className="lscontentd"
-//               key={"alllocation"}
-//               onClick={() => handleComponentClick("alllocation")}
-//               style={{
-//                 background:
-//                   selectedComponent === "alllocation"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <IoLocationSharp color={COLORS.white_s} size={"20px"} />
-//               </div>
-
-//               <label className="sidebar-label">All Location</label>
-//             </div>
-//             {/** Results */}
-//             <div
-//               className="lscontentd"
-//               key={"result"}
-//               onClick={() => handleComponentClick("result")}
-//               style={{
-//                 background:
-//                   selectedComponent === "result"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <FaTrophy color={COLORS.white_s} size={"20px"} />
-//               </div>
-//               <label className="sidebar-label">Result</label>
-//             </div>
-
-//             {/** Play */}
-
-//             <div
-//               className="lscontentd"
-//               key={"play"}
-//               onClick={() => handleComponentClick("play")}
-//               style={{
-//                 background:
-//                   selectedComponent === "play"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <FaPlay color={COLORS.white_s} size={"18px"} />
-//               </div>
-//               <label className="sidebar-label"> Play</label>
-//             </div>
-
-//             {/** History */}
-//             <div
-//               className="lscontentd"
-//               key={"history"}
-//               onClick={() => handleComponentClick("history")}
-//               style={{
-//                 background:
-//                   selectedComponent === "history"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <FaHistory color={COLORS.white_s} size={"20px"} />
-//               </div>
-//               <label className="sidebar-label">History</label>
-//             </div>
-
-//             {/** Game Description */}
-//             {/* <div
-//               className="lscontentd"
-//               key={"gamedescription"}
-//               onClick={() => handleComponentClick("gamedescription")}
-//               style={{
-//                 background:
-//                   selectedComponent === "gamedescription"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <TbFileDescription color={COLORS.white_s} size={"20px"} />
-//               </div>
-//               <label className="sidebar-label">Game Description</label>
-//             </div> */}
-
-//             {/** About Us */}
-//             <div
-//               className="lscontentd"
-//               key={"aboutus"}
-//               onClick={() => handleComponentClick("aboutus")}
-//               style={{
-//                 background:
-//                   selectedComponent === "aboutus"
-//                     ? "linear-gradient(180deg, #7EC630, #3D6017)"
-//                     : "linear-gradient(180deg, #011833, #011833)",
-//               }}
-//             >
-//               <div className="lscontentIconContiner">
-//                 <IoIosInformationCircle color={COLORS.white_s} size={"20px"} />
-//               </div>
-//               <label className="sidebar-label">About Us</label>
-//             </div>
-//           </div>
-
-//           {/** promotion */}
-//           <div className="leftsidebarmiddled">
-//             <label className="promotionLable">Promotions</label>
-//             <div className="ImageSlider">
-//               <ImageSlider images={imagesdata} />
-//             </div>
-//           </div>
-
-//           {/** Apps Available on */}
-//           <div className="leftsidebarbottomd">
-//             <div className="appiconcontainerd"
-//             onClick={() => showSuccessToast("Get Android App")}
-//             >
-//               <div
-//                 style={{
-//                   display: "flex",
-//                   justifyContent: "center",
-//                   alignItems: "center",
-//                   cursor: "pointer"
-//                 }}
-//               >
-//                 <AiFillAndroid color={COLORS.background} size={"30px"} />
-//               </div>
-//             </div>
-
-//             <label className="getTheApplabel">Get the App</label>
-
-//             <div className="appiconcontainerd"
-//                onClick={() => showSuccessToast("Get Ios App")}
-//             >
-//               <div
-//                 style={{
-//                   display: "flex",
-//                   justifyContent: "center",
-//                   alignItems: "center",
-//                   cursor: "pointer"
-//                 }}
-//               >
-//                 <FaApple color={COLORS.background} size={"30px"} />
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/** Main Containt */}
-//         <div className="main-center-contentd">
-//           {selectedComponent === "home" && <HomeDashboard />}
-//           {selectedComponent === "alllocation" && <AllLocation />}
-//           {selectedComponent === "play" && <Play />}
-//           {selectedComponent === "history" && <Historyc />}
-//           {selectedComponent === "gamedescription" && <Gamedescriptionc />}
-//           {selectedComponent === "wallet" && <Wallet />}
-//           {selectedComponent === "notification" && <Notification />}
-//           {selectedComponent === "deposit" && <Paymentdeposit />}
-//           {selectedComponent === "withdraw" && <Withdrawpayment />}
-//           {selectedComponent === "userprofile" && <Userprofile />}
-//           {selectedComponent === "result" && <AllResult />}
-//           {selectedComponent === "aboutus" && <Aboutus />}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-
-// .main-parent {
-//   height: 100vh;
-//   width: 100%;
-//   background-color: var(--background);
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .topheaderd {
-//   display: flex;
-//   height: 10%;
-//   width: 100%;
-//   margin-right: 2%;
-//   flex-direction: row;
-// }
-
-// .lefttopcontinerd {
-//   width: 18%;
-//   height: 100%;
-//   display: flex;
-// }
-
-// .ltcleftd {
-//   display: flex;
-//   flex: 1;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: flex-start;
-//   padding-left: 10%;
-// }
-
-// .ltcrightimaged {
-//   height: 60px;
-//   width: 60px;
-//   background-color: white;
-//   padding: 2%;
-//   border-radius: 50%;
-//   overflow: hidden;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .user-imaged {
-//   height: 100%;
-//   width: 100%;
-//   object-fit: cover;
-//   border-radius: 50%;
-// }
-
-// .ltcrightd {
-//   flex: 1;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .searchcontainerd, .depositcontainerd, .iconcontainerd {
-//   padding: 5px;
-//   margin: 10px;
-//   border-radius: 10px;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-
-// }
-
-// .searchcontainerd {
-//   flex: 1;
-//   background-color: var(--grayHalfBg);
-//   flex-direction: row;
-//   justify-content: flex-start;
-// }
-
-// .depositcontainerd {
-//   height: 50px;
-//   background: linear-gradient(180deg, #7EC630, #3D6017);
-// }
-
-// .walletcontainerd {
-//   width: 10%;
-//   background-color: var(--grayHalfBg);
-//   padding: 10px;
-//   margin: 10px;
-//   border-radius: 10px;
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   gap: 2px;
-// }
-
-// .iconcontainerd{
-//   width: 50px;
-//   height: 50px;
-//   background-color: var(--grayHalfBg);
-// }
-
-// .righttopcontinerd {
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: right;
-// }
-
-// .contentcontainerd {
-//   flex: 1;
-//   display: flex;
-//   width: 100%;
-//   flex-direction: row;
-//   height: 90vh;
-// }
-
-// .leftcontainerd {
-//   width: 15%;
-//   height: 90vh;
-
-// }
-
-// .leftsidebartopd {
-//   height: 55%;
-//   width: calc(100% - 10%); /* Adjust width to account for margin */
-//   background: linear-gradient(180deg, #0162AF, #011833);
-//   margin: 5%;
-//   margin-right: 5%; /* Add specific margin for the right side */
-//   border-radius: 3vh;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   flex-direction: column;
-//   gap: 10px;
-// }
-
-// .lscontentd{
-//   width: calc(100% - 10%); /* Adjust width to account for margin */
-//   background-color: var(--background);
-//   height: 10%;
-//   padding: 2%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   align-items: center;
-//   border-radius: 8px;
-//   gap: 10px;
-
-// }
-
-// .lscontentd:hover{
-//   border: 2px solid var(--green); /* Change border color on hover */
-//   cursor: pointer;
-// }
-
-// .leftsidebarmiddled {
-//   height: 30%;
-//   width: calc(100% - 10%); /* Adjust width to account for margin */
-//   background: linear-gradient(180deg, #0162AF, #011833);
-//   margin: 5%;
-//   margin-right: 5%; /* Add specific margin for the right side */
-//   border-radius: 3vh;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   gap: 10px;
-//   position: relative; /* Make this container relative */
-//   overflow: hidden; /* Hide overflow */
-// }
-
-// .promotionLable {
-//   color: var(--white_s);
-//   font-family: "HB";
-//   font-size: 1.8vw;
-//   margin: 2vh;
-//   z-index: 2; /* Ensure the label is above the image */
-// }
-
-// .ImageSlider {
-//   height: 100%; /* Ensure the slider takes the remaining space */
-//   width: 100%;
-//   position: relative; /* For positioning the nav buttons */
-// }
-
-// .promotion-bannerd {
-//   height: 70%; /* Fixed height for the image container */
-//   width: 100%;  /* Full width for the image container */
-//   object-fit: cover; /* Ensure the image covers the container while maintaining its aspect ratio */
-// }
-
-// .leftsidebarbottomd {
-//   height: 10%;
-//   width: calc(100% - 10%); /* Adjust width to account for margin */
-//   margin: 5%;
-//   margin-right: 5%; /* Add specific margin for the right side */
-//   border-radius: 3vh;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// .appiconcontainerd{
-//   width: 20%;
-//   background-color: var(--grayHalfBg);
-//   border-radius: 1vh;
-//   padding: 3px;
-// }
-
-// .main-center-contentd{
-//   display: flex;
-//   flex: 1;
-// }
-
-// /* Base styles for the label */
-// .sidebar-label {
-//   color: white;
-//   font-family: "MR";
-//   font-size: 0.8em; /* Use relative units */
-//   text-align: center;
-//   flex: 1;
-//   text-align: left;
-// }
-// .topbar-label {
-//   color: black;
-//   font-family: "HR";
-//   font-size: 0.8em; /* Use relative units */
-//   text-align: center;
-//   flex: 1;
-//   text-align: left;
-// }
-
-// .lscontentIconContiner{
-//   display: flex;
-//   min-width: 3vw;
-//   justify-content: right;
-//   align-items: center;
-
-// }
-// .getTheApplabel{
-//   color: var(--white_s);
-//   font-family: "HR";
-//   font-size: medium;
-//   text-align: center;
-//   padding-left: 10px;
-//   padding-right: 10px;
-// }
-
-// .helloLabel{
-//   color: var(--white_s);
-//   font-family: "HR";
-//   font-size: 1.4vw;
-// }
-// .usernameLabel{
-//   color: var(--white_s);
-//   font-family: "HB";
-//   font-size: 1.8vw;
-// }
-// .searchLabel{
-//   color: var(--black);
-//   font-family: "MR";
-//   font-size:  1.2em;
-//   padding-left: 10px;
-// }
-// .depositLabel{
-//   color: var(--white_s);
-//   font-family: "HR";
-//   font-size:  1vw;
-//   padding-left: 5px;
-// }
-
-// /* Medium devices (tablets) */
-// @media (max-width: 1024px) {
-//   /* CSS rules for tablets in landscape mode */
-//   .helloLabel{
-//       color: var(--white_s);
-//       font-family: "HR";
-//       font-size: 1.8vw;
-//   }
-//   .usernameLabel{
-//       color: var(--white_s);
-//       font-family: "HB";
-//       font-size: 2vw;
-//   }
-//   .topheaderd {
-//       display: flex;
-//       height: 8%;
-//       width: 100%;
-//       margin-right: 2%;
-//       flex-direction: row;
-//   }
-//   .searchLabel{
-//       color: var(--black);
-//       font-family: "MR";
-//       font-size:  1em,;
-//       padding-left: 10px;
-//   }
-//   .ltcrightimaged {
-//       height: 45px;
-//       width: 45px;
-//       background-color: white;
-//       padding: 2%;
-//       border-radius: 50%;
-//       overflow: hidden;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//   }
-//   .iconcontainerd{
-//       width: 45px;
-//       height: 45px;
-//       background-color: var(--grayHalfBg);
-//   }
-//   .depositcontainerd {
-//       height: 45px;
-//       background: linear-gradient(180deg, #7EC630, #3D6017);
-//   }
-// }
-
-// /* Media query to hide the label on small screens */
-// @media (max-width: 768px) {
-//   .sidebar-label {
-//     display: none; /* Hide the label on screens smaller than 768px */
-//   }
-
-//   .lscontentd{
-//       width: calc(100% - 10%); /* Adjust width to account for margin */
-//       background-color: var(--background);
-//       height: 10%;
-//       padding: 2%;
-//       display: flex;
-//       flex-direction: row;
-//       justify-content: center;
-//       align-items: center;
-//       border-radius: 8px;
-//       gap: 10px;
-
-//   }
-//   .lscontentd:hover{
-//       border: 2px solid var(--green); /* Change border color on hover */
-//       cursor: pointer;
-//   }
-//   .lscontentIconContiner{
-//       display: flex;
-//       min-width: 3vw;
-//       justify-content: center;
-//       align-items: center;
-
-//   }
-//   .leftsidebarmiddled  {
-//       display: none;
-//   }
-//   .getTheApplabel{
-//       display: none;
-//   }
-//   .leftsidebarbottomd {
-//       min-width: 60px; /* Adjust width to account for margin */
-//       margin: 2%;
-//       margin-right: 5%; /* Add specific margin for the right side */
-//       border-radius: 1vh;
-//       display: flex;
-//       flex-direction: column;
-//       justify-content: center;
-//       align-items: center;
-//       gap: 2vh;
-//   }
-//   .appiconcontainerd{
-//       width: 40px;
-//       background-color: var(--grayHalfBg);
-//       border-radius: 1vh;
-//       padding: 3px;
-//   }
-//   .leftcontainerd {
-//       width: 15%;
-//       height: 90vh;
-
-//   }
-//   .searchcontainerd {
-//       width: 50px;
-//       background-color: var(--grayHalfBg);
-//       flex-direction: row;
-//       justify-content: flex-start;
-//   }
-//   .searchLabel{
-//       display: none;
-//   }
-
-//    .depositcontainerd, .iconcontainerd {
-//       padding: 10px;
-//       border-radius: 10px;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       height: 40px;
-//       width: 40px;
-//   }
-//   .walletcontainerd,.depositcontainerd,.searchcontainerd{
-//       display: none;
-//   }
-//   .topheaderd {
-//       display: flex;
-//       height: 8%;
-//       width: 100%;
-//       margin-right: 2%;
-//       flex-direction: row;
-//   }
-//   .lefttopcontinerd {
-//       width: 18%;
-//       height: 100%;
-//       display: flex;
-//       justify-content: left;
-//       justify-content: flex-start;
-//       align-items: flex-start;
-//       margin-top: 10px;
-//   }
-//   .ltcleftd{
-//       display: none;
-//   }
-
-//   .ltcrightimaged {
-//       height: 40px;
-//       width: 40px;
-//       background-color: white;
-//       padding: 2%;
-//       border-radius: 50%;
-//       overflow: hidden;
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//   }
-
-//   .leftsidebartopd {
-//       height: 75%;
-//       width: 60px;/* Adjust width to account for margin */
-//       background: linear-gradient(180deg, #0162AF, #011833);
-//       margin: 5%;
-//       margin-right: 5%; /* Add specific margin for the right side */
-//       display: flex;
-//       justify-content: center;
-//       align-items: center;
-//       flex-direction: column;
-//       gap: 10px;
-//       border-top-right-radius: 10px;
-//       border-top-left-radius: 10px;
-//   }
-//   .leftcontainerd {
-//       width: 65px;
-//       height: 90vh;
-
-//   }
-//   .lefttopcontinerd {
-//       width: 50px;
-//       height: 100%;
-//       display: flex;
-//   }
-
-// }

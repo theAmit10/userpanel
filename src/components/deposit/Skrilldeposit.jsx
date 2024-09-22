@@ -199,7 +199,7 @@ function Skrilldeposit({ selectingPaymentType }) {
           </div>
           <div className="alCreatLocationTopContaineCL">
             <label className="alCreatLocationTopContainerlabel">
-              UPI Payment
+              Skrill Payment
             </label>
           </div>
         </div>
@@ -209,7 +209,7 @@ function Skrilldeposit({ selectingPaymentType }) {
         ) : (
           <>
             {allDepositdata.length === 0 ? (
-              <NodataFound title={"No data available"} />
+              <NodataFound title={"This payment method is temporarily unavailable."} />
             ) : (
              
               <>
@@ -252,6 +252,16 @@ function Skrilldeposit({ selectingPaymentType }) {
                       </div>
                     </div>
                     {/** TOP */}
+                    <div className="uCCBottomC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Note</label>
+                          </div>
+                          <div className="uCCBottomSC">
+                            <label className="pdRBottom">
+                              {item.paymentnote}
+                            </label>
+                          </div>
+                        </div>
                   </div>
                 ))}
               </div>
@@ -285,7 +295,7 @@ function Skrilldeposit({ selectingPaymentType }) {
 
         <div className="allLocationMainContainer">
           {/** Amount */}
-          <label className="alCLLabel">Amount</label>
+          <label className="alCLLabel">Send Amount</label>
           <div className="alSearchContainer">
             <div className="searchIconContainer">
               <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -320,7 +330,7 @@ function Skrilldeposit({ selectingPaymentType }) {
           {/** RECEIPT */}
 
           {/** TITLE */}
-          <label className="alCLLabel">Receipt</label>
+          <label className="alCLLabel">Upload Receipt</label>
           <div className="alSearchContainer">
             <div className="searchIconContainer">
               <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -333,6 +343,7 @@ function Skrilldeposit({ selectingPaymentType }) {
                 type="file"
                 name="file"
                 onChange={selectDoc}
+                accept="image/*"
               />
             </div>
           </div>
