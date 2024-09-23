@@ -52,7 +52,12 @@ function UpiWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else if (!upiHolderName) {
+    }
+    else if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    } 
+    else if (!upiHolderName) {
       showErrorToast("Enter UPI Holder Name");
     } else if (!upiId) {
       showErrorToast("Enter UPI ID");

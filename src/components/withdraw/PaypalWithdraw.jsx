@@ -40,7 +40,12 @@ function PaypalWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else if (!paypalEmail) {
+    }
+    else if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    } 
+    else if (!paypalEmail) {
       showErrorToast("Enter paypal email address");
     } else {
       try {

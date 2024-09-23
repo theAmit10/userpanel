@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Aboutus.css";
-import FONT from "../../assets/constants/fonts";
 import { CiSearch } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllLocations } from "../../redux/actions/locationAction";
-import COLORS from "../../assets/constants/colors";
-import CircularProgressBar from "../helper/CircularProgressBar";
 import { loadAllAboutUs } from "../../redux/actions/userAction";
 import { LoadingComponent } from "../helper/LoadingComponent";
 
-function Aboutus() {
+function Aboutus({reloadKey}) {
   const { accesstoken, loadingAbout, abouts } = useSelector(
     (state) => state.user
   );
@@ -27,11 +23,11 @@ function Aboutus() {
 
   useEffect(() => {
     dispatch(loadAllAboutUs(accesstoken));
-  }, [dispatch]);
+  }, [dispatch,reloadKey]);
 
   useEffect(() => {
     setFilteredData(abouts); // Update filteredData whenever locations change
-  }, [abouts]);
+  }, [abouts,reloadKey]);
 
   return (
     <div className="aboutus-container">

@@ -53,7 +53,11 @@ function BankWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else if (!bankName) {
+    }else if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    } 
+    else if (!bankName) {
       showErrorToast("Enter Bank Name");
     } else if (!accountHolderName) {
       showErrorToast("Enter account holder name");

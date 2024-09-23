@@ -19,7 +19,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlinePriceChange } from "react-icons/md";
 import { LoadingComponent } from "../helper/LoadingComponent";
 
-function Balancetransfer() {
+function Balancetransfer({reloadKey}) {
   const dispatch = useDispatch();
 
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -31,7 +31,12 @@ function Balancetransfer() {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else {
+    }
+    if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    }
+     else {
       try {
         const body = {
           amount: amountval,

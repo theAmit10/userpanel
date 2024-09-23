@@ -40,7 +40,12 @@ function SkrillWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else if (!skrillContact) {
+    } 
+    else if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    } 
+    else if (!skrillContact) {
       showErrorToast("Please enter phone number or email address");
     } else {
       try {

@@ -8,7 +8,7 @@ import COLORS from "../../assets/constants/colors";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
 
-function Gamedescriptionc() {
+function Gamedescriptionc({reloadKey}) {
   const { accesstoken } = useSelector((state) => state.user);
   const { loading, locations } = useSelector((state) => state.location);
   const dispatch = useDispatch();
@@ -25,11 +25,11 @@ function Gamedescriptionc() {
 
   useEffect(() => {
     dispatch(getAllLocations(accesstoken));
-  }, [dispatch, accesstoken]);
+  }, [dispatch, accesstoken,reloadKey]);
 
   useEffect(() => {
     setFilteredData(locations); // Update filteredData whenever locations change
-  }, [locations]);
+  }, [locations,reloadKey]);
 
   console.log(filteredData);
 

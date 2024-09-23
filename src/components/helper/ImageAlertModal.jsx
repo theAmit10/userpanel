@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./AlertModal.css";
+import "./ImageAlertModal.css";
 
 export const ImageAlertModal = ({ isOpen, onClose, imageUrl }) => {
   const [isLoading, setIsLoading] = useState(true); // State to handle loading
@@ -25,30 +25,30 @@ export const ImageAlertModal = ({ isOpen, onClose, imageUrl }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="imgconM">
-          {isLoading && <div className="loader"></div>} {/* Show loader while loading */}
+    <div className="modal-overlay-rep">
+      <div className="modal-content-rep">
+        <button className="close-button-rep" onClick={onClose}>
+          &times;
+        </button>
+        <div className="img-container-rep">
+          {isLoading && <div className="loader-rep"></div>} {/* Show loader while loading */}
           {!hasError && (
             <img
               src={imageUrl}
               alt="Loaded Content"
-              className={`loaded-image ${isLoading ? "hidden" : ""}`} // Hide image while loading
+              className={`loaded-image-rep ${isLoading ? "hidden-rep" : ""}`} // Hide image while loading
               onLoad={handleImageLoad}
               onError={handleImageError}
             />
           )}
-          {hasError && <p className="error-message">Failed to load image</p>}
-        </div>
-        <div className="button-container">
-          <button className="ios-button" onClick={onClose}>
-            Close
-          </button>
+          {hasError && <p className="error-message-rep">Failed to load image</p>}
         </div>
       </div>
     </div>
   );
 };
+
+
 
 
 

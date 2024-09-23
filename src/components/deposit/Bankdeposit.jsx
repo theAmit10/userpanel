@@ -115,6 +115,10 @@ function Bankdeposit({ selectingPaymentType }) {
       showErrorToast("Enter Deposit Amount");
       return;
     }
+    if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    }
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;

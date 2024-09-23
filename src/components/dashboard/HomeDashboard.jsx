@@ -191,6 +191,10 @@ function HomeDashboard({filteredDataAllLocation,
     getUserAccessToken();
   }, []);
 
+  const { user, accesstoken, loading } = useSelector((state) => state.user);
+
+  
+
   // const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -236,7 +240,7 @@ function HomeDashboard({filteredDataAllLocation,
     console.log("location changed");
   }, [selectedLocation]);
 
-  const { user, accesstoken, loading } = useSelector((state) => state.user);
+
   const [showDate, setShowDate] = useState(false);
   const [nextResultTime, setNextResultTime] = useState(null);
 

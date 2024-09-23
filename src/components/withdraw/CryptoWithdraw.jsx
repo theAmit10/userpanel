@@ -41,7 +41,12 @@ function CryptoWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } else if (!cryptoWalletAddress) {
+    } 
+    else if (isNaN(amountval)) {
+      showErrorToast("Enter Valid Amount");
+      return;
+    } 
+    else if (!cryptoWalletAddress) {
       showErrorToast("Enter Crypto Wallet Address");
     } else if (!networkType) {
       showErrorToast("Enter Network Type");

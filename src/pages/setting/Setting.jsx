@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./Setting.css";
-import FONT from "../../assets/constants/fonts";
 import images from "../../assets/constants/images";
-import { CiSearch } from "react-icons/ci";
-import { BsBank2 } from "react-icons/bs";
 import COLORS from "../../assets/constants/colors";
 import { FaWallet } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
-import { IoIosSettings } from "react-icons/io";
-import { AiFillAndroid } from "react-icons/ai";
-import { FaApple } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
-import { IoLocationSharp } from "react-icons/io5";
-import { FaTrophy } from "react-icons/fa6";
-import { FaPlay } from "react-icons/fa";
 import { FaHistory } from "react-icons/fa";
 import { TbFileDescription } from "react-icons/tb";
-import { IoIosInformationCircle } from "react-icons/io";
-import { SlCalender } from "react-icons/sl";
 import HomeDashboard from "../../components/dashboard/HomeDashboard";
 import AllLocation from "../../components/alllocation/AllLocation";
 import Settingc from "../../components/setting/Settingc";
 import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc.jsx";
-import { MdPayment } from "react-icons/md";
 import { TbHistoryToggle } from "react-icons/tb";
-import { PiHandDepositBold } from "react-icons/pi";
 import { PiHandWithdrawFill } from "react-icons/pi";
 import Historyc from "../../components/history/Historyc.jsx";
 import Play from "../../components/play/Play.jsx";
@@ -44,9 +31,9 @@ import ChangePassword from "../../components/changepassword/ChangePassword.jsx";
 import UpdateProfile from "../../components/updateprofile/UpdateProfile.jsx";
 import Wallet from "../../components/wallet/Walllet.jsx";
 import Notification from "../../components/notification/Notification.jsx";
-import { IoHome } from "react-icons/io5";
+
 import { IoIosLogOut } from "react-icons/io";
-import { useGetLogoutQuery } from "../../redux/api.js";
+
 import {
   showErrorToast,
   showSuccessToast,
@@ -54,7 +41,6 @@ import {
 import Logout from "../../components/logout/Logout.jsx";
 import { serverName } from "../../redux/store.js";
 import { PiHandDepositFill } from "react-icons/pi";
-import { TbWorld } from "react-icons/tb";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 
@@ -164,9 +150,24 @@ export const locationdata = [
 const Setting = () => {
   const [selectedComponent, setSelectedComponent] = useState("gamedescription");
 
+  // const handleComponentClick = (comp) => {
+  //   console.log("clicked");
+  //   setSelectedComponent(comp);
+  // };
+
+  const [reloadKey, setReloadKey] = useState(0); // Key to force re-render
+
   const handleComponentClick = (comp) => {
-    console.log("clicked");
-    setSelectedComponent(comp);
+    if (selectedComponent === comp) {
+      // If the same component is clicked, increment the reloadKey to force a reload
+      setReloadKey((prevKey) => prevKey + 1);
+      // showWarningToast("processing :: "+reloadKey)
+    } else {
+      // Otherwise, set the selected component and reset the key
+      // showWarningToast("processing :: "+reloadKey)
+      setSelectedComponent(comp);
+      setReloadKey(0);
+    }
   };
 
   useEffect(() => {
@@ -202,21 +203,7 @@ const Setting = () => {
 
   const { accesstoken, user } = useSelector((state) => state.user);
 
-  const loggingOff = () => {
-    console.log("STARTING LOGGING OFF");
-
-    const { data, error, isLoading } = useGetLogoutQuery(accesstoken);
-
-    console.log(isLoading);
-
-    if (data) {
-      showSuccessToast("Logout Successfully");
-      localStorage.clear();
-      navigate("/login");
-    } else if (error) {
-      showErrorToast("Something went wrong");
-    }
-  };
+  
 
   return (
     <div className="adminDashboardContainer">
@@ -355,7 +342,7 @@ const Setting = () => {
             <div className="adLContenContainerIcon">
               <FaHistory color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">History</label>
+            <label className="adLContenContainerLabel">Transaction History</label>
           </div>
 
           {/** RESULT */}
@@ -480,19 +467,19 @@ const Setting = () => {
           {selectedComponent === "home" && <HomeDashboard />}
           {selectedComponent === "alllocation" && <AllLocation />}
           {selectedComponent === "setting" && <Settingc />}
-          {selectedComponent === "history" && <Historyc />}
+          {selectedComponent === "history" && <Historyc reloadKey={reloadKey}/>}
           {selectedComponent === "play" && <Play />}
-          {selectedComponent === "playhistory" && <Playhistory />}
+          {selectedComponent === "playhistory" && <Playhistory reloadKey={reloadKey}/>}
           {selectedComponent === "deposit" && <Paymentdeposit />}
           {selectedComponent === "withdraw" && <Withdrawpayment />}
-          {selectedComponent === "balancetransfer" && <Balancetransfer />}
+          {selectedComponent === "balancetransfer" && <Balancetransfer reloadKey={reloadKey}/>}
           {selectedComponent === "result" && <AllResult />}
           {selectedComponent === "aboutus" && <Aboutus />}
           {selectedComponent === "changepassword" && <ChangePassword />}
           {selectedComponent === "updateprofile" && <UpdateProfile />}
           {selectedComponent === "wallet" && <Wallet />}
           {selectedComponent === "notification" && <Notification />}
-          {selectedComponent === "gamedescription" && <Gamedescriptionc />}
+          {selectedComponent === "gamedescription" && <Gamedescriptionc reloadKey={reloadKey}/>}
           {selectedComponent === "logout" && <Logout />}
         </div>
       </div>

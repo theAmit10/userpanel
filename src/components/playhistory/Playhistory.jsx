@@ -31,7 +31,7 @@ function Playhistory({reloadKey}) {
   useEffect(() => {
     refetch();
     console.log("Relaoding again")
-    showWarningToast("Loading...")
+  
   },[refetch,reloadKey])
 
   const getPlaynumbersString = (playbets) => {
