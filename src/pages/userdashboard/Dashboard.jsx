@@ -48,6 +48,8 @@ import {
 import { CiSearch } from "react-icons/ci";
 import { TbHistoryToggle } from "react-icons/tb";
 import Playhistory from "../../components/playhistory/Playhistory";
+import UrlHelper from "../../helper/UrlHelper";
+import axios from "axios";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -81,7 +83,9 @@ const Dashboard = () => {
 
   const [newNotification, setNewNotification] = useState(true);
 
-  const { user, accesstoken, loading } = useSelector((state) => state.user);
+  const { user, accesstoken, loading, error } = useSelector(
+    (state) => state.user
+  );
   const { notifications, loadingNotification } = useSelector(
     (state) => state.user
   );
@@ -105,6 +109,9 @@ const Dashboard = () => {
     try {
       const val = await localStorage.getItem("accesstoken");
       console.log("From SS Access Token :: " + val);
+      if (!val) {
+        navigate("/login");
+      }
       // dispatch(getUserAccessToken(val));
       dispatch({
         type: "getaccesstoken",
@@ -112,7 +119,30 @@ const Dashboard = () => {
       });
 
       dispatch(loadProfile(val));
+
+      console.log("Checking for user");
+
+      try {
+        dispatch({
+          type: "loadUserRequest",
+        });
+
+        await axios.get(UrlHelper.USER_PROFILE_API, {
+          headers: {
+            Authorization: `Bearer ${val}`,
+          },
+        });
+      } catch (error) {
+        console.log(error?.response?.data?.message);
+        if (
+          error?.response?.data?.message === "Token Expired, please login Again"
+        ) {
+          localStorage.clear();
+          navigate("/login");
+        }
+      }
     } catch (error) {
+      console.log("found error for user ");
       console.log("error" + error);
     }
   };
@@ -264,7 +294,9 @@ const Dashboard = () => {
             <div className="top-left-d">
               <div className="top-left-left-d">
                 <label className="hellolabel">Hello,</label>
-                <label className="usernamelabel">{user ? user.name : ""}</label>
+                <label className="usernamelabel">
+                  {user ? user?.name : ""}
+                </label>
               </div>
               <div className="top-left-right-d">
                 <div className="userimagecontainer">
@@ -277,7 +309,7 @@ const Dashboard = () => {
                   <img
                     src={
                       user?.avatar?.url
-                        ? `${serverName}/uploads/${user?.avatar.url}`
+                        ? `${serverName}/uploads/${user?.avatar?.url}`
                         : images.user
                     }
                     alt="Profile Picture"

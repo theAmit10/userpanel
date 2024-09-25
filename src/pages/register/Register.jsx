@@ -1087,7 +1087,7 @@ function Register() {
   const submitHandler = async () => {
     console.log("Starting register");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
+    const phoneRegex = /^(?:\+?\d{1,3})?[-.\s]?(\(?\d{1,4}?\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
     console.log("Email :: " + email);
     console.log("name :: " + name);
@@ -1164,7 +1164,7 @@ function Register() {
             email: email,
             password: password,
             role: "user",
-            country: selectedCountry._id,
+            country: selectedCountryOrg._id,
           };
 
           const res = await createRegister({

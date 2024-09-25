@@ -1,5 +1,6 @@
 import axios from 'axios';
 import UrlHelper from '../../helper/UrlHelper.js';
+import { useNavigate } from 'react-router-dom';
 
 export const login = (email, password) => async dispatch => {
   try {
@@ -73,13 +74,13 @@ export const loadProfile = (accesstoken) => async dispatch => {
       payload: data.user,
     });
   } catch (error) {
+    console.log("found error during getting user action")
     console.log(error);
-    console.log(error.response);
+    console.log(error?.response?.data?.message);
     
-
     dispatch({
       type: 'loadUserFail',
-      payload: error.response.data.message,
+      payload: error?.response?.data?.message,
     });
   }
 };

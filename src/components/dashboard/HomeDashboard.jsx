@@ -813,23 +813,23 @@ function HomeDashboard({filteredDataAllLocation,
                             {/** TOP */}
                             <div className="hdLocationContainerRightTimeContainerTop">
                               <label className="hdLocationContainerLeftContentNameLabel">
-                                {selectedLocation.name}
+                                {selectedLocation?.name}
                               </label>
                               <label className="hdLocationContainerLeftContentLimitLabel">
-                                Max {selectedLocation.limit}
+                                Max {selectedLocation?.limit}
                               </label>
                             </div>
 
                             {/** Time content container */}
                             <div className="hdLocationContainerRightTimeContainerContentContainer">
-                              {selectedLocation.times.length === 0 ? (
+                              {selectedLocation?.times?.length === 0 ? (
                                 <div className="NC">
                                   <label className="hdLocationContainerLeftContentNameLabel">
                                     No available time
                                   </label>
                                 </div>
                               ) : (
-                                selectedLocation.times.map((titem, tindex) => (
+                                selectedLocation?.times?.map((titem, tindex) => (
                                   <div
                                     key={tindex}
                                     className="hdLocationContainerRightTimeContainerContentContainer-time"

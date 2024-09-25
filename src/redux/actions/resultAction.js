@@ -89,6 +89,7 @@ export const getResultDetails = (accesstoken,id) => async dispatch => {
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
+      
   
       dispatch({
         type: 'getAllResultFail',
