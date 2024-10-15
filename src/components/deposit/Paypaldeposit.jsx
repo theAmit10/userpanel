@@ -73,6 +73,8 @@ function Paypaldeposit({ selectingPaymentType }) {
     }
   };
 
+ 
+
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -82,6 +84,7 @@ function Paypaldeposit({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     }
+ 
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -181,7 +184,8 @@ function Paypaldeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (stringToCopy) => {
+  const handleCopyClick = (e,stringToCopy) => {
+    e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
       .then(() => {
@@ -258,11 +262,14 @@ function Paypaldeposit({ selectingPaymentType }) {
                       <div className="uCCTopSC">
                         <label className="pdR"> {item.emailaddress}</label>
                       </div>
+                      <div className="thirdChildD">
+
                       <div
-                        onClick={() => handleCopyClick(item.emailaddress)}
+                        onClick={(e) => handleCopyClick(e,item.emailaddress)}
                         className="copyCon"
                       >
                         <FaCopy color={COLORS.background} size={"2rem"} />
+                      </div>
                       </div>
                     </div>
                     {/** TOP */}

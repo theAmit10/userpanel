@@ -7,6 +7,7 @@ import { getAllLocations } from "../../redux/actions/locationAction";
 import COLORS from "../../assets/constants/colors";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { showWarningToast } from "../helper/showErrorToast";
 
 function Gamedescriptionc({reloadKey}) {
   const { accesstoken } = useSelector((state) => state.user);
@@ -33,7 +34,15 @@ function Gamedescriptionc({reloadKey}) {
 
   console.log(filteredData);
 
+
+
   const [selectedItem, setSelectedItem] = useState("");
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+  
+    setSelectedItem("")
+  }, [reloadKey]);
 
   return (
     <div className="main-content-container-gamedescrition">
@@ -80,7 +89,7 @@ function Gamedescriptionc({reloadKey}) {
                         : "linear-gradient(90deg, #7EC630, #3D6017)",
                     borderColor:
                       selectedItem?._id === item._id
-                        ? COLORS.blue
+                        ? COLORS.orange
                         : "transparent", // Use transparent for no border
                     borderWidth: "2px",
                     borderStyle:

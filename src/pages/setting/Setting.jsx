@@ -43,6 +43,7 @@ import { serverName } from "../../redux/store.js";
 import { PiHandDepositFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
+import { ToastContainer } from "react-toastify";
 
 export const locationdata = [
   {
@@ -414,7 +415,7 @@ const Setting = () => {
             <div className="adLContenContainerIcon">
               <TbFileDescription color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">Game Desc</label>
+            <label className="adLContenContainerLabel">Game Description</label>
           </div>
 
           {/** ABOUT US */}
@@ -461,30 +462,33 @@ const Setting = () => {
             <HomeDashboard
               selectedComponent={selectedComponent}
               handleComponentClick={handleComponentClick}
+              reloadKey={reloadKey}
             />
           )}
 
-          {selectedComponent === "home" && <HomeDashboard />}
-          {selectedComponent === "alllocation" && <AllLocation />}
-          {selectedComponent === "setting" && <Settingc />}
+          {selectedComponent === "home" && <HomeDashboard reloadKey={reloadKey}/>}
+          {selectedComponent === "alllocation" && <AllLocation reloadKey={reloadKey}/>}
+          {selectedComponent === "setting" && <Settingc reloadKey={reloadKey}/>}
           {selectedComponent === "history" && <Historyc reloadKey={reloadKey}/>}
-          {selectedComponent === "play" && <Play />}
+          {selectedComponent === "play" && <Play reloadKey={reloadKey} />}
           {selectedComponent === "playhistory" && <Playhistory reloadKey={reloadKey}/>}
-          {selectedComponent === "deposit" && <Paymentdeposit />}
-          {selectedComponent === "withdraw" && <Withdrawpayment />}
+          {selectedComponent === "deposit" && <Paymentdeposit reloadKey={reloadKey} />}
+          {selectedComponent === "withdraw" && <Withdrawpayment reloadKey={reloadKey} />}
           {selectedComponent === "balancetransfer" && <Balancetransfer reloadKey={reloadKey}/>}
-          {selectedComponent === "result" && <AllResult />}
-          {selectedComponent === "aboutus" && <Aboutus />}
-          {selectedComponent === "changepassword" && <ChangePassword />}
-          {selectedComponent === "updateprofile" && <UpdateProfile />}
-          {selectedComponent === "wallet" && <Wallet />}
-          {selectedComponent === "notification" && <Notification />}
+          {selectedComponent === "result" && <AllResult reloadKey={reloadKey} />}
+          {selectedComponent === "aboutus" && <Aboutus reloadKey={reloadKey}/>}
+          {selectedComponent === "changepassword" && <ChangePassword reloadKey={reloadKey}/>}
+          {selectedComponent === "updateprofile" && <UpdateProfile reloadKey={reloadKey}/>}
+          {selectedComponent === "wallet" && <Wallet reloadKey={reloadKey}/>}
+          {selectedComponent === "notification" && <Notification reloadKey={reloadKey}/>}
           {selectedComponent === "gamedescription" && <Gamedescriptionc reloadKey={reloadKey}/>}
-          {selectedComponent === "logout" && <Logout />}
+          {selectedComponent === "logout" && <Logout reloadKey={reloadKey}/>}
         </div>
       </div>
 
       {/** MAIN CONTENT CONTAINER END */}
+
+      <ToastContainer/>
     </div>
   );
 };

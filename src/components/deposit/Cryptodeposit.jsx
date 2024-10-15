@@ -162,7 +162,8 @@ function Cryptodeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (stringToCopy) => {
+  const handleCopyClick = (e,stringToCopy) => {
+    e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
       .then(() => {
@@ -231,6 +232,8 @@ function Cryptodeposit({ selectingPaymentType }) {
                         </div>
                         {/** TOP */}
 
+                      
+
                         {/** TOP */}
                         <div className="uCCMidC">
                           <div className="uCCTopFC">
@@ -239,11 +242,15 @@ function Cryptodeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.walletaddress}</label>
                           </div>
+                          
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.walletaddress)}
+                            onClick={(e) => handleCopyClick(e,item.walletaddress)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                         
                           </div>
                         </div>
                         {/** TOP */}
@@ -256,11 +263,14 @@ function Cryptodeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR"> {item.networktype}</label>
                           </div>
+                          <div className="thirdChildD">
+                          
                           <div
-                            onClick={() => handleCopyClick(item.networktype)}
+                            onClick={(e) => handleCopyClick(e,item.networktype)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -317,7 +327,7 @@ function Cryptodeposit({ selectingPaymentType }) {
 
           <div className="allLocationMainContainer">
             {/** Amount */}
-            <label className="alCLLabel">Send Amount</label>
+            <label className="alCLLabel">Amount In USD</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />

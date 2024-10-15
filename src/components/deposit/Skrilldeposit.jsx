@@ -70,6 +70,8 @@ function Skrilldeposit({ selectingPaymentType }) {
     }
   };
 
+
+
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -79,6 +81,7 @@ function Skrilldeposit({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     }
+  
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -170,7 +173,8 @@ function Skrilldeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (stringToCopy) => {
+  const handleCopyClick = (e,stringToCopy) => {
+    e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
       .then(() => {
@@ -180,7 +184,6 @@ function Skrilldeposit({ selectingPaymentType }) {
         console.error("Failed to copy text: ", err);
       });
   };
-
 
   const [showCU, setShowCU] = useState(false);
 
@@ -248,11 +251,15 @@ function Skrilldeposit({ selectingPaymentType }) {
                       <div className="uCCTopSC">
                         <label className="pdR">{item.address}</label>
                       </div>
+                      <div className="thirdChildD">
+
                       <div
-                        onClick={() => handleCopyClick(item.address)}
+                        onClick={(e) => handleCopyClick(e,item.address)}
                         className="copyCon"
                       >
                         <FaCopy color={COLORS.background} size={"2rem"} />
+                      </div>
+
                       </div>
                     </div>
                     {/** TOP */}

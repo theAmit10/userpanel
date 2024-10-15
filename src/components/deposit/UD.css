@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    max-height: 60vh;
+    min-height: 70vh;
     max-width: 80vw;
     margin-left:2rem;
     margin-right: 2rem;
@@ -21,18 +21,26 @@
     padding-left: 1rem;
     padding-right: 1rem;
     gap: 2rem;
+
    
 }
 
 .upipdContentContainer{
-    min-height: 35rem;
+    min-height: 60vh;
     width: 35rem;
     background-color: var(--background);
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
+    padding-bottom: 0.5rem;
+    overflow-y: scroll;
+   
 }
 
+.upipdContentContainer:hover{
+    border: 2px solid var(--green);
+    cursor: pointer;
+}
 .uCCTopC{
     height: 6rem;
 
@@ -43,58 +51,100 @@
     padding-right: 1rem;
 }
 
-.uCCMidC{
-    height: 5rem;
+.uCCBottomC{
+    min-height: 5rem;
+    width: 100%;
+   
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
+    flex-direction: row;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
 
+.uCCMidC{
+    min-height: 5rem;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
     
 }
 
-.uCCBottomC{
-    height: 5rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
-}
+
 
 .uCCTopFC{
+    flex: 0.6;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    flex: 1;
-    
-
 }
 
 .uCCTopSC{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   
+    padding-left: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    /* Ensure text doesn't overflow the container */
+    white-space: normal;
 }
 
-
-
-.uCCBottomSC{
+.parentContetDeposit{
+    min-height: 5rem;
+    width: 100%;
+    background-color: orange;
     display: flex;
-    justify-content: flex-start;
+    flex-direction: row;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+.firstChildD{
+    width: 12%;
+    min-height: 100%;
+    
+    display: flex;
+    justify-content: center;
     align-items: center;
-    flex: 2;
+    background-color: red;
+}
+.secondChildD{
+    width: 80%;
+    min-height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+
+}
+.thirdChildD{
+    flex: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
    
-    margin-right: 3rem;
-    overflow-y: auto;
-    max-height: 4rem;
-    text-align: left;
-    white-space: 'normal'
+
+}
+.uCCBottomSC{
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 0.5rem;
+   
+
+    /* Ensure text doesn't overflow the container */
+    white-space: normal;
+    border: 1px solid  var(--white_s); 
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-right: 1rem;
 }
 
 
@@ -115,6 +165,7 @@
     color: var(--white_s);
     font-family: "MR";
     font-size: 1.2rem;
+    width: 70%;
 }
 
 
@@ -128,17 +179,17 @@
 }
 
 .qrcontiner{
-    flex: 1;
+    height: 15rem;
     margin: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .qrcontinerMain{
     width: 15rem;
     height: 15rem;
-
 }
 .qrimg{
     height: 100%;

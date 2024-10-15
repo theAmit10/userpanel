@@ -1193,7 +1193,7 @@ function Register() {
         <label className="labelHeader">Hello,</label>
         <label className="labelHeader">Welcome</label>
         <label className="labelHeader">To</label>
-        <label className="labelHeader">TheLionWorld</label>
+        <label className="labelHeader">TheWorldPlay</label>
 
         <div className="loginContainerLeftBottom">
           <div className="trophyimagecontainer">
@@ -1247,6 +1247,10 @@ function Register() {
                 <div className="searchIconContainer">
                   <CiCircleChevDown color={COLORS.background} size={"2.5rem"} />
                 </div>
+              </div>
+
+              <div className="noteBottomContainer">
+                <span className="noteTextLabel">NOTE : The password reset option is available for accounts with email signup only.</span>
               </div>
             </div>
           )}

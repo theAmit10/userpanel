@@ -50,7 +50,7 @@ const createLocationDataArray = (maximumNumber) => {
   }));
 };
 
-function Play() {
+function Play({reloadKey}) {
   const { user, accesstoken } = useSelector((state) => state.user);
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -113,15 +113,16 @@ function Play() {
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
+   
     const lotTimeMoment = moment.tz(
-      timedata?.time,
+      getTimeAccordingToTimezone(timedata?.time, user?.country?.timezone),
       "hh:mm A",
       user?.country?.timezone
     );
     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
 
     // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(15, 'minutes');
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, 'minutes');
     
     const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
     console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
@@ -153,6 +154,7 @@ function Play() {
     setResult(null);
     setCurrentDate(null);
     setSelectedNumber([]);
+    setSubmitItemFlag(false);
   };
 
   useEffect(() => {
@@ -204,7 +206,13 @@ function Play() {
   const settingFilterData = (itemf) => {
     setSelectedFilter(itemf._id);
     if (itemf.maximumReturn.toLowerCase() === "all") {
-      setFilteredData(data?.locationData);
+      // setFilteredData(data?.locationData);
+      const sortedData = [...(data?.locationData || [])].sort((a, b) => {
+        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
+        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        return bReturn - aReturn; // Sort from highest to lowest
+      });
+      setFilteredData(sortedData);
     } else {
       const filtered = data?.locationData.filter((item) =>
         item.maximumReturn
@@ -217,8 +225,20 @@ function Play() {
 
   const [filteredData, setFilteredData] = useState([]);
 
+  // useEffect(() => {
+  //   setFilteredData(data?.locationData); // Update filteredData whenever locations change
+  // }, [data]);
+
   useEffect(() => {
-    setFilteredData(data?.locationData); // Update filteredData whenever locations change
+    if (!isLoading && data) {
+      const sortedData = [...(data?.locationData || [])].sort((a, b) => {
+        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
+        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        return bReturn - aReturn; // Sort from highest to lowest
+      });
+      setFilteredData(sortedData); // Update filteredData whenever locations change
+      console.log(sortedData);
+    }
   }, [data]);
 
   const [betnumberdata, setBetnumberdata] = useState([]);
@@ -364,8 +384,10 @@ function Play() {
       console.log("Current Time: ", now.format("hh:mm A"));
       console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
+   
+
       const lotTimeMoment = moment.tz(
-        selectedTime?.time,
+        getTimeAccordingToTimezone(selectedTime?.time, user?.country?.timezone),
         "hh:mm A",
         user?.country?.timezone
       );
@@ -481,15 +503,17 @@ function Play() {
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
+    
+
     const lotTimeMoment = moment.tz(
-      timeItem?.time,
+      getTimeAccordingToTimezone(timeItem?.time, user?.country?.timezone),
       "hh:mm A",
       user?.country?.timezone
     );
     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
 
     // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(15, 'minutes');
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, 'minutes');
     
     const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
     console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
@@ -507,6 +531,11 @@ function Play() {
         })
     }
 };
+
+useEffect(() => {
+  console.log("reloadKey :: " + reloadKey);
+  removeSelecteditemClick()
+}, [reloadKey]);
 
   const addingNumberForBetting = (number) => {
     console.log("ADDING NUMBER TO LIST");
@@ -655,7 +684,7 @@ function Play() {
       return times[0];
     }
 
-    const currentISTTime = moment().tz("Asia/Kolkata").format("hh:mm A");
+    const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
     const sortedTimes = [...times].sort((a, b) =>
       moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
     );

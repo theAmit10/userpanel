@@ -37,7 +37,7 @@ function CryptoWithdraw({ selectingPaymentType }) {
   const [remarkval, setRemarkval] = useState("");
 
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
-
+  const MIN_WITHDRAW_AMOUNT = 10;
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
@@ -46,6 +46,14 @@ function CryptoWithdraw({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     } 
+    else if (parseFloat(amountval) < MIN_WITHDRAW_AMOUNT) {
+      showErrorToast(`Minimum USD to withdraw is ${MIN_WITHDRAW_AMOUNT}`);
+      return; // Stop further execution if the amount is too low
+    }
+    else if (parseFloat(user?.walletOne?.balance) < parseFloat(amountval)) {
+      showErrorToast(`You have insufficent balance in ${user?.walletOne?.walletName} wallet`);
+      return; // Stop further execution if the amount is too low
+    }
     else if (!cryptoWalletAddress) {
       showErrorToast("Enter Crypto Wallet Address");
     } else if (!networkType) {
@@ -98,7 +106,7 @@ function CryptoWithdraw({ selectingPaymentType }) {
       <div className="cp-container-main">
         {/** AMOUNT */}
 
-        <label className="alCLLabel">Amount</label>
+        <label className="alCLLabel">Amount In USD</label>
         <div className="alSearchContainer">
           <div className="searchIconContainer">
             <IoDocumentText color={COLORS.background} size={"2.5rem"} />

@@ -100,26 +100,7 @@ function Wallet() {
                   className="hdAllContainer"
                   style={{ background: "transparent" }}
                 >
-                  {/** Wallet One */}
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={() => handleWalletSelection("walletOne")} // Handle wallet selection
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {previousWalletData.walletOneName}
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        {previousWalletData.walletOneBalance}{" "}
-                        {user?.country?.countrycurrencysymbol}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={"#000"} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
+                 
 
                   {/** Wallet Two */}
                   <div
@@ -134,6 +115,27 @@ function Wallet() {
                     <div className="hdAllContainerContentBottom">
                       <label className="hdAllContainerContentTopRegularLabel">
                         {previousWalletData.walletTwoBalance}{" "}
+                        {user?.country?.countrycurrencysymbol}
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaWallet color={"#000"} size={"2.5rem"} />
+                      </div>
+                    </div>
+                  </div>
+
+                   {/** Wallet One */}
+                   <div
+                    className="hdAllContainerContent"
+                    onClick={() => handleWalletSelection("walletOne")} // Handle wallet selection
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        {previousWalletData.walletOneName}
+                      </label>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        {previousWalletData.walletOneBalance}{" "}
                         {user?.country?.countrycurrencysymbol}
                       </label>
                       <div className="hdContenContainerIcon">

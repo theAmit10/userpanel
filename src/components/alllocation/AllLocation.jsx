@@ -13,7 +13,7 @@ import { useGetAllLocationWithTimeQuery } from "../../redux/api";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
 import { ToastContainer } from "react-toastify";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
 import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
 import moment from "moment-timezone";
 import { LoadingComponent } from "../helper/LoadingComponent";
@@ -168,7 +168,7 @@ const datedata = [
   },
 ];
 
-function AllLocation() {
+function AllLocation({reloadKey}) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -268,7 +268,13 @@ function AllLocation() {
   const settingFilterData = (itemf) => {
     setSelectedFilter(itemf._id);
     if (itemf.maximumReturn.toLowerCase() === "all") {
-      setFilteredData(data?.locationData);
+      // setFilteredData(data?.locationData);
+      const sortedData = [...(data?.locationData || [])].sort((a, b) => {
+        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
+        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        return bReturn - aReturn; // Sort from highest to lowest
+      });
+      setFilteredData(sortedData);
     } else {
       const filtered = data?.locationData.filter((item) =>
         item.maximumReturn
@@ -286,7 +292,7 @@ function AllLocation() {
       return times[0];
     }
 
-    const currentISTTime = moment().tz("Asia/Kolkata").format("hh:mm A");
+    const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
     const sortedTimes = [...times].sort((a, b) =>
       moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
     );
@@ -311,14 +317,32 @@ function AllLocation() {
     setFilteredData(filtered);
   };
 
+  // useEffect(() => {
+  //   setFilteredData(data?.locationData); // Update filteredData whenever locations change
+  // }, [data]);
+
   useEffect(() => {
-    setFilteredData(data?.locationData); // Update filteredData whenever locations change
+    if (!isLoading && data) {
+      const sortedData = [...(data?.locationData || [])].sort((a, b) => {
+        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
+        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        return bReturn - aReturn; // Sort from highest to lowest
+      });
+      setFilteredData(sortedData); // Update filteredData whenever locations change
+      // console.log(sortedData);
+    }
   }, [data]);
 
   const { loading: loadingdate, dates } = useSelector((state) => state.date);
 
   console.log("FIleter data :: " + filteredData?.length);
   console.log("results :: ", JSON.stringify(results));
+
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    removeSelecteditemClick()
+  }, [reloadKey]);
 
   return (
     <div className="allocationcontainer">

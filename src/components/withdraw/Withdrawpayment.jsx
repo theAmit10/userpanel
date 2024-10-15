@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Withdrawpayment.css";
 import FONT from "../../assets/constants/fonts";
 import { FaRegPlayCircle } from "react-icons/fa";
@@ -12,12 +12,17 @@ import SkrillWithdraw from "./SkrillWithdraw";
 import CryptoWithdraw from "./CryptoWithdraw";
 import { CiEdit } from "react-icons/ci";
 
-function Withdrawpayment() {
+function Withdrawpayment({reloadKey}) {
   const [selectedPayment, setSelectedPayment] = useState("");
 
   const selectingPaymentType = (item) => {
     setSelectedPayment(item);
   };
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    setSelectedPayment("")
+  }, [reloadKey]);
 
   return (
     <div className="pdContainer">

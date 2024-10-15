@@ -193,6 +193,8 @@ function HomeDashboard({filteredDataAllLocation,
 
   const { user, accesstoken, loading } = useSelector((state) => state.user);
 
+ 
+
   
 
   // const [selectedLocation, setSelectedLocation] = useState(null);
@@ -604,6 +606,31 @@ function HomeDashboard({filteredDataAllLocation,
   const { data: dataTopWinner, isLoading: isLoadingTopWinner } =
     useGetTopWinnerQuery(accesstoken);
 
+   
+
+    const calculateWinningAmount = (winningamount, itemCurrencyValue, userCurrencyValue) => {
+
+      console.log("STARTING LOADING WINNER");
+      console.log("winningamount :: ", winningamount);
+      console.log("itemCurrencyValue :: ", itemCurrencyValue);
+      console.log("userCurrencyValue :: ", userCurrencyValue);
+      // Convert to float
+      const winningAmountFloat = parseFloat(winningamount);
+      const itemCurrencyFloat = parseFloat(itemCurrencyValue);
+      const userCurrencyFloat = parseFloat(userCurrencyValue);
+    
+      // If winning amount is 0, return 0
+      if (winningAmountFloat === 0) {
+        return 0;
+      }
+    
+      // Calculate the converted value
+      const convertedValue = (winningAmountFloat * itemCurrencyFloat) / userCurrencyFloat;
+    
+      // Return the calculated value
+      return convertedValue.toFixed(2);
+    };
+
   return (
     <div className="hdcontainer">
       {loading ? (
@@ -997,8 +1024,8 @@ function HomeDashboard({filteredDataAllLocation,
                         <div className="winnerimagecontainer">
                           <img
                             src={
-                              user?.avatar?.url
-                                ? `${serverName}/uploads/${user?.avatar.url}`
+                              item?.avatar?.url
+                                ? `${serverName}/uploads/${item?.avatar?.url}`
                                 : images.user
                             }
                             alt="Profile Picture"
@@ -1024,10 +1051,14 @@ function HomeDashboard({filteredDataAllLocation,
                         className="hdrcR"
                         style={{
                           flex: "1.5",
+                          justifyContent: "center",
+                          alignItems: "flex-start",
                         }}
                       >
                         <label className="hdrcLLabel">
-                          {`${item.winningamount} ${item.currency.countrycurrencysymbol}`}
+                          {
+                            `${calculateWinningAmount(item?.winningamount, item?.currency?.countrycurrencyvaluecomparedtoinr, user?.country?.countrycurrencyvaluecomparedtoinr)}  ${user?.country?.countrycurrencysymbol}`
+                          }
                         </label>
                       </div>
                     </div>
@@ -1050,28 +1081,28 @@ function HomeDashboard({filteredDataAllLocation,
                       <div className="hdrcL">
                         <label className="hdrcLLabel">
                           {" "}
-                          {item.lotlocation.lotlocation}
+                          {item?.lotlocation?.lotlocation}
                         </label>
                       </div>
                       <div className="hdrcM">
                         <label className="hdrcMResultLabel">
-                          {item.playnumbers.length}
+                          {item?.playnumbers?.length}
                         </label>
                         <label className="hdrcMAmoutLabel">
-                          {calculateTotalAmount(item.playnumbers)}{" "}
-                          {user.country.countrycurrencysymbol}
+                          {calculateTotalAmount(item?.playnumbers)}{" "}
+                          {user?.country?.countrycurrencysymbol}
                         </label>
                       </div>
                       <div className="hdrcR">
                         <label className="hdrcRResultLabel">
                           {getTimeAccordingToTimezone(
-                            item.lottime.lottime,
+                            item?.lottime?.lottime,
                             user?.country?.timezone
                           )}
                         </label>
                         <label className="hdrcMAmoutLabel">
                           {" "}
-                          {formatDate(item.lotdate.lotdate)}
+                          {item?.lotdate?.lotdate ? formatDate(item?.lotdate?.lotdate) : ""}
                         </label>
                       </div>
                     </div>

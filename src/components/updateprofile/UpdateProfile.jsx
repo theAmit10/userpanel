@@ -107,7 +107,7 @@ const historydata = [
   },
 ];
 
-function UpdateProfile() {
+function UpdateProfile({reloadKey}) {
   const dispatch = useDispatch();
 
   const [showUP, setShowUP] = useState(true);
@@ -187,6 +187,11 @@ function UpdateProfile() {
     setShowUPAEmail(false);
     setShowUPAPhone(true);
   };
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    backhandlerUPP()
+  }, [reloadKey]);
 
   const { accesstoken, user } = useSelector((state) => state.user);
 

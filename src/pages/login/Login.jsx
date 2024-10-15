@@ -122,7 +122,7 @@ function Login() {
         <label className="labelHeader">Hello,</label>
         <label className="labelHeader">Welcome</label>
         <label className="labelHeader">To</label>
-        <label className="labelHeader">TheLionWorld</label>
+        <label className="labelHeader">TheWorldPlay</label>
 
         <div className="loginContainerLeftBottom">
           <div className="trophyimagecontainer">

@@ -63,6 +63,11 @@ function Balancetransfer({reloadKey}) {
     }
   };
 
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    setAmountval("")
+  }, [reloadKey]);
+
   return (
     <div className="bt-main-container">
       {/** TITLE CONTAINER */}

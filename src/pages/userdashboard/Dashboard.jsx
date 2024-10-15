@@ -50,6 +50,7 @@ import { TbHistoryToggle } from "react-icons/tb";
 import Playhistory from "../../components/playhistory/Playhistory";
 import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
+import FONT from "../../assets/constants/fonts";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -284,6 +285,37 @@ const Dashboard = () => {
     }
   };
 
+  // const roundToTwoDecimalPlaces = (input) => {
+  //   // Convert input to a float
+  //   const floatValue = parseFloat(input);
+
+  //   // Check if it's a valid number
+  //   if (isNaN(floatValue)) {
+  //     return "Invalid number"; // Handle invalid input
+  //   }
+
+  //   // Round to two decimal places and return
+  //   return Math.round(floatValue * 100) / 100;
+  // };
+
+  const roundToInteger = (input) => {
+    // Convert input to a float
+    const floatValue = parseFloat(input);
+  
+    // Check if it's a valid number
+    if (isNaN(floatValue)) {
+      return "Invalid number"; // Handle invalid input
+    }
+  
+    // Check if the number is already an integer
+    if (Number.isInteger(floatValue)) {
+      return floatValue; // Return the number as it is
+    }
+  
+    // Return the integer part (without rounding)
+    return Math.floor(floatValue);
+  };
+
   return (
     <>
       {accesstoken ? (
@@ -328,44 +360,47 @@ const Dashboard = () => {
               <div className="top-right-right-d">
                 {/** SEARCH */}
 
-                {selectedComponent === "dashboard" && (
-                  <div
-                    className="aboutus-search-container"
-                    style={{
-                      flex: 1,
-                      gap: "1rem",
-                      backgroundColor: COLORS.iconcol,
-                    }}
-                  >
-                    <div className="aboutus-search-icon">
-                      <CiSearch size={"2rem"} color={COLORS.white_s} />
-                    </div>
-                    <style>
-                      {`
+                <div
+                  className="aboutus-search-container"
+                  style={{
+                    flex: 1,
+                    gap: "1rem",
+                    backgroundColor: COLORS.iconcol,
+                  }}
+                >
+                  <div className="aboutus-search-icon">
+                    <CiSearch size={"2rem"} color={COLORS.white_s} />
+                  </div>
+                  <style>
+                    {`
                 .aboutus-search-input::placeholder {
                   color: ${COLORS.white_s}; /* Placeholder color */
                   opacity: 1; /* Optional: Set opacity to ensure full color */
                 }
               `}
-                    </style>
-                    <input
-                      className="aboutus-search-input"
-                      placeholder="Search for location"
-                      label="Search"
-                      onChange={handleSearch}
-                      style={{
-                        color: COLORS.white_s,
-                      }}
-                    />
-                  </div>
-                )}
+                  </style>
+                  <input
+                    className="aboutus-search-input"
+                    placeholder="Search for location"
+                    label="Search"
+                    onChange={handleSearch}
+                    style={{
+                      color: COLORS.white_s,
+                    }}
+                  />
+                </div>
 
                 {/** DEPOSIT */}
                 <div
                   className="depositContainer"
                   onClick={() => handleComponentClick("deposit")}
                 >
-                  <label className="depositContainerLabel">DEPOSIT</label>
+                  <label
+                    className="depositContainerLabel"
+                    style={{ fontFamily: FONT.Montserrat_SemiBold }}
+                  >
+                    DEPOSIT
+                  </label>
                   <PiHandDepositFill color={COLORS.white_s} size={"2rem"} />
                 </div>
 
@@ -380,10 +415,20 @@ const Dashboard = () => {
                   }}
                 >
                   <FaWallet color={COLORS.white_s} size={"2rem"} />
+                 
                   <label className="depositContainerLabel">
-                    {user
-                      ? `${user?.walletTwo?.balance} ${user?.country?.countrycurrencysymbol}`
-                      : "Loading"}
+                    {user ? (
+                      <>
+                        {`${roundToInteger(
+                          user?.walletTwo?.balance
+                        )} `}
+                        <span style={{ fontFamily: FONT.Montserrat_SemiBold }}>
+                          {user?.country?.countrycurrencysymbol}
+                        </span>
+                      </>
+                    ) : (
+                      "Loading"
+                    )}
                   </label>
                 </div>
 
@@ -585,12 +630,13 @@ const Dashboard = () => {
                   isLoadingAllLocation={isLoadingAllLocation}
                   selectedLocation={selectedLocation}
                   setSelectedLocation={setSelectedLocation}
+                  reloadKey={reloadKey}
                 />
               )}
               {selectedComponent === "alllocation" && (
-                <AllLocation key={reloadTrigger ? 1 : 0} />
+                <AllLocation reloadKey={reloadKey} />
               )}
-              {selectedComponent === "play" && <Play />}
+              {selectedComponent === "play" && <Play reloadKey={reloadKey} />}
               {selectedComponent === "history" && (
                 <Historyc reloadKey={reloadKey} />
               )}
@@ -598,12 +644,12 @@ const Dashboard = () => {
                 <Gamedescriptionc reloadKey={reloadKey} />
               )}
               {selectedComponent === "wallet" && (
-                <Wallet key={reloadTrigger ? 1 : 0} />
+                <Wallet reloadKey={reloadKey} />
               )}
-              {selectedComponent === "notification" && <Notification />}
-              {selectedComponent === "deposit" && <Paymentdeposit />}
-              {selectedComponent === "withdraw" && <Withdrawpayment />}
-              {selectedComponent === "userprofile" && <Userprofile />}
+              {selectedComponent === "notification" && <Notification reloadKey={reloadKey} />}
+              {selectedComponent === "deposit" && <Paymentdeposit reloadKey={reloadKey} />}
+              {selectedComponent === "withdraw" && <Withdrawpayment reloadKey={reloadKey} />}
+              {selectedComponent === "userprofile" && <Userprofile reloadKey={reloadKey} />}
               {selectedComponent === "result" && (
                 <AllResult reloadKey={reloadKey} />
               )}

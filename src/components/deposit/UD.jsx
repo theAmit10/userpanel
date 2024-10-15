@@ -57,6 +57,8 @@ export const UD = ({ selectingPaymentType }) => {
     }
   };
 
+
+
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -66,6 +68,7 @@ export const UD = ({ selectingPaymentType }) => {
       showErrorToast("Enter Valid Amount");
       return;
     }
+  
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -155,7 +158,8 @@ export const UD = ({ selectingPaymentType }) => {
     }
   };
 
-  const handleCopyClick = (stringToCopy) => {
+  const handleCopyClick = (e,stringToCopy) => {
+    e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
       .then(() => {
@@ -229,13 +233,31 @@ export const UD = ({ selectingPaymentType }) => {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.upiholdername}</label>
                           </div>
+                          <div className="thirdChildD">
+                          <div
+                            onClick={(e) => handleCopyClick(e,item.upiholdername)}
+                            className="copyCon"
+                          >
+                            <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
+                          </div>
+                        </div>
+
+                        {/** TESTING */}
+                        {/* <div className="parentContetDeposit">
+                          <div className="firstChildD">
+                          <label className="pdSB">Holder name</label>
+                          </div>
+                          <div className="secondChildD"><label className="pdR">{item.upiholdername} Chumu hai jo koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn  koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn adkadjk</label></div>
+                          <div className="thirdChildD">
                           <div
                             onClick={() => handleCopyClick(item.upiholdername)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
                           </div>
-                        </div>
+                          </div>
+                        </div> */}
                         {/** TOP */}
 
                         {/** TOP */}
@@ -246,13 +268,17 @@ export const UD = ({ selectingPaymentType }) => {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.upiid}</label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.upiid)}
+                            onClick={(e) => handleCopyClick(e,item.upiid)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
                           </div>
+                          </div>
                         </div>
+
+                       
                         {/** TOP */}
 
                         <div className="qrcontiner">

@@ -50,6 +50,8 @@ function BankWithdraw({ selectingPaymentType }) {
   const [showProgressBar, setProgressBar] = useState(false);
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
 
+  const MIN_WITHDRAW_AMOUNT = 100;
+
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
@@ -57,6 +59,14 @@ function BankWithdraw({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     } 
+    else if (parseFloat(amountval) < MIN_WITHDRAW_AMOUNT) {
+      showErrorToast(`Minimum Amount to withdraw is ${MIN_WITHDRAW_AMOUNT}`);
+      return; // Stop further execution if the amount is too low
+    }
+    else if (parseFloat(user?.walletOne?.balance) < parseFloat(amountval)) {
+      showErrorToast(`You have insufficent balance in ${user?.walletOne?.walletName} wallet`);
+      return; // Stop further execution if the amount is too low
+    }
     else if (!bankName) {
       showErrorToast("Enter Bank Name");
     } else if (!accountHolderName) {

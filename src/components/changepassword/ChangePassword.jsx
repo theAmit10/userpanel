@@ -33,7 +33,7 @@ const upiapidata = [
   { name: "Kasu", upiid: "2876543210@ybl", id: "5" },
 ];
 
-function ChangePassword() {
+function ChangePassword({reloadKey}) {
  
 
     const [password, setPassword] = useState('');
@@ -119,6 +119,16 @@ function ChangePassword() {
    }
  };
 
+
+ useEffect(() => {
+  console.log("reloadKey :: " + reloadKey);
+  setOldPassword("")
+  setNewPassword("")
+  setConfirmPassword("")
+  setOldPasswordVisible(false)
+  setNewPasswordVisible(false)
+  setConfirmPasswordVisible(false)
+}, [reloadKey]);
   
 
   return (

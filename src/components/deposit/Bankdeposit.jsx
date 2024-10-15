@@ -110,6 +110,8 @@ function Bankdeposit({ selectingPaymentType }) {
     }
   };
 
+  
+
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -206,7 +208,8 @@ function Bankdeposit({ selectingPaymentType }) {
     }
   };
 
-  const handleCopyClick = (stringToCopy) => {
+  const handleCopyClick = (e,stringToCopy) => {
+    e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
       .then(() => {
@@ -274,11 +277,13 @@ function Bankdeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.bankname}</label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.bankname)}
+                            onClick={(e) => handleCopyClick(e,item.bankname)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -293,13 +298,15 @@ function Bankdeposit({ selectingPaymentType }) {
                               {item.accountholdername}
                             </label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() =>
-                              handleCopyClick(item.accountholdername)
+                            onClick={(e) =>
+                              handleCopyClick(e,item.accountholdername)
                             }
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -312,11 +319,13 @@ function Bankdeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.accountnumber}</label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.accountnumber)}
+                            onClick={(e) => handleCopyClick(e,item.accountnumber)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -324,20 +333,26 @@ function Bankdeposit({ selectingPaymentType }) {
                         {/** TOP */}
                         {/** TOP */}
 
-                        <div className="uCCMidC">
+                        {
+                          item.swiftcode ? ( <div className="uCCMidC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Swift code</label>
                           </div>
                           <div className="uCCTopSC">
                             <label className="pdR">{item.swiftcode}</label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.swiftcode)}
+                            onClick={(e) => handleCopyClick(e,item.swiftcode)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
                           </div>
-                        </div>
+                          </div>
+                        </div>) : null
+                        }
+
+                       
 
                         {/** TOP */}
                         <div className="uCCMidC">
@@ -349,11 +364,13 @@ function Bankdeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.ifsccode}</label>
                           </div>
+                          <div className="thirdChildD">
                           <div
-                            onClick={() => handleCopyClick(item.ifsccode)}
+                            onClick={(e) => handleCopyClick(e,item.ifsccode)}
                             className="copyCon"
                           >
                             <FaCopy color={COLORS.background} size={"2rem"} />
+                          </div>
                           </div>
                         </div>
                         {/** TOP */}

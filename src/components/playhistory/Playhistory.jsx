@@ -8,6 +8,7 @@ import {  useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { showWarningToast } from "../helper/showErrorToast";
+import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 
 function Playhistory({reloadKey}) {
 
@@ -31,6 +32,7 @@ function Playhistory({reloadKey}) {
   useEffect(() => {
     refetch();
     console.log("Relaoding again")
+    setExpandedItems({});
   
   },[refetch,reloadKey])
 
@@ -110,13 +112,13 @@ function Playhistory({reloadKey}) {
                     {`Amount : \u00A0`}
                     </label>
                     <label className="h-content-second-content-container-top-amount-val">
-                      {calculateTotalAmount(item.playnumbers)}{" "}
-                      {user.country.countrycurrencysymbol}
+                      {calculateTotalAmount(item?.playnumbers)}{" "}
+                      {user?.country?.countrycurrencysymbol}
                     </label>
                   </div>
                   <div className="h-content-second-content-container-bottom">
                     <label className="h-content-second-content-container-top-date">
-                      {formatDate(item.lotdate.lotdate)}
+                      { item?.lotdate?.lotdate ? formatDate(item?.lotdate?.lotdate): ""}
                     </label>
                   </div>
                 </div>
@@ -129,7 +131,7 @@ function Playhistory({reloadKey}) {
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                      {item.lotlocation.lotlocation}
+                      {item?.lotlocation?.lotlocation}
                     </label>
                   </div>
                 </div>
@@ -142,7 +144,10 @@ function Playhistory({reloadKey}) {
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                      {item.lottime.lottime}
+                      {getTimeAccordingToTimezone(
+                                  item?.lottime?.lottime,
+                                  user?.country?.timezone,
+                                )}
                     </label>
                   </div>
                 </div>
@@ -150,12 +155,12 @@ function Playhistory({reloadKey}) {
                 <div className="h-content-fourth">
                   <div className="h-content-third-content-container-top">
                     <label className="h-content-third-content-container-top-payment">
-                    Total bets
+                    {item?.walletName ? 'Winning No.' : "Total bets"}
                     </label>
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                    {item.playnumbers.length}
+                    {item?.walletName ? item?.playnumbers[0]?.playnumber : item?.playnumbers?.length}
                     </label>
                   </div>
                 </div>
@@ -189,17 +194,17 @@ function Playhistory({reloadKey}) {
                       className="contentContainerPHDC">
                         <div className="hcphFirst">
                           <label className="h-content-third-content-container-top-payment-val">
-                          {pitem.playnumber}
+                          {pitem?.playnumber}
                           </label>
                         </div>
                         <div className="hcphSecond">
                           <label className="h-content-third-content-container-top-payment-val">
-                          {pitem.amount}
+                          {pitem?.amount}
                           </label>
                         </div>
                         <div className="hcphThird">
                           <label className="h-content-third-content-container-top-payment-val">
-                          {pitem.winningamount}
+                          {pitem?.winningamount}
                           </label>
                         </div>
                       </div>

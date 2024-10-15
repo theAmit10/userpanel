@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Paymentdeposit.css";
 import FONT from "../../assets/constants/fonts";
 import { FaRegPlayCircle } from "react-icons/fa";
@@ -13,7 +13,7 @@ import { CiEdit } from "react-icons/ci";
 import { UD } from "./UD";
 import { ToastContainer } from "react-toastify";
 
-function Paymentdeposit() {
+function Paymentdeposit({reloadKey}) {
   const [selectedPayment, setSelectedPayment] = useState("");
 
   const selectingPaymentType = (item) => {
@@ -35,6 +35,11 @@ function Paymentdeposit() {
     setShowEditSA(false);
     setSelectItem("");
   };
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    setSelectedPayment("");
+  }, [reloadKey]);
 
   return (
     <div className="pdContainer">

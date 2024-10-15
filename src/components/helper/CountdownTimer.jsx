@@ -42,7 +42,7 @@ const CountdownTimer = ({ timeString }) => {
       const formatTime = (num) => num.toString().padStart(2, '0');
       return (
         <div>
-          {formatTime(hours)}:{formatTime(minutes)}:{formatTime(seconds)}
+          {formatTime(hours)} : {formatTime(minutes)} : {formatTime(seconds)}
         </div>
       );
     }

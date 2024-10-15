@@ -12,13 +12,14 @@ import FONT from "../../assets/constants/fonts";
 import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import SelectYear from "../helper/SelectYear";
 import SelectMonth from "../helper/SelectMonth";
-import { IoArrowBackCircleOutline} from "react-icons/io5";
-import * as XLSX from 'xlsx';
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import * as XLSX from "xlsx";
 import { CiSearch } from "react-icons/ci";
 import { FaDownload } from "react-icons/fa6";
 import { MdArrowDropDownCircle } from "react-icons/md";
+import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 
-function AllResult({reloadKey}) {
+function AllResult({ reloadKey }) {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth(); // 0-based index (0 = January, 11 = December)
@@ -49,6 +50,7 @@ function AllResult({reloadKey}) {
     data: alllocation,
     error: alllocationError,
     isLoading: allocationIsLoading,
+    refetch: allocationRefetch,
   } = useGetAllLocationWithTimeQuery(accesstoken);
 
   const {
@@ -59,7 +61,7 @@ function AllResult({reloadKey}) {
     accessToken: accesstoken,
     locationid: selectedItem?._id,
     year: selectedYear,
-    month: selectedMonth.toLowerCase()
+    month: selectedMonth.toLowerCase(),
   });
 
   useEffect(() => {
@@ -73,11 +75,10 @@ function AllResult({reloadKey}) {
     if (alllocation) {
       console.log("Calling allresult only:: " + allresultIsLoading);
     }
-  }, [allresult, selectedItem,allocationIsLoading]);
+  }, [allresult, selectedItem, allocationIsLoading]);
 
   const getAllResultForOtherLocation = (item) => {
     setSelectedItem(item);
-    
   };
 
   const [showSearch, setShowSearch] = useState(false);
@@ -93,9 +94,6 @@ function AllResult({reloadKey}) {
     setShowSearch(true);
   };
 
-
-
-
   const searchResultForMonth = async () => {
     if (!selectedItem) {
       showErrorToast("Please select a location");
@@ -109,52 +107,68 @@ function AllResult({reloadKey}) {
     }
   };
 
- 
   const transformData = (data) => {
     if (!data || !data.length) return [];
-  
+
     // Headers
-    const headers = ['Lot Date', ...data.map(item => item.lottime.lottime)];
-  
+    const headers = [
+      "Lot Date",
+      ...data.map((item) =>
+        getTimeAccordingToTimezone(
+          item.lottime.lottime,
+          user?.country?.timezone
+        )
+      ),
+    ];
+
     // Create rows
-    const rows = data[0].dates.map(dateItem => {
+    const rows = data[0].dates.map((dateItem) => {
       const row = [dateItem.lotdate.lotdate];
-      data.forEach(item => {
-        const dateData = item.dates.find(d => d.lotdate.lotdate === dateItem.lotdate.lotdate);
+      data.forEach((item) => {
+        const dateData = item.dates.find(
+          (d) => d.lotdate.lotdate === dateItem.lotdate.lotdate
+        );
         row.push(dateData ? dateData.results[0]?.resultNumber || "N/A" : "N/A");
       });
       return row;
     });
-  
+
     // Combine headers and rows
     return [headers, ...rows];
   };
-  
-  
+
   const exportToExcel = (data) => {
     // Transform data
     const transformedData = transformData(data);
-  
+
     // Log transformed data
-    console.log('Transformed data:', transformedData);
-  
+    console.log("Transformed data:", transformedData);
+
     if (transformedData.length === 0) {
-      console.error('No data to export');
+      console.error("No data to export");
       return;
     }
-  
+
     // Create a new workbook and worksheet
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet(transformedData);
-  
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Results');
-  
-    // Generate and download the file
-    XLSX.writeFile(workbook, 'results.xlsx');
-  };
-  
 
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
+
+    // Generate and download the file
+    XLSX.writeFile(workbook, "results.xlsx");
+  };
+
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    allocationRefetch();
+    if (!allocationIsLoading && alllocation) {
+      setSelectedItem(alllocation?.locationData[0]);
+      console.log("Calling allresult");
+      
+    }
+  }, [reloadKey]);
 
   return (
     <>
@@ -189,7 +203,7 @@ function AllResult({reloadKey}) {
                             : "linear-gradient(90deg, #7EC630, #3D6017)",
                         borderColor:
                           selectedItem?._id === item._id
-                            ? COLORS.blue
+                            ? COLORS.orange
                             : "transparent",
                         borderWidth: "2px",
                         borderStyle:
@@ -234,22 +248,22 @@ function AllResult({reloadKey}) {
                 )}
 
                 <label className="yeartitle">{selectedMonth}</label>
-                <label className="submitTitleCon" onClick={searchResultForMonth}>
-                Search
-              </label>
+                <label
+                  className="submitTitleCon"
+                  onClick={searchResultForMonth}
+                >
+                  Search
+                </label>
               </div>
-              
-             
             </div>
           )}
         </div>
       )}
 
-{showResult && (
+      {showResult && (
         <div className="alContainer">
           {/* TOP NAVIGATION CONTATINER */}
           <div className="alCreatLocationTopContainer">
-        
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
                 All Result
@@ -277,7 +291,7 @@ function AllResult({reloadKey}) {
                             : "linear-gradient(90deg, #7EC630, #3D6017)",
                         borderColor:
                           selectedItem?._id === item._id
-                            ? COLORS.blue
+                            ? "orange"
                             : "transparent",
                         borderWidth: "2px",
                         borderStyle:
@@ -313,7 +327,10 @@ function AllResult({reloadKey}) {
                         </th>
                         {allresult?.results?.map((item, index) => (
                           <th className="time-column" key={index}>
-                            {item.lottime.lottime}
+                            {getTimeAccordingToTimezone(
+                              item.lottime.lottime,
+                              user?.country?.timezone
+                            )}
                           </th>
                         ))}
                       </tr>
@@ -398,9 +415,6 @@ function AllResult({reloadKey}) {
       )}
     </>
   );
-};
+}
 
 export default AllResult;
-
-
-
