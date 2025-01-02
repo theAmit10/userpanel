@@ -34,11 +34,14 @@
     flex-direction: column;
     padding-bottom: 0.5rem;
     overflow-y: scroll;
+    border: 2px solid var(--background);
+    box-sizing: border-box; /* Include padding and border in element's width and height */
+    transition: border-color 0.3s; /* Smooth transition for border color */
    
 }
 
 .upipdContentContainer:hover{
-    border: 2px solid var(--green);
+    border-color: var(--green); /* Change only the color */
     cursor: pointer;
 }
 .uCCTopC{
@@ -228,4 +231,12 @@
     align-items: center;
 
 
+}
+
+.NotePatentContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
 }

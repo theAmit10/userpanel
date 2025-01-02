@@ -13,10 +13,15 @@ import { useGetAllLocationWithTimeQuery } from "../../redux/api";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
 import { ToastContainer } from "react-toastify";
-import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "../helper/showErrorToast";
 import { getResultAccordingToLocationTimeDate } from "../../redux/actions/resultAction";
 import moment from "moment-timezone";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 
 const filterdata = [
   { val: "All" },
@@ -168,7 +173,7 @@ const datedata = [
   },
 ];
 
-function AllLocation({reloadKey}) {
+function AllLocation({ reloadKey }) {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
@@ -209,6 +214,11 @@ function AllLocation({reloadKey}) {
     setSelectedItem(true);
     setSelectedLocation(null);
     setSelectedTime(null);
+    setSelectedDate(null);
+  };
+
+  const backHandlerForResult = () => {
+    setSelectedItem(false);
     setSelectedDate(null);
   };
 
@@ -270,8 +280,8 @@ function AllLocation({reloadKey}) {
     if (itemf.maximumReturn.toLowerCase() === "all") {
       // setFilteredData(data?.locationData);
       const sortedData = [...(data?.locationData || [])].sort((a, b) => {
-        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
-        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
         return bReturn - aReturn; // Sort from highest to lowest
       });
       setFilteredData(sortedData);
@@ -287,26 +297,73 @@ function AllLocation({reloadKey}) {
 
   const [filteredData, setFilteredData] = useState([]);
 
-  const getNextTimeForHighlights = (times) => {
+  // const getNextTimeForHighlights = (times) => {
+  //   if (times.length === 1) {
+  //     return times[0];
+  //   }
+
+  //   const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
+  //   const sortedTimes = [...times].sort((a, b) =>
+  //     moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+  //   );
+
+  //   for (let i = 0; i < sortedTimes.length; i++) {
+  //     if (
+  //       moment(currentISTTime, "hh:mm A").isBefore(
+  //         moment(sortedTimes[i].time, "hh:mm A")
+  //       )
+  //     ) {
+  //       return sortedTimes[i];
+  //     }
+  //   }
+
+  //   return sortedTimes[0];
+  // };
+
+  const getNextTimeForHighlights = (times, userTimezone) => {
     if (times.length === 1) {
       return times[0];
     }
 
-    const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
-    const sortedTimes = [...times].sort((a, b) =>
-      moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+    // Get the current time in the user's timezone
+    const currentRiyadhTime = moment().tz(userTimezone).format("hh:mm A");
+    console.log("Current time in Riyadh timezone:", currentRiyadhTime);
+
+    // Convert each time from IST to user timezone (Asia/Riyadh)
+    const convertedTimes = times.map((item) => {
+      const timeInIST = moment.tz(item.time, "hh:mm A", "Asia/Kolkata");
+      const timeInRiyadh = timeInIST.clone().tz(userTimezone).format("hh:mm A");
+      return { ...item, convertedTime: timeInRiyadh };
+    });
+
+    console.log("Converted times to Riyadh timezone:", convertedTimes);
+
+    // Sort the times in the user's timezone
+    const sortedTimes = convertedTimes.sort((a, b) =>
+      moment(a.convertedTime, "hh:mm A").diff(
+        moment(b.convertedTime, "hh:mm A")
+      )
     );
 
+    console.log("Sorted times:", sortedTimes);
+
+    // Find the next available time
     for (let i = 0; i < sortedTimes.length; i++) {
       if (
-        moment(currentISTTime, "hh:mm A").isBefore(
-          moment(sortedTimes[i].time, "hh:mm A")
+        moment(currentRiyadhTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].convertedTime, "hh:mm A")
         )
       ) {
-        return sortedTimes[i];
+        console.log("Next available time found:", sortedTimes[i]);
+        return sortedTimes[i]; // Return the first future time
       }
     }
 
+    console.log(
+      "No future time found, returning the first sorted time:",
+      sortedTimes[0]
+    );
+    // If no future time found, return the first time (next day scenario)
     return sortedTimes[0];
   };
 
@@ -324,8 +381,8 @@ function AllLocation({reloadKey}) {
   useEffect(() => {
     if (!isLoading && data) {
       const sortedData = [...(data?.locationData || [])].sort((a, b) => {
-        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
-        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
         return bReturn - aReturn; // Sort from highest to lowest
       });
       setFilteredData(sortedData); // Update filteredData whenever locations change
@@ -338,11 +395,45 @@ function AllLocation({reloadKey}) {
   console.log("FIleter data :: " + filteredData?.length);
   console.log("results :: ", JSON.stringify(results));
 
+  const [filterDataD, setFilteredDataD] = useState([]);
+
+  useEffect(() => {
+    if (dates) {
+      const modifiedData = convertToUserTimezone(
+        dates,
+        user?.country?.timezone
+      );
+      setFilteredDataD(modifiedData); // Update filteredData whenever locations change
+    }
+  }, [dates]);
 
   useEffect(() => {
     console.log("reloadKey :: " + reloadKey);
-    removeSelecteditemClick()
+    removeSelecteditemClick();
   }, [reloadKey]);
+
+  const convertToUserTimezone = (dataArray, userTimezone) => {
+    return dataArray.map((item) => {
+      // Combine the lotdate and lottime to form a complete datetime in IST
+      const istDateTime = moment.tz(
+        `${item.lotdate} ${item.lottime.lottime}`,
+        "DD-MM-YYYY hh:mm A",
+        "Asia/Kolkata"
+      );
+
+      // Convert this IST datetime to the user's timezone
+      const userDateTime = istDateTime.clone().tz(userTimezone);
+
+      // Format the converted datetime into 'DD-MM-YYYY' format
+      const convertedLotdate = userDateTime.format("DD-MM-YYYY");
+
+      // Return the modified object with the new lotdate
+      return {
+        ...item,
+        lotdate: convertedLotdate, // Update the lotdate
+      };
+    });
+  };
 
   return (
     <div className="allocationcontainer">
@@ -378,7 +469,10 @@ function AllLocation({reloadKey}) {
               <LoadingComponent />
             ) : (
               filteredData?.map((item, index) => {
-                const nextTime = getNextTimeForHighlights(item?.times);
+                const nextTime = getNextTimeForHighlights(
+                  item?.times,
+                  user?.country?.timezone
+                );
 
                 return (
                   <div className="location-item-all" key={index}>
@@ -484,7 +578,7 @@ function AllLocation({reloadKey}) {
               <LoadingComponent />
             ) : (
               <div className="dateconatainer">
-                {dates?.map((item, index) => (
+                {filterDataD?.map((item, index) => (
                   <div
                     key={index}
                     onClick={() => handleSelectedDateClick(item)}
@@ -515,10 +609,7 @@ function AllLocation({reloadKey}) {
                 alignItems: "center",
               }}
             >
-              <div
-                className="back-container"
-                onClick={() => removeSelecteditemClick()}
-              >
+              <div className="back-container" onClick={backHandlerForResult}>
                 <IoIosArrowRoundBack color={COLORS.background} size={"2rem"} />
               </div>
 
@@ -589,7 +680,12 @@ function AllLocation({reloadKey}) {
                   </div>
                   <div className="hdlTLB">
                     <label className="hdlTLTLNRB">
-                      {results[0].lotdate.lotdate}
+                      {/* {results[0].lotdate.lotdate} */}
+                      {getDateTimeAccordingToUserTimezone(
+                        results[0].lottime.lottime,
+                        results[0].lotdate.lotdate,
+                        user?.country?.timezone
+                      )}
                     </label>
                     <label className="hdlTLTLNRB">
                       {getTimeAccordingToTimezone(

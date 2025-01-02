@@ -3,20 +3,19 @@ import "./Login.css";
 import images from "../../assets/constants/images";
 import { useNavigate } from "react-router-dom";
 import COLORS from "../../assets/constants/colors";
-import FONT from "../../assets/constants/fonts";
 import { ToastContainer } from "react-toastify";
 import {
   showErrorToast,
   showSuccessToast,
 } from "../../components/helper/showErrorToast";
-import Loader from "../../components/helper/Loader";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userAction";
 import CircularProgressBar from "../../components/helper/CircularProgressBar";
-import { PiSubtitles } from "react-icons/pi";
 import { MdOutlineMail } from "react-icons/md";
 import { MdOutlinePassword } from "react-icons/md";
+import { AiFillAndroid } from "react-icons/ai";
+import { FaApple } from "react-icons/fa";
+import { useGetAppLinkQuery } from "../../redux/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -81,7 +80,7 @@ function Login() {
 
       // We are using navigation reset so that all the navigation stack will get clear
 
-      navigation("/dashboard");
+      navigation("/dashboard", { replace: true });
       showSuccessToast(message);
 
       dispatch({
@@ -102,9 +101,9 @@ function Login() {
 
       const timer = setTimeout(() => {
         if (val) {
-          navigation("/dashboard");
+          navigation("/dashboard", { replace: true });
         } else {
-          navigation("/login");
+          navigation("/login", { replace: true });
         }
       }, 3000);
     } catch (error) {
@@ -115,6 +114,32 @@ function Login() {
   useEffect(() => {
     getUserAccessToken();
   }, []);
+
+  const {
+    data: appLinkData,
+    error: appLinkError,
+    isLoading: appLinkLoading,
+  } = useGetAppLinkQuery();
+
+  const androidAppLink = () => {
+    const link = appLinkData?.appLink?.androidLink;
+    if (link) {
+      window.open(link, "_blank"); // Opens the link in a new tab
+      showSuccessToast(link);
+    } else {
+      showSuccessToast("No valid link found.");
+    }
+  };
+
+  const iosAppLink = () => {
+    const link = appLinkData?.appLink?.iosLink;
+    if (link) {
+      window.open(link, "_blank"); // Opens the link in a new tab
+      showSuccessToast(link);
+    } else {
+      showSuccessToast("No valid link found.");
+    }
+  };
 
   return (
     <div className="loginContainer">
@@ -208,6 +233,30 @@ function Login() {
               >
                 Sign up
               </label>
+            </div>
+
+            <div
+              className="shereAppContainerLogin"
+              style={{
+                marginTop: "2rem",
+              }}
+            >
+              <div onClick={iosAppLink} className="iconcontainertop">
+                <FaApple color={COLORS.background} size={"3rem"} />
+              </div>
+
+              <label
+                className="shereAppContainerLabel"
+                style={{
+                  marginBottom: "2rem",
+                }}
+              >
+                Get Apps
+              </label>
+
+              <div onClick={androidAppLink} className="iconcontainertop">
+                <AiFillAndroid color={COLORS.background} size={"3rem"} />
+              </div>
             </div>
           </div>
         </div>

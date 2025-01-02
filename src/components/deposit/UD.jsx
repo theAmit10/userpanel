@@ -114,7 +114,7 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(res);
       console.log(res.message);
 
-      await showSuccessToast(res.message);
+      showSuccessToast(res.message);
 
       hideAllform();
       goToPreviousPage();
@@ -221,7 +221,7 @@ export const UD = ({ selectingPaymentType }) => {
                             />
                           </div>
 
-                          <label className="pdB">UPI {item.paymentId}</label>
+                          <label className="pdB">UPI</label>
                         </div>
                         {/** TOP */}
 
@@ -290,6 +290,7 @@ export const UD = ({ selectingPaymentType }) => {
                           </div>
                         </div>
 
+                        <div className="NotePatentContainer">
                         <div className="uCCBottomC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Note</label>
@@ -300,6 +301,9 @@ export const UD = ({ selectingPaymentType }) => {
                             </label>
                           </div>
                         </div>
+                        </div>
+
+
                       </div>
                     ))}
                   </div>

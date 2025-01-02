@@ -237,7 +237,7 @@ function Skrilldeposit({ selectingPaymentType }) {
                         />
                       </div>
 
-                      <label className="pdB">Skrill {item.paymentId}</label>
+                      <label className="pdB">Skrill</label>
 
                      
                     </div>
@@ -263,6 +263,7 @@ function Skrilldeposit({ selectingPaymentType }) {
                       </div>
                     </div>
                     {/** TOP */}
+                    <div className="NotePatentContainer">
                     <div className="uCCBottomC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Note</label>
@@ -273,6 +274,8 @@ function Skrilldeposit({ selectingPaymentType }) {
                             </label>
                           </div>
                         </div>
+                    </div>
+
                   </div>
                 ))}
               </div>

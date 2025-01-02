@@ -109,19 +109,23 @@
   color: var(--white_s);
   font-family: "MR";
   font-size: 1.5rem;
+  white-space: pre-wrap; /* Preserves new lines and spaces */
+  word-wrap: break-word; /* Ensures long words are wrapped to prevent overflow */
 }
 
 .PLLLocContainer{
-  height: 5rem;
+  height: fit-content;
   background-color: var(--background);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-right: 1rem;
   padding-left: 1rem;
+  padding: 1.5rem;
   align-items: center;
   margin: 1rem;
   border-radius: 1rem;
+  box-sizing: border-box;
 }
 
 .limitLabel{
@@ -139,8 +143,9 @@
 }
 
   
-.ARLCC{
-  max-height: 7rem;
+/* .ARLCC{
+  max-height: 8rem;
+  min-height: 8rem;
   width: 80vw;
   background-color: var(--background);
   margin-left: 2rem;
@@ -151,7 +156,46 @@
   justify-content: flex-start;
   align-items: center;
   overflow-x: scroll;
+} */
+
+.ARLCC {
+  max-height: 8rem; /* Keep this */
+  min-height: auto; /* Remove fixed height */
+  width: 80vw;
+  background-color: var(--background);
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll; /* Prevent horizontal scroll */
+  overflow-y: auto; /* Allow vertical scroll if necessary */
 }
+
+.GDLC{
+  height: fit-content;
+  width: 80vw;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  scroll-padding-left: 2rem; /* Ensures the left padding is accounted for */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+}
+
+.GDLC::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 
 .ARLocConCC {
   min-width: 30rem; /* Fixed width for the left container */

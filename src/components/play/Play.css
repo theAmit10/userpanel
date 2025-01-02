@@ -277,7 +277,8 @@
     font-family: "MB";
     background-color: var(--white_s);
     padding: 1rem;
-    width: 8rem;
+    min-width: 8rem;
+    max-width: fit-content;
     height: 5rem;
     text-align: center;
     border-radius: 1rem;
@@ -290,6 +291,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
   }
   
   .amountInput {
@@ -298,11 +300,11 @@
     background-color: var(--white_s);
     box-sizing: border-box; /* Ensures padding/border are included in the size */
     text-align: center;
-    color: var(--background);
     border-color: var(--background);
     border-radius: 1rem;
-    font-size: 1.5rem;
-    font-family: "MR";
+    font-size: 1.6rem;
+    color: var(--black);
+    font-family: "MB";
   }
   .alllocation-submit-container-left-content-container-middle-right{
     width: 5rem;

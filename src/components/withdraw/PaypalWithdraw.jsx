@@ -37,6 +37,13 @@ function PaypalWithdraw({ selectingPaymentType }) {
 
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
 
+  const settingDefaultValue = () => {
+    setAmountval("")
+    setRemarkval("")
+    setpaypalEmail("");
+  };
+
+
   const MIN_WITHDRAW_AMOUNT = 10;
 
   const submitHandler = async () => {
@@ -79,7 +86,7 @@ function PaypalWithdraw({ selectingPaymentType }) {
         console.log("Withdraw res :: " + JSON.stringify(res));
 
         showSuccessToast(res.message);
-        goToPreviousPage();
+        settingDefaultValue();
       } catch (error) {
         console.log("Error during withdraw:", error);
         showErrorToast("Something went wrong");

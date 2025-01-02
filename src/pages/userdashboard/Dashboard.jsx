@@ -8,6 +8,7 @@ import { IoIosSettings } from "react-icons/io";
 import { AiFillAndroid } from "react-icons/ai";
 import { FaApple } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
+import { TbFileDescription } from "react-icons/tb";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaHistory } from "react-icons/fa";
 import HomeDashboard from "../../components/dashboard/HomeDashboard";
@@ -97,7 +98,7 @@ const Dashboard = () => {
     data: appLinkData,
     error: appLinkError,
     isLoading: appLinkLoading,
-  } = useGetAppLinkQuery(accesstoken);
+  } = useGetAppLinkQuery();
 
   const { data: dataAllLocation, isLoading: isLoadingAllLocation } =
     useGetAllLocationWithTimeQuery(accesstoken);
@@ -247,6 +248,8 @@ const Dashboard = () => {
     }
   };
 
+
+
   const iosAppLink = () => {
     const link = appLinkData?.appLink?.iosLink;
     if (link) {
@@ -301,17 +304,17 @@ const Dashboard = () => {
   const roundToInteger = (input) => {
     // Convert input to a float
     const floatValue = parseFloat(input);
-  
+
     // Check if it's a valid number
     if (isNaN(floatValue)) {
       return "Invalid number"; // Handle invalid input
     }
-  
+
     // Check if the number is already an integer
     if (Number.isInteger(floatValue)) {
       return floatValue; // Return the number as it is
     }
-  
+
     // Return the integer part (without rounding)
     return Math.floor(floatValue);
   };
@@ -415,13 +418,11 @@ const Dashboard = () => {
                   }}
                 >
                   <FaWallet color={COLORS.white_s} size={"2rem"} />
-                 
+
                   <label className="depositContainerLabel">
                     {user ? (
                       <>
-                        {`${roundToInteger(
-                          user?.walletTwo?.balance
-                        )} `}
+                        {`${roundToInteger(user?.walletTwo?.balance)} `}
                         <span style={{ fontFamily: FONT.Montserrat_SemiBold }}>
                           {user?.country?.countrycurrencysymbol}
                         </span>
@@ -498,7 +499,7 @@ const Dashboard = () => {
                 <label className="adLContenContainerLabel">Home</label>
               </div>
 
-              <div
+              {/* <div
                 className="adLContenContainer"
                 key={"alllocation"}
                 onClick={() => handleComponentClick("alllocation")}
@@ -513,7 +514,7 @@ const Dashboard = () => {
                   <IoLocationSharp color={COLORS.white_s} size={"2.5rem"} />
                 </div>
                 <label className="adLContenContainerLabel">All Location</label>
-              </div>
+              </div> */}
 
               <div
                 className="adLContenContainer"
@@ -557,25 +558,6 @@ const Dashboard = () => {
 
               <div
                 className="adLContenContainer"
-                key={"history"}
-                onClick={() => handleComponentClick("history")}
-                style={{
-                  background:
-                    selectedComponent === "history"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-                }}
-              >
-                <div className="adLContenContainerIcon">
-                  <FaHistory color={COLORS.white_s} size={"2.5rem"} />
-                </div>
-                <label className="adLContenContainerLabel">
-                  Transacation History
-                </label>
-              </div>
-
-              <div
-                className="adLContenContainer"
                 key={"playhistory"}
                 onClick={() => handleComponentClick("playhistory")}
                 style={{
@@ -589,6 +571,44 @@ const Dashboard = () => {
                   <TbHistoryToggle color={COLORS.white_s} size={"2.5rem"} />
                 </div>
                 <label className="adLContenContainerLabel">Play History</label>
+              </div>
+
+              <div
+                className="adLContenContainer"
+                key={"history"}
+                onClick={() => handleComponentClick("history")}
+                style={{
+                  background:
+                    selectedComponent === "history"
+                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                      : "linear-gradient(180deg, #011833, #011833)",
+                }}
+              >
+                <div className="adLContenContainerIcon">
+                  <FaHistory color={COLORS.white_s} size={"2.5rem"} />
+                </div>
+                <label className="adLContenContainerLabel">
+                  Transaction History
+                </label>
+              </div>
+
+              <div
+                className="adLContenContainer"
+                key={"gamedescription"}
+                onClick={() => handleComponentClick("gamedescription")}
+                style={{
+                  background:
+                    selectedComponent === "gamedescription"
+                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                      : "linear-gradient(180deg, #011833, #011833)",
+                }}
+              >
+                <div className="adLContenContainerIcon">
+                  <TbFileDescription color={COLORS.white_s} size={"2.5rem"} />
+                </div>
+                <label className="adLContenContainerLabel">
+                  Game Description
+                </label>
               </div>
 
               {/** FOR PROMOTIONS */}
@@ -646,10 +666,18 @@ const Dashboard = () => {
               {selectedComponent === "wallet" && (
                 <Wallet reloadKey={reloadKey} />
               )}
-              {selectedComponent === "notification" && <Notification reloadKey={reloadKey} />}
-              {selectedComponent === "deposit" && <Paymentdeposit reloadKey={reloadKey} />}
-              {selectedComponent === "withdraw" && <Withdrawpayment reloadKey={reloadKey} />}
-              {selectedComponent === "userprofile" && <Userprofile reloadKey={reloadKey} />}
+              {selectedComponent === "notification" && (
+                <Notification reloadKey={reloadKey} />
+              )}
+              {selectedComponent === "deposit" && (
+                <Paymentdeposit reloadKey={reloadKey} />
+              )}
+              {selectedComponent === "withdraw" && (
+                <Withdrawpayment reloadKey={reloadKey} />
+              )}
+              {selectedComponent === "userprofile" && (
+                <Userprofile reloadKey={reloadKey} />
+              )}
               {selectedComponent === "result" && (
                 <AllResult reloadKey={reloadKey} />
               )}

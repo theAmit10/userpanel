@@ -38,6 +38,8 @@ function UpiWithdraw({ selectingPaymentType }) {
     console.log("GOING PREVIOUS PAGE");
   };
 
+  
+
   const navigation = useNavigate();
   const { accesstoken, user } = useSelector((state) => state.user);
 
@@ -48,6 +50,13 @@ function UpiWithdraw({ selectingPaymentType }) {
   const [showProgressBar, setProgressBar] = useState(false);
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
   console.log("MOINEE:: " + isLoading);
+
+  const settingDefaultValue = () => {
+    setAmountval("")
+    setRemarkval("")
+    setUpiHolderName("");
+    setUpiId("")
+  };
 
   const MIN_WITHDRAW_AMOUNT = 100;
 
@@ -94,8 +103,10 @@ function UpiWithdraw({ selectingPaymentType }) {
 
         console.log("Withdraw res :: " + JSON.stringify(res));
 
-        await showSuccessToast(res.message);
-        goToPreviousPage();
+        showSuccessToast(res.message);
+        settingDefaultValue()
+        // showSuccessToast("Success");
+        // // goToPreviousPage();
       } catch (error) {
         console.log("Error during withdraw:", error);
         showErrorToast("Something went wrong");

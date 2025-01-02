@@ -46,9 +46,20 @@ function BankWithdraw({ selectingPaymentType }) {
   const [accountHolderName, setAccountHolderName] = useState("");
   const [bankIFSC, setBankIFSC] = useState("");
   const [bankAccountNumber, setBankAccountNumber] = useState("");
+  const [swiftcode, setswiftcode] = useState("");
 
   const [showProgressBar, setProgressBar] = useState(false);
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
+
+  const settingDefaultValue = () => {
+    setAmountval("")
+    setRemarkval("")
+    setBankName("");
+    setAccountHolderName("");
+    setBankIFSC("");
+    setBankAccountNumber("");
+    setswiftcode("");
+  };
 
   const MIN_WITHDRAW_AMOUNT = 100;
 
@@ -76,32 +87,65 @@ function BankWithdraw({ selectingPaymentType }) {
     } else if (!bankAccountNumber) {
       showErrorToast("Enter Account Number");
     } else {
-      try {
-        const body = {
-          amount: amountval,
-          remark: remarkval,
-          paymenttype: "Bank",
-          username: user.name,
-          userid: user.userId,
-          paymentstatus: "Pending",
-          transactionType: "Withdraw",
-          bankName,
-          accountHolderName,
-          bankIFSC,
-          bankAccountNumber,
-        };
 
-        const res = await createWithdraw({
-          accessToken: accesstoken,
-          body,
-        }).unwrap();
-
-        showSuccessToast(res.message);
-
-        goToPreviousPage();
-      } catch (error) {
-        showErrorToast("Something went wrong");
+      if(swiftcode)
+      {
+        try {
+          const body = {
+            amount: amountval,
+            remark: remarkval,
+            paymenttype: "Bank",
+            username: user.name,
+            userid: user.userId,
+            paymentstatus: "Pending",
+            transactionType: "Withdraw",
+            bankName,
+            accountHolderName,
+            bankIFSC,
+            bankAccountNumber,
+            swiftcode
+          };
+  
+          const res = await createWithdraw({
+            accessToken: accesstoken,
+            body,
+          }).unwrap();
+  
+          showSuccessToast(res.message);
+  
+          settingDefaultValue();
+        } catch (error) {
+          showErrorToast("Something went wrong");
+        }
+      }else{
+        try {
+          const body = {
+            amount: amountval,
+            remark: remarkval,
+            paymenttype: "Bank",
+            username: user.name,
+            userid: user.userId,
+            paymentstatus: "Pending",
+            transactionType: "Withdraw",
+            bankName,
+            accountHolderName,
+            bankIFSC,
+            bankAccountNumber,
+          };
+  
+          const res = await createWithdraw({
+            accessToken: accesstoken,
+            body,
+          }).unwrap();
+  
+          showSuccessToast(res.message);
+  
+          settingDefaultValue();
+        } catch (error) {
+          showErrorToast("Something went wrong");
+        }
       }
+     
     }
   };
 
@@ -173,7 +217,7 @@ function BankWithdraw({ selectingPaymentType }) {
         </div>
 
         {/** IFSC CODE */}
-        <label className="alCLLabel">IFSC Code</label>
+        <label className="alCLLabel">IFSC code / Routing no.</label>
         <div className="alSearchContainer">
           <div className="searchIconContainer">
             <IoDocumentText color={COLORS.background} size={"2.5rem"} />
@@ -183,11 +227,26 @@ function BankWithdraw({ selectingPaymentType }) {
             className="al-search-input"
             type="text"
             name="bankIFSC"
-            placeholder="Enter IFSC code"
+            placeholder="Enter IFSC code / Routing no."
             value={bankIFSC}
             onChange={(e) => setBankIFSC(e.target.value)}
           />
         </div>
+
+         {/** SWIFT CODE */}
+         <label className="alCLLabel">Swift code (optional)</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <IoDocumentText color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                placeholder="Enter swift code"
+                value={swiftcode}
+                onChange={(e) => setswiftcode(e.target.value)}
+              />
+            </div>
 
         {/** ACCOUNT NUMBER */}
         <label className="alCLLabel">Account number</label>

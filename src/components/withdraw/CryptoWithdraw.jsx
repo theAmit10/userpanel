@@ -36,6 +36,13 @@ function CryptoWithdraw({ selectingPaymentType }) {
   const [networkType, setnetworkType] = useState("");
   const [remarkval, setRemarkval] = useState("");
 
+  const settingDefaultValue = () => {
+    setAmountval("")
+    setRemarkval("")
+    setcryptoWalletAddress("");
+    setnetworkType("");
+  };
+
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
   const MIN_WITHDRAW_AMOUNT = 10;
   const submitHandler = async () => {
@@ -81,7 +88,7 @@ function CryptoWithdraw({ selectingPaymentType }) {
         console.log("Withdraw res :: " + JSON.stringify(res));
 
         showSuccessToast(res.message);
-        goToPreviousPage();
+        settingDefaultValue();
       } catch (error) {
         console.log("Error during withdraw:", error);
         showErrorToast("Something went wrong");

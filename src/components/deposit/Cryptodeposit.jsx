@@ -226,7 +226,8 @@ function Cryptodeposit({ selectingPaymentType }) {
                             />
                           </div>
 
-                          <label className="pdB">Crypto {item.paymentId}</label>
+                          {/* <label className="pdB">Crypto {item.paymentId}</label> */}
+                          <label className="pdB">Crypto</label>
 
                         
                         </div>
@@ -283,7 +284,7 @@ function Cryptodeposit({ selectingPaymentType }) {
                             />
                           </div>
                         </div>
-
+                        <div className="NotePatentContainer">
                         <div className="uCCBottomC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Note</label>
@@ -294,6 +295,9 @@ function Cryptodeposit({ selectingPaymentType }) {
                             </label>
                           </div>
                         </div>
+                        </div>
+
+
                       </div>
                     ))}
                   </div>

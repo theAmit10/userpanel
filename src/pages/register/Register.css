@@ -171,15 +171,15 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   padding: 1rem;
  }
 
  .noteTextLabel{
   color: var(--white_s);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-family: var(MSB);
-  background-color: #011833;
+
   padding: 0.5rem;
   border-radius: 1rem;
  }

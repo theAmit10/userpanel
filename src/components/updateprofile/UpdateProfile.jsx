@@ -498,7 +498,7 @@ function UpdateProfile({reloadKey}) {
               )}
             </div>
 
-            <div className="userDetailContainer">
+            <div className="userDetailContainer" style={{gap: "0.2rem"}}>
               <label className="upContentContainerLabelB">
                 {user ? user.name : ""}
               </label>
@@ -512,6 +512,9 @@ function UpdateProfile({reloadKey}) {
               ) : null}
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
+              </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
               </label>
             </div>
           </div>
@@ -668,6 +671,9 @@ function UpdateProfile({reloadKey}) {
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
               </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
+              </label>
             </div>
           </div>
 
@@ -751,6 +757,9 @@ function UpdateProfile({reloadKey}) {
               ) : null}
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
+              </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
               </label>
             </div>
           </div>
@@ -836,6 +845,9 @@ function UpdateProfile({reloadKey}) {
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
               </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
+              </label>
             </div>
           </div>
 
@@ -919,6 +931,9 @@ function UpdateProfile({reloadKey}) {
               ) : null}
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
+              </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
               </label>
             </div>
           </div>
@@ -1004,6 +1019,9 @@ function UpdateProfile({reloadKey}) {
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
               </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
+              </label>
             </div>
           </div>
 
@@ -1087,6 +1105,9 @@ function UpdateProfile({reloadKey}) {
               ) : null}
               <label className="upContentContainerLabel">
                 User ID : {user ? user.userId : ""}
+              </label>
+              <label className="upContentContainerLabel">
+                Country : {user ? user.country?.countryname : ""}
               </label>
             </div>
           </div>

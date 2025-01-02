@@ -58,7 +58,9 @@ function Aboutus({reloadKey}) {
             <LoadingComponent/>
           ) : (
             filteredData?.map((item, index) => (
-              <div key={index} className="aboutus-content">
+              <div key={index} className="aboutus-content" style={{
+                padding: "1rem"
+              }}>
                 <div className="aboutus-content-title">
                   <label className="aboutus-content-title-label">
                     {item.aboutTitle}

@@ -46,6 +46,8 @@
     color: var(--white_s);
     font-family: "MB";
     font-size: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
     
   }
   .userimagecontainer{
@@ -158,6 +160,8 @@
     font-family: "MR";
     font-size: 1.5rem;
     align-self: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .adRightContainer{

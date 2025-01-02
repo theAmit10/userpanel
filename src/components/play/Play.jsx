@@ -13,9 +13,14 @@ import {
   useCreatePlayMutation,
   useGetAllLocationWithTimeQuery,
   useGetDateAccToLocTimeQuery,
+  useGetPlayHistoryQuery,
 } from "../../redux/api";
 import { ToastContainer } from "react-toastify";
-import { showErrorToast, showSuccessToast, showWarningToast } from "../helper/showErrorToast";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "../helper/showErrorToast";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import UrlHelper from "../../helper/UrlHelper";
@@ -50,7 +55,33 @@ const createLocationDataArray = (maximumNumber) => {
   }));
 };
 
-function Play({reloadKey}) {
+export function getDateTimeAccordingToUserTimezone(time, date, userTimeZone) {
+  // Combine the passed date and time into a full datetime string in IST
+  const dateTimeIST = `${date} ${time}`;
+
+  // Convert the combined date and time to a moment object in the IST timezone
+  const istDateTime = moment.tz(
+    dateTimeIST,
+    "DD-MM-YYYY hh:mm A",
+    "Asia/Kolkata"
+  );
+
+  // Convert the IST datetime to the user's target timezone
+  const userTimeDateTime = istDateTime.clone().tz(userTimeZone);
+
+  // Format the date and time in the target timezone and return it
+  return userTimeDateTime.format("DD-MM-YYYY");
+}
+
+export function getCurrentDateInTimezone() {
+  // Get the current date in the user's timezone
+  const currentDate = moment.tz("Asia/Kolkata").format("DD-MM-YYYY");
+
+  // Return the formatted date
+  return currentDate;
+}
+
+function Play({ reloadKey }) {
   const { user, accesstoken } = useSelector((state) => state.user);
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -81,8 +112,142 @@ function Play({reloadKey}) {
   };
 
   const showSubmitContainer = () => {
-    setSubmitItemFlag(true);
+    // setSubmitItemFlag(true);
+
+    if (
+      checkSelectedNumberLimit(
+        playhistorydata,
+        currentDate.lotdate,
+        selectedTime.time ? selectedTime.time : selectedTime.lottime,
+        selectedLocation.name
+          ? selectedLocation.name
+          : selectedLocation.lotlocation,
+        mineplaynum,
+        selectedNumber
+      ) > playnumberlimit
+    ) {
+      if (parseInt(playnumberlimit) <= 0) {
+        showWarningToast(`${findMissingNumbers(
+          playhistorydata,
+          currentDate.lotdate,
+          selectedTime.time ? selectedTime.time : selectedTime.lottime,
+          selectedLocation.name
+          ? selectedLocation.name
+          : selectedLocation.lotlocation,
+          selectedLocation.maximumNumber,
+        )}  Not Allowed`);
+        showWarningToast(
+          "Maximum number selection limit reached"
+        );
+      } else {
+        showWarningToast(
+          `Kindly select any ${Math.abs(playnumberlimit)} numbers of your choice`
+        );
+        showWarningToast("Selecting all numbers is not permitted");
+      }
+    } else {
+      setSubmitItemFlag(true);
+    }
   };
+
+  function checkSelectedNumberLimit(
+    playbet,
+    lotdate,
+    lottime,
+    lotlocation,
+    limit,
+    selectedNumber
+  ) {
+    console.log("Checking Selected Number Limit");
+    console.log(playbet.length, lotdate, lottime, lotlocation, selectedNumber);
+
+    // Ensure selectedNumber is valid
+    if (!Array.isArray(selectedNumber)) {
+      console.error("Error: selectedNumber is not a valid array");
+      return 0;
+    }
+
+    // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
+    const filteredArray = playbet.filter(
+      (item) =>
+        item.lotdate.lotdate === lotdate &&
+        item.lottime.lottime === lottime &&
+        item.lotlocation.lotlocation === lotlocation
+    );
+
+    console.log("Filtered array length :: ", filteredArray.length);
+
+    // Step 2: Use a Set to store unique playnumbers from the filtered array
+    const uniquePlaynumbers = new Set();
+    filteredArray.forEach((item) => {
+      item.playnumbers.forEach((numberObj) => {
+        uniquePlaynumbers.add(String(numberObj.playnumber)); // Ensure all values are strings
+      });
+    });
+
+    console.log("Unique Playnumbers :: ", Array.from(uniquePlaynumbers));
+
+    // Step 3: Store the length of the selectedNumber array
+    let remainingLimit = selectedNumber.length;
+
+    // Step 4: Loop through the selectedNumber array
+    selectedNumber.forEach((selected) => {
+      const name = String(selected.name); // Ensure name is a string for comparison
+      if (uniquePlaynumbers.has(name)) {
+        remainingLimit -= 1; // Decrement the remainingLimit if name exists in the Set
+      }
+    });
+
+    console.log(
+      "Remaining Limit after processing selected numbers :: ",
+      remainingLimit
+    );
+
+    // Step 5: Return the remainingLimit
+    return remainingLimit;
+  }
+
+  function findMissingNumbers(
+    playbet,
+    lotdate,
+    lottime,
+    lotlocation,
+    maxnumber,
+  ) {
+    console.log('Finding Missing Numbers');
+    console.log(playbet.length, lotdate, lottime, lotlocation, maxnumber);
+
+    // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
+    const filteredArray = playbet.filter(
+      item =>
+        item.lotdate.lotdate === lotdate &&
+        item.lottime.lottime === lottime &&
+        item.lotlocation.lotlocation === lotlocation,
+    );
+
+    console.log('Filtered array length :: ', filteredArray.length);
+
+    // Step 2: Use a Set to store unique playnumbers from the filtered array
+    const uniquePlaynumbers = new Set();
+    filteredArray.forEach(item => {
+      item.playnumbers.forEach(numberObj => {
+        uniquePlaynumbers.add(Number(numberObj.playnumber)); // Ensure all values are numbers
+      });
+    });
+
+    console.log('Unique Playnumbers :: ', Array.from(uniquePlaynumbers));
+
+    // Step 3: Create an array from 1 to maxnumber
+    const fullRange = Array.from({length: maxnumber}, (_, i) => i + 1);
+    console.log('Full Range :: ', fullRange);
+
+    // Step 4: Find numbers that are in fullRange but not in uniquePlaynumbers
+    const missingNumbers = fullRange.filter(num => !uniquePlaynumbers.has(num));
+    console.log('Missing Numbers :: ', missingNumbers);
+
+    // Step 5: Return the missing numbers as a comma-separated string
+    return missingNumbers.join(',');
+  }
 
   const hideSubmitContainer = () => {
     setSubmitItemFlag(false);
@@ -98,7 +263,6 @@ function Play({reloadKey}) {
     console.log(
       "Selected item location :: " + JSON.stringify(selectedLocation)
     );
-    console.log("Selected item time :: " + JSON.stringify(selectedLocation));
   }, [selectedItem, selectedLocation]);
 
   // ######################
@@ -108,12 +272,10 @@ function Play({reloadKey}) {
   const dispatch = useDispatch();
 
   const handleSelecteditemClick = (item, timedata) => {
-    
     const now = moment.tz(user?.country?.timezone);
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-   
     const lotTimeMoment = moment.tz(
       getTimeAccordingToTimezone(timedata?.time, user?.country?.timezone),
       "hh:mm A",
@@ -122,29 +284,25 @@ function Play({reloadKey}) {
     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
 
     // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, 'minutes');
-    
-    const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
     console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
 
     if (isLotTimeClose) {
-        console.log("Navigating to PlayArena...");
-        showWarningToast("Entry is close for this session")
-        showWarningToast("Please choose next available time")
-       
+      console.log("Navigating to PlayArena...");
+      showWarningToast("Entry is close for this session");
+      showWarningToast("Please choose next available time");
     } else {
       setSelectedItem(false);
       setSelectedLocation(item);
       setSelectedTime(timedata);
-  
+
       dispatch(
         getDateAccordingToLocationAndTime(accesstoken, timedata._id, item._id)
       );
     }
-
-
-
-
   };
 
   const removeSelecteditemClick = () => {
@@ -208,8 +366,8 @@ function Play({reloadKey}) {
     if (itemf.maximumReturn.toLowerCase() === "all") {
       // setFilteredData(data?.locationData);
       const sortedData = [...(data?.locationData || [])].sort((a, b) => {
-        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
-        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
         return bReturn - aReturn; // Sort from highest to lowest
       });
       setFilteredData(sortedData);
@@ -232,8 +390,8 @@ function Play({reloadKey}) {
   useEffect(() => {
     if (!isLoading && data) {
       const sortedData = [...(data?.locationData || [])].sort((a, b) => {
-        const aReturn = parseFloat(a.maximumReturn.replace('x', ''));
-        const bReturn = parseFloat(b.maximumReturn.replace('x', ''));
+        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
         return bReturn - aReturn; // Sort from highest to lowest
       });
       setFilteredData(sortedData); // Update filteredData whenever locations change
@@ -376,110 +534,281 @@ function Play({reloadKey}) {
     }
   };
 
+  // useEffect(() => {
+  //   if (!isLoadingDate && dataDate) {
+  //     setShowPlay(true);
+
+  //     // const now = moment.tz(user?.country?.timezone);
+  //     const now = moment.tz('Asia/Kolkata');
+  //     console.log("Current Time: ", now.format("hh:mm A"));
+  //     console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+  //     // const lotTimeMoment = moment.tz(
+  //     //   getTimeAccordingToTimezone(selectedTime?.time, user?.country?.timezone),
+  //     //   "hh:mm A",
+  //     //   user?.country?.timezone
+  //     // );
+
+  //     const lotTimeMoment = moment.tz(
+  //       selectedTime?.time,
+  //       'hh:mm A',
+  //       'Asia/Kolkata',
+  //     );
+
+  //     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+  //     const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
+
+  //     const nextDay = now.clone().add(1, "day");
+
+  //     console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
+  //     console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
+
+  //     if (isLotTimePassed) {
+  //       console.log('YOU ARE INSIDE IF BLOCK');
+  //       const currentDate = nextDay.format("DD-MM-YYYY");
+  //       console.log("Current Date :: " + currentDate);
+  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+  //       setResult(currentDateObject);
+  //       setCurrentDate(currentDateObject);
+  //       setSelectedDate(currentDateObject);
+  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
+  //       if (currentDateObject !== "Current date not found") {
+  //         console.log('result !== "Current date not found"');
+
+  //         // const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         // if (maximumNumber) {
+  //         //   const generatedArray = createLocationDataArray(maximumNumber);
+  //         //   setBetnumberdata(generatedArray);
+  //         // }
+
+  //         // Fetch results using the API function
+  //         // getResultAccordingToLocationTimeDate(
+  //         //   currentDateObject._id,
+  //         //   currentDateObject?.lottime?._id,
+  //         //   currentDateObject?.lottime?.lotlocation?._id
+  //         // );
+
+  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         console.log("Maximum number ::: ",maximumNumber)
+  //         if (maximumNumber) {
+  //           const generatedArray = createLocationDataArray(maximumNumber);
+  //           console.log("generated num :: ", generatedArray)
+  //           setBetnumberdata(generatedArray);
+  //         }
+  //         // setResult("yes"); // Set to the current date object if results are found
+  //         setResult('yes'); // Set to the current date object if results are found
+  //         setShowPlay(false);
+  //       }
+  //     } else {
+  //       console.log('YOU ARE INSIDE ELSE BLOCK');
+  //       const currentDate = getCurrentDateInTimezone();
+  //       console.log("Current Date :: " + currentDate);
+  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+  //       setResult(currentDateObject);
+  //       setCurrentDate(currentDateObject);
+  //       setSelectedDate(currentDateObject);
+  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
+  //       if (currentDateObject !== "Current date not found") {
+  //         console.log('result !== "Current date not found"');
+
+  //         // const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         // if (maximumNumber) {
+  //         //   const generatedArray = createLocationDataArray(maximumNumber);
+  //         //   setBetnumberdata(generatedArray);
+  //         // }
+
+  //         // Fetch results using the API function
+  //         // getResultAccordingToLocationTimeDate(
+  //         //   currentDateObject._id,
+  //         //   currentDateObject?.lottime?._id,
+  //         //   currentDateObject?.lottime?.lotlocation?._id
+  //         // );
+
+  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         console.log("Maximum number ::: ",maximumNumber)
+  //         if (maximumNumber) {
+  //           const generatedArray = createLocationDataArray(maximumNumber);
+  //           console.log("generated num :: ", generatedArray)
+  //           setBetnumberdata(generatedArray);
+  //         }
+  //         // setResult("yes"); // Set to the current date object if results are found
+  //         setResult('yes'); // Set to the current date object if results are found
+  //         setShowPlay(false);
+  //       }
+  //     }
+  //   }
+  // }, [isLoadingDate, dataDate]);
+
+  // useEffect(() => {
+  //   if (!isLoadingDate && dataDate) {
+  //     setShowPlay(true);
+
+  //     // const now = moment.tz(user?.country?.timezone);
+  //     const now = moment.tz('Asia/Kolkata');
+  //     console.log("Current Time: ", now.format("hh:mm A"));
+  //     console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+  //     const currentDateString = now.format('DD-MM-YYYY'); // Current date as a string
+  //     const lotTimeString =  selectedTime?.time; // Get the lot time
+
+  //     const lotTimeMoment = moment.tz(
+  //       `${currentDateString} ${lotTimeString}`, // Combine date and time
+  //       'DD-MM-YYYY hh:mm A', // Correct format for parsing
+  //       'Asia/Kolkata' // Timezone
+  //     );
+
+  //     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+  //     const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
+
+  //     const nextDay = now.clone().add(1, "day");
+
+  //     console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
+  //     console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
+
+  //     if (isLotTimePassed) {
+  //       console.log('YOU ARE INSIDE IF BLOCK');
+  //       const currentDate = nextDay.format("DD-MM-YYYY");
+  //       console.log("Current Date :: " + currentDate);
+  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+  //       setResult(currentDateObject);
+  //       setCurrentDate(currentDateObject);
+  //       setSelectedDate(currentDateObject);
+  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
+  //       if (currentDateObject !== "Current date not found") {
+  //         console.log('result !== "Current date not found"');
+
+  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         console.log("Maximum number ::: ",maximumNumber)
+  //         if (maximumNumber) {
+  //           const generatedArray = createLocationDataArray(maximumNumber);
+  //           console.log("generated num :: ", generatedArray)
+  //           setBetnumberdata(generatedArray);
+  //         }
+  //         // setResult("yes"); // Set to the current date object if results are found
+  //         setResult('yes'); // Set to the current date object if results are found
+  //         setShowPlay(false);
+  //       }
+  //     } else {
+  //       console.log('YOU ARE INSIDE ELSE BLOCK');
+  //       const currentDate = getCurrentDateInTimezone();
+  //       console.log("Current Date :: " + currentDate);
+  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+  //       setResult(currentDateObject);
+  //       setCurrentDate(currentDateObject);
+  //       setSelectedDate(currentDateObject);
+  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
+  //       if (currentDateObject !== "Current date not found") {
+  //         console.log('result !== "Current date not found"');
+
+  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
+  //         console.log("Maximum number ::: ",maximumNumber)
+  //         if (maximumNumber) {
+  //           const generatedArray = createLocationDataArray(maximumNumber);
+  //           console.log("generated num :: ", generatedArray)
+  //           setBetnumberdata(generatedArray);
+  //         }
+
+  //         setResult('yes'); // Set to the current date object if results are found
+  //         setShowPlay(false);
+  //       }
+  //     }
+  //   }
+  // }, [isLoadingDate, dataDate]);
+
   useEffect(() => {
     if (!isLoadingDate && dataDate) {
       setShowPlay(true);
 
-      const now = moment.tz(user?.country?.timezone);
-      console.log("Current Time: ", now.format("hh:mm A"));
-      console.log("Current Date: ", now.format("DD-MM-YYYY"));
+      // Get current time in Asia/Kolkata timezone
+      const now = moment.tz("Asia/Kolkata");
+      console.log("Current Time (IST): ", now.format("hh:mm A"));
+      console.log("Current Date (IST): ", now.format("DD-MM-YYYY"));
 
-   
+      // Get the selected lot time (ensure it's correctly formatted)
+      const currentDateString = now.format("DD-MM-YYYY"); // Current date as string
+      const lotTimeString = selectedTime?.time; // Lot time from selectedTime
 
+      // Debugging: Log the selected time to ensure it's correct
+      console.log("Selected Lot Time String: ", lotTimeString);
+
+      // Parse the lot time with the current date
       const lotTimeMoment = moment.tz(
-        getTimeAccordingToTimezone(selectedTime?.time, user?.country?.timezone),
-        "hh:mm A",
-        user?.country?.timezone
+        `${currentDateString} ${lotTimeString}`, // Combine date and time
+        "DD-MM-YYYY hh:mm A", // Date and time format
+        "Asia/Kolkata" // Timezone
       );
 
-      console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+      // Debugging: Log the parsed lot time
+      console.log(
+        `Parsed Lot Time for location: ${lotTimeMoment.format("hh:mm A")}`
+      );
 
+      // Check if the current time is the same or after the lot time
       const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
-
       const nextDay = now.clone().add(1, "day");
 
-      console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
-      console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
+      console.log(`Is Lot Time Passed: ${isLotTimePassed}`);
+      console.log("Next Day Date: ", nextDay.format("DD-MM-YYYY"));
 
       if (isLotTimePassed) {
+        // If lot time has passed, move to the next day
+        console.log("You are inside the IF block (Lot time has passed)");
         const currentDate = nextDay.format("DD-MM-YYYY");
-        console.log("Current Date :: " + currentDate);
+        console.log("Next Date (IST): " + currentDate);
+
         const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        console.log("Next Day Play Data: ", JSON.stringify(currentDateObject));
+
         setResult(currentDateObject);
         setCurrentDate(currentDateObject);
         setSelectedDate(currentDateObject);
-        console.log("Today Play :: " + JSON.stringify(currentDateObject));
-        if (currentDateObject !== "Current date not found") {
-          console.log('result !== "Current date not found"');
 
-          const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+        if (currentDateObject !== "Current date not found") {
+          console.log("Valid date object found");
+
+          const maximumNumber = selectedLocation?.maximumNumber; // Ensure maximumNumber exists
+          console.log("Maximum number: ", maximumNumber);
+
           if (maximumNumber) {
             const generatedArray = createLocationDataArray(maximumNumber);
+            console.log("Generated Array: ", generatedArray);
             setBetnumberdata(generatedArray);
           }
 
-          console.log("GETTING THE DATA TO GET THE RESULT");
-          console.log(
-            "Date ID " + currentDateObject._id,
-            " :: " + currentDateObject.lotdate
-          );
-          console.log(
-            "Time ID " + currentDateObject?.lottime?._id,
-            " :: " + currentDateObject?.lottime?.lottime
-          );
-          console.log(
-            "Result ID " +
-              currentDateObject?.lottime?.lotlocation?._id +
-              " :: " +
-              currentDateObject?.lottime?.lotlocation?.lotlocation
-          );
-
-          // Fetch results using the API function
-          getResultAccordingToLocationTimeDate(
-            currentDateObject._id,
-            currentDateObject?.lottime?._id,
-            currentDateObject?.lottime?.lotlocation?._id
-          );
+          // Set to 'yes' if results are found
+          setResult("yes");
+          setShowPlay(false);
         }
       } else {
-        const currentDate = getCurrentDate();
-        console.log("Current Date :: " + currentDate);
+        // If lot time hasn't passed, handle current day
+        console.log("You are inside the ELSE block (Lot time has not passed)");
+        const currentDate = getCurrentDateInTimezone();
+        console.log("Current Date in Timezone: " + currentDate);
+
         const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        console.log("Today's Play Data: ", JSON.stringify(currentDateObject));
+
         setResult(currentDateObject);
         setCurrentDate(currentDateObject);
         setSelectedDate(currentDateObject);
-        console.log("Today Play :: " + JSON.stringify(currentDateObject));
-        if (currentDateObject !== "Current date not found") {
-          console.log('result !== "Current date not found"');
 
-          const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
+        if (currentDateObject !== "Current date not found") {
+          console.log("Valid date object found for today");
+
+          const maximumNumber = selectedLocation?.maximumNumber; // Ensure maximumNumber exists
+          console.log("Maximum number: ", maximumNumber);
+
           if (maximumNumber) {
             const generatedArray = createLocationDataArray(maximumNumber);
+            console.log("Generated Array: ", generatedArray);
             setBetnumberdata(generatedArray);
           }
 
-          console.log("GETTING THE DATA TO GET THE RESULT");
-          console.log(
-            "Date ID " + currentDateObject._id,
-            " :: " + currentDateObject.lotdate
-          );
-          console.log(
-            "Time ID " + currentDateObject?.lottime?._id,
-            " :: " + currentDateObject?.lottime?.lottime
-          );
-          console.log(
-            "Result ID " +
-              currentDateObject?.lottime?.lotlocation?._id +
-              " :: " +
-              currentDateObject?.lottime?.lotlocation?.lotlocation
-          );
-
-          // Fetch results using the API function
-          getResultAccordingToLocationTimeDate(
-            currentDateObject._id,
-            currentDateObject?.lottime?._id,
-            currentDateObject?.lottime?.lotlocation?._id
-          );
+          // Set to 'yes' if results are found
+          setResult("yes");
+          setShowPlay(false);
         }
       }
     }
@@ -503,8 +832,6 @@ function Play({reloadKey}) {
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-    
-
     const lotTimeMoment = moment.tz(
       getTimeAccordingToTimezone(timeItem?.time, user?.country?.timezone),
       "hh:mm A",
@@ -513,29 +840,29 @@ function Play({reloadKey}) {
     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
 
     // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, 'minutes');
-    
-    const isLotTimeClose = now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
     console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
 
     if (isLotTimeClose) {
-        console.log("Navigating to PlayArena...");
-        showWarningToast("Entry is close for this session")
-        showWarningToast("Please choose next available time")
-       
+      console.log("Navigating to PlayArena...");
+      showWarningToast("Entry is close for this session");
+      showWarningToast("Please choose next available time");
     } else {
-        console.log("It's too early or past the lot time.");
-         navigation.navigate('PlayArena', {
-          locationdata: item,
-          timedata: timeItem,
-        })
+      console.log("It's too early or past the lot time.");
+      navigation.navigate("PlayArena", {
+        locationdata: item,
+        timedata: timeItem,
+      });
     }
-};
+  };
 
-useEffect(() => {
-  console.log("reloadKey :: " + reloadKey);
-  removeSelecteditemClick()
-}, [reloadKey]);
+  useEffect(() => {
+    console.log("reloadKey :: " + reloadKey);
+    removeSelecteditemClick();
+  }, [reloadKey]);
 
   const addingNumberForBetting = (number) => {
     console.log("ADDING NUMBER TO LIST");
@@ -612,7 +939,86 @@ useEffect(() => {
     return true;
   };
 
+  // const mineplaynum = parseInt(3);
+  const mineplaynum = parseInt(selectedLocation?.bettinglimit);
+  const [playnumberlimit, setplaynumberlimit] = useState(mineplaynum);
+
+  const {
+    data: userplayhistory,
+    error: userplayhistoryError,
+    isLoading: userplayhistoryLoading,
+    refetch: userplayhistoryRefetch,
+  } = useGetPlayHistoryQuery(accesstoken);
+  const limit = 3;
+
+  const [playhistorydata, setPlayhistorydata] = useState([]);
+  useEffect(() => {
+    if (!userplayhistoryLoading && userplayhistory) {
+      setPlayhistorydata(userplayhistory.playbets);
+    }
+  }, [userplayhistory, userplayhistoryLoading]);
+
+  useEffect(() => {
+    console.log("SELECTED NUMBER :: LENTH ::", selectedNumber.length);
+    console.log(playnumberlimit);
+    if (currentDate && selectedTime && selectedLocation) {
+      console.log(
+        checkPlaybetLimit(
+          playhistorydata,
+          currentDate.lotdate,
+          selectedTime.time ? selectedTime.time : selectedTime.lottime,
+          selectedLocation.name
+            ? selectedLocation.name
+            : selectedLocation.lotlocation,
+          mineplaynum
+        )
+      );
+    }
+  }, [selectedNumber, currentDate, playhistorydata]);
+
+  function checkPlaybetLimit(playbet, lotdate, lottime, lotlocation, limit) {
+    console.log("Checking Playbet Limit");
+    console.log(playbet.length, lotdate, lottime, lotlocation, limit);
+
+    // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
+    const filteredArray = playbet.filter(
+      (item) =>
+        item.lotdate.lotdate === lotdate &&
+        item.lottime.lottime === lottime &&
+        item.lotlocation.lotlocation === lotlocation
+    );
+
+    console.log("Filtered array length :: ", filteredArray.length);
+
+    // Step 2: Use a Set to store unique playnumbers from the filtered array
+    const uniquePlaynumbers = new Set();
+    filteredArray.forEach((item) => {
+      item.playnumbers.forEach((playnumber) => {
+        uniquePlaynumbers.add(playnumber.playnumber); // Add the playnumber value to the Set (not the whole object)
+      });
+    });
+
+    const totalPlaynumbersCount = uniquePlaynumbers.size; // Get the size of the Set
+    console.log("Total Playnumbers Count (unique) :: " + totalPlaynumbersCount);
+    console.log("Unique Playnumbers :: ", Array.from(uniquePlaynumbers));
+
+    const forplaycheck =
+      parseInt(mineplaynum) - parseInt(totalPlaynumbersCount);
+    console.log(
+      "FOR PLAY CHECK :: " + forplaycheck,
+      mineplaynum,
+      totalPlaynumbersCount
+    );
+
+    setplaynumberlimit(forplaycheck);
+    console.log(totalPlaynumbersCount <= limit);
+
+    // Step 3: Check if the total count is equal to or less than the limit
+    return totalPlaynumbersCount <= limit;
+  }
+
   const submitHandler = async () => {
+    await userplayhistoryRefetch();
     if (sumObjectValues(inputValues) === 0) {
       showErrorToast("Add amount for bet");
     } else if (
@@ -622,42 +1028,69 @@ useEffect(() => {
     } else if (!checkAmounOfSelectedNumberIsValid(inputValues)) {
       showErrorToast("Add betting amount for all numbers");
     } else {
-      try {
-        console.log("SELECTED LOCATION", JSON.stringify(selectedLocation));
-        console.log("SELECTED TIME", JSON.stringify(selectedTime));
-        console.log("SELECTED DATE", JSON.stringify(selectedDate));
-        console.log("SELECTED Current date", JSON.stringify(currentDate));
+      const now = moment.tz(user?.country?.timezone);
+      console.log("Current Time: ", now.format("hh:mm A"));
+      console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-        const body = {
-          playnumbers: transformData(
-            inputValues,
-            selectedLocation.maximumReturn
-          ),
-          lotdate: currentDate._id,
-          lottime: selectedTime?._id,
-          lotlocation: selectedLocation?._id,
-        };
+      const lotTimeMoment = moment.tz(
+        getTimeAccordingToTimezone(selectedTime?.time, user?.country?.timezone),
+        "hh:mm A",
+        user?.country?.timezone
+      );
+      console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
 
-        console.log("Request body :: " + JSON.stringify(body));
+      // Subtract 15 minutes from the lotTimeMoment
+      const lotTimeMinus15Minutes = lotTimeMoment
+        .clone()
+        .subtract(10, "minutes");
 
-        const res = await createPlay({
-          accessToken: accesstoken,
-          body,
-        }).unwrap();
-        console.log("Create Play res :: " + JSON.stringify(res));
+      const isLotTimeClose =
+        now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+      console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
 
-        if (res.message === "Playbet entry added successfully") {
-          showSuccessToast("Order Placed Successfully");
+      if (isLotTimeClose) {
+        console.log("Navigating to PlayArena...");
+        showWarningToast("Entry is close for this session");
+        showWarningToast("Please choose next available time");
+      } else {
+        try {
+          console.log("SELECTED LOCATION", JSON.stringify(selectedLocation));
+          console.log("SELECTED TIME", JSON.stringify(selectedTime));
+          console.log("SELECTED DATE", JSON.stringify(selectedDate));
+          console.log("SELECTED Current date", JSON.stringify(currentDate));
+
+          const body = {
+            playnumbers: transformData(
+              inputValues,
+              selectedLocation.maximumReturn
+            ),
+            lotdate: currentDate._id,
+            lottime: selectedTime?._id,
+            lotlocation: selectedLocation?._id,
+          };
+
+          console.log("Request body :: " + JSON.stringify(body));
+
+          const res = await createPlay({
+            accessToken: accesstoken,
+            body,
+          }).unwrap();
+          console.log("Create Play res :: " + JSON.stringify(res));
+
+          if (res.message === "Playbet entry added successfully") {
+            showSuccessToast("Order Placed Successfully");
+          }
+
+          setInputValues({});
+          dispatch(loadProfile(accesstoken));
+          await userplayhistoryRefetch();
+          // removeSelecteditemClick();
+          hideSubmitContainer();
+          setSubmitItemFlag(false);
+        } catch (error) {
+          console.log("Error during withdraw:", error);
+          showErrorToast("Something went wrong");
         }
-
-        setInputValues({});
-
-        // removeSelecteditemClick();
-        hideSubmitContainer();
-        setSubmitItemFlag(false);
-      } catch (error) {
-        console.log("Error during withdraw:", error);
-        showErrorToast("Something went wrong");
       }
     }
   };
@@ -679,28 +1112,144 @@ useEffect(() => {
     return stringValue;
   }
 
-  const getNextTimeForHighlights = (times) => {
+  // // const getNextTimeForHighlights = (times) => {
+  // //   if (times.length === 1) {
+  // //     return times[0];
+  // //   }
+
+  // //   const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
+  // //   const sortedTimes = [...times].sort((a, b) =>
+  // //     moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+  // //   );
+
+  // //   for (let i = 0; i < sortedTimes.length; i++) {
+  // //     if (
+  // //       moment(currentISTTime, "hh:mm A").isBefore(
+  // //         moment(sortedTimes[i].time, "hh:mm A")
+  // //       )
+  // //     ) {
+  // //       return sortedTimes[i];
+  // //     }
+  // //   }
+
+  // //   return sortedTimes[0];
+  // // };
+
+  const getNextTimeForHighlights = (times, userTimezone) => {
     if (times.length === 1) {
       return times[0];
     }
 
-    const currentISTTime = moment().tz(user?.country?.timezone).format("hh:mm A");
-    const sortedTimes = [...times].sort((a, b) =>
-      moment(a.time, "hh:mm A").diff(moment(b.time, "hh:mm A"))
+    // Get the current time in the user's timezone
+    const currentRiyadhTime = moment().tz(userTimezone).format("hh:mm A");
+    console.log("Current time in Riyadh timezone:", currentRiyadhTime);
+
+    // Convert each time from IST to user timezone (Asia/Riyadh)
+    const convertedTimes = times.map((item) => {
+      const timeInIST = moment.tz(item.time, "hh:mm A", "Asia/Kolkata");
+      const timeInRiyadh = timeInIST.clone().tz(userTimezone).format("hh:mm A");
+      return { ...item, convertedTime: timeInRiyadh };
+    });
+
+    console.log("Converted times to Riyadh timezone:", convertedTimes);
+
+    // Sort the times in the user's timezone
+    const sortedTimes = convertedTimes.sort((a, b) =>
+      moment(a.convertedTime, "hh:mm A").diff(
+        moment(b.convertedTime, "hh:mm A")
+      )
     );
 
+    console.log("Sorted times:", sortedTimes);
+
+    // Find the next available time
     for (let i = 0; i < sortedTimes.length; i++) {
       if (
-        moment(currentISTTime, "hh:mm A").isBefore(
-          moment(sortedTimes[i].time, "hh:mm A")
+        moment(currentRiyadhTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].convertedTime, "hh:mm A")
         )
       ) {
-        return sortedTimes[i];
+        console.log("Next available time found:", sortedTimes[i]);
+        return sortedTimes[i]; // Return the first future time
       }
     }
 
+    console.log(
+      "No future time found, returning the first sorted time:",
+      sortedTimes[0]
+    );
+    // If no future time found, return the first time (next day scenario)
     return sortedTimes[0];
   };
+
+  const minetime = [
+    {
+      _id: "66f903b792f6256d5c4a106e",
+      time: "08:00 AM",
+      createdAt: "2024-09-29T07:37:27.868Z",
+    },
+    {
+      _id: "66f903c192f6256d5c4a107e",
+      time: "10:00 AM",
+      createdAt: "2024-09-29T07:37:37.165Z",
+    },
+    {
+      _id: "66f903cc92f6256d5c4a108e",
+      time: "12:00 PM",
+      createdAt: "2024-09-29T07:37:48.264Z",
+    },
+    {
+      _id: "66f903e892f6256d5c4a109e",
+      time: "02:00 PM",
+      createdAt: "2024-09-29T07:38:16.945Z",
+    },
+    {
+      _id: "66f903f692f6256d5c4a10ae",
+      time: "04:00 PM",
+      createdAt: "2024-09-29T07:38:30.763Z",
+    },
+    {
+      _id: "66f9040d92f6256d5c4a10be",
+      time: "06:00 PM",
+      createdAt: "2024-09-29T07:38:53.448Z",
+    },
+    {
+      _id: "66f9041392f6256d5c4a10ce",
+      time: "08:00 PM",
+      createdAt: "2024-09-29T07:38:59.610Z",
+    },
+    {
+      _id: "66f9041b92f6256d5c4a10de",
+      time: "10:00 PM",
+      createdAt: "2024-09-29T07:39:07.774Z",
+    },
+    {
+      _id: "66f9042392f6256d5c4a10ee",
+      time: "12:00 AM",
+      createdAt: "2024-09-29T07:39:15.609Z",
+    },
+    {
+      _id: "66f9042a92f6256d5c4a10fe",
+      time: "02:00 AM",
+      createdAt: "2024-09-29T07:39:22.832Z",
+    },
+    {
+      _id: "66f9043292f6256d5c4a110e",
+      time: "04:00 AM",
+      createdAt: "2024-09-29T07:39:30.714Z",
+    },
+    {
+      _id: "66f9043a92f6256d5c4a111e",
+      time: "06:00 AM",
+      createdAt: "2024-09-29T07:39:38.825Z",
+    },
+  ];
+
+  // console.log("checking  ");
+  // console.log("next time  ", getTimeAccordingToTimezone(
+  //   getNextTimeForHighlights(minetime),
+  //   user?.country?.timezone
+  // ));
 
   return (
     <div className="main-content-container-all-location">
@@ -735,48 +1284,55 @@ useEffect(() => {
             {isLoading ? (
               <LoadingComponent />
             ) : (
-              filteredData?.map((item, index) => { 
-                const nextTime = getNextTimeForHighlights(item?.times);
-                return(
-                <div className="location-item-all" key={index}>
-                  <div className="location-details-all">
-                    <div
-                      className="location-header"
-                      style={{
-                        background:
-                          index % 2 === 0
-                            ? "linear-gradient(90deg, #1993FF, #0F5899)"
-                            : "linear-gradient(90deg, #7EC630, #3D6017)",
-                      }}
-                    >
-                      <span className="location-header-label">{item.name}</span>
-                      <span className="location-header-max-label">
-                        Max {item.limit}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="time-items-container">
-                    {item.times.map((timedata, timeindex) => (
+              filteredData?.map((item, index) => {
+                const nextTime = getNextTimeForHighlights(
+                  item?.times,
+                  user?.country?.timezone
+                );
+                return (
+                  <div className="location-item-all" key={index}>
+                    <div className="location-details-all">
                       <div
-                        onClick={() => handleSelecteditemClick(item, timedata)}
-                       
-                        className={`time-item ${
-                          timedata.time === nextTime.time ? "highlighted" : ""
-                        }`}
-                        key={timeindex}
+                        className="location-header"
+                        style={{
+                          background:
+                            index % 2 === 0
+                              ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                              : "linear-gradient(90deg, #7EC630, #3D6017)",
+                        }}
                       >
-                        <span className="time-items-container-time-label">
-                          {getTimeAccordingToTimezone(
-                            timedata.time,
-                            user?.country?.timezone
-                          )}
+                        <span className="location-header-label">
+                          {item.name}
+                        </span>
+                        <span className="location-header-max-label">
+                          Max {item.limit}
                         </span>
                       </div>
-                    ))}
+                    </div>
+
+                    <div className="time-items-container">
+                      {item.times.map((timedata, timeindex) => (
+                        <div
+                          onClick={() =>
+                            handleSelecteditemClick(item, timedata)
+                          }
+                          className={`time-item ${
+                            timedata.time === nextTime.time ? "highlighted" : ""
+                          }`}
+                          key={timeindex}
+                        >
+                          <span className="time-items-container-time-label">
+                            {getTimeAccordingToTimezone(
+                              timedata.time,
+                              user?.country?.timezone
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )})
+                );
+              })
             )}
           </div>
         </>
@@ -831,7 +1387,20 @@ useEffect(() => {
                     user?.country?.timezone
                   )}
                 </span>
-                <span className="titleLabel">{selectedDate?.lotdate}</span>
+                <span className="titleLabel">
+                  {/* {selectedDate?.lotdate} */}
+                  {getDateTimeAccordingToUserTimezone(
+                    selectedTime.time,
+                    selectedDate?.lotdate,
+                    user?.country?.timezone
+                  )
+                    ? getDateTimeAccordingToUserTimezone(
+                        selectedTime.time,
+                        selectedDate?.lotdate,
+                        user?.country?.timezone
+                      )
+                    : "loading"}
+                </span>
                 <div
                   className="back-container"
                   onClick={() => removeSelecteditemClick()}

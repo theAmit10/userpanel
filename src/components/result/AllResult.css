@@ -50,7 +50,7 @@
 
 .time-column{
     color: var(--white_s);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-family: "MSB";
 }
 
@@ -81,6 +81,8 @@
   
   .ARLC{
     height: 7rem;
+    min-height: 7rem;
+    max-height: 7rem;
     width: 80vw;
     background-color: var(--background);
     margin-left: 2rem;
@@ -91,6 +93,26 @@
     justify-content: flex-start;
     align-items: center;
     overflow-x: scroll;
+    align-content: center;
+  }
+
+  .ARLCT{
+    height: fit-content;
+    width: 80vw;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    scroll-padding-left: 2rem; /* Ensures the left padding is accounted for */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    justify-content: flex-start;
+    align-items: center;
   }
   
   .ARLocConC {

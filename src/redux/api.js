@@ -210,12 +210,9 @@ export const sincelotUserApi = createApi({
 
     // GET APP LINK
     getAppLink: builder.query({
-      query: (accesstoken ) => ({
+      query: () => ({
         url: `result/getapplink`,
         method: "get",
-        headers: {
-          Authorization: `Bearer ${accesstoken}`,
-        },
       }),
     }),
 

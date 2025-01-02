@@ -31,7 +31,7 @@ import ChangePassword from "../../components/changepassword/ChangePassword.jsx";
 import UpdateProfile from "../../components/updateprofile/UpdateProfile.jsx";
 import Wallet from "../../components/wallet/Walllet.jsx";
 import Notification from "../../components/notification/Notification.jsx";
-
+import { IoLocationSharp } from "react-icons/io5";
 import { IoIosLogOut } from "react-icons/io";
 
 import {
@@ -308,6 +308,24 @@ const Setting = () => {
               <TbHistoryToggle color={COLORS.white_s} size={"2.5rem"} />
             </div>
             <label className="adLContenContainerLabel">Play History</label>
+          </div>
+
+            {/** ALL LOCATION */}
+            <div
+            className="adLContenContainer"
+            key={"alllocation"}
+            onClick={() => handleComponentClick("alllocation")}
+            style={{
+              background:
+                selectedComponent === "alllocation"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <IoLocationSharp color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">All Location</label>
           </div>
 
           {/** BALANCE TRANSFER */}

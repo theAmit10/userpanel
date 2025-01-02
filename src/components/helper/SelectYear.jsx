@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './SelectYear.css'; // Import the CSS file for styling
 
 const SelectYear = ({ onClose, setSelectedYear }) => {
-  const years = Array.from({ length: 101 }, (_, i) => 2000 + i);
+  const years = Array.from({ length: 101 }, (_, i) => 2021 + i);
 
   return (
     <div className="container">

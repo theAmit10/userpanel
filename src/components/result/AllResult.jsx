@@ -12,12 +12,13 @@ import FONT from "../../assets/constants/fonts";
 import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import SelectYear from "../helper/SelectYear";
 import SelectMonth from "../helper/SelectMonth";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
 import * as XLSX from "xlsx";
 import { CiSearch } from "react-icons/ci";
 import { FaDownload } from "react-icons/fa6";
 import { MdArrowDropDownCircle } from "react-icons/md";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
+import { getDateTimeAccordingToUserTimezone } from "../play/Play";
+import moment from "moment-timezone";
 
 function AllResult({ reloadKey }) {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function AllResult({ reloadKey }) {
   const [showSelectMonth, setShowSelectMonth] = useState(false);
 
   const { accesstoken, user } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false); // New loading state
 
   // GETTING ALL THE LOCATION
   const {
@@ -53,8 +55,10 @@ function AllResult({ reloadKey }) {
     refetch: allocationRefetch,
   } = useGetAllLocationWithTimeQuery(accesstoken);
 
+  const [allresult, setAllResult] = useState(null);
+
   const {
-    data: allresult,
+    data: allresultorg,
     error: allresultError,
     isLoading: allresultIsLoading,
   } = useGetResultLocMonYearQuery({
@@ -75,7 +79,63 @@ function AllResult({ reloadKey }) {
     if (alllocation) {
       console.log("Calling allresult only:: " + allresultIsLoading);
     }
-  }, [allresult, selectedItem, allocationIsLoading]);
+  }, [allresultorg, selectedItem, allocationIsLoading]);
+
+  useEffect(() => {
+    if (allresultorg) {
+      console.log("STARTING CONVERTING RESULT");
+      const convertedData = convertDatesToTimezone(
+        allresultorg,
+        user?.country?.timezone
+      );
+      console.log("DATA CONVERTING RESULT COMPLETE");
+
+      setAllResult(convertedData);
+      console.log("MINERESULT DATA :: ", allresult);
+    }
+  }, [allresultorg, selectedItem]);
+
+  useEffect(() => {
+    if (allresultorg) {
+      console.log("ALL RESULT DATA :: ", allresult);
+    }
+  }, [allresult]);
+
+  function convertDatesToTimezone(dataObject, targetTimezone) {
+    return {
+      ...dataObject,
+      results: dataObject.results.map((resultItem) => {
+        const lottime = resultItem.lottime.lottime; // e.g., "02:35 AM"
+
+        return {
+          ...resultItem,
+          dates: resultItem.dates.map((dateObj) => {
+            const lotdate = dateObj.lotdate.lotdate; // e.g., "21-10-2024"
+
+            // Combine lotdate and lottime to create a complete DateTime in IST
+            const istDateTime = moment.tz(
+              `${lotdate} ${lottime}`,
+              "DD-MM-YYYY hh:mm A",
+              "Asia/Kolkata"
+            );
+
+            // Convert the IST datetime to the target timezone
+            const targetDateTime = istDateTime.clone().tz(targetTimezone);
+
+            // Return a new dateObj with the updated lotdate and lottime
+            return {
+              ...dateObj,
+              lotdate: {
+                ...dateObj.lotdate,
+                lotdate: targetDateTime.format("DD-MM-YYYY"), // Update lotdate
+                lottime: targetDateTime.format("hh:mm A"), // Update lottime
+              },
+            };
+          }),
+        };
+      }),
+    };
+  }
 
   const getAllResultForOtherLocation = (item) => {
     setSelectedItem(item);
@@ -128,7 +188,7 @@ function AllResult({ reloadKey }) {
         const dateData = item.dates.find(
           (d) => d.lotdate.lotdate === dateItem.lotdate.lotdate
         );
-        row.push(dateData ? dateData.results[0]?.resultNumber || "N/A" : "N/A");
+        row.push(dateData ? dateData.results[0]?.resultNumber || "-" : "-");
       });
       return row;
     });
@@ -160,14 +220,24 @@ function AllResult({ reloadKey }) {
     XLSX.writeFile(workbook, "results.xlsx");
   };
 
+  // useEffect(() => {
+  //   console.log("reloadKey :: " + reloadKey);
+  //   allocationRefetch();
+  //   if (!allocationIsLoading && alllocation) {
+  //     setSelectedItem(alllocation?.locationData[0]);
+  //     console.log("Calling allresult");
+  //   }
+  // }, [reloadKey]);
+
   useEffect(() => {
-    console.log("reloadKey :: " + reloadKey);
-    allocationRefetch();
-    if (!allocationIsLoading && alllocation) {
-      setSelectedItem(alllocation?.locationData[0]);
-      console.log("Calling allresult");
-      
-    }
+    setLoading(true); // Show loading indicator on reloadKey change
+    allocationRefetch().then(() => {
+      if (!allocationIsLoading && alllocation) {
+        setSelectedItem(alllocation?.locationData[0]);
+        console.log("Calling allresult");
+        setLoading(false); // Hide loading indicator after data is fetched
+      }
+    });
   }, [reloadKey]);
 
   return (
@@ -271,11 +341,13 @@ function AllResult({ reloadKey }) {
             </div>
           </div>
 
-          {allocationIsLoading ? (
+          {loading ? (
+            <LoadingComponent />
+          ) : allocationIsLoading ? (
             <LoadingComponent />
           ) : (
             <div className="PLContainerMain">
-              <div className="ARLC">
+              <div className="ARLCT">
                 {alllocation?.locationData?.map((item, index) => (
                   <div
                     key={index}
@@ -295,7 +367,8 @@ function AllResult({ reloadKey }) {
                             : "transparent",
                         borderWidth: "2px",
                         borderStyle:
-                          selectedItem?._id === item._id ? "solid" : "none",
+                          selectedItem?._id === item._id ? "solid" : null,
+                        boxSizing: "border-box",
                       }}
                     >
                       <label className="locLabel">{item.name}</label>
@@ -325,8 +398,10 @@ function AllResult({ reloadKey }) {
                         >
                           Lot Date
                         </th>
+                        {/* Mapping over the times (lottime) */}
                         {allresult?.results?.map((item, index) => (
                           <th className="time-column" key={index}>
+                            {/* {item.lottime.lottime} */}
                             {getTimeAccordingToTimezone(
                               item.lottime.lottime,
                               user?.country?.timezone
@@ -336,21 +411,37 @@ function AllResult({ reloadKey }) {
                       </tr>
                     </thead>
                     <tbody>
+                      {/* Iterate over dates */}
                       {allresult?.results?.[0]?.dates?.map(
                         (dateItem, dateIndex) => (
                           <tr key={dateIndex}>
                             <td className="tddatelabel lotdate-column">
                               {dateItem.lotdate.lotdate}
+                              {/* {getDateTimeAccordingToUserTimezone(
+                                    dateItem.results?.[0]?.lottime?.lottime,
+                                    dateItem.lotdate.lotdate,
+                                    user?.country?.timezone
+                                  )} */}
                             </td>
-                            {allresult?.results?.map((item, resultIndex) => (
-                              <td
-                                key={resultIndex}
-                                className="result-column tdlabel"
-                              >
-                                {item.dates[dateIndex]?.results[0]
-                                  ?.resultNumber || "N/A"}
-                              </td>
-                            ))}
+                            {/* Iterate over times (lottime) for each date */}
+                            {allresult?.results?.map((item, resultIndex) => {
+                              // Find the result for the current date (dateItem.lotdate)
+                              const matchingDate = item.dates.find(
+                                (d) =>
+                                  d.lotdate.lotdate === dateItem.lotdate.lotdate
+                              );
+
+                              return (
+                                <td
+                                  key={resultIndex}
+                                  className="result-column tdlabel"
+                                >
+                                  {/* Show result number if exists, else show N/A */}
+                                  {matchingDate?.results?.[0]?.resultNumber ||
+                                    "-"}
+                                </td>
+                              );
+                            })}
                           </tr>
                         )
                       )}

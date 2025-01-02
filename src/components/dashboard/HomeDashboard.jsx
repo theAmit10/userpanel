@@ -35,6 +35,8 @@ import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import { MdOutlineDateRange } from "react-icons/md";
+import { getDateTimeAccordingToUserTimezone } from "../play/Play";
+import moment from "moment-timezone";
 
 const topWinnerOfTheDay = [
   {
@@ -162,12 +164,37 @@ const locationdata = [
   },
 ];
 
-function HomeDashboard({filteredDataAllLocation,
+const convertToUserTimezone = (dataArray, userTimezone) => {
+  return dataArray.map((item) => {
+    // Combine the lotdate and lottime to form a complete datetime in IST
+    const istDateTime = moment.tz(
+      `${item.lotdate} ${item.lottime.lottime}`,
+      "DD-MM-YYYY hh:mm A",
+      "Asia/Kolkata"
+    );
+
+    // Convert this IST datetime to the user's timezone
+    const userDateTime = istDateTime.clone().tz(userTimezone);
+
+    // Format the converted datetime into 'DD-MM-YYYY' format
+    const convertedLotdate = userDateTime.format("DD-MM-YYYY");
+
+    // Return the modified object with the new lotdate
+    return {
+      ...item,
+      lotdate: convertedLotdate, // Update the lotdate
+    };
+  });
+};
+
+function HomeDashboard({
+  filteredDataAllLocation,
   alldatafilterAllLocation,
   settingFilterData,
   selectedFilterAllLocation,
   isLoadingAllLocation,
-  selectedLocation, setSelectedLocation
+  selectedLocation,
+  setSelectedLocation,
 }) {
   const dispatch = useDispatch();
 
@@ -193,14 +220,23 @@ function HomeDashboard({filteredDataAllLocation,
 
   const { user, accesstoken, loading } = useSelector((state) => state.user);
 
- 
-
-  
-
   // const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const { loading: loadingdate, dates } = useSelector((state) => state.date);
+
+  const [filterDataD, setFilteredDataD] = useState([]);
+
+  useEffect(() => {
+    if (dates) {
+      const modifiedData = convertToUserTimezone(
+        dates,
+        user?.country?.timezone
+      );
+      setFilteredDataD(modifiedData); // Update filteredData whenever locations change
+    }
+  }, [dates]);
+
   const { loadingResult, results: singleResult } = useSelector(
     (state) => state.result
   );
@@ -241,7 +277,6 @@ function HomeDashboard({filteredDataAllLocation,
   useEffect(() => {
     console.log("location changed");
   }, [selectedLocation]);
-
 
   const [showDate, setShowDate] = useState(false);
   const [nextResultTime, setNextResultTime] = useState(null);
@@ -606,30 +641,50 @@ function HomeDashboard({filteredDataAllLocation,
   const { data: dataTopWinner, isLoading: isLoadingTopWinner } =
     useGetTopWinnerQuery(accesstoken);
 
-   
+  const calculateWinningAmount = (
+    winningamount,
+    itemCurrencyValue,
+    userCurrencyValue
+  ) => {
+    console.log("STARTING LOADING WINNER");
+    console.log("winningamount :: ", winningamount);
+    console.log("itemCurrencyValue :: ", itemCurrencyValue);
+    console.log("userCurrencyValue :: ", userCurrencyValue);
+    // Convert to float
+    const winningAmountFloat = parseFloat(winningamount);
+    const itemCurrencyFloat = parseFloat(itemCurrencyValue);
+    const userCurrencyFloat = parseFloat(userCurrencyValue);
 
-    const calculateWinningAmount = (winningamount, itemCurrencyValue, userCurrencyValue) => {
+    // If winning amount is 0, return 0
+    if (winningAmountFloat === 0) {
+      return 0;
+    }
 
-      console.log("STARTING LOADING WINNER");
-      console.log("winningamount :: ", winningamount);
-      console.log("itemCurrencyValue :: ", itemCurrencyValue);
-      console.log("userCurrencyValue :: ", userCurrencyValue);
-      // Convert to float
-      const winningAmountFloat = parseFloat(winningamount);
-      const itemCurrencyFloat = parseFloat(itemCurrencyValue);
-      const userCurrencyFloat = parseFloat(userCurrencyValue);
-    
-      // If winning amount is 0, return 0
-      if (winningAmountFloat === 0) {
-        return 0;
-      }
-    
-      // Calculate the converted value
-      const convertedValue = (winningAmountFloat * itemCurrencyFloat) / userCurrencyFloat;
-    
-      // Return the calculated value
-      return convertedValue.toFixed(2);
-    };
+    // Calculate the converted value
+    const convertedValue =
+      (winningAmountFloat * itemCurrencyFloat) / userCurrencyFloat;
+
+    // Return the calculated value
+    return convertedValue.toFixed(2);
+  };
+
+  const roundToInteger = (input) => {
+    // Convert input to a float
+    const floatValue = parseFloat(input);
+
+    // Check if it's a valid number
+    if (isNaN(floatValue)) {
+      return "Invalid number"; // Handle invalid input
+    }
+
+    // Check if the number is already an integer
+    if (Number.isInteger(floatValue)) {
+      return floatValue; // Return the number as it is
+    }
+
+    // Return the integer part (without rounding)
+    return Math.floor(floatValue);
+  };
 
   return (
     <div className="hdcontainer">
@@ -693,7 +748,12 @@ function HomeDashboard({filteredDataAllLocation,
                       />
                     </div>
                     <label className="hdlTLTLNRB">
-                      {homeResult?.lotdate?.lotdate}
+                      {/* {homeResult?.lotdate?.lotdate} */}
+                      {getDateTimeAccordingToUserTimezone(
+                        homeResult?.lottime.lottime,
+                        homeResult?.lotdate.lotdate,
+                        user?.country?.timezone
+                      )}
                     </label>
                     <label className="hdlTLTLNRB">
                       {" "}
@@ -744,7 +804,10 @@ function HomeDashboard({filteredDataAllLocation,
                     key={index}
                   >
                     <div className="hdMCT">
-                      <label className="hdMCTCountry">
+                      <label className="hdMCTCountry" style={{
+                        paddingLeft: "0.5rem",
+                        paddingRight: "0.5rem"
+                      }}>
                         {item.lotlocation.lotlocation}
                       </label>
                     </div>
@@ -856,22 +919,24 @@ function HomeDashboard({filteredDataAllLocation,
                                   </label>
                                 </div>
                               ) : (
-                                selectedLocation?.times?.map((titem, tindex) => (
-                                  <div
-                                    key={tindex}
-                                    className="hdLocationContainerRightTimeContainerContentContainer-time"
-                                    onClick={() =>
-                                      getAllTheDateForLocationHome(titem)
-                                    }
-                                  >
-                                    <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
-                                      {getTimeAccordingToTimezone(
-                                        titem.time,
-                                        user?.country?.timezone
-                                      )}
-                                    </label>
-                                  </div>
-                                ))
+                                selectedLocation?.times?.map(
+                                  (titem, tindex) => (
+                                    <div
+                                      key={tindex}
+                                      className="hdLocationContainerRightTimeContainerContentContainer-time"
+                                      onClick={() =>
+                                        getAllTheDateForLocationHome(titem)
+                                      }
+                                    >
+                                      <label className="hdLocationContainerRightTimeContainerContentContainer-time-label">
+                                        {getTimeAccordingToTimezone(
+                                          titem.time,
+                                          user?.country?.timezone
+                                        )}
+                                      </label>
+                                    </div>
+                                  )
+                                )
                               )}
                             </div>
                           </div>
@@ -901,14 +966,14 @@ function HomeDashboard({filteredDataAllLocation,
 
                             {/** Time content container */}
                             <div className="hdLocationContainerRightTimeContainerContentContainer">
-                              {dates.length === 0 ? (
+                              {filterDataD.length === 0 ? (
                                 <div className="NC">
                                   <label className="hdLocationContainerLeftContentNameLabel">
                                     No available date
                                   </label>
                                 </div>
                               ) : (
-                                dates?.map((item, index) => (
+                                filterDataD?.map((item, index) => (
                                   <div
                                     key={index}
                                     className="hdLocationContainerRightTimeContainerContentContainer-time"
@@ -973,7 +1038,12 @@ function HomeDashboard({filteredDataAllLocation,
                                     </label>
                                   )}
                                   <label className="hdLocationContainerRightTimeContainerContentContainer-resultleft-date">
-                                    {selectedDate.lotdate}
+                                    {/* {selectedDate.lotdate} */}
+                                    {getDateTimeAccordingToUserTimezone(
+                                      selectedTime.lottime,
+                                      selectedDate.lotdate,
+                                      user?.country?.timezone
+                                    )}
                                   </label>
                                 </div>
 
@@ -1045,20 +1115,36 @@ function HomeDashboard({filteredDataAllLocation,
                           alignItems: "flex-start",
                         }}
                       >
-                        <label className="hdrcLLabel">{item.name}</label>
+                        <label
+                          className="hdrcLLabel"
+                          style={{
+                            maxHeight: "3rem",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {item.name}
+                        </label>
                       </div>
                       <div
                         className="hdrcR"
                         style={{
                           flex: "1.5",
                           justifyContent: "center",
-                          alignItems: "flex-start",
+                          alignItems: "flex-end",
+                          marginRight: "1rem"
                         }}
                       >
                         <label className="hdrcLLabel">
-                          {
-                            `${calculateWinningAmount(item?.winningamount, item?.currency?.countrycurrencyvaluecomparedtoinr, user?.country?.countrycurrencyvaluecomparedtoinr)}  ${user?.country?.countrycurrencysymbol}`
-                          }
+                          {`${roundToInteger(
+                            calculateWinningAmount(
+                              item?.winningamount,
+                              item?.currency?.countrycurrencyvaluecomparedtoinr,
+                              user?.country?.countrycurrencyvaluecomparedtoinr
+                            )
+                          )} `}
+                        </label>
+                        <label className="hdrcLLabel">
+                          {user?.country?.countrycurrencysymbol}
                         </label>
                       </div>
                     </div>
@@ -1079,8 +1165,11 @@ function HomeDashboard({filteredDataAllLocation,
                   {historyapidatas.playbets.map((item, index) => (
                     <div className="hdrContentC" key={index}>
                       <div className="hdrcL">
-                        <label className="hdrcLLabel">
-                          {" "}
+                        <label className="hdrcLLabel"
+                         style={{
+                          paddingLeft: "0.8rem",
+                        }}
+                        >
                           {item?.lotlocation?.lotlocation}
                         </label>
                       </div>
@@ -1102,7 +1191,9 @@ function HomeDashboard({filteredDataAllLocation,
                         </label>
                         <label className="hdrcMAmoutLabel">
                           {" "}
-                          {item?.lotdate?.lotdate ? formatDate(item?.lotdate?.lotdate) : ""}
+                          {item?.lotdate?.lotdate
+                            ? formatDate(item?.lotdate?.lotdate)
+                            : ""}
                         </label>
                       </div>
                     </div>

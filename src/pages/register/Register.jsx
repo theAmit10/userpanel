@@ -1250,7 +1250,7 @@ function Register() {
               </div>
 
               <div className="noteBottomContainer">
-                <span className="noteTextLabel">NOTE : The password reset option is available for accounts with email signup only.</span>
+                <span className="noteTextLabel">NOTE : The Password Reset Option Is Available For Accounts With Email Signup Only.</span>
               </div>
             </div>
           )}

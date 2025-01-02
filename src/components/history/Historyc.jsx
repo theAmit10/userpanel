@@ -77,6 +77,19 @@ function Historyc({ reloadKey }) {
   };
   const handleCloseAlert = () => setIsAlertOpen(false);
 
+  function formatNumber(value) {
+    if (typeof value === "string") {
+      value = parseFloat(value); // Convert string to float if necessary
+    }
+
+    // Check if the number has decimals
+    if (value % 1 === 0) {
+      return value; // Return as is if it's a whole number
+    } else {
+      return parseFloat(value.toFixed(1)); // Return with one decimal point if it has decimals
+    }
+  }
+
   return (
     <div className="history-main-container-org" key={reloadKey}>
       {/** TITLE CONTAINER */}
@@ -141,7 +154,7 @@ function Historyc({ reloadKey }) {
                     </label>
                     <label className="h-content-second-content-container-top-amount-val">
                       {" "}
-                      {item.amount} {user.country.countrycurrencysymbol}
+                      {formatNumber(item.amount)} {user.country.countrycurrencysymbol}
                     </label>
                   </div>
                   <div className="h-content-second-content-container-bottom">
@@ -179,9 +192,9 @@ function Historyc({ reloadKey }) {
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                      {item.transactionId
+                    {item.transactionId
                         ? item.transactionId
-                        : item.transactionType}
+                        : item.transactionType === "Transfer" ? "Game to Withdraw W." : item.transactionType}
                     </label>
                   </div>
                 </div>

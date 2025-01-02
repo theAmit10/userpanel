@@ -9,7 +9,7 @@ import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { showWarningToast } from "../helper/showErrorToast";
 
-function Gamedescriptionc({reloadKey}) {
+function Gamedescriptionc({ reloadKey }) {
   const { accesstoken } = useSelector((state) => state.user);
   const { loading, locations } = useSelector((state) => state.location);
   const dispatch = useDispatch();
@@ -26,22 +26,20 @@ function Gamedescriptionc({reloadKey}) {
 
   useEffect(() => {
     dispatch(getAllLocations(accesstoken));
-  }, [dispatch, accesstoken,reloadKey]);
+  }, [dispatch, accesstoken, reloadKey]);
 
   useEffect(() => {
     setFilteredData(locations); // Update filteredData whenever locations change
-  }, [locations,reloadKey]);
+  }, [locations, reloadKey]);
 
   console.log(filteredData);
-
-
 
   const [selectedItem, setSelectedItem] = useState("");
 
   useEffect(() => {
     console.log("reloadKey :: " + reloadKey);
-  
-    setSelectedItem("")
+
+    setSelectedItem("");
   }, [reloadKey]);
 
   return (
@@ -73,7 +71,7 @@ function Gamedescriptionc({reloadKey}) {
         {loading ? (
           <LoadingComponent />
         ) : (
-          <div className="ARLCC">
+          <div className="GDLC">
             {filteredData.map((item, index) => (
               <div
                 key={index}
@@ -106,7 +104,7 @@ function Gamedescriptionc({reloadKey}) {
 
         {selectedItem !== "" && (
           <>
-            <div className="gdcontent-container">
+            {/* <div className="gdcontent-container">
               <div className="title-container-gd">
                 <label className="location-header-label">Title</label>
                 <label className="subtitle-label">
@@ -115,14 +113,20 @@ function Gamedescriptionc({reloadKey}) {
                     : selectedItem.locationTitle}
                 </label>
               </div>
-            </div>
+            </div> */}
 
-            <div className="gdcontent-container">
+            <div className="gdcontent-container" style={{
+              padding: "1rem"
+            }}>
               <div className="title-container-gd">
-                <label className="location-header-label">Description</label>
+                <label className="location-header-label">
+                  {selectedItem.locationTitle === ""
+                    ? "Title"
+                    : selectedItem.locationTitle}
+                </label>
                 <label className="subtitle-label">
                   {selectedItem.locationDescription === ""
-                    ? "NA"
+                    ? "Description"
                     : selectedItem.locationDescription}
                 </label>
               </div>
@@ -135,10 +139,6 @@ function Gamedescriptionc({reloadKey}) {
 }
 
 export default Gamedescriptionc;
-
-
-
-
 
 // /* Set a fixed width and height for the Lot Date column */
 // .resultTable th.lotdate-column,
@@ -172,7 +172,7 @@ export default Gamedescriptionc;
 //   text-align: center;
 //   border: 0.1rem solid var(--result_lightblue);
 //   background-color: var(--background);
-  
+
 // }
 
 // .resultTable th {
@@ -212,7 +212,6 @@ export default Gamedescriptionc;
 
 // /* Add horizontal and vertical scroll behavior */
 
-
 //   .alContainer{
 //     flex: 1;
 //     display: flex;
@@ -220,26 +219,26 @@ export default Gamedescriptionc;
 //     background: linear-gradient(180deg, #0162AF, #011833);
 //     border-radius: 1rem;
 //   }
-  
-  // .ARLCC{
-  //   max-height: 7rem;
-  //   width: 80vw;
-  //   background-color: pink;
-  //   margin-left: 2rem;
-  //   margin-right: 2rem;
-  //   border-radius: 1rem;
-  //   display: flex;
-  //   flex-direction: row;
-  //   justify-content: flex-start;
-  //   align-items: center;
-  //   overflow-x: scroll;
-  // }
-  
-  // .ARLocConCC {
-  //   min-width: 30rem; /* Fixed width for the left container */
-  //   height: 100%;
-  
-  // }
+
+// .ARLCC{
+//   max-height: 7rem;
+//   width: 80vw;
+//   background-color: pink;
+//   margin-left: 2rem;
+//   margin-right: 2rem;
+//   border-radius: 1rem;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: flex-start;
+//   align-items: center;
+//   overflow-x: scroll;
+// }
+
+// .ARLocConCC {
+//   min-width: 30rem; /* Fixed width for the left container */
+//   height: 100%;
+
+// }
 
 //   .PLLLocContainer{
 //     height: 5rem;
@@ -267,7 +266,7 @@ export default Gamedescriptionc;
 //     font-size: 1.5rem;
 
 //   }
-  
+
 //   .ARMC{
 //     background: linear-gradient(180deg, #0162AF, #011833);
 //     width: 80vw;
@@ -278,17 +277,17 @@ export default Gamedescriptionc;
 //     overflow-y: scroll;
 //     display: flex;
 //     flex-direction: row;
-  
+
 //   }
-  
+
 //   .ARMCContent{
 //     width: 20rem;
 //     height: 100%;
-  
+
 //     display: flex;
 //     flex-direction: column;
 //   }
-  
+
 //   .ARMCContentTC{
 //     height: 5rem;
 //     background-color: var(--background);
@@ -298,17 +297,17 @@ export default Gamedescriptionc;
 //     justify-content: center;
 //     align-items: center;
 //   }
-  
+
 //   .ARMCContentDC{
 //     flex: 1;
-  
+
 //     display: flex;
 //     flex-direction: column;
 //     position: relative;
 //     gap: 0.1px;
 //     height: 40vh;
 //     overflow-y: scroll;
-   
+
 //   }
 //   .ARMCContentDConC{
 //     min-height: 5rem;
@@ -318,9 +317,9 @@ export default Gamedescriptionc;
 //     margin-right: 1rem;
 //     margin-bottom: 0.2rem;
 //     gap: 2px;
-  
+
 //   }
-  
+
 //   .ARMCContentDConCDate{
 //     width: 15rem;
 //     background-color:  var(--background);
@@ -330,7 +329,7 @@ export default Gamedescriptionc;
 //     border-top-left-radius: 1rem;
 //     border-bottom-left-radius: 1rem;
 //   }
-  
+
 //   .ARMCContentDConCResult{
 //     width: 5rem;
 //     background-color: var(--background);
@@ -340,7 +339,7 @@ export default Gamedescriptionc;
 //     border-top-right-radius: 1rem;
 //     border-bottom-right-radius: 1rem;
 //   }
-  
+
 //   .tdlabel{
 //     color: var(--white_s);
 //     font-size: 1.5rem;
@@ -380,7 +379,7 @@ export default Gamedescriptionc;
 //     overflow-y: scroll;
 //     display: flex;
 //     flex-direction: column;
-  
+
 //   }
 
 //   .yeartitle{
@@ -404,9 +403,8 @@ export default Gamedescriptionc;
 //     margin: 2rem;
 //     border-radius: 1rem;
 //     min-width: 90%;
-    
-//   }
 
+//   }
 
 //   .bottomSearcConAllResult{
 //     height: 8rem;
@@ -420,7 +418,7 @@ export default Gamedescriptionc;
 
 //   .bottomSearcConAllResultM{
 //     flex: 1;
-    
+
 //     background-color: var(--blue);
 //     display: flex;
 //     justify-content: center;
@@ -445,7 +443,7 @@ export default Gamedescriptionc;
 //     padding-left: 0.5rem;
 //     padding-right: 0.5rem;
 //     cursor: pointer;
-    
+
 //   }
 
 //   .bottomSearcConAllResultS{

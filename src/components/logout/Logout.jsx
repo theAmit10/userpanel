@@ -36,7 +36,7 @@ function Logout() {
         showSuccessToast("Logout Successfully");
         localStorage.clear();
         setShowProgressBar(false);
-        navigation("/login");
+        navigation("/login", { replace: true });
       }, 3000);
     } catch (error) {
       console.log("error" + error);

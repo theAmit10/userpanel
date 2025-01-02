@@ -265,7 +265,7 @@ function Bankdeposit({ selectingPaymentType }) {
                             />
                           </div>
 
-                          <label className="pdB">Bank {item.paymentId}</label>
+                          <label className="pdB">Bank</label>
                         </div>
                         {/** TOP */}
 
@@ -374,6 +374,7 @@ function Bankdeposit({ selectingPaymentType }) {
                           </div>
                         </div>
                         {/** TOP */}
+                        <div className="NotePatentContainer">
                         <div className="uCCBottomC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Note</label>
@@ -384,6 +385,8 @@ function Bankdeposit({ selectingPaymentType }) {
                             </label>
                           </div>
                         </div>
+                        </div>
+
                       </div>
                     ))}
                   </div>

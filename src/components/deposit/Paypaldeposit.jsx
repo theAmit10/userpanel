@@ -248,7 +248,7 @@ function Paypaldeposit({ selectingPaymentType }) {
                         />
                       </div>
 
-                      <label className="pdB">Paypal {item.paymentId}</label>
+                      <label className="pdB">Paypal</label>
 
                     
                     </div>
@@ -273,6 +273,7 @@ function Paypaldeposit({ selectingPaymentType }) {
                       </div>
                     </div>
                     {/** TOP */}
+                    <div className="NotePatentContainer">
                     <div className="uCCBottomC">
                           <div className="uCCTopFC">
                             <label className="pdSB">Note</label>
@@ -282,6 +283,7 @@ function Paypaldeposit({ selectingPaymentType }) {
                               {item.paymentnote}
                             </label>
                           </div>
+                        </div>
                         </div>
                   </div>
                 ))}

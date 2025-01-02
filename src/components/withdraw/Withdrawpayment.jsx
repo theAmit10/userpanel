@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Withdrawpayment.css";
-import FONT from "../../assets/constants/fonts";
-import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 import UpiWithdraw from "./UpiWithdraw";
-import { ToastContainer } from "react-toastify";
 import BankWithdraw from "./BankWithdraw";
 import PaypalWithdraw from "./PaypalWithdraw";
 import SkrillWithdraw from "./SkrillWithdraw";
@@ -197,7 +194,6 @@ function Withdrawpayment({reloadKey}) {
       {selectedPayment === "crypto" && (
         <CryptoWithdraw selectingPaymentType={selectingPaymentType} />
       )}
-      <ToastContainer/>
     </div>
   );
 }

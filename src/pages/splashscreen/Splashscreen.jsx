@@ -37,9 +37,9 @@ function Splashscreen() {
 
         const timer = setTimeout(() => {
           if (val) {
-            navigation('/dashboard')
+            navigation('/dashboard', { replace: true })
           } else {
-            navigation('/login')
+            navigation('/login', { replace: true })
           }
         }, 3000);
       } catch (error) {
