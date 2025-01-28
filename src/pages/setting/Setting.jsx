@@ -44,6 +44,7 @@ import { PiHandDepositFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import { ToastContainer } from "react-toastify";
+import Partner from "../../components/partner/Partner.jsx";
 
 export const locationdata = [
   {
@@ -454,6 +455,24 @@ const Setting = () => {
             <label className="adLContenContainerLabel">About us</label>
           </div>
 
+          {/** Partner */}
+          <div
+            className="adLContenContainer"
+            key={"partner"}
+            onClick={() => handleComponentClick("partner")}
+            style={{
+              background:
+                selectedComponent === "partner"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <FaInfoCircle color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Partner</label>
+          </div>
+
           {/** LOGOUT */}
           <div
             className="adLContenContainer"
@@ -500,6 +519,7 @@ const Setting = () => {
           {selectedComponent === "wallet" && <Wallet reloadKey={reloadKey}/>}
           {selectedComponent === "notification" && <Notification reloadKey={reloadKey}/>}
           {selectedComponent === "gamedescription" && <Gamedescriptionc reloadKey={reloadKey}/>}
+          {selectedComponent === "partner" && <Partner reloadKey={reloadKey}/>}
           {selectedComponent === "logout" && <Logout reloadKey={reloadKey}/>}
         </div>
       </div>
