@@ -10,6 +10,16 @@
    padding: 1rem;
 }
 
+.container-scrollable{
+  
+    height: 70vh;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+
 .partner-header{
     height: 5rem;
     background-color: var(--background);

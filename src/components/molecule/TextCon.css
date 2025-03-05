@@ -1,0 +1,24 @@
+.textConContainer{
+    margin-right: 2rem;
+    margin-left: 2rem;
+
+}
+.textConLabel{
+    color: var(--white_s);
+    font-size: 1.5rem;
+    font-family: 'MB';
+}
+.textContainer{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--background);
+    height: 5rem;
+    border-radius:1rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+
+}
