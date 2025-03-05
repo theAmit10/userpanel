@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import UrlHelper from "../helper/UrlHelper";
 
-
-
 export const sincelotUserApi = createApi({
   reducerPath: "sincelotUserApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jenny.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru/api/v1/",
+    baseUrl: "https://adminbackend-apsw.onrender.com/api/v1/",
   }),
   endpoints: (builder) => ({
     getData: builder.query({
@@ -206,8 +204,6 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
-
-
     // GET APP LINK
     getAppLink: builder.query({
       query: () => ({
@@ -217,7 +213,7 @@ export const sincelotUserApi = createApi({
     }),
 
     getTopWinner: builder.query({
-      query: (accesstoken ) => ({
+      query: (accesstoken) => ({
         url: `result/topwinner`,
         method: "get",
         headers: {
@@ -248,5 +244,5 @@ export const {
   useGetAllResultWebQuery,
   useGetResultLocMonYearQuery,
   useGetAppLinkQuery,
-  useGetTopWinnerQuery
+  useGetTopWinnerQuery,
 } = sincelotUserApi;

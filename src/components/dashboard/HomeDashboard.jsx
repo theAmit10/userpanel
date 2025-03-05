@@ -804,10 +804,13 @@ function HomeDashboard({
                     key={index}
                   >
                     <div className="hdMCT">
-                      <label className="hdMCTCountry" style={{
-                        paddingLeft: "0.5rem",
-                        paddingRight: "0.5rem"
-                      }}>
+                      <label
+                        className="hdMCTCountry"
+                        style={{
+                          paddingLeft: "0.5rem",
+                          paddingRight: "0.5rem",
+                        }}
+                      >
                         {item.lotlocation.lotlocation}
                       </label>
                     </div>
@@ -1071,11 +1074,11 @@ function HomeDashboard({
 
               {isLoadingTopWinner ? (
                 <LoadingComponent />
-              ) : dataTopWinner.topwinners.length === 0 ? (
+              ) : dataTopWinner?.topwinners?.length === 0 ? (
                 <NodataFound title={"No data found"} />
               ) : (
                 <div className="hdRightCContainer">
-                  {dataTopWinner.topwinners.map((item, index) => (
+                  {dataTopWinner?.topwinners?.map((item, index) => (
                     <div
                       className="hdrContentC"
                       key={index}
@@ -1131,7 +1134,7 @@ function HomeDashboard({
                           flex: "1.5",
                           justifyContent: "center",
                           alignItems: "flex-end",
-                          marginRight: "1rem"
+                          marginRight: "1rem",
                         }}
                       >
                         <label className="hdrcLLabel">
@@ -1158,17 +1161,18 @@ function HomeDashboard({
 
               {historyIsLoading ? (
                 <LoadingComponent />
-              ) : historyapidatas.playbets.length === 0 ? (
+              ) : historyapidatas?.playbets?.length === 0 ? (
                 <NodataFound title={"No data found"} />
               ) : (
                 <div className="hdRightCContainer">
-                  {historyapidatas.playbets.map((item, index) => (
+                  {historyapidatas?.playbets?.map((item, index) => (
                     <div className="hdrContentC" key={index}>
                       <div className="hdrcL">
-                        <label className="hdrcLLabel"
-                         style={{
-                          paddingLeft: "0.8rem",
-                        }}
+                        <label
+                          className="hdrcLLabel"
+                          style={{
+                            paddingLeft: "0.8rem",
+                          }}
                         >
                           {item?.lotlocation?.lotlocation}
                         </label>

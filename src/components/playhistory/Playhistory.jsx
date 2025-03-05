@@ -72,7 +72,7 @@ function Playhistory({ reloadKey }) {
           {isLoading ? (
             <LoadingComponent />
           ) : (
-            historyapidatas.playbets.map((item) => (
+            historyapidatas?.playbets?.map((item) => (
               <div
                 key={item._id.toString()}
                 onClick={() => toggleItem(item._id)}
@@ -219,7 +219,6 @@ function Playhistory({ reloadKey }) {
 
 export default Playhistory;
 
-
 // import React, { useCallback, useEffect, useState } from "react";
 // import "./Playhistory.css";
 // import COLORS from "../../assets/constants/colors";
@@ -238,14 +237,13 @@ export default Playhistory;
 
 //   console.log("Accesstoken :: " + accesstoken);
 //   console.log("User ID :: " + user.userId);
-  
+
 //   const {
 //     data: historyapidatas,
 //     error,
 //     isLoading,
 //     refetch,
 //   } = useGetPlayHistoryQuery(accesstoken);
-
 
 //   useEffect(() => {
 //     refetch();
@@ -285,8 +283,6 @@ export default Playhistory;
 
 //     return formattedDate;
 //   };
-
- 
 
 //   // console.log(isLoading, historyapidatas);
 
