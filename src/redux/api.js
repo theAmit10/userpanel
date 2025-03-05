@@ -222,11 +222,35 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    // GET PARTNER PARTNERLIST
+    getPartnerPartnerList: builder.query({
+      query: ({ accesstoken, userid, page, limit }) => ({
+        url: `user/getpartnerpartnerlist/${userid}?page=${page}&limit=${limit}`,
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+          method: "get",
+        },
+      }),
+    }),
+
+    // [SEARCH PARTNER PARTNER LIST]
+    searchPartnerPartnerList: builder.query({
+      query: ({ accesstoken, userId, query }) => ({
+        url: `user/searchpartnerlist/${userId}?query=${query}`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
+
     // ######## END #########
   }),
 });
 
 export const {
+  useSearchPartnerPartnerListQuery,
+  useGetPartnerPartnerListQuery,
   useGetDataQuery,
   useCreateWithdrawMutation,
   useGetAllLocationWithTimeQuery,

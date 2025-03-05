@@ -1,5 +1,5 @@
 .comp-header{
-    height: 5rem;
+    min-height: 5rem;
     background-color: var(--background);
     border-radius: 1rem;
     display: flex;

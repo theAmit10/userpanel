@@ -243,17 +243,6 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
-    // GET PARTNER PARTNERLIST
-    getPartnerPartnerList: builder.query({
-      query: ({ accesstoken, userid }) => ({
-        url: `user/getpartnerpartnerlist/${userid}`,
-        headers: {
-          Authorization: `Bearer ${accesstoken}`,
-          method: "get",
-        },
-      }),
-    }),
-
     // GET PARTNER USERLIST
     getPartnerUserList: builder.query({
       query: ({ accesstoken, userId }) => ({
@@ -398,17 +387,6 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
-    // [SEARCH PARTNER PARTNER LIST]
-    searchPartnerPartnerList: builder.query({
-      query: ({ accesstoken, userId, query }) => ({
-        url: `user/searchpartnerlist/${userId}?query=${query}`,
-        method: "get",
-        headers: {
-          Authorization: `Bearer ${accesstoken}`,
-        },
-      }),
-    }),
-
     // [GET SINGLE USER INFORMATION]
     getSingleUser: builder.query({
       query: ({ accesstoken, userId, query }) => ({
@@ -475,7 +453,7 @@ export const {
   useLatestPowerballResultQuery,
   useSearchPartnerUserListQuery,
   useGetSingleUserQuery,
-  useSearchPartnerPartnerListQuery,
+
   useGetPowerballResultQuery,
   useUpdateDepositPaymentStatusMutation,
   useGetSingleUserPlayHistoryQuery,
@@ -487,7 +465,7 @@ export const {
   useRemoveUserFromUserListMutation,
   useCreateSubPartnerMutation,
   useGetPartnerProfitDeductionQuery,
-  useGetPartnerPartnerListQuery,
+
   useGetPartnerUserListQuery,
   useGetAboutPartnerQuery,
   useGetPowerDatesQuery,

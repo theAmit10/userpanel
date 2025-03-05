@@ -19,6 +19,68 @@
     align-items: center;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+.search-con{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--grayHalfBg);
+    min-height: 5rem;
+    border-radius:1rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem; 
+}
 
+.search-input-con{
+    background-color: transparent;
+    flex: 1;
+    color: var(--background);
+    font-family: "MR";
+    font-size: 2rem;
+    border: none; /* Remove the border */
+    outline: none; /* Remove the outline when focused */
+    padding-left: 1rem;
+}
+.allpartnerheader-con {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--background);
+    min-height: 6rem;
+    border-radius: 1rem; 
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 1rem;
+}
+
+.child-large {
+    flex: 2; /* Takes up twice as much space as child-small */
+
+    height: 100%; /* Ensure it takes full height of the parent */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.child-medium {
+    flex: 1; /* Takes up equal space */
+
+    height: 100%; /* Ensure it takes full height of the parent */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.child-small {
+    width: 10%; /* Takes up equal space */
+
+    height: 100%; /* Ensure it takes full height of the parent */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 
 }
