@@ -8,6 +8,7 @@ import RechargeMethods from "./RechargeMethods";
 import AllPartner from "./AllPartner";
 import HeaderComp from "../helpercomp/HeaderComp";
 import PartnerProfileBasic from "./PartnerProfileBasic";
+import CreateNotification from "./CreateNotification";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -56,7 +57,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               description={"Send Notification for User’s"}
               iconfrom={"BsFillPeopleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllProfitDecrease"}
+              componenetname={"CreateNotification"}
             />
             {/** INCREASE PERCENTAGE */}
             <PartnerContentComp
@@ -84,17 +85,29 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
           selectedPartner={selectedPartner}
         />
       )}
-      {selectedCategory === "AllProfitDecrease" && (
-        <AllProfitDecrease setSelectedCategory={setSelectedCategory} />
+      {selectedCategory === "CreateNotification" && (
+        <CreateNotification
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
       )}
       {selectedCategory === "AllPartner" && (
-        <AllPartner setSelectedCategory={setSelectedCategory} />
+        <AllPartner
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
       )}
       {selectedCategory === "AllUser" && (
-        <AllUser setSelectedCategory={setSelectedCategory} />
+        <AllUser
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
       )}
       {selectedCategory === "RechargeMethods" && (
-        <RechargeMethods setSelectedCategory={setSelectedCategory} />
+        <RechargeMethods
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
       )}
     </>
   );

@@ -3,3 +3,25 @@
     font-size: 1.5rem;
     color: var(--white_s);
 }
+.submit-button-main-con{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.submit-button-label{
+    font-family: 'MR';
+    font-size: 1.5rem;
+    color: var(--white_s); 
+    cursor: pointer;
+}
+.submit-button-con{
+    height: 5rem;
+    width: 100%;
+    background-color: var(--green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    cursor: pointer;
+}

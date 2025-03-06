@@ -491,17 +491,29 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    // CREATE NOTIFICATION
+    createNotification: builder.mutation({
+      query: ({ accesstoken, body }) => ({
+        url: `user/sendnotificationsingle`,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+        body,
+      }),
+    }),
+
     // ######## END #########
   }),
 });
 
 export const {
+  useCreateNotificationMutation,
   useCreatePowerballBetMutation,
   useGetPowerDatesByTimeQuery,
   useLatestPowerballResultQuery,
   useSearchPartnerUserListQuery,
   useGetSingleUserQuery,
-
   useGetPowerballResultQuery,
   useUpdateDepositPaymentStatusMutation,
   useGetSingleUserPlayHistoryQuery,

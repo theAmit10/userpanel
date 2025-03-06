@@ -149,6 +149,8 @@ const AllPartner = ({ setSelectedCategory }) => {
           <SearchCon
             searchvalue={searchQuery}
             setSearchValue={setSearchQuery}
+            placeholder={"Search for partner"}
+            iconname={"CiSearch"}
           />
 
           <AllPartnerHeader

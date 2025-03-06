@@ -4,13 +4,15 @@ import { FaCopy } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import { CiSearch } from "react-icons/ci";
 
-const SearchCon = ({ searchvalue, setSearchValue }) => {
+const SearchCon = ({ searchvalue, setSearchValue, placeholder, iconname }) => {
   return (
     <div className="search-con">
-      <CiSearch color={COLORS.background} size={"2rem"} />
+      {iconname === "CiSearch" && (
+        <CiSearch color={COLORS.background} size={"2rem"} />
+      )}
       <input
         className="search-input-con"
-        placeholder="Search for partner"
+        placeholder={placeholder}
         value={searchvalue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
