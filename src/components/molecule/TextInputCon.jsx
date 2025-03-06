@@ -11,6 +11,7 @@ const TextInputCon = ({
   placeholder,
   iconname,
   title,
+  disabled = false,
 }) => {
   return (
     <div className="textConContainer">
@@ -27,6 +28,7 @@ const TextInputCon = ({
           placeholder={placeholder}
           value={searchvalue}
           onChange={(e) => setSearchValue(e.target.value)}
+          disabled={disabled}
         />
       </div>
     </div>

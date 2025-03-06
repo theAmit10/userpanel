@@ -9,6 +9,7 @@ import AllPartner from "./AllPartner";
 import HeaderComp from "../helpercomp/HeaderComp";
 import PartnerProfileBasic from "./PartnerProfileBasic";
 import CreateNotification from "./CreateNotification";
+import IncreasePercetage from "./IncreasePercetage";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -65,7 +66,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               description={"Update Partner Percentage"}
               iconfrom={"IoIosPeople"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllUser"}
+              componenetname={"IncreasePercetage"}
             />
             {/** DECREASE PERCERTAGE */}
             <PartnerContentComp
@@ -91,8 +92,8 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
           selectedPartner={selectedPartner}
         />
       )}
-      {selectedCategory === "AllPartner" && (
-        <AllPartner
+      {selectedCategory === "IncreasePercetage" && (
+        <IncreasePercetage
           setSelectedCategory={setSelectedCategory}
           selectedPartner={selectedPartner}
         />
