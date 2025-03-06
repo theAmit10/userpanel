@@ -11,6 +11,7 @@ import PartnerProfileBasic from "./PartnerProfileBasic";
 import CreateNotification from "./CreateNotification";
 import IncreasePercetage from "./IncreasePercetage";
 import DecreasePercentage from "./DecreasePercentage";
+import UserPlayHistory from "./UserPlayHistory";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -43,7 +44,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               description={"User’s Play History Details"}
               iconfrom={"RiAccountCircleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"MyPartnerProfile"}
+              componenetname={"UserPlayHistory"}
             />
             {/** TRANSACTION HISTORY */}
             <PartnerContentComp
@@ -107,6 +108,12 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
       )}
       {selectedCategory === "RechargeMethods" && (
         <RechargeMethods
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
+      )}
+      {selectedCategory === "UserPlayHistory" && (
+        <UserPlayHistory
           setSelectedCategory={setSelectedCategory}
           selectedPartner={selectedPartner}
         />

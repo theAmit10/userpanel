@@ -190,11 +190,11 @@ const AllPartner = ({ setSelectedCategory }) => {
             {isLoading && hasMore && <Loader />}
 
             {/* Show "No more data" message if there's no more data to load */}
-            {!hasMore && !isLoading && (
+            {/* {!hasMore && !isLoading && (
               <div style={{ textAlign: "center", padding: "10px" }}>
                 No more data to load.
               </div>
-            )}
+            )} */}
           </div>
         </div>
       )}
