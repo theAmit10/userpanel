@@ -10,6 +10,7 @@ import HeaderComp from "../helpercomp/HeaderComp";
 import PartnerProfileBasic from "./PartnerProfileBasic";
 import CreateNotification from "./CreateNotification";
 import IncreasePercetage from "./IncreasePercetage";
+import DecreasePercentage from "./DecreasePercentage";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -74,7 +75,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               description={"Update Partner Percentage"}
               iconfrom={"HiMiniWallet"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllRecharge"}
+              componenetname={"DecreasePercentage"}
             />
           </div>
         </div>
@@ -98,8 +99,8 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
           selectedPartner={selectedPartner}
         />
       )}
-      {selectedCategory === "AllUser" && (
-        <AllUser
+      {selectedCategory === "DecreasePercentage" && (
+        <DecreasePercentage
           setSelectedCategory={setSelectedCategory}
           selectedPartner={selectedPartner}
         />

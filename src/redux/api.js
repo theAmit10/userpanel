@@ -525,7 +525,6 @@ export const {
   useRemoveUserFromUserListMutation,
   useCreateSubPartnerMutation,
   useGetPartnerProfitDeductionQuery,
-
   useGetPartnerUserListQuery,
   useGetAboutPartnerQuery,
   useGetPowerDatesQuery,
