@@ -7,8 +7,9 @@ import AllUser from "./AllUser";
 import RechargeMethods from "./RechargeMethods";
 import AllPartner from "./AllPartner";
 import HeaderComp from "../helpercomp/HeaderComp";
+import PartnerProfileBasic from "./PartnerProfileBasic";
 
-const PartnerDetails = ({ closePartnerDetails }) => {
+const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   return (
@@ -19,6 +20,8 @@ const PartnerDetails = ({ closePartnerDetails }) => {
           <HeaderComp
             title={"Partner Details"}
             closePartnerDetails={closePartnerDetails}
+            left={selectedPartner?.userId}
+            right={selectedPartner?.name}
           />
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
@@ -29,9 +32,9 @@ const PartnerDetails = ({ closePartnerDetails }) => {
               description={"Basic Partner Details"}
               iconfrom={"RiAccountCircleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"RechargeMethods"}
+              componenetname={"PartnerProfileBasic"}
             />
-            {/** RECHARGE METHODS */}
+            {/** PLAY HISTORY */}
             <PartnerContentComp
               title={"Play History"}
               description={"User’s Play History Details"}
@@ -39,7 +42,7 @@ const PartnerDetails = ({ closePartnerDetails }) => {
               setSelectedCategory={setSelectedCategory}
               componenetname={"MyPartnerProfile"}
             />
-            {/** ALL PARTNER */}
+            {/** TRANSACTION HISTORY */}
             <PartnerContentComp
               title={"Transaction History"}
               description={"User’s Transaction details"}
@@ -47,7 +50,7 @@ const PartnerDetails = ({ closePartnerDetails }) => {
               setSelectedCategory={setSelectedCategory}
               componenetname={"AllPartner"}
             />
-            {/** ALL PROFIT DECREASE */}
+            {/** SEND NOTIFICATION */}
             <PartnerContentComp
               title={"Send Notification"}
               description={"Send Notification for User’s"}
@@ -55,7 +58,7 @@ const PartnerDetails = ({ closePartnerDetails }) => {
               setSelectedCategory={setSelectedCategory}
               componenetname={"AllProfitDecrease"}
             />
-            {/** ALL USERS */}
+            {/** INCREASE PERCENTAGE */}
             <PartnerContentComp
               title={"Increase Percentage"}
               description={"Update Partner Percentage"}
@@ -63,7 +66,7 @@ const PartnerDetails = ({ closePartnerDetails }) => {
               setSelectedCategory={setSelectedCategory}
               componenetname={"AllUser"}
             />
-            {/** ALL RECHARGE */}
+            {/** DECREASE PERCERTAGE */}
             <PartnerContentComp
               title={"Decrease Percentage"}
               description={"Update Partner Percentage"}
@@ -75,8 +78,11 @@ const PartnerDetails = ({ closePartnerDetails }) => {
         </div>
       )}
 
-      {selectedCategory === "MyPartnerProfile" && (
-        <MyPartnerProfile setSelectedCategory={setSelectedCategory} />
+      {selectedCategory === "PartnerProfileBasic" && (
+        <PartnerProfileBasic
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
       )}
       {selectedCategory === "AllProfitDecrease" && (
         <AllProfitDecrease setSelectedCategory={setSelectedCategory} />

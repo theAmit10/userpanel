@@ -2,7 +2,13 @@ import React from "react";
 import "./HeaderCompStyle.css";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 
-const HeaderComp = ({ title, setSelectedCategory, closePartnerDetails }) => {
+const HeaderComp = ({
+  title,
+  left,
+  right,
+  setSelectedCategory,
+  closePartnerDetails,
+}) => {
   const handlePress = () => {
     if (closePartnerDetails) {
       closePartnerDetails();
@@ -18,9 +24,15 @@ const HeaderComp = ({ title, setSelectedCategory, closePartnerDetails }) => {
         size={"2.5rem"}
         color="var(--white_s)"
       />
+      <label className="comp-header-label" style={{ paddingLeft: "1rem" }}>
+        {left}
+      </label>
       <div className="labelContainer">
         <label className="comp-header-label">{title}</label>
       </div>
+      <label className="comp-header-label" style={{ paddingRight: "1rem" }}>
+        {right}
+      </label>
     </div>
   );
 };

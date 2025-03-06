@@ -198,7 +198,10 @@ const AllPartner = ({ setSelectedCategory }) => {
       )}
 
       {showPartnerDetails && (
-        <PartnerDetails closePartnerDetails={closePartnerDetails} />
+        <PartnerDetails
+          closePartnerDetails={closePartnerDetails}
+          selectedPartner={selectedPartner}
+        />
       )}
     </>
   );
