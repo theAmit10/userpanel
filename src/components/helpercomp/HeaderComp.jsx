@@ -2,11 +2,19 @@ import React from "react";
 import "./HeaderCompStyle.css";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 
-const HeaderComp = ({ title, setSelectedCategory }) => {
+const HeaderComp = ({ title, setSelectedCategory, closePartnerDetails }) => {
+  const handlePress = () => {
+    if (closePartnerDetails) {
+      closePartnerDetails();
+    }
+    if (setSelectedCategory) {
+      setSelectedCategory("");
+    }
+  };
   return (
     <div className="comp-header">
       <IoChevronBackCircleOutline
-        onClick={() => setSelectedCategory("")}
+        onClick={handlePress}
         size={"2.5rem"}
         color="var(--white_s)"
       />

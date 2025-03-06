@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import "./Partner.css";
 import TextCon from "../molecule/TextCon";
 import { FaCopy } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import { showSuccessToast } from "../helper/showErrorToast";
+import { useSelector } from "react-redux";
+import { useGetAboutPartnerQuery } from "../../redux/api";
+import Loader from "../molecule/Loader";
 
 const MyPartnerProfile = ({ setSelectedCategory }) => {
   const handleCopyClick = (e, stringToCopy) => {
@@ -19,26 +22,63 @@ const MyPartnerProfile = ({ setSelectedCategory }) => {
       });
   };
 
+  const { accesstoken, user } = useSelector((state) => state.user);
+
+  const userid = user.userId;
+
+  const { isLoading, error, data } = useGetAboutPartnerQuery({
+    accesstoken,
+    userid,
+  });
+  const [partner, setpartner] = useState(null);
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setpartner(data.partner);
+      console.log("Hey data");
+      console.log("Hey data", data.partner.rechargeModule);
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [data, isLoading, error]);
+
   return (
     <div className="partner-main-container">
       <HeaderComp title={"Profile"} setSelectedCategory={setSelectedCategory} />
-      <div className="container-scrollable">
-        <div className="textConContainer">
-          <label className="textConLabel">Partner ID</label>
-          <div className="textContainer">
-            <label className="textConLabel">1020</label>
-            <div
-              onClick={(e) => handleCopyClick(e, "1020")}
-              className="copyCon"
-            >
-              <FaCopy color={COLORS.background} size={"2rem"} />
+      {isLoading || !partner ? (
+        <Loader />
+      ) : (
+        <div className="container-scrollable">
+          <div className="textConContainer">
+            <label className="textConLabel">Partner ID</label>
+            <div className="textContainer">
+              <label className="textConLabel">{partner.userId}</label>
+              <div
+                onClick={(e) => handleCopyClick(e, partner.userId.toString())}
+                className="copyCon"
+              >
+                <FaCopy color={COLORS.background} size={"2rem"} />
+              </div>
             </div>
           </div>
+          <TextCon
+            title={"Profit Percentage"}
+            value={partner.profitPercentage}
+          />
+          {partner.rechargeModule !== undefined && (
+            <TextCon
+              title={"Recharge Percentage"}
+              value={partner.rechargePercentage}
+            />
+          )}
+
+          <TextCon
+            title={"Total no. of user's"}
+            value={partner.userList.length}
+          />
         </div>
-        <TextCon title={"Profit Percentage"} value={"20 %"} />
-        <TextCon title={"Recharge Percentage"} value={"10 %"} />
-        <TextCon title={"Total no. of user's"} value={"35"} />
-      </div>
+      )}
     </div>
   );
 };

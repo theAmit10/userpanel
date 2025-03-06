@@ -10,12 +10,26 @@ const AllPartnerHeader = ({
   totaluser,
   balance,
   backgroundcolor,
+  showActive,
+  item,
+  status,
+  clickpress,
+  navigate,
+  openPartnerDetails,
 }) => {
+  const handlePress = () => {
+    if (clickpress) {
+      console.log(item);
+      openPartnerDetails(item);
+    }
+  };
   return (
     <div
       className="allpartnerheader-con"
+      onClick={handlePress}
       style={{
         backgroundColor: backgroundcolor,
+        cursor: clickpress ? "pointer" : "default",
       }}
     >
       <div className="child-small">
@@ -33,9 +47,25 @@ const AllPartnerHeader = ({
       <div className="child-small">
         <TextLabel label={totaluser} />
       </div>
+
       <div className="child-large">
         <TextLabel label={balance} />
       </div>
+      {showActive && (
+        <div className="child-small">
+          <TextLabel
+            label={status}
+            style={{
+              color:
+                status === "Active"
+                  ? "green"
+                  : status === "Inactive"
+                  ? "red"
+                  : "white",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

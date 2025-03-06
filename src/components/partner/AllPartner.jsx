@@ -9,6 +9,7 @@ import {
   useSearchPartnerPartnerListQuery,
 } from "../../redux/api";
 import Loader from "../molecule/Loader";
+import PartnerDetails from "./PartnerDetails";
 
 const AllPartner = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ const AllPartner = ({ setSelectedCategory }) => {
   // States
   const [partners, setPartners] = useState([]);
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 10;
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,11 +39,14 @@ const AllPartner = ({ setSelectedCategory }) => {
   }, [debouncedSearch]);
 
   // Fetch Paginated Data
-  const { data: paginatedData, isFetching: fetchingPaginated } =
-    useGetPartnerPartnerListQuery(
-      { accesstoken, userid: user.userId, page, limit },
-      { skip: debouncedSearch.length > 0, refetchOnMountOrArgChange: true } // Disable caching
-    );
+  const {
+    data: paginatedData,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
+  } = useGetPartnerPartnerListQuery(
+    { accesstoken, userid: user.userId, page, limit },
+    { skip: debouncedSearch.length > 0, refetchOnMountOrArgChange: true } // Disable caching
+  );
 
   console.log("Fetching paginated data for page:", page); // Debug log
 
@@ -117,47 +121,86 @@ const AllPartner = ({ setSelectedCategory }) => {
   // Combined Loading State
   const isLoading = fetchingPaginated || fetchingSearch || loading;
 
+  // [FOR PARTNER DETAILS]
+  const [showAllPartner, setShowAllPartner] = useState(true);
+  const [showPartnerDetails, setShowPartnerDetails] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState(null);
+
+  const openPartnerDetails = (partner) => {
+    setSelectedPartner(partner);
+    setShowAllPartner(false);
+    setShowPartnerDetails(true);
+  };
+
+  const closePartnerDetails = () => {
+    setSelectedPartner(null);
+    setShowAllPartner(true);
+    setShowPartnerDetails(false);
+  };
+
   return (
-    <div className="partner-main-container">
-      <HeaderComp
-        title={"All Partner"}
-        setSelectedCategory={setSelectedCategory}
-      />
-      <SearchCon searchvalue={searchQuery} setSearchValue={setSearchQuery} />
-      <AllPartnerHeader
-        userId={"User ID"}
-        name={"Name"}
-        profit={"Profit Percentage"}
-        recharge={"Recharge Percentage"}
-        totaluser={"Total no. of User's"}
-        balance={"Game Balance"}
-        backgroundcolor={COLORS.green}
-      />
-      <div className="container-scrollable" onScroll={handleScroll}>
-        {partners.map((item) => (
-          <AllPartnerHeader
-            key={item._id}
-            userId={item.userId}
-            name={item.name}
-            profit={item.profitPercentage}
-            recharge={item.rechargePercentage}
-            totaluser={item.userList.length}
-            balance={item.walletTwo?.balance}
-            backgroundcolor={COLORS.background}
+    <>
+      {showAllPartner && (
+        <div className="partner-main-container">
+          <HeaderComp
+            title={"All Partner"}
+            setSelectedCategory={setSelectedCategory}
           />
-        ))}
+          <SearchCon
+            searchvalue={searchQuery}
+            setSearchValue={setSearchQuery}
+          />
 
-        {/* Show Loader only when fetching new data */}
-        {isLoading && hasMore && <Loader />}
+          <AllPartnerHeader
+            userId={"User ID"}
+            name={"Name"}
+            profit={"Profit Percentage"}
+            recharge={"Recharge Percentage"}
+            totaluser={"Total no. of User's"}
+            balance={"Game Balance"}
+            backgroundcolor={COLORS.green}
+            showActive={true}
+            status={"Status"}
+            clickpress={false}
+          />
 
-        {/* Show "No more data" message if there's no more data to load */}
-        {!hasMore && !isLoading && (
-          <div style={{ textAlign: "center", padding: "10px" }}>
-            No more data to load.
+          <div className="container-scrollable" onScroll={handleScroll}>
+            {partners.map((item) => (
+              <AllPartnerHeader
+                key={item._id}
+                userId={item.userId}
+                name={item.name}
+                profit={item.profitPercentage}
+                recharge={item.rechargePercentage}
+                totaluser={item.userList.length}
+                balance={item.walletTwo?.balance}
+                backgroundcolor={COLORS.background}
+                showActive={true}
+                item={item}
+                status={item.partnerStatus ? "Active" : "Inactive"}
+                clickpress={true}
+                navigate={"PartnerDetails"}
+                openPartnerDetails={openPartnerDetails}
+              />
+            ))}
+
+            {/* Show Loader only when fetching new data */}
+            {isLoading && hasMore && <Loader />}
+
+            {/* Show "No more data" message if there's no more data to load */}
+            {!hasMore && !isLoading && (
+              <div style={{ textAlign: "center", padding: "10px" }}>
+                No more data to load.
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+
+      {showPartnerDetails && (
+        <PartnerDetails closePartnerDetails={closePartnerDetails} />
+      )}
+    </>
   );
 };
 
