@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import "./Partner.css";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { useSelector } from "react-redux";
-import {
-  useDecreasePartnerProfitMutation,
-  useGetSingleUserPlayHistoryQuery,
-} from "../../redux/api";
+import { useGetSingleUserPlayHistoryQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
-import TextInputCon from "../molecule/TextInputCon";
-import SubmitButton from "../atom/SubmitButton";
-import TextAreaCon from "../molecule/TextAreaCon";
 import COLORS from "../../assets/constants/colors";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { GiDiamondTrophy } from "react-icons/gi";
@@ -74,288 +67,279 @@ const UserPlayHistory = ({ setSelectedCategory, selectedPartner }) => {
         left={selectedPartner?.userId}
         right={selectedPartner?.name}
       />
-      {false ? (
-        <Loader />
-      ) : (
-        <div className="container-scrollable">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            historyapidatas?.playbets?.map((item) => (
-              <>
-                {item.gameType === "playarena" ? (
-                  <div
-                    key={item._id.toString()}
-                    onClick={() => toggleItem(item._id)}
-                    style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
-                      backgroundColor: COLORS.background,
-                      borderRadius: "2rem",
-                    }}
-                  >
-                    <div className="h-content-org">
-                      <div className="h-content-first-history">
-                        <div className="iconcontainertop">
-                          <FaRegPlayCircle
-                            color={
-                              item?.walletName
-                                ? COLORS.green
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
-                        </div>
+
+      <div className="container-scrollable">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          historyapidatas?.playbets?.map((item) => (
+            <>
+              {item.gameType === "playarena" ? (
+                <div
+                  key={item._id.toString()}
+                  onClick={() => toggleItem(item._id)}
+                  style={{
+                    minHeight: expandedItems[item._id] ? "40rem" : "8rem",
+                    backgroundColor: COLORS.background,
+                    borderRadius: "2rem",
+                  }}
+                >
+                  <div className="h-content-org">
+                    <div className="h-content-first-history">
+                      <div className="iconcontainertop">
+                        <FaRegPlayCircle
+                          color={
+                            item?.walletName ? COLORS.green : COLORS.background
+                          }
+                          size={"3rem"}
+                        />
                       </div>
-                      <div className="h-content-second">
-                        <div className="h-content-second-content-container-top">
-                          <label className="h-content-second-content-container-top-amount">
-                            {`Amount : \u00A0`}
-                          </label>
-                          <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.playnumbers)}{" "}
-                            {user?.country?.countrycurrencysymbol}
-                          </label>
-                        </div>
-                        <div className="h-content-second-content-container-bottom">
-                          <label className="h-content-second-content-container-top-date">
-                            {item?.lotdate?.lotdate
-                              ? formatDate(
-                                  getDateTimeAccordingToUserTimezone(
-                                    item?.lottime?.lottime,
-                                    item?.lotdate?.lotdate,
-                                    user?.country?.timezone
-                                  )
+                    </div>
+                    <div className="h-content-second">
+                      <div className="h-content-second-content-container-top">
+                        <label className="h-content-second-content-container-top-amount">
+                          {`Amount : \u00A0`}
+                        </label>
+                        <label className="h-content-second-content-container-top-amount-val">
+                          {calculateTotalAmount(item?.playnumbers)}{" "}
+                          {user?.country?.countrycurrencysymbol}
+                        </label>
+                      </div>
+                      <div className="h-content-second-content-container-bottom">
+                        <label className="h-content-second-content-container-top-date">
+                          {item?.lotdate?.lotdate
+                            ? formatDate(
+                                getDateTimeAccordingToUserTimezone(
+                                  item?.lottime?.lottime,
+                                  item?.lotdate?.lotdate,
+                                  user?.country?.timezone
                                 )
-                              : ""}
+                              )
+                            : ""}
+                        </label>
+                      </div>
+                    </div>
+                    <div className="h-content-third">
+                      <div className="h-content-third-content-container-top">
+                        <label className="h-content-third-content-container-top-payment">
+                          Location
+                        </label>
+                      </div>
+                      <div className="h-content-third-content-container-bottom">
+                        <label className="h-content-third-content-container-top-payment-val">
+                          {item?.lotlocation?.lotlocation}
+                        </label>
+                      </div>
+                    </div>
+                    <div className="h-content-fourth">
+                      <div className="h-content-third-content-container-top">
+                        <label className="h-content-third-content-container-top-payment">
+                          Time
+                        </label>
+                      </div>
+                      <div className="h-content-third-content-container-bottom">
+                        <label className="h-content-third-content-container-top-payment-val">
+                          {getTimeAccordingToTimezone(
+                            item?.lottime?.lottime,
+                            user?.country?.timezone
+                          )}
+                        </label>
+                      </div>
+                    </div>
+                    <div className="h-content-fourth">
+                      <div className="h-content-third-content-container-top">
+                        <label className="h-content-third-content-container-top-payment">
+                          {item?.walletName ? "Winning No." : "Total bets"}
+                        </label>
+                      </div>
+                      <div className="h-content-third-content-container-bottom">
+                        <label className="h-content-third-content-container-top-payment-val">
+                          {item?.walletName
+                            ? item?.playnumbers[0]?.playnumber
+                            : item?.playnumbers?.length}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  {expandedItems[item._id] && (
+                    <>
+                      <div className="headerContainerPH">
+                        <div className="hcphFirst">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Number
+                          </label>
+                        </div>
+                        <div className="hcphSecond">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Amount
+                          </label>
+                        </div>
+                        <div className="hcphThird">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Winning Amount
                           </label>
                         </div>
                       </div>
-                      <div className="h-content-third">
-                        <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment">
-                            Location
-                          </label>
-                        </div>
-                        <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val">
-                            {item?.lotlocation?.lotlocation}
-                          </label>
-                        </div>
+
+                      <div className="contentContainerPHD">
+                        {item.playnumbers.map((pitem, pindex) => (
+                          <div key={pindex} className="contentContainerPHDC">
+                            <div className="hcphFirst">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {pitem?.playnumber}
+                              </label>
+                            </div>
+                            <div className="hcphSecond">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {item?.walletName
+                                  ? pitem?.amount /
+                                    extractNumberFromString(
+                                      item?.lotlocation?.maximumReturn
+                                    )
+                                  : pitem?.amount}
+                              </label>
+                            </div>
+                            <div className="hcphThird">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {pitem?.winningamount}
+                              </label>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <div className="h-content-fourth">
-                        <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment">
-                            Time
-                          </label>
-                        </div>
-                        <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val">
-                            {getTimeAccordingToTimezone(
-                              item?.lottime?.lottime,
-                              user?.country?.timezone
-                            )}
-                          </label>
-                        </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div
+                  key={item._id.toString()}
+                  onClick={() => toggleItem(item._id)}
+                  style={{
+                    minHeight: expandedItems[item._id] ? "40rem" : "8rem",
+                    backgroundColor: COLORS.background,
+                    borderRadius: "2rem",
+                  }}
+                >
+                  <div className="h-content-org">
+                    <div className="h-content-first-history">
+                      <div className="iconcontainertop">
+                        <GiDiamondTrophy
+                          color={
+                            item?.walletName ? COLORS.green : COLORS.background
+                          }
+                          size={"3rem"}
+                        />
                       </div>
-                      <div className="h-content-fourth">
-                        <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment">
-                            {item?.walletName ? "Winning No." : "Total bets"}
-                          </label>
-                        </div>
-                        <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val">
-                            {item?.walletName
-                              ? item?.playnumbers[0]?.playnumber
-                              : item?.playnumbers?.length}
-                          </label>
-                        </div>
+                    </div>
+                    <div className="h-content-second">
+                      <div className="h-content-second-content-container-top">
+                        <label className="h-content-second-content-container-top-amount">
+                          {`Amount : \u00A0`}
+                        </label>
+                        <label className="h-content-second-content-container-top-amount-val">
+                          {calculateTotalAmount(item?.tickets)}{" "}
+                          {user?.country?.countrycurrencysymbol}
+                        </label>
+                      </div>
+                      <div className="h-content-second-content-container-bottom">
+                        <label className="h-content-second-content-container-top-date">
+                          {item?.powerdate?.powerdate
+                            ? formatDate(
+                                getDateTimeAccordingToUserTimezone(
+                                  item?.powertime?.powertime,
+                                  item?.powerdate?.powerdate,
+                                  user?.country?.timezone
+                                )
+                              )
+                            : ""}
+                        </label>
                       </div>
                     </div>
 
-                    {expandedItems[item._id] && (
-                      <>
-                        <div className="headerContainerPH">
-                          <div className="hcphFirst">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Number
-                            </label>
-                          </div>
-                          <div className="hcphSecond">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Amount
-                            </label>
-                          </div>
-                          <div className="hcphThird">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Winning Amount
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="contentContainerPHD">
-                          {item.playnumbers.map((pitem, pindex) => (
-                            <div key={pindex} className="contentContainerPHDC">
-                              <div className="hcphFirst">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {pitem?.playnumber}
-                                </label>
-                              </div>
-                              <div className="hcphSecond">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {item?.walletName
-                                    ? pitem?.amount /
-                                      extractNumberFromString(
-                                        item?.lotlocation?.maximumReturn
-                                      )
-                                    : pitem?.amount}
-                                </label>
-                              </div>
-                              <div className="hcphThird">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {pitem?.winningamount}
-                                </label>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ) : (
-                  <div
-                    key={item._id.toString()}
-                    onClick={() => toggleItem(item._id)}
-                    style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
-                      backgroundColor: COLORS.background,
-                      borderRadius: "2rem",
-                    }}
-                  >
-                    <div className="h-content-org">
-                      <div className="h-content-first-history">
-                        <div className="iconcontainertop">
-                          <GiDiamondTrophy
-                            color={
-                              item?.walletName
-                                ? COLORS.green
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
-                        </div>
+                    <div className="h-content-fourth">
+                      <div className="h-content-third-content-container-top">
+                        <label className="h-content-third-content-container-top-payment">
+                          Time
+                        </label>
                       </div>
-                      <div className="h-content-second">
-                        <div className="h-content-second-content-container-top">
-                          <label className="h-content-second-content-container-top-amount">
-                            {`Amount : \u00A0`}
-                          </label>
-                          <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.tickets)}{" "}
-                            {user?.country?.countrycurrencysymbol}
-                          </label>
-                        </div>
-                        <div className="h-content-second-content-container-bottom">
-                          <label className="h-content-second-content-container-top-date">
-                            {item?.powerdate?.powerdate
-                              ? formatDate(
-                                  getDateTimeAccordingToUserTimezone(
-                                    item?.powertime?.powertime,
-                                    item?.powerdate?.powerdate,
-                                    user?.country?.timezone
-                                  )
-                                )
-                              : ""}
-                          </label>
-                        </div>
-                      </div>
-
-                      <div className="h-content-fourth">
-                        <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment">
-                            Time
-                          </label>
-                        </div>
-                        <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val">
-                            {getTimeAccordingToTimezone(
-                              item?.powertime?.powertime,
-                              user?.country?.timezone
-                            )}
-                          </label>
-                        </div>
-                      </div>
-                      <div className="h-content-fourth">
-                        <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment">
-                            {item?.walletName
-                              ? "Winner Ticket"
-                              : "Total Ticket"}
-                          </label>
-                        </div>
-                        <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val">
-                            {item?.walletName
-                              ? item.playnumbers[0]?.playnumber
-                              : item?.tickets.length}
-                          </label>
-                        </div>
+                      <div className="h-content-third-content-container-bottom">
+                        <label className="h-content-third-content-container-top-payment-val">
+                          {getTimeAccordingToTimezone(
+                            item?.powertime?.powertime,
+                            user?.country?.timezone
+                          )}
+                        </label>
                       </div>
                     </div>
-
-                    {expandedItems[item._id] && (
-                      <>
-                        <div className="headerContainerPH">
-                          <div className="hcphFirst">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Number
-                            </label>
-                          </div>
-                          <div className="hcphSecond">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Tickets
-                            </label>
-                          </div>
-                          <div className="hcphThird">
-                            <label className="h-content-third-content-container-top-payment-val">
-                              Amount
-                            </label>
-                          </div>
-                        </div>
-
-                        <div className="contentContainerPHD">
-                          {item.tickets.map((pitem, pindex) => (
-                            <div key={pindex} className="contentContainerPHDC">
-                              <div className="hcphFirst">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {pindex + 1}
-                                </label>
-                              </div>
-                              <div className="hcphSecond">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {pitem.usernumber.join(", ")}
-                                  {pitem.multiplier > 1
-                                    ? ` - ${pitem.multiplier}X `
-                                    : ""}
-                                </label>
-                              </div>
-                              <div className="hcphThird">
-                                <label className="h-content-third-content-container-top-payment-val">
-                                  {pitem.amount}
-                                </label>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    )}
+                    <div className="h-content-fourth">
+                      <div className="h-content-third-content-container-top">
+                        <label className="h-content-third-content-container-top-payment">
+                          {item?.walletName ? "Winner Ticket" : "Total Ticket"}
+                        </label>
+                      </div>
+                      <div className="h-content-third-content-container-bottom">
+                        <label className="h-content-third-content-container-top-payment-val">
+                          {item?.walletName
+                            ? item.playnumbers[0]?.playnumber
+                            : item?.tickets.length}
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                )}
-              </>
-            ))
-          )}
-        </div>
-      )}
+
+                  {expandedItems[item._id] && (
+                    <>
+                      <div className="headerContainerPH">
+                        <div className="hcphFirst">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Number
+                          </label>
+                        </div>
+                        <div className="hcphSecond">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Tickets
+                          </label>
+                        </div>
+                        <div className="hcphThird">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            Amount
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="contentContainerPHD">
+                        {item.tickets.map((pitem, pindex) => (
+                          <div key={pindex} className="contentContainerPHDC">
+                            <div className="hcphFirst">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {pindex + 1}
+                              </label>
+                            </div>
+                            <div className="hcphSecond">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {pitem.usernumber.join(", ")}
+                                {pitem.multiplier > 1
+                                  ? ` - ${pitem.multiplier}X `
+                                  : ""}
+                              </label>
+                            </div>
+                            <div className="hcphThird">
+                              <label className="h-content-third-content-container-top-payment-val">
+                                {pitem.amount}
+                              </label>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </>
+          ))
+        )}
+      </div>
     </div>
   );
 };

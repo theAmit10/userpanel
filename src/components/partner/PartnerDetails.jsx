@@ -12,6 +12,7 @@ import CreateNotification from "./CreateNotification";
 import IncreasePercetage from "./IncreasePercetage";
 import DecreasePercentage from "./DecreasePercentage";
 import UserPlayHistory from "./UserPlayHistory";
+import UserTransactionHistory from "./UserTransactionHistory";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -52,7 +53,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               description={"User’s Transaction details"}
               iconfrom={"TiGroup"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllPartner"}
+              componenetname={"UserTransactionHistory"}
             />
             {/** SEND NOTIFICATION */}
             <PartnerContentComp
@@ -114,6 +115,12 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
       )}
       {selectedCategory === "UserPlayHistory" && (
         <UserPlayHistory
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={selectedPartner}
+        />
+      )}
+      {selectedCategory === "UserTransactionHistory" && (
+        <UserTransactionHistory
           setSelectedCategory={setSelectedCategory}
           selectedPartner={selectedPartner}
         />
