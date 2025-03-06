@@ -8,7 +8,6 @@ import {
   useGetPartnerPartnerListQuery,
   useSearchPartnerPartnerListQuery,
 } from "../../redux/api";
-import CircularProgressBar from "../helper/CircularProgressBar";
 import Loader from "../molecule/Loader";
 
 const AllPartner = ({ setSelectedCategory }) => {

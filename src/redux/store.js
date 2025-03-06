@@ -31,5 +31,10 @@ setupListeners(store.dispatch);
 // export const server = "https://jenny.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru/api/v1/"
 // export const serverName = "https://jenny.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru"
 
-export const server = "https://adminbackend-apsw.onrender.com/api/v1/";
-export const serverName = "https://adminbackend-apsw.onrender.com";
+// export const server = "https://adminbackend-apsw.onrender.com/api/v1/";
+// export const serverName = "https://adminbackend-apsw.onrender.com";
+
+export const server =
+  "https://dev.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru/api/v1/";
+export const serverName =
+  "https://dev.worldgames55fhgfg7sd8fvgsd8f6gs8dfgdsfgds6onion.ru";

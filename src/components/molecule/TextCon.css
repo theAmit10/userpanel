@@ -7,6 +7,7 @@
     color: var(--white_s);
     font-size: 1.5rem;
     font-family: 'MB';
+    text-overflow: ellipsis;
 }
 .textContainer{
     margin-top: 0.5rem;
@@ -82,5 +83,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    overflow: hidden;
+    
 
 }
