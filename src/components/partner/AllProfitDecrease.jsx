@@ -173,11 +173,11 @@ const AllProfitDecrease = ({ setSelectedCategory }) => {
             status={"Status"}
             backgroundcolor={COLORS.green}
             index={1}
-            item={{ _id: "1234", name: "Vinod", status: "Pending" }}
           />
         )}
         {partners.map((item, index) => (
           <AllPofitDecreseComp
+            key={index}
             toggleItem={toggleItem}
             userId={item.userId}
             name={item.name}
@@ -189,7 +189,7 @@ const AllProfitDecrease = ({ setSelectedCategory }) => {
             setExpandedItems={setExpandedItems}
             reason={"Reason"}
             reasonValue={item.reason}
-            index={2}
+            index={index}
             item={item}
           />
         ))}

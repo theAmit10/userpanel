@@ -9,6 +9,7 @@ import AllPartner from "./AllPartner";
 import CreateNotification from "./CreateNotification";
 import { useDispatch, useSelector } from "react-redux";
 import { loadPartnerProfile } from "../../redux/actions/userAction";
+import AllRecharge from "./AllRecharge";
 
 const Partner = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,9 @@ const Partner = () => {
   const { accesstoken, user, partner } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(loadPartnerProfile(accesstoken, user.parentPartnerId));
+    if (user && accesstoken) {
+      dispatch(loadPartnerProfile(accesstoken, user.parentPartnerId));
+    }
   }, [dispatch]);
 
   const userdata = {
@@ -132,6 +135,9 @@ const Partner = () => {
       )}
       {selectedCategory === "AllUser" && (
         <AllUser setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "AllRecharge" && (
+        <AllRecharge setSelectedCategory={setSelectedCategory} />
       )}
       {selectedCategory === "RechargeMethods" && (
         <RechargeMethods setSelectedCategory={setSelectedCategory} />
