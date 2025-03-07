@@ -44,6 +44,22 @@ const Partner = () => {
               setSelectedCategory={setSelectedCategory}
               componenetname={"AllProfitDecrease"}
             />
+            {/** NOTIFY ADMIN */}
+            <PartnerContentComp
+              title={"Notify Admin"}
+              description={"Send Notification to Admin"}
+              iconfrom={"BsFillPeopleFill"}
+              setSelectedCategory={setSelectedCategory}
+              componenetname={"AllProfitDecrease"}
+            />
+            {/**  Notify Partner */}
+            <PartnerContentComp
+              title={"Notify Partner"}
+              description={"Send Notification to Top Partner"}
+              iconfrom={"BsFillPeopleFill"}
+              setSelectedCategory={setSelectedCategory}
+              componenetname={"AllProfitDecrease"}
+            />
             {/** ALL USERS */}
             <PartnerContentComp
               title={"All Users"}
@@ -73,11 +89,21 @@ const Partner = () => {
         </div>
       )}
 
-      {selectedCategory === "MyPartnerProfile" && <MyPartnerProfile setSelectedCategory={setSelectedCategory} />}
-      {selectedCategory === "AllProfitDecrease" && <AllProfitDecrease setSelectedCategory={setSelectedCategory} />}
-      {selectedCategory === "AllPartner" && <AllPartner setSelectedCategory={setSelectedCategory} />}
-      {selectedCategory === "AllUser" && <AllUser setSelectedCategory={setSelectedCategory} />}
-      {selectedCategory === "RechargeMethods" && <RechargeMethods setSelectedCategory={setSelectedCategory} />}
+      {selectedCategory === "MyPartnerProfile" && (
+        <MyPartnerProfile setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "AllProfitDecrease" && (
+        <AllProfitDecrease setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "AllPartner" && (
+        <AllPartner setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "AllUser" && (
+        <AllUser setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "RechargeMethods" && (
+        <RechargeMethods setSelectedCategory={setSelectedCategory} />
+      )}
     </>
   );
 };

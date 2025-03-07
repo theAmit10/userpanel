@@ -40,21 +40,27 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               componenetname={"PartnerProfileBasic"}
             />
             {/** PLAY HISTORY */}
-            <PartnerContentComp
-              title={"Play History"}
-              description={"User’s Play History Details"}
-              iconfrom={"RiAccountCircleFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"UserPlayHistory"}
-            />
+            {selectedPartner?.playHistoryPermission && (
+              <PartnerContentComp
+                title={"Play History"}
+                description={"User’s Play History Details"}
+                iconfrom={"RiAccountCircleFill"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"UserPlayHistory"}
+              />
+            )}
+
             {/** TRANSACTION HISTORY */}
-            <PartnerContentComp
-              title={"Transaction History"}
-              description={"User’s Transaction details"}
-              iconfrom={"TiGroup"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"UserTransactionHistory"}
-            />
+            {selectedPartner?.transactionHistoryPermission && (
+              <PartnerContentComp
+                title={"Transaction History"}
+                description={"User’s Transaction details"}
+                iconfrom={"TiGroup"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"UserTransactionHistory"}
+              />
+            )}
+
             {/** SEND NOTIFICATION */}
             <PartnerContentComp
               title={"Send Notification"}

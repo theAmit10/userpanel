@@ -146,25 +146,29 @@ const AllPartner = ({ setSelectedCategory }) => {
             title={"All Partner"}
             setSelectedCategory={setSelectedCategory}
           />
-          <SearchCon
-            searchvalue={searchQuery}
-            setSearchValue={setSearchQuery}
-            placeholder={"Search for partner"}
-            iconname={"CiSearch"}
-          />
 
-          <AllPartnerHeader
-            userId={"User ID"}
-            name={"Name"}
-            profit={"Profit Percentage"}
-            recharge={"Recharge Percentage"}
-            totaluser={"Total no. of User's"}
-            balance={"Game Balance"}
-            backgroundcolor={COLORS.green}
-            showActive={true}
-            status={"Status"}
-            clickpress={false}
-          />
+          {!loadingPaginated && (
+            <>
+              <SearchCon
+                searchvalue={searchQuery}
+                setSearchValue={setSearchQuery}
+                placeholder={"Search for partner"}
+                iconname={"CiSearch"}
+              />
+              <AllPartnerHeader
+                userId={"User ID"}
+                name={"Name"}
+                profit={"Profit Percentage"}
+                recharge={"Recharge Percentage"}
+                totaluser={"Total no. of User's"}
+                balance={"Game Balance"}
+                backgroundcolor={COLORS.green}
+                showActive={true}
+                status={"Status"}
+                clickpress={false}
+              />
+            </>
+          )}
 
           <div className="container-scrollable" onScroll={handleScroll}>
             {partners.map((item) => (

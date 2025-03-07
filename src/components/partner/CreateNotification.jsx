@@ -64,36 +64,33 @@ const CreateNotification = ({ setSelectedCategory, selectedPartner }) => {
         left={selectedPartner?.userId}
         right={selectedPartner?.name}
       />
-      {false ? (
-        <Loader />
-      ) : (
-        <div className="container-scrollable">
-          <TextInputCon
-            placeholder={"Enter title"}
-            iconname={"LuFileText"}
-            title={"Title"}
-            searchvalue={titleValue}
-            setSearchValue={setTitle}
-          />
 
-          <TextInputCon
-            placeholder={"Enter Description"}
-            iconname={"LuFileText"}
-            title={"Description"}
-            searchvalue={discriptionValue}
-            setSearchValue={setDescription}
-          />
+      <div className="container-scrollable">
+        <TextInputCon
+          placeholder={"Enter title"}
+          iconname={"LuFileText"}
+          title={"Title"}
+          searchvalue={titleValue}
+          setSearchValue={setTitle}
+        />
 
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <SubmitButton
-              label={"Send Notification"}
-              onClickHandler={submitHandler}
-            />
-          )}
-        </div>
-      )}
+        <TextInputCon
+          placeholder={"Enter Description"}
+          iconname={"LuFileText"}
+          title={"Description"}
+          searchvalue={discriptionValue}
+          setSearchValue={setDescription}
+        />
+
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <SubmitButton
+            label={"Send Notification"}
+            onClickHandler={submitHandler}
+          />
+        )}
+      </div>
     </div>
   );
 };

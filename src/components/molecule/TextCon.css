@@ -59,6 +59,30 @@
     gap: 1rem;
 }
 
+.allprofitdecrease-con{
+    min-height: 6rem;
+    max-height: 20rem;
+   
+    display: flex;
+    flex-direction: column;
+   
+}
+.allprofitdecresefooter-con{
+    min-height: 10rem;
+    max-height: 10rem;
+
+    display: flex;
+    flex-direction: column;
+}
+.allprofitdecrese-reason-con{
+    flex: 1;
+    background-color: var(--background);
+    overflow-y: scroll;
+    padding: 0.5rem;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
 .child-large {
     flex: 2; /* Takes up twice as much space as child-small */
 
@@ -119,5 +143,8 @@
 .text-icon-container{
     display: flex;
     height: 80%;
+
+}
+.allpofitdecreasecomp-main{
 
 }
