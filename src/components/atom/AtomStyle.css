@@ -25,3 +25,14 @@
     border-radius: 1rem;
     cursor: pointer;
 }
+.icon-button-con{
+    height: 5rem;
+    width: 100%;
+    background-color: var(--green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    cursor: pointer;
+    gap: 0.5rem;
+}
