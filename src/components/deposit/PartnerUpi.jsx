@@ -4,7 +4,11 @@ import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { useCreateDepositMutation } from "../../redux/api";
+import {
+  useCreateDepositMutation,
+  useCreateUPIAccountMutation,
+  useDeleteUpiAccountMutation,
+} from "../../redux/api";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
@@ -13,6 +17,9 @@ import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import Loader from "../molecule/Loader";
 
 const PartnerUpi = ({ selectingPaymentType }) => {
   const [showAllUpi, setShowAllUpi] = useState(true);
@@ -38,7 +45,6 @@ const PartnerUpi = ({ selectingPaymentType }) => {
     setSelecetedItem("");
   };
 
-  const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
   const [imageSource, setImageSource] = useState(null);
   // For Opening PhoneStorage
   const selectDoc = (e) => {
@@ -47,78 +53,6 @@ const PartnerUpi = ({ selectingPaymentType }) => {
       setImageSource(e.target.files[0]);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const submitDepositRequest = async () => {
-    if (!amountval) {
-      showErrorToast("Enter Deposit Amount");
-      return;
-    }
-    if (isNaN(amountval)) {
-      showErrorToast("Enter Valid Amount");
-      return;
-    }
-
-    if (!transactionval) {
-      showErrorToast("Enter Transaction Number");
-      return;
-    }
-    if (!imageSource) {
-      showErrorToast("Add Transaction Screenshot");
-      return;
-    }
-    try {
-      console.log("ELSE RUNNING");
-      console.log(amountval, transactionval, remarkval);
-
-      const formData = new FormData();
-      formData.append("amount", amountval);
-      formData.append("transactionid", transactionval);
-      formData.append("remark", remarkval);
-      formData.append("paymenttype", "Upi");
-      formData.append("paymenttypeid", selectedItem.paymentId);
-      formData.append("username", user.name);
-      formData.append("userid", user.userId);
-      formData.append("paymentstatus", "Pending");
-
-      formData.append("receipt", imageSource);
-
-      formData.append("transactionType", "Deposit");
-
-      console.log("FORM DATA :: " + JSON.stringify(formData));
-      console.log(formData);
-
-      // Logging form data for inspection
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
-      console.log(formData); // To see the complete FormData object
-
-      const res = await createDeposit({
-        accessToken: accesstoken,
-        body: formData,
-      }).unwrap();
-
-      console.log("Success");
-      console.log(res);
-      console.log(res.message);
-
-      showSuccessToast(res.message);
-
-      hideAllform();
-      goToPreviousPage();
-    } catch (error) {
-      console.log("Error during deposit:", error);
-      if (error.response) {
-        Toast.show({ type: "error", text1: error.response.data });
-        showErrorToast(error.response.data);
-      } else if (error.request) {
-        showErrorToast("Request was made, but no response was received");
-      } else {
-        showErrorToast(error.message);
-      }
     }
   };
 
@@ -168,6 +102,90 @@ const PartnerUpi = ({ selectingPaymentType }) => {
     setShowCU(false);
     setShowAllUpi(true);
   };
+  const [seletedItem, setSelectedItem] = useState("");
+  const [upiholdername, setupiholdername] = useState("");
+  const [upiid, setupiid] = useState("");
+  const [paymentnote, setpaymentnote] = useState("");
+  const [
+    deleteUpiAccount,
+    { isLoading: deleteIsLoading, isError: deleteIsError },
+  ] = useDeleteUpiAccountMutation();
+
+  // FOR DELETING DATA
+
+  const deletingData = async (item) => {
+    console.log("Deleting Data");
+    setSelectedItem(item._id);
+
+    const res = await deleteUpiAccount({
+      accesstoken: accesstoken,
+      id: item._id,
+    }).unwrap();
+
+    allTheDepositData();
+
+    showSuccessToast(res.message);
+  };
+
+  //  FOR CREATING UPI
+
+  const [createUPIAccount, { isLoading, error }] =
+    useCreateUPIAccountMutation();
+
+  const submitCreateRequest = async () => {
+    if (!upiholdername) {
+      showErrorToast("Enter UPI holder name");
+      return;
+    }
+    if (!upiid) {
+      showErrorToast("Enter UPI ID");
+      return;
+    }
+    if (!paymentnote) {
+      showErrorToast("Add payment note");
+      return;
+    }
+    if (!imageSource) {
+      showErrorToast("Add QR code");
+      return;
+    } else {
+      console.log("Create UPI Running");
+      try {
+        const formData = new FormData();
+        formData.append("upiholdername", upiholdername);
+        formData.append("upiid", upiid);
+        formData.append("qrcode", imageSource);
+        formData.append("paymentnote", paymentnote);
+        formData.append("userId", user.userId);
+
+        const res = await createUPIAccount({
+          accesstoken: accesstoken,
+          body: formData,
+        }).unwrap();
+
+        showSuccessToast(res.message);
+        allTheDepositData();
+        backHandlerShowCreateUpi();
+        setupiholdername("");
+        setupiid("");
+        setpaymentnote("");
+        setImageSource(null);
+      } catch (error) {
+        showErrorToast("Something went wrong");
+        console.log("Error during create upi:", error);
+        if (error.response) {
+          // Toast.show({type: 'error', text1: error.response.data});
+        } else if (error.request) {
+          // Toast.show({
+          //   type: 'error',
+          //   text1: 'Request was made, but no response was received',
+          // });
+        } else {
+          // Toast.show({type: 'error', text1: error.message});
+        }
+      }
+    }
+  };
 
   return (
     <div className="udC">
@@ -186,6 +204,15 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                 UPI Payment
               </label>
             </div>
+            <div
+              className="searchIconContainer"
+              onClick={selecetingItemForDeposit}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <IoIosAddCircleOutline color={COLORS.white_s} size={"2.5rem"} />
+            </div>
           </div>
 
           {loadingAllData ? (
@@ -200,11 +227,7 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                 <>
                   <div className="upipdMainContainer">
                     {allDepositdata.map((item, index) => (
-                      <div
-                        key={item._id}
-                        className="upipdContentContainer"
-                        onClick={() => selecetingItemForDeposit(item)}
-                      >
+                      <div key={item._id} className="upipdContentContainer">
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
@@ -216,7 +239,7 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                             />
                           </div>
 
-                          <label className="pdB">UPI</label>
+                          {/* <label className="pdB">UPI</label> */}
                           <label
                             className="pdB"
                             style={{
@@ -230,6 +253,38 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                           >
                             {item.paymentStatus}
                           </label>
+
+                          {deleteIsLoading ? (
+                            seletedItem === item._id ? (
+                              <div
+                                style={{
+                                  width: "3rem",
+                                }}
+                              >
+                                <Loader />
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => deletingData(item)}
+                                className="hdContenContainerIcon"
+                              >
+                                <MdDelete
+                                  color={COLORS.background}
+                                  size={"2.5rem"}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <div
+                              className="hdContenContainerIcon"
+                              onClick={() => deletingData(item)}
+                            >
+                              <MdDelete
+                                color={COLORS.background}
+                                size={"2.5rem"}
+                              />
+                            </div>
+                          )}
                         </div>
                         {/** TOP */}
 
@@ -336,15 +391,15 @@ const PartnerUpi = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create UPI Deposit
+                Create UPI Payment
               </label>
             </div>
           </div>
           {/** TOP NAVIGATION CONTATINER */}
 
           <div className="allLocationMainContainer">
-            {/** Amount */}
-            <label className="alCLLabel">Send Amount</label>
+            {/** UPI HOLDER NAME */}
+            <label className="alCLLabel">UPI holder name</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -352,16 +407,14 @@ const PartnerUpi = ({ selectingPaymentType }) => {
 
               <input
                 className="al-search-input"
-                type="number"
-                name="amount"
-                placeholder="Enter amount"
-                value={amountval}
-                onChange={(e) => setAmountval(e.target.value)}
+                placeholder="Enter upi holder name"
+                value={upiholdername}
+                onChange={(e) => setupiholdername(e.target.value)}
               />
             </div>
 
-            {/** Transaction number */}
-            <label className="alCLLabel">Transaction number</label>
+            {/** UPI ID */}
+            <label className="alCLLabel">UPI ID</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -369,17 +422,15 @@ const PartnerUpi = ({ selectingPaymentType }) => {
 
               <input
                 className="al-search-input"
-                type="text"
-                name="transaction"
-                placeholder="Enter transaction number"
-                value={transactionval}
-                onChange={(e) => setTransactionval(e.target.value)}
+                placeholder="Enter upi id"
+                value={upiid}
+                onChange={(e) => setupiid(e.target.value)}
               />
             </div>
             {/** RECEIPT */}
 
             {/** TITLE */}
-            <label className="alCLLabel">Upload Receipt</label>
+            <label className="alCLLabel">QR code</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -392,12 +443,12 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                   type="file"
                   name="file"
                   onChange={selectDoc}
-                  accept="image/*"
                 />
               </div>
             </div>
 
-            <label className="alCLLabel">Remark</label>
+            {/** PAYMENT NOTE */}
+            <label className="alCLLabel">Note</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -405,14 +456,9 @@ const PartnerUpi = ({ selectingPaymentType }) => {
 
               <input
                 className="al-search-input"
-                style={{
-                  minHeight: "5rem",
-                }}
-                type="text"
-                name="remark"
-                placeholder="Enter remark"
-                value={remarkval}
-                onChange={(e) => setRemarkval(e.target.value)}
+                placeholder="Enter note"
+                value={paymentnote}
+                onChange={(e) => setpaymentnote(e.target.value)}
               />
             </div>
           </div>
@@ -420,7 +466,7 @@ const PartnerUpi = ({ selectingPaymentType }) => {
           {isLoading ? (
             <LoadingComponent />
           ) : (
-            <div className="alBottomContainer" onClick={submitDepositRequest}>
+            <div className="alBottomContainer" onClick={submitCreateRequest}>
               <label className="alBottomContainerlabel">Submit</label>
             </div>
           )}
