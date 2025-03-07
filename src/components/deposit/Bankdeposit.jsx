@@ -110,8 +110,6 @@ function Bankdeposit({ selectingPaymentType }) {
     }
   };
 
-  
-
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -191,7 +189,8 @@ function Bankdeposit({ selectingPaymentType }) {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_BANK_API, {
+      const url = `${UrlHelper.PARTNER_USER_BANK_API}/${user.rechargePaymentId}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -208,7 +207,7 @@ function Bankdeposit({ selectingPaymentType }) {
     }
   };
 
-  const handleCopyClick = (e,stringToCopy) => {
+  const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
@@ -244,7 +243,9 @@ function Bankdeposit({ selectingPaymentType }) {
           ) : (
             <>
               {allDepositdata.length === 0 ? (
-                <NodataFound title={"This payment method is temporarily unavailable."} />
+                <NodataFound
+                  title={"This payment method is temporarily unavailable."}
+                />
               ) : (
                 <>
                   <div className="upipdMainContainer">
@@ -278,12 +279,12 @@ function Bankdeposit({ selectingPaymentType }) {
                             <label className="pdR">{item.bankname}</label>
                           </div>
                           <div className="thirdChildD">
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.bankname)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
+                            <div
+                              onClick={(e) => handleCopyClick(e, item.bankname)}
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -299,14 +300,14 @@ function Bankdeposit({ selectingPaymentType }) {
                             </label>
                           </div>
                           <div className="thirdChildD">
-                          <div
-                            onClick={(e) =>
-                              handleCopyClick(e,item.accountholdername)
-                            }
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
+                            <div
+                              onClick={(e) =>
+                                handleCopyClick(e, item.accountholdername)
+                              }
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -320,12 +321,14 @@ function Bankdeposit({ selectingPaymentType }) {
                             <label className="pdR">{item.accountnumber}</label>
                           </div>
                           <div className="thirdChildD">
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.accountnumber)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
+                            <div
+                              onClick={(e) =>
+                                handleCopyClick(e, item.accountnumber)
+                              }
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -333,26 +336,29 @@ function Bankdeposit({ selectingPaymentType }) {
                         {/** TOP */}
                         {/** TOP */}
 
-                        {
-                          item.swiftcode ? ( <div className="uCCMidC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">Swift code</label>
+                        {item.swiftcode ? (
+                          <div className="uCCMidC">
+                            <div className="uCCTopFC">
+                              <label className="pdSB">Swift code</label>
+                            </div>
+                            <div className="uCCTopSC">
+                              <label className="pdR">{item.swiftcode}</label>
+                            </div>
+                            <div className="thirdChildD">
+                              <div
+                                onClick={(e) =>
+                                  handleCopyClick(e, item.swiftcode)
+                                }
+                                className="copyCon"
+                              >
+                                <FaCopy
+                                  color={COLORS.background}
+                                  size={"2rem"}
+                                />
+                              </div>
+                            </div>
                           </div>
-                          <div className="uCCTopSC">
-                            <label className="pdR">{item.swiftcode}</label>
-                          </div>
-                          <div className="thirdChildD">
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.swiftcode)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
-                          </div>
-                        </div>) : null
-                        }
-
-                       
+                        ) : null}
 
                         {/** TOP */}
                         <div className="uCCMidC">
@@ -365,28 +371,27 @@ function Bankdeposit({ selectingPaymentType }) {
                             <label className="pdR">{item.ifsccode}</label>
                           </div>
                           <div className="thirdChildD">
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.ifsccode)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
+                            <div
+                              onClick={(e) => handleCopyClick(e, item.ifsccode)}
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
                         <div className="NotePatentContainer">
-                        <div className="uCCBottomC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">Note</label>
-                          </div>
-                          <div className="uCCBottomSC">
-                            <label className="pdRBottom">
-                              {item.paymentnote}
-                            </label>
+                          <div className="uCCBottomC">
+                            <div className="uCCTopFC">
+                              <label className="pdSB">Note</label>
+                            </div>
+                            <div className="uCCBottomSC">
+                              <label className="pdRBottom">
+                                {item.paymentnote}
+                              </label>
+                            </div>
                           </div>
                         </div>
-                        </div>
-
                       </div>
                     ))}
                   </div>

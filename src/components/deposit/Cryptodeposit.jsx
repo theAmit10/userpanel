@@ -143,7 +143,8 @@ function Cryptodeposit({ selectingPaymentType }) {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_CRYPTO_API, {
+      const url = `${UrlHelper.PARTNER_USER_CRYPTO_API}/${user.rechargePaymentId}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -162,7 +163,7 @@ function Cryptodeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (e,stringToCopy) => {
+  const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
@@ -205,7 +206,9 @@ function Cryptodeposit({ selectingPaymentType }) {
           ) : (
             <>
               {allDepositdata.length === 0 ? (
-                <NodataFound title={"This payment method is temporarily unavailable."} />
+                <NodataFound
+                  title={"This payment method is temporarily unavailable."}
+                />
               ) : (
                 <>
                   <div className="upipdMainContainer">
@@ -228,12 +231,8 @@ function Cryptodeposit({ selectingPaymentType }) {
 
                           {/* <label className="pdB">Crypto {item.paymentId}</label> */}
                           <label className="pdB">Crypto</label>
-
-                        
                         </div>
                         {/** TOP */}
-
-                      
 
                         {/** TOP */}
                         <div className="uCCMidC">
@@ -243,15 +242,16 @@ function Cryptodeposit({ selectingPaymentType }) {
                           <div className="uCCTopSC">
                             <label className="pdR">{item.walletaddress}</label>
                           </div>
-                          
+
                           <div className="thirdChildD">
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.walletaddress)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
-                         
+                            <div
+                              onClick={(e) =>
+                                handleCopyClick(e, item.walletaddress)
+                              }
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -265,13 +265,14 @@ function Cryptodeposit({ selectingPaymentType }) {
                             <label className="pdR"> {item.networktype}</label>
                           </div>
                           <div className="thirdChildD">
-                          
-                          <div
-                            onClick={(e) => handleCopyClick(e,item.networktype)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
+                            <div
+                              onClick={(e) =>
+                                handleCopyClick(e, item.networktype)
+                              }
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
                         {/** TOP */}
@@ -285,19 +286,17 @@ function Cryptodeposit({ selectingPaymentType }) {
                           </div>
                         </div>
                         <div className="NotePatentContainer">
-                        <div className="uCCBottomC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">Note</label>
-                          </div>
-                          <div className="uCCBottomSC">
-                            <label className="pdRBottom">
-                              {item.paymentnote}
-                            </label>
+                          <div className="uCCBottomC">
+                            <div className="uCCTopFC">
+                              <label className="pdSB">Note</label>
+                            </div>
+                            <div className="uCCBottomSC">
+                              <label className="pdRBottom">
+                                {item.paymentnote}
+                              </label>
+                            </div>
                           </div>
                         </div>
-                        </div>
-
-
                       </div>
                     ))}
                   </div>

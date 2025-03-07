@@ -29,7 +29,6 @@ const upiapidata = [
 ];
 
 function Paypaldeposit({ selectingPaymentType }) {
- 
   const [amountval, setAmountval] = useState("");
   const [transactionval, setTransactionval] = useState("");
   const [remarkval, setRemarkval] = useState("");
@@ -46,7 +45,7 @@ function Paypaldeposit({ selectingPaymentType }) {
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
     setShowCU(true);
-    setShowAllUpi(false)
+    setShowAllUpi(false);
   };
 
   const showingPaymentForm = () => {
@@ -55,9 +54,8 @@ function Paypaldeposit({ selectingPaymentType }) {
 
   const hideAllform = () => {
     setShowPaymentForm(false);
-    setSelecetedItem("")
- 
-  }
+    setSelecetedItem("");
+  };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
 
@@ -73,8 +71,6 @@ function Paypaldeposit({ selectingPaymentType }) {
     }
   };
 
- 
-
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -84,7 +80,7 @@ function Paypaldeposit({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     }
- 
+
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -94,16 +90,14 @@ function Paypaldeposit({ selectingPaymentType }) {
       return;
     }
     try {
+      console.log("ELSE RUNNING");
+      console.log(amountval, transactionval, remarkval);
 
-      console.log("ELSE RUNNING")
-      console.log(amountval,transactionval,remarkval)
-
-      
       const formData = new FormData();
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append('paymenttype', 'Paypal');
+      formData.append("paymenttype", "Paypal");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -128,20 +122,14 @@ function Paypaldeposit({ selectingPaymentType }) {
         body: formData,
       }).unwrap();
 
-
-      console.log("Success")
-      console.log(res)
-      console.log(res.message)
-
+      console.log("Success");
+      console.log(res);
+      console.log(res.message);
 
       await showSuccessToast(res.message);
-     
 
       hideAllform();
       goToPreviousPage();
-      
-      
-
     } catch (error) {
       console.log("Error during deposit:", error);
       if (error.response) {
@@ -165,7 +153,8 @@ function Paypaldeposit({ selectingPaymentType }) {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_PAYPAL_API, {
+      const url = `${UrlHelper.PARTNER_USER_PAYPAL_API}/${user.rechargePaymentId}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -184,7 +173,7 @@ function Paypaldeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (e,stringToCopy) => {
+  const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
@@ -196,213 +185,213 @@ function Paypaldeposit({ selectingPaymentType }) {
       });
   };
 
-
   const [showCU, setShowCU] = useState(false);
 
   const backHandlerShowCreateUpi = () => {
     setShowCU(false);
-    setShowAllUpi(true)
+    setShowAllUpi(true);
   };
-
 
   return (
     <div className="udC">
-    {showAllUpi && (
-      <div className="udMainCon">
-        {/** TOP HEADER CONATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div className="searchIconContainer" onClick={goToPreviousPage}>
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
+      {showAllUpi && (
+        <div className="udMainCon">
+          {/** TOP HEADER CONATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div className="searchIconContainer" onClick={goToPreviousPage}>
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
+            </div>
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Paypal Deposit
+              </label>
+            </div>
           </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              Paypal Deposit
-            </label>
-          </div>
-        </div>
 
-        {loadingAllData ? (
-          <LoadingComponent />
-        ) : (
-          <>
-            {allDepositdata.length === 0 ? (
-              <NodataFound title={"This payment method is temporarily unavailable."} />
-            ) : (
-              <>
-                <div className="upipdMainContainer">
-                {allDepositdata.map((item, index) => (
-                  <div key={item._id} className="upipdContentContainer"
-                  onClick={() => selecetingItemForDeposit(item)}
-                  >
-                    {/** TOP */}
-                    <div className="uCCTopC">
-                      <div className="hdContenContainerIcon">
-                        <img
-                          src={images.paypal}
-                          color={COLORS.background}
-                          size={"2.5rem"}
-                          className="paymenticon"
-                        />
-                      </div>
-
-                      <label className="pdB">Paypal</label>
-
-                    
-                    </div>
-                    {/** TOP */}
-
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">Email address</label>
-                      </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR"> {item.emailaddress}</label>
-                      </div>
-                      <div className="thirdChildD">
-
+          {loadingAllData ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {allDepositdata.length === 0 ? (
+                <NodataFound
+                  title={"This payment method is temporarily unavailable."}
+                />
+              ) : (
+                <>
+                  <div className="upipdMainContainer">
+                    {allDepositdata.map((item, index) => (
                       <div
-                        onClick={(e) => handleCopyClick(e,item.emailaddress)}
-                        className="copyCon"
+                        key={item._id}
+                        className="upipdContentContainer"
+                        onClick={() => selecetingItemForDeposit(item)}
                       >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-                      </div>
-                    </div>
-                    {/** TOP */}
-                    <div className="NotePatentContainer">
-                    <div className="uCCBottomC">
+                        {/** TOP */}
+                        <div className="uCCTopC">
+                          <div className="hdContenContainerIcon">
+                            <img
+                              src={images.paypal}
+                              color={COLORS.background}
+                              size={"2.5rem"}
+                              className="paymenticon"
+                            />
+                          </div>
+
+                          <label className="pdB">Paypal</label>
+                        </div>
+                        {/** TOP */}
+
+                        {/** TOP */}
+                        <div className="uCCMidC">
                           <div className="uCCTopFC">
-                            <label className="pdSB">Note</label>
+                            <label className="pdSB">Email address</label>
                           </div>
-                          <div className="uCCBottomSC">
-                            <label className="pdRBottom">
-                              {item.paymentnote}
-                            </label>
+                          <div className="uCCTopSC">
+                            <label className="pdR"> {item.emailaddress}</label>
+                          </div>
+                          <div className="thirdChildD">
+                            <div
+                              onClick={(e) =>
+                                handleCopyClick(e, item.emailaddress)
+                              }
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
+                        {/** TOP */}
+                        <div className="NotePatentContainer">
+                          <div className="uCCBottomC">
+                            <div className="uCCTopFC">
+                              <label className="pdSB">Note</label>
+                            </div>
+                            <div className="uCCBottomSC">
+                              <label className="pdRBottom">
+                                {item.paymentnote}
+                              </label>
+                            </div>
+                          </div>
                         </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              </>
-            )}
-          </>
-        )}
-      </div>
-    )}
-
-    {showCU && (
-      <>
-        {/** TOP NAVIGATION CONTATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div
-            className="searchIconContainer"
-            onClick={backHandlerShowCreateUpi}
-          >
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
-          </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              Create Paypal Deposit
-            </label>
-          </div>
+                </>
+              )}
+            </>
+          )}
         </div>
-        {/** TOP NAVIGATION CONTATINER */}
+      )}
 
-        <div className="allLocationMainContainer">
-          {/** Amount */}
-          <label className="alCLLabel">Send Amount</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+      {showCU && (
+        <>
+          {/** TOP NAVIGATION CONTATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div
+              className="searchIconContainer"
+              onClick={backHandlerShowCreateUpi}
+            >
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
             </div>
-
-            <input
-              className="al-search-input"
-              type="number"
-              name="amount"
-              placeholder="Enter amount"
-              value={amountval}
-              onChange={(e) => setAmountval(e.target.value)}
-            />
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Create Paypal Deposit
+              </label>
+            </div>
           </div>
+          {/** TOP NAVIGATION CONTATINER */}
 
-          {/** Transaction number */}
-          <label className="alCLLabel">Transaction number</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
+          <div className="allLocationMainContainer">
+            {/** Amount */}
+            <label className="alCLLabel">Send Amount</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
 
-            <input
-              className="al-search-input"
-              type="text"
-              name="transaction"
-              placeholder="Enter transaction number"
-              value={transactionval}
-              onChange={(e) => setTransactionval(e.target.value)}
-            />
-          </div>
-          {/** RECEIPT */}
-
-          {/** TITLE */}
-          <label className="alCLLabel">Upload Receipt</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
-
-            <div className="imageContainerAC">
               <input
                 className="al-search-input"
-                placeholder="Receipt"
-                type="file"
-                name="file"
-                onChange={selectDoc}
-                accept="image/*"
+                type="number"
+                name="amount"
+                placeholder="Enter amount"
+                value={amountval}
+                onChange={(e) => setAmountval(e.target.value)}
+              />
+            </div>
+
+            {/** Transaction number */}
+            <label className="alCLLabel">Transaction number</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                type="text"
+                name="transaction"
+                placeholder="Enter transaction number"
+                value={transactionval}
+                onChange={(e) => setTransactionval(e.target.value)}
+              />
+            </div>
+            {/** RECEIPT */}
+
+            {/** TITLE */}
+            <label className="alCLLabel">Upload Receipt</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <div className="imageContainerAC">
+                <input
+                  className="al-search-input"
+                  placeholder="Receipt"
+                  type="file"
+                  name="file"
+                  onChange={selectDoc}
+                  accept="image/*"
+                />
+              </div>
+            </div>
+
+            <label className="alCLLabel">Remark</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                style={{
+                  minHeight: "5rem",
+                }}
+                type="text"
+                name="remark"
+                placeholder="Enter remark"
+                value={remarkval}
+                onChange={(e) => setRemarkval(e.target.value)}
               />
             </div>
           </div>
 
-          <label className="alCLLabel">Remark</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          {isLoading ? (
+            <LoadingComponent />
+          ) : (
+            <div className="alBottomContainer" onClick={submitDepositRequest}>
+              <label className="alBottomContainerlabel">Submit</label>
             </div>
-
-            <input
-              className="al-search-input"
-              style={{
-                minHeight: "5rem",
-              }}
-              type="text"
-              name="remark"
-              placeholder="Enter remark"
-              value={remarkval}
-              onChange={(e) => setRemarkval(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {isLoading ? (
-          <LoadingComponent />
-        ) : (
-          <div className="alBottomContainer" onClick={submitDepositRequest}>
-            <label className="alBottomContainerlabel">Submit</label>
-          </div>
-        )}
-      </>
-    )}
-  </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
 export default Paypaldeposit;
-

@@ -45,7 +45,7 @@ function Skrilldeposit({ selectingPaymentType }) {
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
     setShowCU(true);
-    setShowAllUpi(false)
+    setShowAllUpi(false);
   };
   const showingPaymentForm = () => {
     setShowPaymentForm(true);
@@ -70,8 +70,6 @@ function Skrilldeposit({ selectingPaymentType }) {
     }
   };
 
-
-
   const submitDepositRequest = async () => {
     if (!amountval) {
       showErrorToast("Enter Deposit Amount");
@@ -81,7 +79,7 @@ function Skrilldeposit({ selectingPaymentType }) {
       showErrorToast("Enter Valid Amount");
       return;
     }
-  
+
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -98,7 +96,7 @@ function Skrilldeposit({ selectingPaymentType }) {
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append('paymenttype', 'Skrill');
+      formData.append("paymenttype", "Skrill");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -154,7 +152,8 @@ function Skrilldeposit({ selectingPaymentType }) {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_SKRILL_API, {
+      const url = `${UrlHelper.PARTNER_USER_SKRILL_API}/${user.rechargePaymentId}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -173,7 +172,7 @@ function Skrilldeposit({ selectingPaymentType }) {
 
   const [showAllUpi, setShowAllUpi] = useState(true);
 
-  const handleCopyClick = (e,stringToCopy) => {
+  const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
     navigator.clipboard
       .writeText(stringToCopy)
@@ -189,209 +188,206 @@ function Skrilldeposit({ selectingPaymentType }) {
 
   const backHandlerShowCreateUpi = () => {
     setShowCU(false);
-    setShowAllUpi(true)
+    setShowAllUpi(true);
   };
 
   return (
     <div className="udC">
-    {showAllUpi && (
-      <div className="udMainCon">
-        {/** TOP HEADER CONATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div className="searchIconContainer" onClick={goToPreviousPage}>
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
+      {showAllUpi && (
+        <div className="udMainCon">
+          {/** TOP HEADER CONATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div className="searchIconContainer" onClick={goToPreviousPage}>
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
+            </div>
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Skrill Payment
+              </label>
+            </div>
           </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              Skrill Payment
-            </label>
-          </div>
-        </div>
 
-        {loadingAllData ? (
-          <LoadingComponent />
-        ) : (
-          <>
-            {allDepositdata.length === 0 ? (
-              <NodataFound title={"This payment method is temporarily unavailable."} />
-            ) : (
-             
-              <>
-              <div className="upipdMainContainer">
-                {allDepositdata.map((item, index) => (
-                  <div 
-                  onClick={() => selecetingItemForDeposit(item)}
-                  key={item._id}
-                  className="upipdContentContainer">
-                    {/** TOP */}
-                    <div className="uCCTopC">
-                      <div className="hdContenContainerIcon">
-                        <img
-                          src={images.skrill}
-                          color={COLORS.background}
-                          size={"2.5rem"}
-                          className="paymenticon"
-                        />
-                      </div>
-
-                      <label className="pdB">Skrill</label>
-
-                     
-                    </div>
-                    {/** TOP */}
-
-                    {/** TOP */}
-                    <div className="uCCMidC">
-                      <div className="uCCTopFC">
-                        <label className="pdSB">Address</label>
-                      </div>
-                      <div className="uCCTopSC">
-                        <label className="pdR">{item.address}</label>
-                      </div>
-                      <div className="thirdChildD">
-
+          {loadingAllData ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              {allDepositdata.length === 0 ? (
+                <NodataFound
+                  title={"This payment method is temporarily unavailable."}
+                />
+              ) : (
+                <>
+                  <div className="upipdMainContainer">
+                    {allDepositdata.map((item, index) => (
                       <div
-                        onClick={(e) => handleCopyClick(e,item.address)}
-                        className="copyCon"
+                        onClick={() => selecetingItemForDeposit(item)}
+                        key={item._id}
+                        className="upipdContentContainer"
                       >
-                        <FaCopy color={COLORS.background} size={"2rem"} />
-                      </div>
-
-                      </div>
-                    </div>
-                    {/** TOP */}
-                    <div className="NotePatentContainer">
-                    <div className="uCCBottomC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">Note</label>
+                        {/** TOP */}
+                        <div className="uCCTopC">
+                          <div className="hdContenContainerIcon">
+                            <img
+                              src={images.skrill}
+                              color={COLORS.background}
+                              size={"2.5rem"}
+                              className="paymenticon"
+                            />
                           </div>
-                          <div className="uCCBottomSC">
-                            <label className="pdRBottom">
-                              {item.paymentnote}
-                            </label>
+
+                          <label className="pdB">Skrill</label>
+                        </div>
+                        {/** TOP */}
+
+                        {/** TOP */}
+                        <div className="uCCMidC">
+                          <div className="uCCTopFC">
+                            <label className="pdSB">Address</label>
+                          </div>
+                          <div className="uCCTopSC">
+                            <label className="pdR">{item.address}</label>
+                          </div>
+                          <div className="thirdChildD">
+                            <div
+                              onClick={(e) => handleCopyClick(e, item.address)}
+                              className="copyCon"
+                            >
+                              <FaCopy color={COLORS.background} size={"2rem"} />
+                            </div>
                           </div>
                         </div>
-                    </div>
-
+                        {/** TOP */}
+                        <div className="NotePatentContainer">
+                          <div className="uCCBottomC">
+                            <div className="uCCTopFC">
+                              <label className="pdSB">Note</label>
+                            </div>
+                            <div className="uCCBottomSC">
+                              <label className="pdRBottom">
+                                {item.paymentnote}
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              </>
-            )}
-          </>
-        )}
-      </div>
-    )}
-
-    {showCU && (
-      <>
-        {/** TOP NAVIGATION CONTATINER */}
-        <div className="alCreatLocationTopContainer">
-          <div
-            className="searchIconContainer"
-            onClick={backHandlerShowCreateUpi}
-          >
-            <IoArrowBackCircleOutline
-              color={COLORS.white_s}
-              size={"2.5rem"}
-            />
-          </div>
-          <div className="alCreatLocationTopContaineCL">
-            <label className="alCreatLocationTopContainerlabel">
-              Create Skrill Deposit
-            </label>
-          </div>
+                </>
+              )}
+            </>
+          )}
         </div>
-        {/** TOP NAVIGATION CONTATINER */}
+      )}
 
-        <div className="allLocationMainContainer">
-          {/** Amount */}
-          <label className="alCLLabel">Send Amount</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+      {showCU && (
+        <>
+          {/** TOP NAVIGATION CONTATINER */}
+          <div className="alCreatLocationTopContainer">
+            <div
+              className="searchIconContainer"
+              onClick={backHandlerShowCreateUpi}
+            >
+              <IoArrowBackCircleOutline
+                color={COLORS.white_s}
+                size={"2.5rem"}
+              />
             </div>
-
-            <input
-              className="al-search-input"
-              type="number"
-              name="amount"
-              placeholder="Enter amount"
-              value={amountval}
-              onChange={(e) => setAmountval(e.target.value)}
-            />
+            <div className="alCreatLocationTopContaineCL">
+              <label className="alCreatLocationTopContainerlabel">
+                Create Skrill Deposit
+              </label>
+            </div>
           </div>
+          {/** TOP NAVIGATION CONTATINER */}
 
-          {/** Transaction number */}
-          <label className="alCLLabel">Transaction number</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
+          <div className="allLocationMainContainer">
+            {/** Amount */}
+            <label className="alCLLabel">Send Amount</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
 
-            <input
-              className="al-search-input"
-              type="text"
-              name="transaction"
-              placeholder="Enter transaction number"
-              value={transactionval}
-              onChange={(e) => setTransactionval(e.target.value)}
-            />
-          </div>
-          {/** RECEIPT */}
-
-          {/** TITLE */}
-          <label className="alCLLabel">Upload Receipt</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-            </div>
-
-            <div className="imageContainerAC">
               <input
                 className="al-search-input"
-                placeholder="Receipt"
-                type="file"
-                name="file"
-                onChange={selectDoc}
-                accept="image/*"
+                type="number"
+                name="amount"
+                placeholder="Enter amount"
+                value={amountval}
+                onChange={(e) => setAmountval(e.target.value)}
+              />
+            </div>
+
+            {/** Transaction number */}
+            <label className="alCLLabel">Transaction number</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                type="text"
+                name="transaction"
+                placeholder="Enter transaction number"
+                value={transactionval}
+                onChange={(e) => setTransactionval(e.target.value)}
+              />
+            </div>
+            {/** RECEIPT */}
+
+            {/** TITLE */}
+            <label className="alCLLabel">Upload Receipt</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <div className="imageContainerAC">
+                <input
+                  className="al-search-input"
+                  placeholder="Receipt"
+                  type="file"
+                  name="file"
+                  onChange={selectDoc}
+                  accept="image/*"
+                />
+              </div>
+            </div>
+
+            <label className="alCLLabel">Remark</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                style={{
+                  minHeight: "5rem",
+                }}
+                type="text"
+                name="remark"
+                placeholder="Enter remark"
+                value={remarkval}
+                onChange={(e) => setRemarkval(e.target.value)}
               />
             </div>
           </div>
 
-          <label className="alCLLabel">Remark</label>
-          <div className="alSearchContainer">
-            <div className="searchIconContainer">
-              <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          {isLoading ? (
+            <LoadingComponent />
+          ) : (
+            <div className="alBottomContainer" onClick={submitDepositRequest}>
+              <label className="alBottomContainerlabel">Submit</label>
             </div>
-
-            <input
-              className="al-search-input"
-              style={{
-                minHeight: "5rem",
-              }}
-              type="text"
-              name="remark"
-              placeholder="Enter remark"
-              value={remarkval}
-              onChange={(e) => setRemarkval(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {isLoading ? (
-          <LoadingComponent />
-        ) : (
-          <div className="alBottomContainer" onClick={submitDepositRequest}>
-            <label className="alBottomContainerlabel">Submit</label>
-          </div>
-        )}
-      </>
-    )}
-  </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
 
