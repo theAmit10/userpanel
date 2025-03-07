@@ -195,3 +195,47 @@
     align-items: center;
 
 }
+.power-time-con{
+    background-color: var(--background);
+    height: 15rem;
+    width: 35rem;
+    border-radius: 1rem;
+    display: flex;
+    padding: 1rem;
+    cursor: pointer;
+    
+}
+.ptc-first{
+    height: 100%;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem;
+}
+.ptc-second{
+    height: 100%;
+    width: 30%;
+}
+.ptc-time-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 2.5rem;
+}
+.ptc-playnow-label{
+    color: var(--white_s);
+    font-family: "MR";
+    font-size: 2rem;
+}
+.ptcs-first{
+    height: 30%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.ptcs-second{
+    height: 70%;
+    width: 100%;
+}

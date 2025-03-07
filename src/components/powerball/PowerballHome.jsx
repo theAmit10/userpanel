@@ -23,7 +23,10 @@ const PowerballHome = ({ setSelectedCategory }) => {
                 PLAY FOR JUST 100 INR
               </label>
             </div>
-            <div className="btcf-second">
+            <div
+              className="btcf-second"
+              onClick={() => setSelectedCategory("PowerTime")}
+            >
               <label className="btcf-first-botton">BUY TICKETS</label>
               <GiDiamondTrophy color={COLORS.white_s} size={"3rem"} />
             </div>
