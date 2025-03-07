@@ -10,7 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
-import { useCreateDepositMutation } from "../../redux/api";
+import {
+  useCreateBankAccountMutation,
+  useCreateDepositMutation,
+  useDeleteBankAccountMutation,
+} from "../../redux/api";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
@@ -19,6 +23,8 @@ import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import Loader from "../molecule/Loader";
 
 function PartnerBank({ selectingPaymentType }) {
   const navigate = useNavigate();
@@ -58,8 +64,6 @@ function PartnerBank({ selectingPaymentType }) {
     setShowAllUpi(true);
   };
 
-  const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
-
   const [imageSource, setImageSource] = useState(null);
 
   // For Opening PhoneStorage
@@ -69,75 +73,6 @@ function PartnerBank({ selectingPaymentType }) {
       setImageSource(e.target.files[0]);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const submitDepositRequest = async () => {
-    if (!amountval) {
-      showErrorToast("Enter Deposit Amount");
-      return;
-    }
-    if (isNaN(amountval)) {
-      showErrorToast("Enter Valid Amount");
-      return;
-    }
-    if (!transactionval) {
-      showErrorToast("Enter Transaction Number");
-      return;
-    }
-    if (!imageSource) {
-      showErrorToast("Add Transaction Screenshot");
-      return;
-    }
-    try {
-      console.log("ELSE RUNNING");
-      console.log(amountval, transactionval, remarkval);
-
-      const formData = new FormData();
-      formData.append("amount", amountval);
-      formData.append("transactionid", transactionval);
-      formData.append("remark", remarkval);
-      formData.append("paymenttype", "Bank");
-      formData.append("paymenttypeid", selectedItem.paymentId);
-      formData.append("username", user.name);
-      formData.append("userid", user.userId);
-      formData.append("paymentstatus", "Pending");
-      formData.append("receipt", imageSource);
-      formData.append("transactionType", "Deposit");
-
-      console.log("FORM DATA :: " + JSON.stringify(formData));
-      console.log(formData);
-
-      // Logging form data for inspection
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
-      console.log(formData); // To see the complete FormData object
-
-      const res = await createDeposit({
-        accessToken: accesstoken,
-        body: formData,
-      }).unwrap();
-
-      console.log("Success");
-      console.log(res);
-      console.log(res.message);
-
-      await showSuccessToast(res.message);
-
-      hideAllform();
-      goToPreviousPage();
-    } catch (error) {
-      console.log("Error during deposit:", error);
-      if (error.response) {
-        Toast.show({ type: "error", text1: error.response.data });
-        showErrorToast(error.response.data);
-      } else if (error.request) {
-        showErrorToast("Request was made, but no response was received");
-      } else {
-        showErrorToast(error.message);
-      }
     }
   };
 
@@ -181,6 +116,133 @@ function PartnerBank({ selectingPaymentType }) {
       });
   };
 
+  const [bankname, setbankname] = useState("");
+  const [accountholdername, setaccountholdername] = useState("");
+  const [ifsccode, setifsccode] = useState("");
+  const [accountnumber, setaccountnumber] = useState("");
+  const [swiftcode, setswiftcode] = useState("");
+  const [paymentnote, setpaymentnote] = useState("");
+  const [seletedItem, setSelectedItem] = useState("");
+
+  const [
+    deleteBankAccount,
+    { isLoading: deleteIsLoading, isError: deleteIsError },
+  ] = useDeleteBankAccountMutation();
+
+  // FOR DELETING DATA
+
+  const deletingData = async (item) => {
+    console.log("Deleting Data");
+    setSelectedItem(item._id);
+
+    const res = await deleteBankAccount({
+      accesstoken: accesstoken,
+      id: item._id,
+    }).unwrap();
+
+    allTheDepositData();
+
+    showSuccessToast(res.message);
+  };
+
+  // FOR CREATING BANK ACCOUNT
+
+  // TO GET ALL THE ADMIN BANK
+
+  const [createBankAccount, { isLoading, error }] =
+    useCreateBankAccountMutation();
+
+  const submitCreateRequest = async () => {
+    if (!bankname) {
+      showErrorToast("Enter bank name");
+      return;
+    }
+    if (!accountholdername) {
+      showErrorToast("Enter account holder name");
+      return;
+    }
+    if (!ifsccode) {
+      showErrorToast("Add ifsc code / routing no.");
+      return;
+    }
+    if (!accountnumber) {
+      showErrorToast("Add account number");
+      return;
+    }
+    if (!paymentnote) {
+      showErrorToast("Add payment note");
+      return;
+    } else {
+      try {
+        if (swiftcode) {
+          const body = {
+            bankname,
+            accountholdername,
+            ifsccode,
+            accountnumber,
+            swiftcode,
+            paymentnote,
+            userId: user.userId,
+          };
+
+          console.log("JSON BODY :: ", JSON.stringify(body));
+
+          const res = await createBankAccount({
+            accesstoken: accesstoken,
+            body: body,
+          }).unwrap();
+
+          showSuccessToast(res.message);
+          allTheDepositData();
+          backHandlerShowCreateUpi();
+          setbankname("");
+          setifsccode("");
+          setaccountholdername("");
+          setaccountnumber("");
+          setpaymentnote("");
+        } else {
+          const body = {
+            bankname,
+            accountholdername,
+            ifsccode,
+            accountnumber,
+            paymentnote,
+            userId: user.userId,
+          };
+
+          console.log("JSON BODY :: ", JSON.stringify(body));
+
+          const res = await createBankAccount({
+            accesstoken: accesstoken,
+            body: body,
+          }).unwrap();
+
+          showSuccessToast(res.message);
+          allTheDepositData();
+          backHandlerShowCreateUpi();
+          setbankname("");
+          setifsccode("");
+          setaccountholdername("");
+          setaccountnumber("");
+          setpaymentnote("");
+        }
+      } catch (error) {
+        showErrorToast("Something went wrong");
+        console.log("Error during deposit:", error);
+        if (error.response) {
+          // Toast.show({ type: 'error', text1: error.response.data });
+        } else if (error.request) {
+          // Toast.show({
+          //   type: 'error',
+          //   text1: 'Request was made, but no response was received',
+          // });
+        } else {
+          // Toast.show({ type: 'error', text1: error.message });
+        }
+      }
+    }
+  };
+
   return (
     <div className="udC">
       {showAllUpi && (
@@ -198,6 +260,15 @@ function PartnerBank({ selectingPaymentType }) {
                 Bank Payment
               </label>
             </div>
+            <div
+              className="searchIconContainer"
+              onClick={selecetingItemForDeposit}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <IoIosAddCircleOutline color={COLORS.white_s} size={"2.5rem"} />
+            </div>
           </div>
 
           {loadingAllData ? (
@@ -212,11 +283,7 @@ function PartnerBank({ selectingPaymentType }) {
                 <>
                   <div className="upipdMainContainer">
                     {allDepositdata.map((item, index) => (
-                      <div
-                        key={item._id}
-                        className="upipdContentContainer"
-                        onClick={() => selecetingItemForDeposit(item)}
-                      >
+                      <div key={item._id} className="upipdContentContainer">
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
@@ -228,7 +295,7 @@ function PartnerBank({ selectingPaymentType }) {
                             />
                           </div>
 
-                          <label className="pdB">Bank</label>
+                          {/* <label className="pdB">Bank</label> */}
                           <label
                             className="pdB"
                             style={{
@@ -242,6 +309,37 @@ function PartnerBank({ selectingPaymentType }) {
                           >
                             {item.paymentStatus}
                           </label>
+                          {deleteIsLoading ? (
+                            seletedItem === item._id ? (
+                              <div
+                                style={{
+                                  width: "3rem",
+                                }}
+                              >
+                                <Loader />
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => deletingData(item)}
+                                className="hdContenContainerIcon"
+                              >
+                                <MdDelete
+                                  color={COLORS.background}
+                                  size={"2.5rem"}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <div
+                              className="hdContenContainerIcon"
+                              onClick={() => deletingData(item)}
+                            >
+                              <MdDelete
+                                color={COLORS.background}
+                                size={"2.5rem"}
+                              />
+                            </div>
+                          )}
                         </div>
                         {/** TOP */}
 
@@ -392,15 +490,15 @@ function PartnerBank({ selectingPaymentType }) {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create Bank Deposit
+                Create Bank Payment
               </label>
             </div>
           </div>
           {/** TOP NAVIGATION CONTATINER */}
 
           <div className="allLocationMainContainer">
-            {/** Amount */}
-            <label className="alCLLabel">Send Amount</label>
+            {/** UPI HOLDER NAME */}
+            <label className="alCLLabel">Bank name</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -408,16 +506,14 @@ function PartnerBank({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                type="number"
-                name="amount"
-                placeholder="Enter amount"
-                value={amountval}
-                onChange={(e) => setAmountval(e.target.value)}
+                placeholder="Enter bank name"
+                value={bankname}
+                onChange={(e) => setbankname(e.target.value)}
               />
             </div>
 
-            {/** Transaction number */}
-            <label className="alCLLabel">Transaction number</label>
+            {/** UPI ID */}
+            <label className="alCLLabel">Account holder name</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -425,35 +521,14 @@ function PartnerBank({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                type="text"
-                name="transaction"
-                placeholder="Enter transaction number"
-                value={transactionval}
-                onChange={(e) => setTransactionval(e.target.value)}
+                placeholder="Enter account holder name"
+                value={accountholdername}
+                onChange={(e) => setaccountholdername(e.target.value)}
               />
             </div>
-            {/** RECEIPT */}
 
-            {/** TITLE */}
-            <label className="alCLLabel">Upload Receipt</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-              </div>
-
-              <div className="imageContainerAC">
-                <input
-                  className="al-search-input"
-                  placeholder="Receipt"
-                  type="file"
-                  name="file"
-                  accept="image/*"
-                  onChange={selectDoc}
-                />
-              </div>
-            </div>
-
-            <label className="alCLLabel">Remark</label>
+            {/** UPI ID */}
+            <label className="alCLLabel">Account number</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -461,14 +536,54 @@ function PartnerBank({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                style={{
-                  minHeight: "5rem",
-                }}
-                type="text"
-                name="remark"
-                placeholder="Enter remark"
-                value={remarkval}
-                onChange={(e) => setRemarkval(e.target.value)}
+                placeholder="Enter account number"
+                value={accountnumber}
+                onChange={(e) => setaccountnumber(e.target.value)}
+              />
+            </div>
+
+            {/** UPI ID */}
+            <label className="alCLLabel">IFSC code / Routing no.</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                placeholder="Enter IFSC code / Routing no."
+                value={ifsccode}
+                onChange={(e) => setifsccode(e.target.value)}
+              />
+            </div>
+
+            {/** SWIFT CODE */}
+            <label className="alCLLabel">Swift code (Optional)</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                placeholder="Enter swift code"
+                value={swiftcode}
+                onChange={(e) => setswiftcode(e.target.value)}
+              />
+            </div>
+
+            {/** PAYMENT NOTE */}
+            <label className="alCLLabel">Note</label>
+            <div className="alSearchContainer">
+              <div className="searchIconContainer">
+                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              </div>
+
+              <input
+                className="al-search-input"
+                placeholder="Enter note"
+                value={paymentnote}
+                onChange={(e) => setpaymentnote(e.target.value)}
               />
             </div>
           </div>
@@ -476,7 +591,7 @@ function PartnerBank({ selectingPaymentType }) {
           {isLoading ? (
             <LoadingComponent />
           ) : (
-            <div className="alBottomContainer" onClick={submitDepositRequest}>
+            <div className="alBottomContainer" onClick={submitCreateRequest}>
               <label className="alBottomContainerlabel">Submit</label>
             </div>
           )}
