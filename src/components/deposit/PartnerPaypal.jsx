@@ -1,45 +1,60 @@
 import React, { useEffect, useState } from "react";
-import "./UD.css";
+import "./Upideposit.css";
+import FONT from "../../assets/constants/fonts";
+import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { useCreateDepositMutation } from "../../redux/api";
+import {
+  useCreateDepositMutation,
+  useCreatePaypalAccountMutation,
+  useDeletePaypalAccountMutation,
+} from "../../redux/api";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
-import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
-
-export const UD = ({ selectingPaymentType }) => {
-  const [showAllUpi, setShowAllUpi] = useState(true);
+import TextLabel from "../atom/TextLabel";
+import SubmitButton from "../atom/SubmitButton";
+import { MdDelete } from "react-icons/md";
+import Loader from "../molecule/Loader";
+import { IoIosAddCircleOutline } from "react-icons/io";
+function PartnerPaypal({ selectingPaymentType }) {
+  const [amountval, setAmountval] = useState("");
+  const [transactionval, setTransactionval] = useState("");
+  const [remarkval, setRemarkval] = useState("");
+  const { accesstoken, user, partner } = useSelector((state) => state.user);
 
   const goToPreviousPage = () => {
     selectingPaymentType(""); // Resetting selectedPayment in the parent
     console.log("GOING PREVIOUS PAGE");
   };
 
-  const [amountval, setAmountval] = useState("");
-  const [transactionval, setTransactionval] = useState("");
-  const [remarkval, setRemarkval] = useState("");
-  const { accesstoken, user } = useSelector((state) => state.user);
   const [selectedItem, setSelecetedItem] = useState("");
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
-  const selecetingItemForDeposit = (item) => {
-    setSelecetedItem(item);
+  const selecetingItemForDeposit = () => {
     setShowCU(true);
     setShowAllUpi(false);
   };
 
+  const showingPaymentForm = () => {
+    setShowPaymentForm(true);
+  };
+
   const hideAllform = () => {
+    setShowPaymentForm(false);
     setSelecetedItem("");
   };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
+
   const [imageSource, setImageSource] = useState(null);
+
   // For Opening PhoneStorage
   const selectDoc = (e) => {
     try {
@@ -76,7 +91,7 @@ export const UD = ({ selectingPaymentType }) => {
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append("paymenttype", "Upi");
+      formData.append("paymenttype", "Paypal");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -105,7 +120,7 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(res);
       console.log(res.message);
 
-      showSuccessToast(res.message);
+      await showSuccessToast(res.message);
 
       hideAllform();
       goToPreviousPage();
@@ -124,6 +139,7 @@ export const UD = ({ selectingPaymentType }) => {
 
   const [loadingAllData, setLoadingAllData] = useState(false);
   const [allDepositdata, setAllDepositData] = useState([]);
+  const [seletedItem, setSelectedItem] = useState("");
 
   useEffect(() => {
     allTheDepositData();
@@ -132,7 +148,8 @@ export const UD = ({ selectingPaymentType }) => {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_UPI_API, {
+      const url = `${UrlHelper.PARTNER_PAYPAL_API}/${partner.rechargeModule}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -140,7 +157,7 @@ export const UD = ({ selectingPaymentType }) => {
       });
 
       console.log("datat :: " + JSON.stringify(data));
-      setAllDepositData(data.payments);
+      setAllDepositData(data.paypalList);
       setLoadingAllData(false);
     } catch (error) {
       setLoadingAllData(false);
@@ -148,6 +165,8 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(error);
     }
   };
+
+  const [showAllUpi, setShowAllUpi] = useState(true);
 
   const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
@@ -168,6 +187,80 @@ export const UD = ({ selectingPaymentType }) => {
     setShowAllUpi(true);
   };
 
+  const [
+    deletePaypalAccount,
+    { isLoading: deleteIsLoading, isError: deleteIsError },
+  ] = useDeletePaypalAccountMutation();
+
+  // FOR DELETING DATA
+
+  const deletingData = async (item) => {
+    console.log("Deleting Data");
+    setSelectedItem(item._id);
+
+    const res = await deletePaypalAccount({
+      accesstoken: accesstoken,
+      id: item._id,
+    }).unwrap();
+
+    allTheDepositData();
+
+    showSuccessToast(res.message);
+  };
+
+  // CREATING PAYPAL ACCOUNT
+
+  const [emailaddress, setemailaddress] = useState("");
+  const [paymentnote, setpaymentnote] = useState("");
+  const [createSkrillAccount, { isLoading: createIsLoading }] =
+    useCreatePaypalAccountMutation();
+
+  const submitCreateRequest = async () => {
+    if (!emailaddress) {
+      showErrorToast("Enter email address");
+      return;
+    }
+    if (!paymentnote) {
+      showErrorToast("Add payment note");
+      return;
+    } else {
+      try {
+        const body = {
+          emailaddress,
+          paymentnote,
+          userId: user.userId,
+        };
+
+        console.log("JSON BODY :: ", JSON.stringify(body));
+
+        const res = await createSkrillAccount({
+          accesstoken: accesstoken,
+          body: body,
+        }).unwrap();
+
+        showSuccessToast(res.message);
+        allTheDepositData();
+        backHandlerShowCreateUpi();
+        setemailaddress("");
+        setpaymentnote("");
+      } catch (error) {
+        console.log("Error during deposit:", error);
+        showErrorToast("Something went wrong");
+
+        // if (error.response) {
+        //   Toast.show({type: 'error', text1: error.response.data});
+        // } else if (error.request) {
+        //   Toast.show({
+        //     type: 'error',
+        //     text1: 'Request was made, but no response was received',
+        //   });
+        // } else {
+        //   Toast.show({type: 'error', text1: error.message});
+        // }
+      }
+    }
+  };
+
   return (
     <div className="udC">
       {showAllUpi && (
@@ -182,8 +275,17 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                UPI Payment
+                Paypal Deposit
               </label>
+            </div>
+            <div
+              className="searchIconContainer"
+              onClick={selecetingItemForDeposit}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <IoIosAddCircleOutline color={COLORS.white_s} size={"2.5rem"} />
             </div>
           </div>
 
@@ -199,38 +301,79 @@ export const UD = ({ selectingPaymentType }) => {
                 <>
                   <div className="upipdMainContainer">
                     {allDepositdata.map((item, index) => (
-                      <div
-                        key={item._id}
-                        className="upipdContentContainer"
-                        onClick={() => selecetingItemForDeposit(item)}
-                      >
+                      <div key={item._id} className="upipdContentContainer">
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
                             <img
-                              src={images.upi}
+                              src={images.paypal}
                               color={COLORS.background}
                               size={"2.5rem"}
                               className="paymenticon"
                             />
                           </div>
 
-                          <label className="pdB">UPI</label>
+                          {/* <label className="pdB">Paypal</label> */}
+                          <label
+                            className="pdB"
+                            style={{
+                              color:
+                                item.paymentStatus === "Pending"
+                                  ? COLORS.orange
+                                  : item.paymentStatus === "Cancelled"
+                                  ? COLORS.red
+                                  : COLORS.green,
+                            }}
+                          >
+                            {item.paymentStatus}
+                          </label>
+
+                          {deleteIsLoading ? (
+                            seletedItem === item._id ? (
+                              <div
+                                style={{
+                                  width: "3rem",
+                                }}
+                              >
+                                <Loader />
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => deletingData(item)}
+                                className="hdContenContainerIcon"
+                              >
+                                <MdDelete
+                                  color={COLORS.background}
+                                  size={"2.5rem"}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <div
+                              className="hdContenContainerIcon"
+                              onClick={() => deletingData(item)}
+                            >
+                              <MdDelete
+                                color={COLORS.background}
+                                size={"2.5rem"}
+                              />
+                            </div>
+                          )}
                         </div>
                         {/** TOP */}
 
                         {/** TOP */}
                         <div className="uCCMidC">
                           <div className="uCCTopFC">
-                            <label className="pdSB">Holder name</label>
+                            <label className="pdSB">Email address</label>
                           </div>
                           <div className="uCCTopSC">
-                            <label className="pdR">{item.upiholdername}</label>
+                            <label className="pdR"> {item.emailaddress}</label>
                           </div>
                           <div className="thirdChildD">
                             <div
                               onClick={(e) =>
-                                handleCopyClick(e, item.upiholdername)
+                                handleCopyClick(e, item.emailaddress)
                               }
                               className="copyCon"
                             >
@@ -239,52 +382,7 @@ export const UD = ({ selectingPaymentType }) => {
                           </div>
                         </div>
 
-                        {/** TESTING */}
-                        {/* <div className="parentContetDeposit">
-                          <div className="firstChildD">
-                          <label className="pdSB">Holder name</label>
-                          </div>
-                          <div className="secondChildD"><label className="pdR">{item.upiholdername} Chumu hai jo koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn  koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn adkadjk</label></div>
-                          <div className="thirdChildD">
-                          <div
-                            onClick={() => handleCopyClick(item.upiholdername)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
-                          </div>
-                        </div> */}
                         {/** TOP */}
-
-                        {/** TOP */}
-                        <div className="uCCMidC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">UPI ID</label>
-                          </div>
-                          <div className="uCCTopSC">
-                            <label className="pdR">{item.upiid}</label>
-                          </div>
-                          <div className="thirdChildD">
-                            <div
-                              onClick={(e) => handleCopyClick(e, item.upiid)}
-                              className="copyCon"
-                            >
-                              <FaCopy color={COLORS.background} size={"2rem"} />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/** TOP */}
-
-                        <div className="qrcontiner">
-                          <div className="qrcontinerMain">
-                            <img
-                              src={`${serverName}/uploads/upiqrcode/${item.qrcode}`}
-                              className="qrimg"
-                            />
-                          </div>
-                        </div>
-
                         <div className="NotePatentContainer">
                           <div className="uCCBottomC">
                             <div className="uCCTopFC">
@@ -322,15 +420,15 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create UPI Deposit
+                Create Paypal Payment
               </label>
             </div>
           </div>
           {/** TOP NAVIGATION CONTATINER */}
 
           <div className="allLocationMainContainer">
-            {/** Amount */}
-            <label className="alCLLabel">Send Amount</label>
+            {/** UPI HOLDER NAME */}
+            <label className="alCLLabel">Email address</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -338,16 +436,14 @@ export const UD = ({ selectingPaymentType }) => {
 
               <input
                 className="al-search-input"
-                type="number"
-                name="amount"
-                placeholder="Enter amount"
-                value={amountval}
-                onChange={(e) => setAmountval(e.target.value)}
+                placeholder="Enter email address"
+                value={emailaddress}
+                onChange={(e) => setemailaddress(e.target.value)}
               />
             </div>
 
-            {/** Transaction number */}
-            <label className="alCLLabel">Transaction number</label>
+            {/** PAYMENT NOTE */}
+            <label className="alCLLabel">Note</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -355,58 +451,17 @@ export const UD = ({ selectingPaymentType }) => {
 
               <input
                 className="al-search-input"
-                type="text"
-                name="transaction"
-                placeholder="Enter transaction number"
-                value={transactionval}
-                onChange={(e) => setTransactionval(e.target.value)}
-              />
-            </div>
-            {/** RECEIPT */}
-
-            {/** TITLE */}
-            <label className="alCLLabel">Upload Receipt</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-              </div>
-
-              <div className="imageContainerAC">
-                <input
-                  className="al-search-input"
-                  placeholder="Receipt"
-                  type="file"
-                  name="file"
-                  onChange={selectDoc}
-                  accept="image/*"
-                />
-              </div>
-            </div>
-
-            <label className="alCLLabel">Remark</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-              </div>
-
-              <input
-                className="al-search-input"
-                style={{
-                  minHeight: "5rem",
-                }}
-                type="text"
-                name="remark"
-                placeholder="Enter remark"
-                value={remarkval}
-                onChange={(e) => setRemarkval(e.target.value)}
+                placeholder="Enter note"
+                value={paymentnote}
+                onChange={(e) => setpaymentnote(e.target.value)}
               />
             </div>
           </div>
 
-          {isLoading ? (
+          {createIsLoading ? (
             <LoadingComponent />
           ) : (
-            <div className="alBottomContainer" onClick={submitDepositRequest}>
+            <div className="alBottomContainer" onClick={submitCreateRequest}>
               <label className="alBottomContainerlabel">Submit</label>
             </div>
           )}
@@ -414,4 +469,6 @@ export const UD = ({ selectingPaymentType }) => {
       )}
     </div>
   );
-};
+}
+
+export default PartnerPaypal;

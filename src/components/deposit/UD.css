@@ -27,7 +27,8 @@
 
 .upipdContentContainer{
     min-height: 60vh;
-    width: 35rem;
+    min-width: 35rem;
+    max-width: 35rem;
     background-color: var(--background);
     border-radius: 1rem;
     display: flex;

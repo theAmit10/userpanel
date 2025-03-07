@@ -19,7 +19,7 @@ const Partner = () => {
 
   useEffect(() => {
     if (user && accesstoken) {
-      dispatch(loadPartnerProfile(accesstoken, user.parentPartnerId));
+      dispatch(loadPartnerProfile(accesstoken, user.userId));
     }
   }, [dispatch]);
 
@@ -30,7 +30,7 @@ const Partner = () => {
 
   const partnerData = {
     userId: user?.parentPartnerId,
-    name: partner?.name,
+    name: "Partner",
   };
 
   return (

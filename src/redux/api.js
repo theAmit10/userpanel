@@ -503,11 +503,37 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    // FOR DELETE A PAYPAL ACCOUNT
+    deletePaypalAccount: builder.mutation({
+      query: ({ accesstoken, id }) => ({
+        url: `result/removepaypalpayment/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
+
+    // FOR CREATE A PAYPAL ACCOUNT
+    createPaypalAccount: builder.mutation({
+      query: ({ accesstoken, body }) => ({
+        url: "result/addpaypalpayment",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+          "Content-Type": "application/json",
+        },
+        body,
+      }),
+    }),
+
     // ######## END #########
   }),
 });
 
 export const {
+  useCreatePaypalAccountMutation,
+  useDeletePaypalAccountMutation,
   useCreateNotificationMutation,
   useCreatePowerballBetMutation,
   useGetPowerDatesByTimeQuery,

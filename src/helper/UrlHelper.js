@@ -55,7 +55,32 @@ const BALANCE_TRANSFER_TO_WALLET_TWO_API = server + "user/balancetransfer";
 
 const PARTNER_PROFILE_API = server + "user/getpartnerbyuserid";
 
+const PARTNER_PAYPAL_API = server + "result/getpartnerpaypallist";
+const PARTNER_USER_PAYPAL_API = server + "result/getuserpaypalpaymets";
+
+const PARTNER_SKRILL_API = server + "result/getpartnerskrilllist";
+const PARTNER_USER_SKRILL_API = server + "result/getuserskrillpaymets";
+
+const PARTNER_CRYPTO_API = server + "result/getpartnercryptolist";
+const PARTNER_USER_CRYPTO_API = server + "result/getusercryptopaymets";
+
+const PARTNER_UPI_API = server + "result/getpartnerupilist";
+const PARTNER_USER_UPI_API = server + "result/getuserupipaymets";
+
+const PARTNER_BANK_API = server + "result/getpartnerbanklist";
+const PARTNER_USER_BANK_API = server + "result/getuserbankpaymets";
+
 export default {
+  PARTNER_UPI_API,
+  PARTNER_BANK_API,
+  PARTNER_CRYPTO_API,
+  PARTNER_USER_BANK_API,
+  PARTNER_USER_CRYPTO_API,
+  PARTNER_USER_UPI_API,
+  PARTNER_PAYPAL_API,
+  PARTNER_USER_PAYPAL_API,
+  PARTNER_SKRILL_API,
+  PARTNER_USER_SKRILL_API,
   PARTNER_PROFILE_API,
   LOGIN_API,
   USER_PROFILE_API,

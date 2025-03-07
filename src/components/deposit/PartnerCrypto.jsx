@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from "react";
-import "./UD.css";
+import "./Upideposit.css";
+import FONT from "../../assets/constants/fonts";
+import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
+import { flushSync } from "react-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateDepositMutation } from "../../redux/api";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
-import { LoadingComponent } from "../helper/LoadingComponent";
+import CircularProgressBar from "../helper/CircularProgressBar";
 import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
+import { LoadingComponent } from "../helper/LoadingComponent";
 
-export const UD = ({ selectingPaymentType }) => {
-  const [showAllUpi, setShowAllUpi] = useState(true);
+function PartnerCrypto({ selectingPaymentType }) {
+  const [amountval, setAmountval] = useState("");
+  const [transactionval, setTransactionval] = useState("");
+  const [remarkval, setRemarkval] = useState("");
+  const { accesstoken, user, partner } = useSelector((state) => state.user);
 
   const goToPreviousPage = () => {
     selectingPaymentType(""); // Resetting selectedPayment in the parent
     console.log("GOING PREVIOUS PAGE");
   };
 
-  const [amountval, setAmountval] = useState("");
-  const [transactionval, setTransactionval] = useState("");
-  const [remarkval, setRemarkval] = useState("");
-  const { accesstoken, user } = useSelector((state) => state.user);
   const [selectedItem, setSelecetedItem] = useState("");
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
@@ -34,12 +39,19 @@ export const UD = ({ selectingPaymentType }) => {
     setShowAllUpi(false);
   };
 
+  const showingPaymentForm = () => {
+    setShowPaymentForm(true);
+  };
+
   const hideAllform = () => {
+    setShowPaymentForm(false);
     setSelecetedItem("");
   };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
+
   const [imageSource, setImageSource] = useState(null);
+
   // For Opening PhoneStorage
   const selectDoc = (e) => {
     try {
@@ -59,7 +71,6 @@ export const UD = ({ selectingPaymentType }) => {
       showErrorToast("Enter Valid Amount");
       return;
     }
-
     if (!transactionval) {
       showErrorToast("Enter Transaction Number");
       return;
@@ -76,7 +87,7 @@ export const UD = ({ selectingPaymentType }) => {
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append("paymenttype", "Upi");
+      formData.append("paymenttype", "Crypto");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -105,7 +116,7 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(res);
       console.log(res.message);
 
-      showSuccessToast(res.message);
+      await showSuccessToast(res.message);
 
       hideAllform();
       goToPreviousPage();
@@ -132,7 +143,9 @@ export const UD = ({ selectingPaymentType }) => {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_UPI_API, {
+
+      const url = `${UrlHelper.PARTNER_CRYPTO_API}/${partner.rechargeModule}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -140,7 +153,7 @@ export const UD = ({ selectingPaymentType }) => {
       });
 
       console.log("datat :: " + JSON.stringify(data));
-      setAllDepositData(data.payments);
+      setAllDepositData(data.cryptoList);
       setLoadingAllData(false);
     } catch (error) {
       setLoadingAllData(false);
@@ -148,6 +161,8 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(error);
     }
   };
+
+  const [showAllUpi, setShowAllUpi] = useState(true);
 
   const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
@@ -182,7 +197,7 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                UPI Payment
+                Crypto Deposit
               </label>
             </div>
           </div>
@@ -201,36 +216,51 @@ export const UD = ({ selectingPaymentType }) => {
                     {allDepositdata.map((item, index) => (
                       <div
                         key={item._id}
-                        className="upipdContentContainer"
                         onClick={() => selecetingItemForDeposit(item)}
+                        className="upipdContentContainer"
                       >
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
                             <img
-                              src={images.upi}
+                              src={images.crypto}
                               color={COLORS.background}
                               size={"2.5rem"}
                               className="paymenticon"
                             />
                           </div>
 
-                          <label className="pdB">UPI</label>
+                          {/* <label className="pdB">Crypto {item.paymentId}</label> */}
+                          <label className="pdB">Crypto</label>
+                          <label
+                            className="pdB"
+                            style={{
+                              color:
+                                item.paymentStatus === "Pending"
+                                  ? COLORS.orange
+                                  : item.paymentStatus === "Cancelled"
+                                  ? COLORS.red
+                                  : COLORS.green,
+                            }}
+                          >
+                            {item.paymentStatus}
+                          </label>
                         </div>
                         {/** TOP */}
 
                         {/** TOP */}
                         <div className="uCCMidC">
                           <div className="uCCTopFC">
-                            <label className="pdSB">Holder name</label>
+                            <label className="pdSB">Wallet address</label>
                           </div>
                           <div className="uCCTopSC">
-                            <label className="pdR">{item.upiholdername}</label>
+                            <label className="pdR">{item.walletaddress}</label>
                           </div>
+
                           <div className="thirdChildD">
                             <div
                               onClick={(e) =>
-                                handleCopyClick(e, item.upiholdername)
+                                handleCopyClick(e, item.walletaddress)
                               }
                               className="copyCon"
                             >
@@ -238,53 +268,37 @@ export const UD = ({ selectingPaymentType }) => {
                             </div>
                           </div>
                         </div>
-
-                        {/** TESTING */}
-                        {/* <div className="parentContetDeposit">
-                          <div className="firstChildD">
-                          <label className="pdSB">Holder name</label>
-                          </div>
-                          <div className="secondChildD"><label className="pdR">{item.upiholdername} Chumu hai jo koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn  koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn adkadjk</label></div>
-                          <div className="thirdChildD">
-                          <div
-                            onClick={() => handleCopyClick(item.upiholdername)}
-                            className="copyCon"
-                          >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
-                          </div>
-                        </div> */}
                         {/** TOP */}
 
                         {/** TOP */}
                         <div className="uCCMidC">
                           <div className="uCCTopFC">
-                            <label className="pdSB">UPI ID</label>
+                            <label className="pdSB">Network type</label>
                           </div>
                           <div className="uCCTopSC">
-                            <label className="pdR">{item.upiid}</label>
+                            <label className="pdR"> {item.networktype}</label>
                           </div>
                           <div className="thirdChildD">
                             <div
-                              onClick={(e) => handleCopyClick(e, item.upiid)}
+                              onClick={(e) =>
+                                handleCopyClick(e, item.networktype)
+                              }
                               className="copyCon"
                             >
                               <FaCopy color={COLORS.background} size={"2rem"} />
                             </div>
                           </div>
                         </div>
-
                         {/** TOP */}
 
                         <div className="qrcontiner">
                           <div className="qrcontinerMain">
                             <img
-                              src={`${serverName}/uploads/upiqrcode/${item.qrcode}`}
+                              src={`${serverName}/uploads/cryptoqrcode/${item.qrcode}`}
                               className="qrimg"
                             />
                           </div>
                         </div>
-
                         <div className="NotePatentContainer">
                           <div className="uCCBottomC">
                             <div className="uCCTopFC">
@@ -322,7 +336,7 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create UPI Deposit
+                Create Crypto Deposit
               </label>
             </div>
           </div>
@@ -330,7 +344,7 @@ export const UD = ({ selectingPaymentType }) => {
 
           <div className="allLocationMainContainer">
             {/** Amount */}
-            <label className="alCLLabel">Send Amount</label>
+            <label className="alCLLabel">Amount In USD</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -414,4 +428,6 @@ export const UD = ({ selectingPaymentType }) => {
       )}
     </div>
   );
-};
+}
+
+export default PartnerCrypto;

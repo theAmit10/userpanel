@@ -9,6 +9,11 @@ const HeaderComp = ({
   setSelectedCategory,
   closePartnerDetails,
 }) => {
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * This function is used to handle the event when the back button is
+   * pressed. If closePartnerDetails is true, it will call the
+/******  06fb441e-e08c-41fc-8c55-ca5b2afb1baa  *******/
   const handlePress = () => {
     if (closePartnerDetails) {
       closePartnerDetails();

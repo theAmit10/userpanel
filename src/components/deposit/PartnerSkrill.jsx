@@ -1,45 +1,65 @@
 import React, { useEffect, useState } from "react";
-import "./UD.css";
+import "./Upideposit.css";
+import FONT from "../../assets/constants/fonts";
+import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
+import { flushSync } from "react-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateDepositMutation } from "../../redux/api";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { MdDelete } from "react-icons/md";
 import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 
-export const UD = ({ selectingPaymentType }) => {
-  const [showAllUpi, setShowAllUpi] = useState(true);
+const upiapidata = [
+  { name: "Wasu", upiid: "9876543210@ybl", id: "1" },
+  { name: "Aman", upiid: "8876543210@ybl", id: "2" },
+  { name: "Zasu", upiid: "7876543210@ybl", id: "3" },
+  { name: "Masu", upiid: "1876543210@ybl", id: "4" },
+  { name: "Kasu", upiid: "2876543210@ybl", id: "5" },
+];
+
+function PartnerSkrill({ selectingPaymentType }) {
+  const [amountval, setAmountval] = useState("");
+  const [transactionval, setTransactionval] = useState("");
+  const [remarkval, setRemarkval] = useState("");
+  const { accesstoken, user, partner } = useSelector((state) => state.user);
 
   const goToPreviousPage = () => {
     selectingPaymentType(""); // Resetting selectedPayment in the parent
     console.log("GOING PREVIOUS PAGE");
   };
 
-  const [amountval, setAmountval] = useState("");
-  const [transactionval, setTransactionval] = useState("");
-  const [remarkval, setRemarkval] = useState("");
-  const { accesstoken, user } = useSelector((state) => state.user);
   const [selectedItem, setSelecetedItem] = useState("");
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);
     setShowCU(true);
     setShowAllUpi(false);
   };
+  const showingPaymentForm = () => {
+    setShowPaymentForm(true);
+  };
 
   const hideAllform = () => {
+    setShowPaymentForm(false);
     setSelecetedItem("");
   };
 
   const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
+
   const [imageSource, setImageSource] = useState(null);
+
   // For Opening PhoneStorage
   const selectDoc = (e) => {
     try {
@@ -76,7 +96,7 @@ export const UD = ({ selectingPaymentType }) => {
       formData.append("amount", amountval);
       formData.append("transactionid", transactionval);
       formData.append("remark", remarkval);
-      formData.append("paymenttype", "Upi");
+      formData.append("paymenttype", "Skrill");
       formData.append("paymenttypeid", selectedItem.paymentId);
       formData.append("username", user.name);
       formData.append("userid", user.userId);
@@ -105,7 +125,7 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(res);
       console.log(res.message);
 
-      showSuccessToast(res.message);
+      await showSuccessToast(res.message);
 
       hideAllform();
       goToPreviousPage();
@@ -132,7 +152,8 @@ export const UD = ({ selectingPaymentType }) => {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_UPI_API, {
+      const url = `${UrlHelper.PARTNER_SKRILL_API}/${partner.rechargeModule}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -140,7 +161,7 @@ export const UD = ({ selectingPaymentType }) => {
       });
 
       console.log("datat :: " + JSON.stringify(data));
-      setAllDepositData(data.payments);
+      setAllDepositData(data.skrillList);
       setLoadingAllData(false);
     } catch (error) {
       setLoadingAllData(false);
@@ -148,6 +169,8 @@ export const UD = ({ selectingPaymentType }) => {
       console.log(error);
     }
   };
+
+  const [showAllUpi, setShowAllUpi] = useState(true);
 
   const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
@@ -182,7 +205,7 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                UPI Payment
+                Skrill Payment
               </label>
             </div>
           </div>
@@ -200,91 +223,56 @@ export const UD = ({ selectingPaymentType }) => {
                   <div className="upipdMainContainer">
                     {allDepositdata.map((item, index) => (
                       <div
+                        onClick={() => selecetingItemForDeposit(item)}
                         key={item._id}
                         className="upipdContentContainer"
-                        onClick={() => selecetingItemForDeposit(item)}
                       >
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
                             <img
-                              src={images.upi}
+                              src={images.skrill}
                               color={COLORS.background}
                               size={"2.5rem"}
                               className="paymenticon"
                             />
                           </div>
 
-                          <label className="pdB">UPI</label>
-                        </div>
-                        {/** TOP */}
-
-                        {/** TOP */}
-                        <div className="uCCMidC">
-                          <div className="uCCTopFC">
-                            <label className="pdSB">Holder name</label>
-                          </div>
-                          <div className="uCCTopSC">
-                            <label className="pdR">{item.upiholdername}</label>
-                          </div>
-                          <div className="thirdChildD">
-                            <div
-                              onClick={(e) =>
-                                handleCopyClick(e, item.upiholdername)
-                              }
-                              className="copyCon"
-                            >
-                              <FaCopy color={COLORS.background} size={"2rem"} />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/** TESTING */}
-                        {/* <div className="parentContetDeposit">
-                          <div className="firstChildD">
-                          <label className="pdSB">Holder name</label>
-                          </div>
-                          <div className="secondChildD"><label className="pdR">{item.upiholdername} Chumu hai jo koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn  koi bh i pana tanat jakdnkafkjn koi bh i pana tanat jakdnkafkjn adkadjk</label></div>
-                          <div className="thirdChildD">
-                          <div
-                            onClick={() => handleCopyClick(item.upiholdername)}
-                            className="copyCon"
+                          <label className="pdB">Skrill</label>
+                          <label
+                            className="pdB"
+                            style={{
+                              color:
+                                item.paymentStatus === "Pending"
+                                  ? COLORS.orange
+                                  : item.paymentStatus === "Cancelled"
+                                  ? COLORS.red
+                                  : COLORS.green,
+                            }}
                           >
-                            <FaCopy color={COLORS.background} size={"2rem"} />
-                          </div>
-                          </div>
-                        </div> */}
+                            {item.paymentStatus}
+                          </label>
+                        </div>
                         {/** TOP */}
 
                         {/** TOP */}
                         <div className="uCCMidC">
                           <div className="uCCTopFC">
-                            <label className="pdSB">UPI ID</label>
+                            <label className="pdSB">Address</label>
                           </div>
                           <div className="uCCTopSC">
-                            <label className="pdR">{item.upiid}</label>
+                            <label className="pdR">{item.address}</label>
                           </div>
                           <div className="thirdChildD">
                             <div
-                              onClick={(e) => handleCopyClick(e, item.upiid)}
+                              onClick={(e) => handleCopyClick(e, item.address)}
                               className="copyCon"
                             >
                               <FaCopy color={COLORS.background} size={"2rem"} />
                             </div>
                           </div>
                         </div>
-
                         {/** TOP */}
-
-                        <div className="qrcontiner">
-                          <div className="qrcontinerMain">
-                            <img
-                              src={`${serverName}/uploads/upiqrcode/${item.qrcode}`}
-                              className="qrimg"
-                            />
-                          </div>
-                        </div>
-
                         <div className="NotePatentContainer">
                           <div className="uCCBottomC">
                             <div className="uCCTopFC">
@@ -322,7 +310,7 @@ export const UD = ({ selectingPaymentType }) => {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create UPI Deposit
+                Create Skrill Deposit
               </label>
             </div>
           </div>
@@ -414,4 +402,6 @@ export const UD = ({ selectingPaymentType }) => {
       )}
     </div>
   );
-};
+}
+
+export default PartnerSkrill;

@@ -14,7 +14,7 @@ import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 
-export const UD = ({ selectingPaymentType }) => {
+const PartnerUpi = ({ selectingPaymentType }) => {
   const [showAllUpi, setShowAllUpi] = useState(true);
 
   const goToPreviousPage = () => {
@@ -25,7 +25,7 @@ export const UD = ({ selectingPaymentType }) => {
   const [amountval, setAmountval] = useState("");
   const [transactionval, setTransactionval] = useState("");
   const [remarkval, setRemarkval] = useState("");
-  const { accesstoken, user } = useSelector((state) => state.user);
+  const { accesstoken, user, partner } = useSelector((state) => state.user);
   const [selectedItem, setSelecetedItem] = useState("");
 
   const selecetingItemForDeposit = (item) => {
@@ -132,7 +132,8 @@ export const UD = ({ selectingPaymentType }) => {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_UPI_API, {
+      const url = `${UrlHelper.PARTNER_UPI_API}/${partner.rechargeModule}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -140,7 +141,7 @@ export const UD = ({ selectingPaymentType }) => {
       });
 
       console.log("datat :: " + JSON.stringify(data));
-      setAllDepositData(data.payments);
+      setAllDepositData(data.upiList);
       setLoadingAllData(false);
     } catch (error) {
       setLoadingAllData(false);
@@ -216,6 +217,19 @@ export const UD = ({ selectingPaymentType }) => {
                           </div>
 
                           <label className="pdB">UPI</label>
+                          <label
+                            className="pdB"
+                            style={{
+                              color:
+                                item.paymentStatus === "Pending"
+                                  ? COLORS.orange
+                                  : item.paymentStatus === "Cancelled"
+                                  ? COLORS.red
+                                  : COLORS.green,
+                            }}
+                          >
+                            {item.paymentStatus}
+                          </label>
                         </div>
                         {/** TOP */}
 
@@ -415,3 +429,5 @@ export const UD = ({ selectingPaymentType }) => {
     </div>
   );
 };
+
+export default PartnerUpi;
