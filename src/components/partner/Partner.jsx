@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Partner.css";
 import PartnerContentComp from "./PartnerContentComp";
 import MyPartnerProfile from "./MyPartnerProfile";
@@ -6,9 +6,29 @@ import AllProfitDecrease from "./AllProfitDecrease";
 import AllUser from "./AllUser";
 import RechargeMethods from "./RechargeMethods";
 import AllPartner from "./AllPartner";
+import CreateNotification from "./CreateNotification";
+import { useDispatch, useSelector } from "react-redux";
+import { loadPartnerProfile } from "../../redux/actions/userAction";
 
 const Partner = () => {
+  const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  const { accesstoken, user, partner } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(loadPartnerProfile(accesstoken, user.parentPartnerId));
+  }, [dispatch]);
+
+  const userdata = {
+    userId: 1000,
+    name: "Admin",
+  };
+
+  const partnerData = {
+    userId: user?.parentPartnerId,
+    name: partner?.name,
+  };
 
   return (
     <>
@@ -50,7 +70,7 @@ const Partner = () => {
               description={"Send Notification to Admin"}
               iconfrom={"BsFillPeopleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllProfitDecrease"}
+              componenetname={"CreateNotificationAdmin"}
             />
             {/**  Notify Partner */}
             <PartnerContentComp
@@ -58,7 +78,7 @@ const Partner = () => {
               description={"Send Notification to Top Partner"}
               iconfrom={"BsFillPeopleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllProfitDecrease"}
+              componenetname={"CreateNotificationPartner"}
             />
             {/** ALL USERS */}
             <PartnerContentComp
@@ -97,6 +117,18 @@ const Partner = () => {
       )}
       {selectedCategory === "AllPartner" && (
         <AllPartner setSelectedCategory={setSelectedCategory} />
+      )}
+      {selectedCategory === "CreateNotificationAdmin" && (
+        <CreateNotification
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={userdata}
+        />
+      )}
+      {selectedCategory === "CreateNotificationPartner" && (
+        <CreateNotification
+          setSelectedCategory={setSelectedCategory}
+          selectedPartner={partnerData}
+        />
       )}
       {selectedCategory === "AllUser" && (
         <AllUser setSelectedCategory={setSelectedCategory} />
