@@ -8,7 +8,11 @@ import { flushSync } from "react-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useCreateDepositMutation } from "../../redux/api";
+import {
+  useCreateCryptoAccountMutation,
+  useCreateDepositMutation,
+  useDeleteCryptoAccountMutation,
+} from "../../redux/api";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
@@ -18,6 +22,9 @@ import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
+import Loader from "../molecule/Loader";
 
 function PartnerCrypto({ selectingPaymentType }) {
   const [amountval, setAmountval] = useState("");
@@ -48,8 +55,6 @@ function PartnerCrypto({ selectingPaymentType }) {
     setSelecetedItem("");
   };
 
-  const [createDeposit, { isLoading, error }] = useCreateDepositMutation();
-
   const [imageSource, setImageSource] = useState(null);
 
   // For Opening PhoneStorage
@@ -59,77 +64,6 @@ function PartnerCrypto({ selectingPaymentType }) {
       setImageSource(e.target.files[0]);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const submitDepositRequest = async () => {
-    if (!amountval) {
-      showErrorToast("Enter Deposit Amount");
-      return;
-    }
-    if (isNaN(amountval)) {
-      showErrorToast("Enter Valid Amount");
-      return;
-    }
-    if (!transactionval) {
-      showErrorToast("Enter Transaction Number");
-      return;
-    }
-    if (!imageSource) {
-      showErrorToast("Add Transaction Screenshot");
-      return;
-    }
-    try {
-      console.log("ELSE RUNNING");
-      console.log(amountval, transactionval, remarkval);
-
-      const formData = new FormData();
-      formData.append("amount", amountval);
-      formData.append("transactionid", transactionval);
-      formData.append("remark", remarkval);
-      formData.append("paymenttype", "Crypto");
-      formData.append("paymenttypeid", selectedItem.paymentId);
-      formData.append("username", user.name);
-      formData.append("userid", user.userId);
-      formData.append("paymentstatus", "Pending");
-
-      formData.append("receipt", imageSource);
-
-      formData.append("transactionType", "Deposit");
-
-      console.log("FORM DATA :: " + JSON.stringify(formData));
-      console.log(formData);
-
-      // Logging form data for inspection
-      for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-      }
-
-      console.log(formData); // To see the complete FormData object
-
-      const res = await createDeposit({
-        accessToken: accesstoken,
-        body: formData,
-      }).unwrap();
-
-      console.log("Success");
-      console.log(res);
-      console.log(res.message);
-
-      await showSuccessToast(res.message);
-
-      hideAllform();
-      goToPreviousPage();
-    } catch (error) {
-      console.log("Error during deposit:", error);
-      if (error.response) {
-        Toast.show({ type: "error", text1: error.response.data });
-        showErrorToast(error.response.data);
-      } else if (error.request) {
-        showErrorToast("Request was made, but no response was received");
-      } else {
-        showErrorToast(error.message);
-      }
     }
   };
 
@@ -183,6 +117,93 @@ function PartnerCrypto({ selectingPaymentType }) {
     setShowAllUpi(true);
   };
 
+  const [seletedItem, setSelectedItem] = useState("");
+  // FOR DELETING DATA
+
+  const [
+    deleteCryptoAccount,
+    { isLoading: deleteIsLoading, isError: deleteIsError },
+  ] = useDeleteCryptoAccountMutation();
+
+  const deletingData = async (item) => {
+    console.log("Deleting Data");
+    setSelectedItem(item._id);
+
+    const res = await deleteCryptoAccount({
+      accesstoken: accesstoken,
+      id: item._id,
+    }).unwrap();
+
+    allTheDepositData();
+
+    showSuccessToast(res.message);
+  };
+
+  // CREATING CRYPTO
+  const [walletaddress, setwalletaddress] = useState("");
+  const [networktype, setnetworktype] = useState("");
+  const [paymentnote, setpaymentnote] = useState("");
+
+  const [createCryptoAccount, { isLoading, error }] =
+    useCreateCryptoAccountMutation();
+
+  const submitCreateRequest = async () => {
+    if (!walletaddress) {
+      showErrorToast("Enter wallet address");
+      return;
+    }
+    if (!networktype) {
+      showErrorToast("Enter network type");
+      return;
+    }
+    if (!paymentnote) {
+      showErrorToast("Add payment note");
+      return;
+    }
+    if (!imageSource) {
+      showErrorToast("Add QR code");
+      return;
+    } else {
+      console.log("Create UPI Running");
+      try {
+        const formData = new FormData();
+        formData.append("walletaddress", walletaddress);
+        formData.append("networktype", networktype);
+        formData.append("qrcode", imageSource);
+        formData.append("paymentnote", paymentnote);
+        formData.append("userId", user.userId);
+
+        console.log("FORM DATA :: " + JSON.stringify(formData));
+
+        const res = await createCryptoAccount({
+          accesstoken: accesstoken,
+          body: formData,
+        }).unwrap();
+
+        showSuccessToast(res.message);
+        allTheDepositData();
+        backHandlerShowCreateUpi();
+        setwalletaddress("");
+        setnetworktype("");
+        setpaymentnote("");
+        setImageSource(null);
+      } catch (error) {
+        showErrorToast("Something went wrong");
+        console.log("Error during deposit:", error);
+        // if (error.response) {
+        //   Toast.show({type: 'error', text1: error.response.data});
+        // } else if (error.request) {
+        //   Toast.show({
+        //     type: 'error',
+        //     text1: 'Request was made, but no response was received',
+        //   });
+        // } else {
+        //   Toast.show({type: 'error', text1: error.message});
+        // }
+      }
+    }
+  };
+
   return (
     <div className="udC">
       {showAllUpi && (
@@ -200,6 +221,15 @@ function PartnerCrypto({ selectingPaymentType }) {
                 Crypto Deposit
               </label>
             </div>
+            <div
+              className="searchIconContainer"
+              onClick={selecetingItemForDeposit}
+              style={{
+                cursor: "pointer",
+              }}
+            >
+              <IoIosAddCircleOutline color={COLORS.white_s} size={"2.5rem"} />
+            </div>
           </div>
 
           {loadingAllData ? (
@@ -214,11 +244,7 @@ function PartnerCrypto({ selectingPaymentType }) {
                 <>
                   <div className="upipdMainContainer">
                     {allDepositdata.map((item, index) => (
-                      <div
-                        key={item._id}
-                        onClick={() => selecetingItemForDeposit(item)}
-                        className="upipdContentContainer"
-                      >
+                      <div key={item._id} className="upipdContentContainer">
                         {/** TOP */}
                         <div className="uCCTopC">
                           <div className="hdContenContainerIcon">
@@ -231,7 +257,7 @@ function PartnerCrypto({ selectingPaymentType }) {
                           </div>
 
                           {/* <label className="pdB">Crypto {item.paymentId}</label> */}
-                          <label className="pdB">Crypto</label>
+                          {/* <label className="pdB">Crypto</label> */}
                           <label
                             className="pdB"
                             style={{
@@ -245,6 +271,37 @@ function PartnerCrypto({ selectingPaymentType }) {
                           >
                             {item.paymentStatus}
                           </label>
+                          {deleteIsLoading ? (
+                            seletedItem === item._id ? (
+                              <div
+                                style={{
+                                  width: "3rem",
+                                }}
+                              >
+                                <Loader />
+                              </div>
+                            ) : (
+                              <div
+                                onClick={() => deletingData(item)}
+                                className="hdContenContainerIcon"
+                              >
+                                <MdDelete
+                                  color={COLORS.background}
+                                  size={"2.5rem"}
+                                />
+                              </div>
+                            )
+                          ) : (
+                            <div
+                              className="hdContenContainerIcon"
+                              onClick={() => deletingData(item)}
+                            >
+                              <MdDelete
+                                color={COLORS.background}
+                                size={"2.5rem"}
+                              />
+                            </div>
+                          )}
                         </div>
                         {/** TOP */}
 
@@ -336,15 +393,15 @@ function PartnerCrypto({ selectingPaymentType }) {
             </div>
             <div className="alCreatLocationTopContaineCL">
               <label className="alCreatLocationTopContainerlabel">
-                Create Crypto Deposit
+                Create Crypto Payment
               </label>
             </div>
           </div>
           {/** TOP NAVIGATION CONTATINER */}
 
           <div className="allLocationMainContainer">
-            {/** Amount */}
-            <label className="alCLLabel">Amount In USD</label>
+            {/** UPI HOLDER NAME */}
+            <label className="alCLLabel">Wallet address</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -352,16 +409,14 @@ function PartnerCrypto({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                type="number"
-                name="amount"
-                placeholder="Enter amount"
-                value={amountval}
-                onChange={(e) => setAmountval(e.target.value)}
+                placeholder="Enter wallet address"
+                value={walletaddress}
+                onChange={(e) => setwalletaddress(e.target.value)}
               />
             </div>
 
-            {/** Transaction number */}
-            <label className="alCLLabel">Transaction number</label>
+            {/** UPI ID */}
+            <label className="alCLLabel">Network type</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -369,17 +424,15 @@ function PartnerCrypto({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                type="text"
-                name="transaction"
-                placeholder="Enter transaction number"
-                value={transactionval}
-                onChange={(e) => setTransactionval(e.target.value)}
+                placeholder="Enter network type"
+                value={networktype}
+                onChange={(e) => setnetworktype(e.target.value)}
               />
             </div>
             {/** RECEIPT */}
 
             {/** TITLE */}
-            <label className="alCLLabel">Upload Receipt</label>
+            <label className="alCLLabel">QR code</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -392,12 +445,12 @@ function PartnerCrypto({ selectingPaymentType }) {
                   type="file"
                   name="file"
                   onChange={selectDoc}
-                  accept="image/*"
                 />
               </div>
             </div>
 
-            <label className="alCLLabel">Remark</label>
+            {/** PAYMENT NOTE */}
+            <label className="alCLLabel">Note</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -405,14 +458,9 @@ function PartnerCrypto({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                style={{
-                  minHeight: "5rem",
-                }}
-                type="text"
-                name="remark"
-                placeholder="Enter remark"
-                value={remarkval}
-                onChange={(e) => setRemarkval(e.target.value)}
+                placeholder="Enter note"
+                value={paymentnote}
+                onChange={(e) => setpaymentnote(e.target.value)}
               />
             </div>
           </div>
@@ -420,7 +468,7 @@ function PartnerCrypto({ selectingPaymentType }) {
           {isLoading ? (
             <LoadingComponent />
           ) : (
-            <div className="alBottomContainer" onClick={submitDepositRequest}>
+            <div className="alBottomContainer" onClick={submitCreateRequest}>
               <label className="alBottomContainerlabel">Submit</label>
             </div>
           )}
