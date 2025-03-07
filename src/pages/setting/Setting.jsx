@@ -45,6 +45,8 @@ import { FaInfoCircle } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import { ToastContainer } from "react-toastify";
 import Partner from "../../components/partner/Partner.jsx";
+import { TiGroup } from "react-icons/ti";
+import PowerballDashboard from "../../components/powerball/PowerballDashboard.jsx";
 
 export const locationdata = [
   {
@@ -205,8 +207,6 @@ const Setting = () => {
 
   const { accesstoken, user } = useSelector((state) => state.user);
 
-  
-
   return (
     <div className="adminDashboardContainer">
       {/** TOP CONTAINER */}
@@ -311,8 +311,8 @@ const Setting = () => {
             <label className="adLContenContainerLabel">Play History</label>
           </div>
 
-            {/** ALL LOCATION */}
-            <div
+          {/** ALL LOCATION */}
+          <div
             className="adLContenContainer"
             key={"alllocation"}
             onClick={() => handleComponentClick("alllocation")}
@@ -362,7 +362,9 @@ const Setting = () => {
             <div className="adLContenContainerIcon">
               <FaHistory color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">Transaction History</label>
+            <label className="adLContenContainerLabel">
+              Transaction History
+            </label>
           </div>
 
           {/** RESULT */}
@@ -468,9 +470,27 @@ const Setting = () => {
             }}
           >
             <div className="adLContenContainerIcon">
-              <FaInfoCircle color={COLORS.white_s} size={"2.5rem"} />
+              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
             </div>
             <label className="adLContenContainerLabel">Partner</label>
+          </div>
+
+          {/** POWERBALL */}
+          <div
+            className="adLContenContainer"
+            key={"partner"}
+            onClick={() => handleComponentClick("powerball")}
+            style={{
+              background:
+                selectedComponent === "powerball"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Powerball</label>
           </div>
 
           {/** LOGOUT */}
@@ -503,30 +523,59 @@ const Setting = () => {
             />
           )}
 
-          {selectedComponent === "home" && <HomeDashboard reloadKey={reloadKey}/>}
-          {selectedComponent === "alllocation" && <AllLocation reloadKey={reloadKey}/>}
-          {selectedComponent === "setting" && <Settingc reloadKey={reloadKey}/>}
-          {selectedComponent === "history" && <Historyc reloadKey={reloadKey}/>}
+          {selectedComponent === "home" && (
+            <HomeDashboard reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "alllocation" && (
+            <AllLocation reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "setting" && (
+            <Settingc reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "history" && (
+            <Historyc reloadKey={reloadKey} />
+          )}
           {selectedComponent === "play" && <Play reloadKey={reloadKey} />}
-          {selectedComponent === "playhistory" && <Playhistory reloadKey={reloadKey}/>}
-          {selectedComponent === "deposit" && <Paymentdeposit reloadKey={reloadKey} />}
-          {selectedComponent === "withdraw" && <Withdrawpayment reloadKey={reloadKey} />}
-          {selectedComponent === "balancetransfer" && <Balancetransfer reloadKey={reloadKey}/>}
-          {selectedComponent === "result" && <AllResult reloadKey={reloadKey} />}
-          {selectedComponent === "aboutus" && <Aboutus reloadKey={reloadKey}/>}
-          {selectedComponent === "changepassword" && <ChangePassword reloadKey={reloadKey}/>}
-          {selectedComponent === "updateprofile" && <UpdateProfile reloadKey={reloadKey}/>}
-          {selectedComponent === "wallet" && <Wallet reloadKey={reloadKey}/>}
-          {selectedComponent === "notification" && <Notification reloadKey={reloadKey}/>}
-          {selectedComponent === "gamedescription" && <Gamedescriptionc reloadKey={reloadKey}/>}
-          {selectedComponent === "partner" && <Partner reloadKey={reloadKey}/>}
-          {selectedComponent === "logout" && <Logout reloadKey={reloadKey}/>}
+          {selectedComponent === "playhistory" && (
+            <Playhistory reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "deposit" && (
+            <Paymentdeposit reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "withdraw" && (
+            <Withdrawpayment reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "balancetransfer" && (
+            <Balancetransfer reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "result" && (
+            <AllResult reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "aboutus" && <Aboutus reloadKey={reloadKey} />}
+          {selectedComponent === "changepassword" && (
+            <ChangePassword reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "updateprofile" && (
+            <UpdateProfile reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "wallet" && <Wallet reloadKey={reloadKey} />}
+          {selectedComponent === "notification" && (
+            <Notification reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "gamedescription" && (
+            <Gamedescriptionc reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "partner" && <Partner reloadKey={reloadKey} />}
+          {selectedComponent === "powerball" && (
+            <PowerballDashboard reloadKey={reloadKey} />
+          )}
+          {selectedComponent === "logout" && <Logout reloadKey={reloadKey} />}
         </div>
       </div>
 
       {/** MAIN CONTENT CONTAINER END */}
 
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };

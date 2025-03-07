@@ -52,21 +52,27 @@ const Partner = () => {
               componenetname={"MyPartnerProfile"}
             />
             {/** ALL PARTNER */}
-            <PartnerContentComp
-              title={"All Partner"}
-              description={"List of all Partner data"}
-              iconfrom={"TiGroup"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"AllPartner"}
-            />
+            {user.parentParentPartnerId === 1000 && (
+              <PartnerContentComp
+                title={"All Partner"}
+                description={"List of all Partner data"}
+                iconfrom={"TiGroup"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"AllPartner"}
+              />
+            )}
+
             {/** ALL PROFIT DECREASE */}
-            <PartnerContentComp
-              title={"All Profit Decrease"}
-              description={"List of Decrease Request "}
-              iconfrom={"BsFillPeopleFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"AllProfitDecrease"}
-            />
+            {user.parentParentPartnerId === 1000 && (
+              <PartnerContentComp
+                title={"All Profit Decrease"}
+                description={"List of Decrease Request "}
+                iconfrom={"BsFillPeopleFill"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"AllProfitDecrease"}
+              />
+            )}
+
             {/** NOTIFY ADMIN */}
             <PartnerContentComp
               title={"Notify Admin"}
@@ -76,13 +82,16 @@ const Partner = () => {
               componenetname={"CreateNotificationAdmin"}
             />
             {/**  Notify Partner */}
-            <PartnerContentComp
-              title={"Notify Partner"}
-              description={"Send Notification to Top Partner"}
-              iconfrom={"BsFillPeopleFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"CreateNotificationPartner"}
-            />
+            {user?.parentPartnerId !== 1000 && (
+              <PartnerContentComp
+                title={"Notify Partner"}
+                description={"Send Notification to Top Partner"}
+                iconfrom={"BsFillPeopleFill"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"CreateNotificationPartner"}
+              />
+            )}
+
             {/** ALL USERS */}
             <PartnerContentComp
               title={"All Users"}
@@ -92,22 +101,26 @@ const Partner = () => {
               componenetname={"AllUser"}
             />
             {/** ALL RECHARGE */}
-            <PartnerContentComp
-              title={"All Recharge"}
-              description={"List of Recharge Partner data"}
-              iconfrom={"HiMiniWallet"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"AllRecharge"}
-            />
+            {user && partner && partner.rechargeModule && (
+              <PartnerContentComp
+                title={"All Recharge"}
+                description={"List of Recharge Partner data"}
+                iconfrom={"HiMiniWallet"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"AllRecharge"}
+              />
+            )}
 
             {/** RECHARGE METHODS */}
-            <PartnerContentComp
-              title={"Recharge Method"}
-              description={"Recharge Payment Methods"}
-              iconfrom={"BsWalletFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"RechargeMethods"}
-            />
+            {user && partner && partner.rechargeModule && (
+              <PartnerContentComp
+                title={"Recharge Method"}
+                description={"Recharge Payment Methods"}
+                iconfrom={"BsWalletFill"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"RechargeMethods"}
+              />
+            )}
           </div>
         </div>
       )}

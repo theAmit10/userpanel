@@ -145,6 +145,17 @@
     height: 80%;
 
 }
-.allpofitdecreasecomp-main{
-
+.blue-ball-con{
+    height: 5rem;
+    width: 5rem;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.blue-ball-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 2rem;
 }
