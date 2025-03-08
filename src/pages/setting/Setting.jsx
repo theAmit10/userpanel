@@ -47,6 +47,7 @@ import { ToastContainer } from "react-toastify";
 import Partner from "../../components/partner/Partner.jsx";
 import { TiGroup } from "react-icons/ti";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard.jsx";
+import ResultDashboard from "../../components/result/ResultDashboard.jsx";
 
 export const locationdata = [
   {
@@ -548,8 +549,12 @@ const Setting = () => {
           {selectedComponent === "balancetransfer" && (
             <Balancetransfer reloadKey={reloadKey} />
           )}
-          {selectedComponent === "result" && (
+          {/* {selectedComponent === "result" && (
             <AllResult reloadKey={reloadKey} />
+          )} */}
+
+          {selectedComponent === "result" && (
+            <ResultDashboard reloadKey={reloadKey} />
           )}
           {selectedComponent === "aboutus" && <Aboutus reloadKey={reloadKey} />}
           {selectedComponent === "changepassword" && (
