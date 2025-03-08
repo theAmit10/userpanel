@@ -8,6 +8,7 @@ const HeaderComp = ({
   right,
   setSelectedCategory,
   closePartnerDetails,
+  selectedCategory,
 }) => {
   /*************  ✨ Codeium Command ⭐  *************/
   /**
@@ -17,6 +18,10 @@ const HeaderComp = ({
   const handlePress = () => {
     if (closePartnerDetails) {
       closePartnerDetails();
+    }
+    if (selectedCategory) {
+      setSelectedCategory(selectedCategory);
+      return;
     }
     if (setSelectedCategory) {
       setSelectedCategory("");

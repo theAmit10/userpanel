@@ -4,9 +4,9 @@ import { GiDiamondTrophy } from "react-icons/gi";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 
-const PowerTimeCon = ({ time }) => {
+const PowerTimeCon = ({ time, selectingTime }) => {
   return (
-    <div className="power-time-con">
+    <div className="power-time-con" onClick={selectingTime}>
       <div className="ptc-first">
         <label className="ptc-time-label">{time}</label>
         <label className="ptc-playnow-label">Play Now</label>

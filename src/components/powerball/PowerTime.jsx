@@ -1,13 +1,13 @@
 import React from "react";
 import "./PowerballHome.css";
-import { GiDiamondTrophy } from "react-icons/gi";
-import COLORS from "../../assets/constants/colors";
-import images from "../../assets/constants/images";
-import BluePowerBall from "../molecule/BluePowerBall";
 import HeaderComp from "../helpercomp/HeaderComp";
 import PowerTimeCon from "./PowerTimeCon";
 
 const PowerTime = ({ setSelectedCategory }) => {
+  const selectingTime = () => {
+    setSelectedCategory("PowerballGame");
+  };
+
   return (
     <div className="partner-main-container">
       {/** HEADER  */}
@@ -17,9 +17,7 @@ const PowerTime = ({ setSelectedCategory }) => {
       />
       {/* CONTENT CONTAINER */}
       <div className="partner-container">
-        <PowerTimeCon time={"10 : 00 AM"} />
-
-        {/** PRIZE DISTRIBUTION */}
+        <PowerTimeCon time={"10 : 00 AM"} selectingTime={selectingTime} />
       </div>
     </div>
   );

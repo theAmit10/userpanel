@@ -146,8 +146,8 @@
 
 }
 .blue-ball-con{
-    height: 5rem;
-    width: 5rem;
+    min-height: 5rem;
+    min-width: 5rem;
     background: linear-gradient(180deg, #0162AF, #011833);
     border-radius: 50%;
     display: flex;
@@ -158,4 +158,19 @@
     color: var(--white_s);
     font-family: "MB";
     font-size: 2rem;
+}
+
+.small-ball-con{
+    min-height: 4rem;
+    min-width: 4rem;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.small-ball-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.7rem;
 }

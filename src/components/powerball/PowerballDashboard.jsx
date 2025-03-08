@@ -5,6 +5,7 @@ import { loadPartnerProfile } from "../../redux/actions/userAction";
 import PartnerContentComp from "../partner/PartnerContentComp";
 import PowerballHome from "./PowerballHome";
 import PowerTime from "./PowerTime";
+import PowerballGame from "./PowerballGame";
 
 const PowerballDashboard = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,10 @@ const PowerballDashboard = () => {
 
       {selectedCategory === "PowerTime" && (
         <PowerTime setSelectedCategory={setSelectedCategory} />
+      )}
+
+      {selectedCategory === "PowerballGame" && (
+        <PowerballGame setSelectedCategory={setSelectedCategory} />
       )}
 
       {/* 

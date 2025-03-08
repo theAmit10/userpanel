@@ -239,3 +239,220 @@
     height: 70%;
     width: 100%;
 }
+.add-ticket-con{
+    min-height: 5rem;
+    max-height: 5rem;
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+
+}
+.atc-first{
+    height: 100%;
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.atc-second{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+}
+.atc-second-label{
+    background-color: var(--green);
+    color: var(--white);
+    font-family: "MB";
+    font-size: 1.5rem;
+    padding:  1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+.ticket-input{
+    height: 100%;
+    width: 60%;
+    color: var(--background);
+    font-family: "MR";
+    font-size: 2rem;
+    border: none; /* Remove the border */
+    outline: none; /* Remove the outline when focused */
+    padding-left: 1rem;
+    border-radius: 1rem;
+}
+.atc-input-con{
+  height: 100%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.ticket-main-con{
+    height: 95%;
+    min-width: 30%;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+
+}
+.tmc-first{
+    height: 40%;
+    width: 100%;
+}
+.tmc-second{
+    height: 60%;
+    width: 100%;
+}
+.semi-bold{
+    font-family: "MSB";
+    color: var(--white_s);
+    font-size: 2rem;
+}
+.regular{
+    font-family: "MR";
+    color: var(--white_s);
+    font-size: 1.5rem;
+}
+.multiplier-main-con{
+    min-height: 6rem;
+    max-height: 6rem;
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;    
+    gap: 1rem;
+    overflow-y: scroll;
+    padding-left: 0.5rem;
+
+}
+.game-ball-con{
+    height: 100%;
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
+    overflow-y: scroll;
+    gap: 1rem;
+    border-radius: 1rem;
+}
+.powergame-container{
+    height: 100%;
+    width: 100%;
+    background-color: aqua;
+    overflow-x: scroll;
+   
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+  
+}
+.total-ticket-amount{
+    background-color: var(--background);
+    min-height: 5rem;
+    max-height: 5rem;
+    height: 5rem;
+    width: 100%;
+    border-radius: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.total-ticket-amount-con{
+    min-height: 7rem;
+    max-height: 7rem;
+    height: 7rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    flex-direction: column;
+}
+.tta-first{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+}
+.myticket-dashboard{
+    
+    width: 100%;
+    height: 100%;
+    background-color: var(--background);
+    display: flex;
+    border-radius: 1rem;
+    overflow-y: scroll;
+    flex-direction: column;
+   
+}
+.mtd-title-con{
+    min-height: 5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  
+}
+.sn-con{
+    height: 100%;
+    width: 10%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.snt-con{
+    height: 100%;
+    width: 60%;
+    
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+.snm-con{
+    height: 100%;
+    width: 15%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.sna-con{
+    height: 100%;
+    width: 15%;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.powerball-main-container{
+    display: flex;
+   flex: 1;
+   height: 85vh;
+   background: linear-gradient(180deg, #0162AF, #011833);
+   border-radius: 2rem;
+   flex-direction: column;
+   gap: 2rem;
+   width: 40vw;
+   padding: 1rem;
+}
