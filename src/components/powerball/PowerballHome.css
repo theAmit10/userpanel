@@ -60,6 +60,7 @@
     color: var(--white_s);
     font-family: "MB";
     font-size: 3rem;
+    white-space: nowrap;
 }
 .btcf-first-label-regular{
     color: var(--white_s);
