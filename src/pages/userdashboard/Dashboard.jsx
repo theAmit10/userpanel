@@ -38,7 +38,7 @@ import {
   showWarningToast,
 } from "../../components/helper/showErrorToast";
 import { serverName } from "../../redux/store";
-import { GiTrophy } from "react-icons/gi";
+import { GiDiamondTrophy, GiTrophy } from "react-icons/gi";
 import moment from "moment-timezone";
 import { MdNotificationsActive } from "react-icons/md";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
@@ -53,6 +53,7 @@ import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import FONT from "../../assets/constants/fonts";
 import LiveResult from "../../components/play/LiveResult";
+import PowerballDashboard from "../../components/powerball/PowerballDashboard";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -535,7 +536,24 @@ const Dashboard = () => {
                     }}
                   />
                 </div>
-                <label className="adLContenContainerLabel">Play</label>
+                <label className="adLContenContainerLabel">Play Arena</label>
+              </div>
+
+              <div
+                className="adLContenContainer"
+                key={"powerball"}
+                onClick={() => handleComponentClick("powerball")}
+                style={{
+                  background:
+                    selectedComponent === "powerball"
+                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                      : "linear-gradient(180deg, #011833, #011833)",
+                }}
+              >
+                <div className="adLContenContainerIcon">
+                  <GiDiamondTrophy color={COLORS.white_s} size={"2.5rem"} />
+                </div>
+                <label className="adLContenContainerLabel">Powerball</label>
               </div>
 
               <div
@@ -570,25 +588,6 @@ const Dashboard = () => {
                   <TbHistoryToggle color={COLORS.white_s} size={"2.5rem"} />
                 </div>
                 <label className="adLContenContainerLabel">Play History</label>
-              </div>
-
-              <div
-                className="adLContenContainer"
-                key={"history"}
-                onClick={() => handleComponentClick("history")}
-                style={{
-                  background:
-                    selectedComponent === "history"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-                }}
-              >
-                <div className="adLContenContainerIcon">
-                  <FaHistory color={COLORS.white_s} size={"2.5rem"} />
-                </div>
-                <label className="adLContenContainerLabel">
-                  Transaction History
-                </label>
               </div>
 
               <div
@@ -685,6 +684,9 @@ const Dashboard = () => {
               )}
               {selectedComponent === "playhistory" && (
                 <Playhistory reloadKey={reloadKey} />
+              )}
+              {selectedComponent === "powerball" && (
+                <PowerballDashboard reloadKey={reloadKey} />
               )}
             </div>
           </div>

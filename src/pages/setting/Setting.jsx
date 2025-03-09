@@ -295,22 +295,24 @@ const Setting = () => {
           {/** CONTENT */}
 
           {/** Partner */}
-          <div
-            className="adLContenContainer"
-            key={"partner"}
-            onClick={() => handleComponentClick("partner")}
-            style={{
-              background:
-                selectedComponent === "partner"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+          {user && user.partnerStatus && (
+            <div
+              className="adLContenContainer"
+              key={"partner"}
+              onClick={() => handleComponentClick("partner")}
+              style={{
+                background:
+                  selectedComponent === "partner"
+                    ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                    : "linear-gradient(180deg, #011833, #011833)",
+              }}
+            >
+              <div className="adLContenContainerIcon">
+                <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+              </div>
+              <label className="adLContenContainerLabel">Partner</label>
             </div>
-            <label className="adLContenContainerLabel">Partner</label>
-          </div>
+          )}
 
           {/** POWERBALL */}
           <div

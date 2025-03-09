@@ -1013,6 +1013,7 @@ function Register() {
   const [showCountry, setShowCountry] = useState(false);
   const [showRegiter, setShowRegister] = useState(false);
   const [showR, setShowR] = useState(true);
+  const [parentId, setParentId] = useState("");
 
   const showingContryContainer = () => {
     if (showCountry === false) {
@@ -1087,7 +1088,8 @@ function Register() {
   const submitHandler = async () => {
     console.log("Starting register");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(?:\+?\d{1,3})?[-.\s]?(\(?\d{1,4}?\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+    const phoneRegex =
+      /^(?:\+?\d{1,3})?[-.\s]?(\(?\d{1,4}?\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
     console.log("Email :: " + email);
     console.log("name :: " + name);
@@ -1118,13 +1120,34 @@ function Register() {
         showSuccessToast("Processing");
 
         try {
-          const body = {
-            name: name,
-            email: email,
-            password: password,
-            role: "user",
-            country: selectedCountryOrg._id,
-          };
+          // const body = {
+          //   name: name,
+          //   email: email,
+          //   password: password,
+          //   role: "user",
+          //   country: selectedCountryOrg._id,
+          // };
+
+          let body = {};
+
+          if (parentId) {
+            body = {
+              name: name,
+              email: email,
+              password: password,
+              role: "user",
+              country: selectedCountryOrg._id,
+              parentId,
+            };
+          } else {
+            body = {
+              name: name,
+              email: email,
+              password: password,
+              role: "user",
+              country: selectedCountryOrg._id,
+            };
+          }
 
           const res = await createRegister({
             body,
@@ -1159,13 +1182,34 @@ function Register() {
         showSuccessToast("Processing");
 
         try {
-          const body = {
-            name: name,
-            email: email,
-            password: password,
-            role: "user",
-            country: selectedCountryOrg._id,
-          };
+          // const body = {
+          //   name: name,
+          //   email: email,
+          //   password: password,
+          //   role: "user",
+          //   country: selectedCountryOrg._id,
+          // };
+
+          let body = {};
+
+          if (parentId) {
+            body = {
+              name: name,
+              email: email,
+              password: password,
+              role: "user",
+              country: selectedCountryOrg._id,
+              parentId,
+            };
+          } else {
+            body = {
+              name: name,
+              email: email,
+              password: password,
+              role: "user",
+              country: selectedCountryOrg._id,
+            };
+          }
 
           const res = await createRegister({
             body,
@@ -1250,7 +1294,10 @@ function Register() {
               </div>
 
               <div className="noteBottomContainer">
-                <span className="noteTextLabel">NOTE : The Password Reset Option Is Available For Accounts With Email Signup Only.</span>
+                <span className="noteTextLabel">
+                  NOTE : The Password Reset Option Is Available For Accounts
+                  With Email Signup Only.
+                </span>
               </div>
             </div>
           )}
@@ -1362,6 +1409,21 @@ function Register() {
                 <div className="searchIconContainer">
                   <CiCircleChevDown color={COLORS.background} size={"2.5rem"} />
                 </div>
+              </div>
+
+              {/** NAME */}
+              <label className="alCLLabel">Partner Id</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <FaRegUserCircle color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder="Partner ID (Optional)"
+                  value={parentId}
+                  onChange={(e) => setParentId(e.target.value)}
+                />
               </div>
 
               {isLoading ? (
