@@ -3,11 +3,16 @@ import HeaderComp from "../helpercomp/HeaderComp";
 import PowerTimeCon from "../powerball/PowerTimeCon";
 import "../powerball/PowerballHome.css";
 import AllResult from "./AllResult";
+import PowerResult from "./PowerResult";
 
 const ResultDashboard = ({ reloadKey }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const selectingTime = () => {
+  const selectingPlayArenaResult = () => {
     setSelectedCategory("playarenaresult");
+  };
+
+  const selectingPowerballResult = () => {
+    setSelectedCategory("powerballresult");
   };
 
   return (
@@ -28,13 +33,13 @@ const ResultDashboard = ({ reloadKey }) => {
             <PowerTimeCon
               time={"Play Arena"}
               subtitle={"Get all results"}
-              selectingTime={selectingTime}
+              selectingTime={selectingPlayArenaResult}
               iconname="FaRegPlayCircle"
             />
             <PowerTimeCon
               time={"Powerball"}
               subtitle={"Get all results"}
-              selectingTime={selectingTime}
+              selectingTime={selectingPowerballResult}
               iconname="GiDiamondTrophy"
             />
           </div>
@@ -42,6 +47,12 @@ const ResultDashboard = ({ reloadKey }) => {
       )}
       {selectedCategory === "playarenaresult" && (
         <AllResult
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
+      )}
+      {selectedCategory === "powerballresult" && (
+        <PowerResult
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
         />
