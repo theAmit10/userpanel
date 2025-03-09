@@ -52,6 +52,7 @@ import Playhistory from "../../components/playhistory/Playhistory";
 import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import FONT from "../../assets/constants/fonts";
+import LiveResult from "../../components/play/LiveResult";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -247,8 +248,6 @@ const Dashboard = () => {
       showSuccessToast("No valid link found.");
     }
   };
-
-
 
   const iosAppLink = () => {
     const link = appLinkData?.appLink?.iosLink;
@@ -541,11 +540,11 @@ const Dashboard = () => {
 
               <div
                 className="adLContenContainer"
-                key={"result"}
-                onClick={() => handleComponentClick("result")}
+                key={"liveresult"}
+                onClick={() => handleComponentClick("liveresult")}
                 style={{
                   background:
-                    selectedComponent === "result"
+                    selectedComponent === "liveresult"
                       ? "linear-gradient(180deg, #7EC630, #3D6017)"
                       : "linear-gradient(180deg, #011833, #011833)",
                 }}
@@ -553,7 +552,7 @@ const Dashboard = () => {
                 <div className="adLContenContainerIcon">
                   <GiTrophy color={COLORS.white_s} size={"2.5rem"} />
                 </div>
-                <label className="adLContenContainerLabel">Result</label>
+                <label className="adLContenContainerLabel">Live Result</label>
               </div>
 
               <div
@@ -678,8 +677,8 @@ const Dashboard = () => {
               {selectedComponent === "userprofile" && (
                 <Userprofile reloadKey={reloadKey} />
               )}
-              {selectedComponent === "result" && (
-                <AllResult reloadKey={reloadKey} />
+              {selectedComponent === "liveresult" && (
+                <LiveResult reloadKey={reloadKey} />
               )}
               {selectedComponent === "aboutus" && (
                 <Aboutus reloadKey={reloadKey} />
