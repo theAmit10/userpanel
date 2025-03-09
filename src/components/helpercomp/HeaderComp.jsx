@@ -9,6 +9,8 @@ const HeaderComp = ({
   setSelectedCategory,
   closePartnerDetails,
   selectedCategory,
+  poweballbackhandler,
+  showAllSeclectedBalls,
 }) => {
   /*************  ✨ Codeium Command ⭐  *************/
   /**
@@ -18,6 +20,15 @@ const HeaderComp = ({
   const handlePress = () => {
     if (closePartnerDetails) {
       closePartnerDetails();
+    }
+    if (poweballbackhandler) {
+      if (showAllSeclectedBalls) {
+        poweballbackhandler();
+      } else {
+        setSelectedCategory(selectedCategory);
+      }
+
+      return;
     }
     if (selectedCategory) {
       setSelectedCategory(selectedCategory);

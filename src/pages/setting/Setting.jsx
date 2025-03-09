@@ -42,7 +42,7 @@ import Logout from "../../components/logout/Logout.jsx";
 import { serverName } from "../../redux/store.js";
 import { PiHandDepositFill } from "react-icons/pi";
 import { FaInfoCircle } from "react-icons/fa";
-import { GiTrophy } from "react-icons/gi";
+import { GiDiamondTrophy, GiTrophy } from "react-icons/gi";
 import { ToastContainer } from "react-toastify";
 import Partner from "../../components/partner/Partner.jsx";
 import { TiGroup } from "react-icons/ti";
@@ -294,6 +294,42 @@ const Setting = () => {
         <div className="adLeftContainer">
           {/** CONTENT */}
 
+          {/** Partner */}
+          <div
+            className="adLContenContainer"
+            key={"partner"}
+            onClick={() => handleComponentClick("partner")}
+            style={{
+              background:
+                selectedComponent === "partner"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Partner</label>
+          </div>
+
+          {/** POWERBALL */}
+          <div
+            className="adLContenContainer"
+            key={"partner"}
+            onClick={() => handleComponentClick("powerball")}
+            style={{
+              background:
+                selectedComponent === "powerball"
+                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                  : "linear-gradient(180deg, #011833, #011833)",
+            }}
+          >
+            <div className="adLContenContainerIcon">
+              <GiDiamondTrophy color={COLORS.white_s} size={"2.5rem"} />
+            </div>
+            <label className="adLContenContainerLabel">Powerball</label>
+          </div>
+
           {/** PLAY HISTORY */}
           <div
             className="adLContenContainer"
@@ -456,42 +492,6 @@ const Setting = () => {
               <FaInfoCircle color={COLORS.white_s} size={"2.5rem"} />
             </div>
             <label className="adLContenContainerLabel">About us</label>
-          </div>
-
-          {/** Partner */}
-          <div
-            className="adLContenContainer"
-            key={"partner"}
-            onClick={() => handleComponentClick("partner")}
-            style={{
-              background:
-                selectedComponent === "partner"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Partner</label>
-          </div>
-
-          {/** POWERBALL */}
-          <div
-            className="adLContenContainer"
-            key={"partner"}
-            onClick={() => handleComponentClick("powerball")}
-            style={{
-              background:
-                selectedComponent === "powerball"
-                  ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                  : "linear-gradient(180deg, #011833, #011833)",
-            }}
-          >
-            <div className="adLContenContainerIcon">
-              <TiGroup color={COLORS.white_s} size={"2.5rem"} />
-            </div>
-            <label className="adLContenContainerLabel">Powerball</label>
           </div>
 
           {/** LOGOUT */}

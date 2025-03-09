@@ -10,6 +10,7 @@ import PowerballGame from "./PowerballGame";
 const PowerballDashboard = () => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTime, setSelectedTime] = useState(null);
 
   const { accesstoken, user, partner } = useSelector((state) => state.user);
 
@@ -29,6 +30,9 @@ const PowerballDashboard = () => {
     name: "Partner",
   };
 
+  console.log("Seletedtime");
+  console.log(selectedTime);
+
   return (
     <>
       {selectedCategory === "" && (
@@ -36,42 +40,19 @@ const PowerballDashboard = () => {
       )}
 
       {selectedCategory === "PowerTime" && (
-        <PowerTime setSelectedCategory={setSelectedCategory} />
+        <PowerTime
+          setSelectedCategory={setSelectedCategory}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
       )}
 
       {selectedCategory === "PowerballGame" && (
-        <PowerballGame setSelectedCategory={setSelectedCategory} />
-      )}
-
-      {/* 
-  
-      {selectedCategory === "AllProfitDecrease" && (
-        <AllProfitDecrease setSelectedCategory={setSelectedCategory} />
-      )}
-      {selectedCategory === "AllPartner" && (
-        <AllPartner setSelectedCategory={setSelectedCategory} />
-      )}
-      {selectedCategory === "CreateNotificationAdmin" && (
-        <CreateNotification
+        <PowerballGame
           setSelectedCategory={setSelectedCategory}
-          selectedPartner={userdata}
+          selectedTime={selectedTime}
         />
       )}
-      {selectedCategory === "CreateNotificationPartner" && (
-        <CreateNotification
-          setSelectedCategory={setSelectedCategory}
-          selectedPartner={partnerData}
-        />
-      )}
-      {selectedCategory === "AllUser" && (
-        <AllUser setSelectedCategory={setSelectedCategory} />
-      )}
-      {selectedCategory === "AllRecharge" && (
-        <AllRecharge setSelectedCategory={setSelectedCategory} />
-      )}
-      {selectedCategory === "RechargeMethods" && (
-        <RechargeMethods setSelectedCategory={setSelectedCategory} />
-      )} */}
     </>
   );
 };

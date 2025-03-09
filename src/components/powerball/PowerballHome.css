@@ -284,6 +284,7 @@
     outline: none; /* Remove the outline when focused */
     padding-left: 1rem;
     border-radius: 1rem;
+    text-align: center;
 }
 .atc-input-con{
   height: 100%;
@@ -298,6 +299,7 @@
 .ticket-main-con{
     height: 95%;
     min-width: 30%;
+  
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
@@ -330,7 +332,7 @@
     justify-content: flex-start;
     align-items: center;    
     gap: 1rem;
-    overflow-y: scroll;
+    overflow-x: scroll;
     padding-left: 0.5rem;
 
 }
@@ -351,7 +353,7 @@
 .powergame-container{
     height: 100%;
     width: 100%;
-    background-color: aqua;
+   
     overflow-x: scroll;
    
     display: flex;
@@ -456,4 +458,24 @@
    gap: 2rem;
    width: 40vw;
    padding: 1rem;
+}
+.activeBall{
+    border: 1px solid var(--yellow);
+}
+.selectedBall{
+    border: 1px solid var(--white_s)
+}
+.submit-enabled{
+    background-color: var(--blue);
+    border-radius: 1rem;
+}
+.submit-button-next-con{
+    height: 5rem;
+    width: 100%;
+    background-color: var(--green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    cursor: pointer;
 }
