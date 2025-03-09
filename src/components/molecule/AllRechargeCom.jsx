@@ -6,6 +6,7 @@ import { CiCircleCheck } from "react-icons/ci";
 import COLORS from "../../assets/constants/colors";
 import AlertModalDeposit from "../helper/AlertModalDeposit";
 import { MdOutlineCancel } from "react-icons/md";
+import { ImageAlertModal } from "../helper/ImageAlertModal";
 
 const AllRechargeCom = ({
   userId,
@@ -42,6 +43,15 @@ const AllRechargeCom = ({
   showAlertAccepted,
   showAlertRejected,
   handleOpenAlert,
+  calculatedAmount,
+  usercountry,
+  paymentType,
+  showAlertReceipt,
+  isAlertOpen,
+  remark,
+  handleCloseAlert,
+  selectedReceiptUrl,
+  seletedImageId,
 }) => {
   const handlePress = () => {
     if (clickpress) {
@@ -70,18 +80,34 @@ const AllRechargeCom = ({
         <div className="child-small">
           <TextLabel label={transactionId} />
         </div>
-        <div className="child-small">
+        <div
+          className="child-small"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            if (clickpress) {
+              showAlertReceipt(item);
+            }
+          }}
+        >
           <TextLabel label={receipt} />
         </div>
+        {seletedImageId === item?._id && (
+          <ImageAlertModal
+            isOpen={isAlertOpen}
+            onClose={handleCloseAlert}
+            imageUrl={selectedReceiptUrl} // Use the state holding the selected receipt URL
+            remark={remark} // Use the state holding the selected receipt URL
+          />
+        )}
         <div className="child-small">
-          <TextLabel label={receipt} />
+          <TextLabel label={amount} />
         </div>
         <div className="child-large">
-          {updateStatusIsLoading && item._id === seletectedItem?._id ? (
+          {updateStatusIsLoading && item?._id === seletectedItem?._id ? (
             <Loader />
           ) : (
             <>
-              {selectedItemId === item._id && (
+              {selectedItemId === item?._id && (
                 <>
                   {/** FOR ACCEPTING */}
                   <AlertModalDeposit
@@ -104,7 +130,7 @@ const AllRechargeCom = ({
                 </>
               )}
 
-              {item.paymentStatus === "Pending" && (
+              {item?.paymentStatus === "Pending" && (
                 <div
                   className="allContentContainerIconContainer"
                   onClick={() => showAlertAccepted(item)}
@@ -113,30 +139,30 @@ const AllRechargeCom = ({
                 </div>
               )}
 
-              {item.paymentStatus === "Pending" ? (
+              {item?.paymentStatus === "Pending" ? (
                 <label
                   className="dHeaderContainerLabelAD"
                   style={{ color: COLORS.orange }}
                 >
-                  {item.paymentStatus}
+                  {item?.paymentStatus}
                 </label>
-              ) : item.paymentStatus === "Completed" ? (
+              ) : item?.paymentStatus === "Completed" ? (
                 <label
                   className="dHeaderContainerLabelAD"
                   style={{ color: COLORS.green }}
                 >
-                  {item.paymentStatus}
+                  {item?.paymentStatus}
                 </label>
               ) : (
                 <label
                   className="dHeaderContainerLabelAD"
                   style={{ color: COLORS.red }}
                 >
-                  {item.paymentStatus}
+                  {item?.paymentStatus}
                 </label>
               )}
 
-              {item.paymentStatus === "Pending" && (
+              {item?.paymentStatus === "Pending" && (
                 <div
                   className="allContentContainerIconContainer"
                   onClick={() => showAlertRejected(item)}
@@ -149,7 +175,7 @@ const AllRechargeCom = ({
         </div>
       </div>
 
-      {clickpress && expandedItems[item._id] && (
+      {clickpress && expandedItems[item?._id] && (
         <div
           className="allprofitdecresefooter-con"
           onClick={handlePress}
@@ -159,7 +185,7 @@ const AllRechargeCom = ({
         >
           <TextLabel label={remarks} />
           <div className="allprofitdecrese-reason-con">
-            <TextLabel label={reasonValue} />
+            <TextLabel label={item.remark === "" ? "NA" : item.remark} />
           </div>
         </div>
       )}

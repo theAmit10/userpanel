@@ -1,0 +1,146 @@
+.allDepositContainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.dHeaderContainer{
+    height: 5rem;
+    background-color: var(--green);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.dHeaderContainerLabelContainer{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.dHeaderContainerLabelContainerAD{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+
+}
+.dHeaderContainerLabelContainerUIDAD{
+    width: 6%;
+    min-width: fit-content;
+    max-width: 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ 
+    padding: 2px; /* Optional: Add padding for better visual spacing */
+    overflow: hidden;
+}
+.dHeaderContainerLabelContainerTIDAD{
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+.dHeaderContainerLabelContainerPAAD{
+    width: 10%;
+    min-width: 10%;
+    max-width: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.dHeaderContainerLabelContainerRAD{
+    width: 10%;
+    min-width: 10%;
+    max-width: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.dHeaderContainerLabelContainerAAD{
+    width: 10%;
+    min-width: 10%;
+    max-width: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.dHeaderContainerLabelContainerACAD{
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+
+.dHeaderContainerLabelContainerTIDAD{
+    width: 20%;
+    min-width: 20%;
+    max-width: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+.head-con-ad{
+    margin: 1rem 1rem 0rem 1rem;
+}
+
+/* .dHeaderContainerLabelAD{
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+
+} */
+
+.dHeaderContainerLabelAD {
+    color: var(--white_s);
+    font-family: "MSB";
+    font-size: 1.5rem;
+    white-space: nowrap; /* Prevents the label from wrapping to the next line */
+    overflow: hidden; /* Hides overflowed content */
+    text-overflow: ellipsis; /* Adds ellipsis (...) when content is too long */
+    max-width: 100%; /* Ensures the label doesn’t exceed the container’s width */
+}
+
+.dContentContainer{
+    min-height: 5rem;
+    background-color: var(--background);
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+   
+}
+
+@media (max-width: 768px){
+    .dHeaderContainerLabelAD{
+        font-size: 1.2rem;
+    }
+}
