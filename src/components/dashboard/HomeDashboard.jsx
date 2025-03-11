@@ -1174,24 +1174,43 @@ function HomeDashboard({
                             paddingLeft: "0.8rem",
                           }}
                         >
-                          {item?.lotlocation?.lotlocation}
+                          {item.gameType === "playarena"
+                            ? item?.lotlocation?.lotlocation
+                            : item?.powerdate?.powerdate
+                            ? formatDate(
+                                getDateTimeAccordingToUserTimezone(
+                                  item?.powertime?.powertime,
+                                  item?.powerdate?.powerdate,
+                                  user?.country?.timezone
+                                )
+                              )
+                            : ""}
                         </label>
                       </div>
                       <div className="hdrcM">
                         <label className="hdrcMResultLabel">
-                          {item?.playnumbers?.length}
+                          {item.gameType === "playarena"
+                            ? item?.playnumbers?.length
+                            : item?.tickets?.length}
                         </label>
                         <label className="hdrcMAmoutLabel">
-                          {calculateTotalAmount(item?.playnumbers)}{" "}
+                          {item.gameType === "playarena"
+                            ? calculateTotalAmount(item?.playnumbers)
+                            : calculateTotalAmount(item?.tickets)}{" "}
                           {user?.country?.countrycurrencysymbol}
                         </label>
                       </div>
                       <div className="hdrcR">
                         <label className="hdrcRResultLabel">
-                          {getTimeAccordingToTimezone(
-                            item?.lottime?.lottime,
-                            user?.country?.timezone
-                          )}
+                          {item.gameType === "playarena"
+                            ? getTimeAccordingToTimezone(
+                                item?.lottime?.lottime,
+                                user?.country?.timezone
+                              )
+                            : getTimeAccordingToTimezone(
+                                item?.powertime?.powertime,
+                                user?.country?.timezone
+                              )}
                         </label>
                         <label className="hdrcMAmoutLabel">
                           {" "}
