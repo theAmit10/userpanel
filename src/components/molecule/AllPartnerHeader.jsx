@@ -58,10 +58,10 @@ const AllPartnerHeader = ({
             style={{
               color:
                 status === "Active"
-                  ? "green"
+                  ? COLORS.green
                   : status === "Inactive"
                   ? "red"
-                  : "white",
+                  : COLORS.white_s,
             }}
           />
         </div>

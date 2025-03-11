@@ -45,6 +45,7 @@ import { LoadingComponent } from "../../components/helper/LoadingComponent";
 import {
   useGetAllLocationWithTimeQuery,
   useGetAppLinkQuery,
+  useGetPowerballQuery,
 } from "../../redux/api";
 import { CiSearch } from "react-icons/ci";
 import { TbHistoryToggle } from "react-icons/tb";
@@ -319,6 +320,20 @@ const Dashboard = () => {
     return Math.floor(floatValue);
   };
 
+  const [gameName, setGameName] = useState("Loading...");
+  // Network call
+  const { data, isLoading } = useGetPowerballQuery(
+    { accesstoken },
+    { skip: !accesstoken }
+  );
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setGameName(data.games[0].name);
+      console.log(data?.games[0].name);
+    }
+  }, [data, isLoading]); // Correct dependencies
+
   return (
     <>
       {accesstoken ? (
@@ -553,7 +568,7 @@ const Dashboard = () => {
                 <div className="adLContenContainerIcon">
                   <GiDiamondTrophy color={COLORS.white_s} size={"2.5rem"} />
                 </div>
-                <label className="adLContenContainerLabel">Powerball</label>
+                <label className="adLContenContainerLabel">{gameName}</label>
               </div>
 
               <div

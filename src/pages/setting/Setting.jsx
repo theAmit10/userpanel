@@ -48,6 +48,7 @@ import Partner from "../../components/partner/Partner.jsx";
 import { TiGroup } from "react-icons/ti";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard.jsx";
 import ResultDashboard from "../../components/result/ResultDashboard.jsx";
+import { useGetPowerballQuery } from "../../redux/api.js";
 
 export const locationdata = [
   {
@@ -208,6 +209,20 @@ const Setting = () => {
 
   const { accesstoken, user } = useSelector((state) => state.user);
 
+  const [gameName, setGameName] = useState("Loading...");
+  // Network call
+  const { data, isLoading } = useGetPowerballQuery(
+    { accesstoken },
+    { skip: !accesstoken }
+  );
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setGameName(data.games[0].name);
+      console.log(data?.games[0].name);
+    }
+  }, [data, isLoading]); // Correct dependencies
+
   return (
     <div className="adminDashboardContainer">
       {/** TOP CONTAINER */}
@@ -329,7 +344,7 @@ const Setting = () => {
             <div className="adLContenContainerIcon">
               <GiDiamondTrophy color={COLORS.white_s} size={"2.5rem"} />
             </div>
-            <label className="adLContenContainerLabel">Powerball</label>
+            <label className="adLContenContainerLabel">{gameName}</label>
           </div>
 
           {/** PLAY HISTORY */}

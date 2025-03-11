@@ -127,21 +127,23 @@ function Play({ reloadKey }) {
       ) > playnumberlimit
     ) {
       if (parseInt(playnumberlimit) <= 0) {
-        showWarningToast(`${findMissingNumbers(
-          playhistorydata,
-          currentDate.lotdate,
-          selectedTime.time ? selectedTime.time : selectedTime.lottime,
-          selectedLocation.name
-          ? selectedLocation.name
-          : selectedLocation.lotlocation,
-          selectedLocation.maximumNumber,
-        )}  Not Allowed`);
         showWarningToast(
-          "Maximum number selection limit reached"
+          `${findMissingNumbers(
+            playhistorydata,
+            currentDate.lotdate,
+            selectedTime.time ? selectedTime.time : selectedTime.lottime,
+            selectedLocation.name
+              ? selectedLocation.name
+              : selectedLocation.lotlocation,
+            selectedLocation.maximumNumber
+          )}  Not Allowed`
         );
+        showWarningToast("Maximum number selection limit reached");
       } else {
         showWarningToast(
-          `Kindly select any ${Math.abs(playnumberlimit)} numbers of your choice`
+          `Kindly select any ${Math.abs(
+            playnumberlimit
+          )} numbers of your choice`
         );
         showWarningToast("Selecting all numbers is not permitted");
       }
@@ -212,41 +214,43 @@ function Play({ reloadKey }) {
     lotdate,
     lottime,
     lotlocation,
-    maxnumber,
+    maxnumber
   ) {
-    console.log('Finding Missing Numbers');
+    console.log("Finding Missing Numbers");
     console.log(playbet.length, lotdate, lottime, lotlocation, maxnumber);
 
     // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
     const filteredArray = playbet.filter(
-      item =>
+      (item) =>
         item.lotdate.lotdate === lotdate &&
         item.lottime.lottime === lottime &&
-        item.lotlocation.lotlocation === lotlocation,
+        item.lotlocation.lotlocation === lotlocation
     );
 
-    console.log('Filtered array length :: ', filteredArray.length);
+    console.log("Filtered array length :: ", filteredArray.length);
 
     // Step 2: Use a Set to store unique playnumbers from the filtered array
     const uniquePlaynumbers = new Set();
-    filteredArray.forEach(item => {
-      item.playnumbers.forEach(numberObj => {
+    filteredArray.forEach((item) => {
+      item.playnumbers.forEach((numberObj) => {
         uniquePlaynumbers.add(Number(numberObj.playnumber)); // Ensure all values are numbers
       });
     });
 
-    console.log('Unique Playnumbers :: ', Array.from(uniquePlaynumbers));
+    console.log("Unique Playnumbers :: ", Array.from(uniquePlaynumbers));
 
     // Step 3: Create an array from 1 to maxnumber
-    const fullRange = Array.from({length: maxnumber}, (_, i) => i + 1);
-    console.log('Full Range :: ', fullRange);
+    const fullRange = Array.from({ length: maxnumber }, (_, i) => i + 1);
+    console.log("Full Range :: ", fullRange);
 
     // Step 4: Find numbers that are in fullRange but not in uniquePlaynumbers
-    const missingNumbers = fullRange.filter(num => !uniquePlaynumbers.has(num));
-    console.log('Missing Numbers :: ', missingNumbers);
+    const missingNumbers = fullRange.filter(
+      (num) => !uniquePlaynumbers.has(num)
+    );
+    console.log("Missing Numbers :: ", missingNumbers);
 
     // Step 5: Return the missing numbers as a comma-separated string
-    return missingNumbers.join(',');
+    return missingNumbers.join(",");
   }
 
   const hideSubmitContainer = () => {
@@ -958,23 +962,23 @@ function Play({ reloadKey }) {
     }
   }, [userplayhistory, userplayhistoryLoading]);
 
-  useEffect(() => {
-    console.log("SELECTED NUMBER :: LENTH ::", selectedNumber.length);
-    console.log(playnumberlimit);
-    if (currentDate && selectedTime && selectedLocation) {
-      console.log(
-        checkPlaybetLimit(
-          playhistorydata,
-          currentDate.lotdate,
-          selectedTime.time ? selectedTime.time : selectedTime.lottime,
-          selectedLocation.name
-            ? selectedLocation.name
-            : selectedLocation.lotlocation,
-          mineplaynum
-        )
-      );
-    }
-  }, [selectedNumber, currentDate, playhistorydata]);
+  // useEffect(() => {
+  //   console.log("SELECTED NUMBER :: LENTH ::", selectedNumber.length);
+  //   console.log(playnumberlimit);
+  //   if (currentDate && selectedTime && selectedLocation) {
+  //     console.log(
+  //       checkPlaybetLimit(
+  //         playhistorydata,
+  //         currentDate.lotdate,
+  //         selectedTime.time ? selectedTime.time : selectedTime.lottime,
+  //         selectedLocation.name
+  //           ? selectedLocation.name
+  //           : selectedLocation.lotlocation,
+  //         mineplaynum
+  //       )
+  //     );
+  //   }
+  // }, [selectedNumber, currentDate, playhistorydata]);
 
   function checkPlaybetLimit(playbet, lotdate, lottime, lotlocation, limit) {
     console.log("Checking Playbet Limit");
