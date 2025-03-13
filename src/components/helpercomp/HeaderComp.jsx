@@ -20,6 +20,7 @@ const HeaderComp = ({
   const handlePress = () => {
     if (closePartnerDetails) {
       closePartnerDetails();
+      return;
     }
     if (poweballbackhandler) {
       if (showAllSeclectedBalls) {

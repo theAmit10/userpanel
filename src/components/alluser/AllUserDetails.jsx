@@ -27,6 +27,9 @@ import FONT from "../../assets/constants/fonts";
 import { FaPlusMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
+import UserHistory from "../history/UserHistory";
+import UserPlayHistory from "../playhistory/UserPlayHistory";
+import { useCreateNotificationMutation } from "../../redux/api";
 
 const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -227,173 +230,12 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
     }
   }, [singleuser, loadingSingleUser]);
 
-  const [showProgressBar, setProgressBar] = useState(false);
-
-  const submitHandlerForWalletUpdateOne = async () => {
-    const url = `${UrlHelper.USER_WALLET_ONE_MODIFICATION_API}/${singleuser.walletOne._id}`;
-
-    if (!amount) {
-      showErrorToast("Please Enter Amount");
-    }
-    if (isNaN(amount)) {
-      showErrorToast("Please Enter Valid Amount");
-    } else {
-      setProgressBar(true);
-
-      try {
-        const walletBalance = singleuser.walletOne.balance;
-        const newWalletBalance = plusOperation
-          ? parseFloat(walletBalance) + parseFloat(amount)
-          : parseFloat(walletBalance) - parseFloat(amount);
-
-        const { data } = await axios.put(
-          url,
-          {
-            balance: newWalletBalance,
-            visibility: walletVisibiltyO,
-            paymentUpdateNote: paymentUpdateNote,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accesstoken}`,
-            },
-          }
-        );
-
-        console.log("datat :: " + data);
-
-        showSuccessToast("User Wallet Updated Successfully");
-
-        // dispatch(loadSingleUser(accesstoken, selectItem._id));
-        dispatch(
-          loadSingleUser(
-            accesstoken,
-            userdata ? selectItem.userId : selectItem._id
-          )
-        );
-        setProgressBar(false);
-        // backHanndlerWalletOne();
-        setAmount("");
-        setpaymentUpdateNote("");
-        // dispatch(loadSingleUser(accesstoken, selectItem._id));
-      } catch (error) {
-        setProgressBar(false);
-        showErrorToast("Something went wrong");
-        console.log(error);
-      }
-    }
-  };
-  const submitHandlerForWalletUpdateTwo = async () => {
-    const url = `${UrlHelper.USER_WALLET_TWO_MODIFICATION_API}/${singleuser.walletTwo._id}`;
-
-    if (!amount) {
-      showErrorToast("Please Enter Amount");
-    }
-    if (isNaN(amount)) {
-      showErrorToast("Please Enter Valid Amount");
-    } else {
-      setProgressBar(true);
-
-      const walletBalance = singleuser.walletTwo.balance;
-      const newWalletBalance = plusOperation
-        ? parseFloat(walletBalance) + parseFloat(amount)
-        : parseFloat(walletBalance) - parseFloat(amount);
-
-      try {
-        const { data } = await axios.put(
-          url,
-          {
-            balance: newWalletBalance,
-            visibility: walletVisibiltyT,
-            paymentUpdateNote: paymentUpdateNote,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accesstoken}`,
-            },
-          }
-        );
-
-        console.log("datat :: " + data);
-
-        showSuccessToast("User Wallet Updated Successfully");
-        // dispatch(loadSingleUser(accesstoken, selectItem._id));
-        dispatch(
-          loadSingleUser(
-            accesstoken,
-            userdata ? selectItem.userId : selectItem._id
-          )
-        );
-        setProgressBar(false);
-        // backHanndlerWalletOne();
-
-        setAmount("");
-        setpaymentUpdateNote("");
-      } catch (error) {
-        setProgressBar(false);
-        showErrorToast("Something went wrong");
-        console.log(error);
-      }
-    }
-  };
-
   // FOR UPDATING USERID
-
-  const [loadingUpdateUserId, setLoadingUpdateUserId] = useState(false);
-  const submitHandlerForUpdateUserId = () => {
-    if (!amount) {
-      showErrorToast("Please enter new user id ");
-    } else {
-      updateUserId();
-    }
-  };
-
-  const updateUserId = async () => {
-    try {
-      setLoadingUpdateUserId(true);
-      const url = `${UrlHelper.UPDATE_USER_ID_API}/${selectItem.userId}`;
-
-      console.log("URL :: " + url);
-
-      const { data } = await axios.put(
-        url,
-        {
-          newUserId: amount,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accesstoken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("Data :: " + data.message);
-
-      showSuccessToast(data.message);
-
-      // backHanndlerUserId();
-      dispatch(loadSingleUser(accesstoken, amount));
-      setAmount("");
-      setLoadingUpdateUserId(false);
-    } catch (error) {
-      setLoadingUpdateUserId(false);
-      console.log(" Err :: " + error);
-      console.log(" Err :: " + error.response.data.message);
-
-      if (error.response.data.message) {
-        showErrorToast(error.response.data.message);
-      } else {
-        showErrorToast("Something went Wrong");
-      }
-    }
-  };
 
   // FOR SINGLE NOTIFICAITON
 
   const [loadingSendNotification, setLoadingSendNotification] = useState(false);
+  const [createNotification, { isLoading }] = useCreateNotificationMutation();
 
   const sendNotificationToSingleUser = async () => {
     if (!titleValue) {
@@ -404,26 +246,40 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
       setLoadingSendNotification(true);
 
       try {
-        const url = `${UrlHelper.SEND_NOTIFICATION_SINGLE_USER}`;
-        const { data } = await axios.post(
-          url,
-          {
-            title: titleValue,
-            description: discriptionValue,
-            devicetoken: singleuser?.devicetoken,
-            userId: singleuser._id,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${accesstoken}`,
-            },
-          }
-        );
+        // const url = `${UrlHelper.SEND_NOTIFICATION_SINGLE_USER}`;
+        // const { data } = await axios.post(
+        //   url,
+        //   {
+        //     title: titleValue,
+        //     description: discriptionValue,
+        //     devicetoken: singleuser?.devicetoken,
+        //     userId: singleuser._id,
+        //   },
+        //   {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       Authorization: `Bearer ${accesstoken}`,
+        //     },
+        //   }
+        // );
 
-        console.log("datat :: " + data);
+        // console.log("datat :: " + data);
 
-        showSuccessToast(data.message);
+        const body = {
+          title: titleValue,
+          description: discriptionValue,
+          userId: singleuser.userId,
+        };
+        const res = await createNotification({
+          accesstoken,
+          body,
+        });
+        console.log(JSON.stringify(res));
+        setTitle("");
+        setDescription("");
+        showSuccessToast(res.data.message);
+
+        // showSuccessToast(data.message);
 
         backHanndlerUserId();
         setLoadingSendNotification(false);
@@ -593,376 +449,88 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
                 className="hdAllContainer"
                 style={{ background: "transparent" }}
               >
-                {/** WALLET TWO */}
-                {/* {user && user.role === "admin" ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForWalletTwo}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletTwo?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletTwo?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletTwo?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : user &&
-                  user.role === "subadmin" &&
-                  user.subadminfeature.gamewalletbalnceedit ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForWalletTwo}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletTwo?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletTwo?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletTwo?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="hdAllContainerContent">
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletTwo?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletTwo?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletTwo?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-
-                {/** WALLET ONE  */}
-
-                {/* {user && user.role === "admin" ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForWalletOne}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletOne?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletOne?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletOne?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : user &&
-                  user.role === "subadmin" &&
-                  user.subadminfeature.withdrawalletbalanceedit ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForWalletOne}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletOne?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletOne?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletOne?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="hdAllContainerContent">
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser.walletOne?.walletName}
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {roundToInteger(singleuser.walletOne?.balance)}{" "}
-                        <span style={{ fontSize: "1rem" }}>
-                          {singleuser?.country?.countrycurrencysymbol}
-                        </span>
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update {singleuser.walletOne?.walletName} balance
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <FaWallet color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-
-                {/** USER ID  */}
-
-                {/* {user && user.role === "admin" ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForUserId}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        User ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser?.userId}
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update user ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <GrUserNew color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : user &&
-                  user.role === "subadmin" &&
-                  user.subadminfeature.useridedit ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForUserId}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        User ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser?.userId}
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update user ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <GrUserNew color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="hdAllContainerContent">
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        User ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        {singleuser?.userId}
-                      </label>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        Update user ID
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <GrUserNew color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                  </div>
-                )} */}
-
                 {/** NOTIFICATIONL */}
-
-                {user && user.role === "admin" ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForNotication}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        Notification
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        create a push notification
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <AiFillNotification
-                          color={COLORS.background}
-                          size={"2.5rem"}
-                        />
-                      </div>
+                <div
+                  className="hdAllContainerContent"
+                  onClick={settingForNotication}
+                >
+                  <div className="hdAllContainerContentTop">
+                    <label className="hdAllContainerContentTopBoldLabel">
+                      Notification
+                    </label>
+                    <div className="hdContenContainerIcon">
+                      <CiEdit color={COLORS.background} size={"2.5rem"} />
                     </div>
                   </div>
-                ) : user &&
-                  user.role === "subadmin" &&
-                  user.subadminfeature.notificationsend ? (
-                  <div
-                    className="hdAllContainerContent"
-                    onClick={settingForNotication}
-                  >
-                    <div className="hdAllContainerContentTop">
-                      <label className="hdAllContainerContentTopBoldLabel">
-                        Notification
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <CiEdit color={COLORS.background} size={"2.5rem"} />
-                      </div>
-                    </div>
-                    <div className="hdAllContainerContentBottom">
-                      <label className="hdAllContainerContentTopRegularLabel">
-                        create a push notification
-                      </label>
-                      <div className="hdContenContainerIcon">
-                        <AiFillNotification
-                          color={COLORS.background}
-                          size={"2.5rem"}
-                        />
-                      </div>
+                  <div className="hdAllContainerContentBottom">
+                    <label className="hdAllContainerContentTopRegularLabel">
+                      create a push notification
+                    </label>
+                    <div className="hdContenContainerIcon">
+                      <AiFillNotification
+                        color={COLORS.background}
+                        size={"2.5rem"}
+                      />
                     </div>
                   </div>
-                ) : null}
+                </div>
 
                 {/** PLAY HISTORY  */}
-                <div
-                  className="hdAllContainerContent"
-                  onClick={settingForPlayHistory}
-                >
-                  <div className="hdAllContainerContentTop">
-                    <label className="hdAllContainerContentTopBoldLabel">
-                      Play History
-                    </label>
-                    <div className="hdContenContainerIcon">
-                      <FaUserCircle color={COLORS.background} size={"2.5rem"} />
+                {user?.playHistoryPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={settingForPlayHistory}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Play History
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaUserCircle
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                        />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        User's play history
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaHistory color={COLORS.background} size={"2.5rem"} />
+                      </div>
                     </div>
                   </div>
-                  <div className="hdAllContainerContentBottom">
-                    <label className="hdAllContainerContentTopRegularLabel">
-                      User's play history
-                    </label>
-                    <div className="hdContenContainerIcon">
-                      <FaHistory color={COLORS.background} size={"2.5rem"} />
-                    </div>
-                  </div>
-                </div>
+                )}
 
                 {/** HISTORY  */}
-                <div
-                  className="hdAllContainerContent"
-                  onClick={settingForHistory}
-                >
-                  <div className="hdAllContainerContentTop">
-                    <label className="hdAllContainerContentTopBoldLabel">
-                      Transaction History
-                    </label>
-                    <div className="hdContenContainerIcon">
-                      <FaUserCircle color={COLORS.background} size={"2.5rem"} />
+
+                {user?.transactionHistoryPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={settingForHistory}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Transaction History
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaUserCircle
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                        />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        User's transaction history
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <FaHistory color={COLORS.background} size={"2.5rem"} />
+                      </div>
                     </div>
                   </div>
-                  <div className="hdAllContainerContentBottom">
-                    <label className="hdAllContainerContentTopRegularLabel">
-                      User's transaction history
-                    </label>
-                    <div className="hdContenContainerIcon">
-                      <FaHistory color={COLORS.background} size={"2.5rem"} />
-                    </div>
-                  </div>
-                </div>
+                )}
 
                 {/** END */}
               </div>
@@ -970,380 +538,6 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
           )}
         </div>
       )}
-
-      {/** FOR WALLET ONE */}
-      {/* {showEditWO &&
-        (loadingSingleUser ? (
-          <LoadingComponent />
-        ) : (
-          <div className="asdcontainer">
-            <div className="alCreatLocationTopContainer">
-              <div
-                className="searchIconContainer"
-                onClick={backHanndlerWalletOne}
-              >
-                <IoArrowBackCircleOutline
-                  color={COLORS.white_s}
-                  size={"2.5rem"}
-                />
-              </div>
-              <div
-                className="alCreatLocationTopContaineCL"
-                style={{ justifyContent: "space-between", marginRight: "3rem" }}
-              >
-                <label className="alCreatLocationTopContainerlabel">
-                  {singleuser.name}
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  Update {singleuser.walletOne?.walletName}
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  {selectItem.country?.countryname}
-                </label>
-              </div>
-            </div>
-           
-            <div className="auMContainer">
-              <label className="pdB">{singleuser.walletOne?.walletName}</label>
-              <label className="pdR">Current Balance</label>
-              <label className="pdB">
-                {singleuser?.walletOne?.balance}{" "}
-                {singleuser?.country?.countrycurrencysymbol}
-              </label>
-
-   
-              <label
-                className="alCLLabel"
-                style={{ marginLeft: "-2rem", marginTop: "1rem" }}
-              >
-                Amount
-              </label>
-              <div
-                className="alSearchContainer"
-                style={{ marginLeft: "-0.5rem" }}
-              >
-                <div
-                  className="searchIconContainer"
-                  onClick={settingOperationWork}
-                  style={{
-                    cursor: "pointer",
-                    border: `2px solid ${COLORS.background}`,
-                    backgroundColor: COLORS.grayHalfBg,
-                    borderRadius: "1rem",
-                  }}
-                >
-                  {plusOperation ? (
-                    <FaPlus color={COLORS.background} size={"2.5rem"} />
-                  ) : (
-                    <FaMinus color={COLORS.background} size={"2.5rem"} />
-                  )}
-                </div>
-
-                <input
-                  className="al-search-input"
-                  placeholder="Enter amount"
-                  value={amount}
-                  inputMode="numeric"
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-
-          
-              <label
-                className="alCLLabel"
-                style={{ marginLeft: "-2rem", marginTop: "1rem" }}
-              >
-                Note
-              </label>
-              <div
-                className="alSearchContainer"
-                style={{ marginLeft: "-0.5rem" }}
-              >
-                <div className="searchIconContainer">
-                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                </div>
-
-                <input
-                  className="al-search-input"
-                  placeholder="Enter Note"
-                  value={paymentUpdateNote}
-                  onChange={(e) => setpaymentUpdateNote(e.target.value)}
-                />
-              </div>
-
-              <label className="pdSB">Wallet Visibility</label>
-              <div className="wvisibilityC">
-                <div className="searchIconContainer">
-                  <PiSubtitles color={COLORS.white} size={"2.5rem"} />
-                </div>
-                <div className="wcl">
-                  <label className="pdR">Current Balance</label>
-                </div>
-
-                <div className="switchContainer">
-                  <label className="allContentContainerLimitL">Hide</label>
-                  <label className="allContentContainerLimitL">
-                    <Switch
-                      checked={walletVisibiltyO}
-                      onChange={toggleVisibilityO}
-                      onColor="#86d3ff"
-                      onHandleColor="#2693e6"
-                      handleDiameter={30}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                      height={20}
-                      width={48}
-                      className="react-switch"
-                    />
-                  </label>
-                  <label className="allContentContainerLimitL">Visible</label>
-                </div>
-              </div>
-            </div>
-
-            {showProgressBar ? (
-              <LoadingComponent />
-            ) : (
-              <div
-                className="alBottomContainer"
-                onClick={submitHandlerForWalletUpdateOne}
-              >
-                <label className="alBottomContainerlabel">Submit</label>
-              </div>
-            )}
-          </div>
-        ))} */}
-      {/** FOR WALLET ONE */}
-
-      {/** FOR WALLET TWO */}
-      {/* {showEditWT &&
-        (loadingSingleUser ? (
-          <LoadingComponent />
-        ) : (
-          <div className="asdcontainer">
-            <div className="alCreatLocationTopContainer">
-              <div
-                className="searchIconContainer"
-                onClick={backHanndlerWalletOne}
-              >
-                <IoArrowBackCircleOutline
-                  color={COLORS.white_s}
-                  size={"2.5rem"}
-                />
-              </div>
-              <div
-                className="alCreatLocationTopContaineCL"
-                style={{ justifyContent: "space-between", marginRight: "3rem" }}
-              >
-                <label className="alCreatLocationTopContainerlabel">
-                  {singleuser.name}
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  Update {singleuser.walletTwo?.walletName}
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  {selectItem.country?.countryname}
-                </label>
-              </div>
-            </div>
-           
-            <div className="auMContainer">
-              <label className="pdB">{singleuser.walletTwo?.walletName}</label>
-              <label className="pdR">Current Balance</label>
-              <label className="pdB">
-                {singleuser?.walletTwo?.balance}{" "}
-                {singleuser?.country?.countrycurrencysymbol}
-              </label>
-
-       
-              <label
-                className="alCLLabel"
-                style={{ marginLeft: "-2rem", marginTop: "1rem" }}
-              >
-                Amount
-              </label>
-              <div
-                className="alSearchContainer"
-                style={{ marginLeft: "-0.5rem" }}
-              >
-                <div
-                  className="searchIconContainer"
-                  onClick={settingOperationWork}
-                  style={{
-                    cursor: "pointer",
-                    border: `2px solid ${COLORS.background}`,
-                    backgroundColor: COLORS.grayHalfBg,
-                    borderRadius: "1rem",
-                  }}
-                >
-                  {plusOperation ? (
-                    <FaPlus color={COLORS.background} size={"2.5rem"} />
-                  ) : (
-                    <FaMinus color={COLORS.background} size={"2.5rem"} />
-                  )}
-                </div>
-
-                <input
-                  className="al-search-input"
-                  placeholder="Enter amount"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-
-           
-              <label
-                className="alCLLabel"
-                style={{ marginLeft: "-2rem", marginTop: "1rem" }}
-              >
-                Note
-              </label>
-              <div
-                className="alSearchContainer"
-                style={{ marginLeft: "-0.5rem" }}
-              >
-                <div className="searchIconContainer">
-                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                </div>
-
-                <input
-                  className="al-search-input"
-                  placeholder="Enter Note"
-                  value={paymentUpdateNote}
-                  onChange={(e) => setpaymentUpdateNote(e.target.value)}
-                />
-              </div>
-
-              <label className="pdSB">Wallet Visibility</label>
-              <div className="wvisibilityC">
-                <div className="searchIconContainer">
-                  <PiSubtitles color={COLORS.white} size={"2.5rem"} />
-                </div>
-                <div className="wcl">
-                  <label className="pdR">Current Balance</label>
-                </div>
-
-                <div className="switchContainer">
-                  <label className="allContentContainerLimitL">Hide</label>
-                  <label className="allContentContainerLimitL">
-                    <Switch
-                      checked={walletVisibiltyT}
-                      onChange={toggleVisibilityT}
-                      onColor="#86d3ff"
-                      onHandleColor="#2693e6"
-                      handleDiameter={30}
-                      uncheckedIcon={false}
-                      checkedIcon={false}
-                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                      height={20}
-                      width={48}
-                      className="react-switch"
-                    />
-                  </label>
-                  <label className="allContentContainerLimitL">Visible</label>
-                </div>
-              </div>
-            </div>
-
-            {showProgressBar ? (
-              <LoadingComponent />
-            ) : (
-              <div
-                className="alBottomContainer"
-                onClick={submitHandlerForWalletUpdateTwo}
-              >
-                <label className="alBottomContainerlabel">Submit</label>
-              </div>
-            )}
-          </div>
-        ))} */}
-      {/** FOR WALLET TWO */}
-
-      {/** FOR USER ID */}
-      {/* {showEditUI &&
-        (loadingSingleUser ? (
-          <LoadingComponent />
-        ) : (
-          <div className="asdcontainer">
-            <div className="alCreatLocationTopContainer">
-              <div
-                className="searchIconContainer"
-                onClick={backHanndlerWalletOne}
-              >
-                <IoArrowBackCircleOutline
-                  color={COLORS.white_s}
-                  size={"2.5rem"}
-                />
-              </div>
-
-              <div
-                className="alCreatLocationTopContaineCL"
-                style={{ justifyContent: "space-between", marginRight: "3rem" }}
-              >
-                <label className="alCreatLocationTopContainerlabel">
-                  {singleuser.name}
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  Update User ID
-                </label>
-                <label className="alCreatLocationTopContainerlabel">
-                  {selectItem.country?.countryname}
-                </label>
-              </div>
-            </div>
-           
-            <div className="auMContainer">
-              <label className="pdR">Current User ID</label>
-              <label className="pdB"> {singleuser.userId}</label>
-
-
-              <label
-                className="alCLLabel"
-                style={{ marginLeft: "-2rem", marginTop: "1rem" }}
-              >
-                User ID
-              </label>
-              <div
-                className="alSearchContainer"
-                style={{ marginLeft: "-0.5rem" }}
-              >
-                <div className="searchIconContainer">
-                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                </div>
-
-                <input
-                  className="al-search-input"
-                  placeholder="Enter user ID"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-              <label className="pdR">Contact Details</label>
-              <label className="pdB"> {singleuser.email}</label>
-              <label className="pdB">
-                {" "}
-                {singleuser.contact != singleuser.userId
-                  ? singleuser.contact
-                  : null}
-              </label>
-            </div>
-
-            {loadingUpdateUserId ? (
-              <LoadingComponent />
-            ) : (
-              <div
-                className="alBottomContainer"
-                onClick={submitHandlerForUpdateUserId}
-              >
-                <label className="alBottomContainerlabel">Submit</label>
-              </div>
-            )}
-          </div>
-        ))} */}
-      {/** FOR USER ID */}
 
       {/** FOR NOTIFICATION */}
       {showEditN &&
@@ -1425,7 +619,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
 
       {/** HISTORY */}
       {showhistory && (
-        <Historyc
+        <UserHistory
           userdata={singleuser}
           backHanndlerForHistory={backHanndlerForHistory}
         />
@@ -1433,7 +627,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
 
       {/** PLAY HISTORY */}
       {showPlayhistory && (
-        <Playhistory
+        <UserPlayHistory
           userdata={singleuser}
           backHanndlerForPlayHistory={backHanndlerForPlayHistory}
         />
