@@ -70,7 +70,12 @@ const PARTNER_USER_UPI_API = server + "result/getuserupipaymets";
 const PARTNER_BANK_API = server + "result/getpartnerbanklist";
 const PARTNER_USER_BANK_API = server + "result/getuserbankpaymets";
 
+const ALL_USERS_API = server + "user/alluser";
+const SINGLE_USER_API = server + "user/singleuser";
+
 export default {
+  ALL_USERS_API,
+  SINGLE_USER_API,
   PARTNER_UPI_API,
   PARTNER_BANK_API,
   PARTNER_CRYPTO_API,

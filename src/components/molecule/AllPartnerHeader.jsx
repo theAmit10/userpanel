@@ -1,6 +1,7 @@
 import React from "react";
 import "./TextCon.css";
 import TextLabel from "../atom/TextLabel";
+import COLORS from "../../assets/constants/colors";
 
 const AllPartnerHeader = ({
   userId,

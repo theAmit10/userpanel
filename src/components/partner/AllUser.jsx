@@ -12,6 +12,8 @@ import Loader from "../molecule/Loader";
 import PartnerDetails from "./PartnerDetails";
 import AllUserComp from "../molecule/AllUserComp";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import AllUserDetails from "../alluser/AllUserDetails";
+import AllUserDetailCom from "../molecule/AllUserDetailCom";
 
 const AllUser = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -202,7 +204,7 @@ const AllUser = ({ setSelectedCategory }) => {
 
           <div className="container-scrollable" onScroll={handleScroll}>
             {partners.map((item, index) => (
-              <AllUserComp
+              <AllUserDetailCom
                 key={index}
                 userId={item.userId}
                 name={item.name}
@@ -216,6 +218,7 @@ const AllUser = ({ setSelectedCategory }) => {
                 seletectedItem={seletectedItem}
                 setSelectedItem={setSelectedItem}
                 clickpress={true}
+                openPartnerDetails={openPartnerDetails}
               />
             ))}
 
@@ -233,9 +236,9 @@ const AllUser = ({ setSelectedCategory }) => {
       )}
 
       {showPartnerDetails && (
-        <PartnerDetails
-          closePartnerDetails={closePartnerDetails}
-          selectedPartner={selectedPartner}
+        <AllUserDetails
+          userdata={selectedPartner}
+          backhandlerDeposit={closePartnerDetails}
         />
       )}
     </>

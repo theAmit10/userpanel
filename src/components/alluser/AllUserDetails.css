@@ -1,0 +1,99 @@
+.asdcontainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 1rem;
+}
+
+.asdMainContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+
+
+}
+
+.roleContainer{
+    height: 6rem;
+    background-color: var(--green);
+    margin: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.asdccontainer{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+   
+}
+
+.aucontainer{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: pink;
+    height: 70vh;
+}
+
+.userimage{
+    height: 5rem;
+    width: 5rem;
+    background-color: white;
+    border-radius: 50%;
+    overflow: hidden;
+   
+}
+
+.userimg{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+
+  .auMContainer{
+    flex: 1;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    max-height: 60vh;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding: 2rem;
+    gap: 1rem;
+
+
+}
+
+.wvisibilityC{
+    height: 6rem;
+    background-color: var(--background);
+    border-radius: 1rem;
+    margin-left: -0.5rem;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1rem;
+
+}
+
+.wcl{
+    display: flex;
+    flex: 1;
+
+}

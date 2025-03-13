@@ -108,6 +108,68 @@ export const loadPartnerProfile = (accesstoken, userId) => async (dispatch) => {
     });
   }
 };
+
+export const loadAllUsers = (accesstoken) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "allUserRequest",
+    });
+
+    const { data } = await axios.get(UrlHelper.ALL_USERS_API, {
+      headers: {
+        Authorization: `Bearer ${accesstoken}`,
+      },
+    });
+
+    dispatch({
+      type: "allUserSuccess",
+      payload: data.users,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log(error.response);
+    // console.log(error.response.data.message);
+
+    dispatch({
+      type: "loadUserFail",
+      payload: "something went wrong",
+    });
+  }
+};
+
+// Load SINGLE USER
+export const loadSingleUser = (accesstoken, userid) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getSingleUserLoadingRequest",
+    });
+
+    const url = UrlHelper.SINGLE_USER_API + "/" + userid;
+    console.log("Loading Single user details");
+    console.log(url);
+    console.log(userid);
+
+    const { data } = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accesstoken}`,
+      },
+    });
+
+    dispatch({
+      type: "getSingleUserSuccess",
+      payload: data.user,
+    });
+  } catch (error) {
+    console.log(error);
+    console.log(error.response);
+
+    dispatch({
+      type: "getSingleUserFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 // logging off
 export const logout = (accesstoken) => async (dispatch) => {
   console.log("Processing logout");

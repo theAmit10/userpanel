@@ -134,7 +134,8 @@ function Upideposit({ selectingPaymentType }) {
   const allTheDepositData = async () => {
     try {
       setLoadingAllData(true);
-      const { data } = await axios.get(UrlHelper.ALL_UPI_API, {
+      const url = `${UrlHelper.PARTNER_USER_UPI_API}/${user.rechargePaymentId}`;
+      const { data } = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accesstoken}`,
@@ -247,12 +248,10 @@ function Upideposit({ selectingPaymentType }) {
                     </div>
 
                     <div className="deposit-content-container-right">
-                    <label className="deposit-content-container-right-lebel">
-                      {item.paymentId}
-                    </label>
+                      <label className="deposit-content-container-right-lebel">
+                        {item.paymentId}
+                      </label>
                     </div>
-
-                    
                   </div>
                 ))}
               </div>
@@ -358,9 +357,7 @@ function Upideposit({ selectingPaymentType }) {
             <div className="upideposit-content-container-left-upi-or">
               <div className="upideposit-content-container-right-upi-content-or">
                 <div className="upideposit-content-container-right">
-                  <div
-                    className="upideposit-content-content-left-content-icon-container-qrcode"
-                  >
+                  <div className="upideposit-content-content-left-content-icon-container-qrcode">
                     <img
                       src="https://imgs.search.brave.com/WG5U5I_hK20P2PRulDBEmG_XZQQvgV5AmR11MbwxWyE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9xcmNv/ZGUudGVjLWl0LmNv/bS9BUEkvUVJDb2Rl/P2RhdGE9UVIrQ29k/ZStHZW5lcmF0b3Ir/YnkrVEVDLUlU.jpeg"
                       alt="UPI"

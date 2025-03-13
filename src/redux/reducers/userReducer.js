@@ -8,6 +8,7 @@ export const userReducer = createReducer(
     promotions: [],
     loadingAbout: false,
     loadingNotification: false,
+    loadingAll: false,
   },
   (builder) => {
     builder
@@ -34,6 +35,12 @@ export const userReducer = createReducer(
       })
       .addCase("getAllNotificationRequest", (state) => {
         state.loadingNotification = true;
+      })
+      .addCase("allUserRequest", (state) => {
+        state.loadingAll = true;
+      })
+      .addCase("getSingleUserLoadingRequest", (state) => {
+        state.loadingSingleUser = true;
       });
 
     builder
@@ -73,6 +80,14 @@ export const userReducer = createReducer(
       .addCase("getPartnerSuccess", (state, action) => {
         state.loading = false;
         state.partner = action.payload;
+      })
+      .addCase("allUserSuccess", (state, action) => {
+        state.loadingAll = false;
+        state.allusers = action.payload;
+      })
+      .addCase("getSingleUserSuccess", (state, action) => {
+        state.loadingSingleUser = false;
+        state.singleuser = action.payload;
       });
 
     builder
@@ -84,6 +99,7 @@ export const userReducer = createReducer(
         state.loading = false;
         state.error = action.payload;
       })
+
       .addCase("logoutFail", (state, action) => {
         state.loading = false;
         state.error = action.payload;
@@ -106,6 +122,10 @@ export const userReducer = createReducer(
       })
       .addCase("getPartnerFail", (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase("getSingleUserFail", (state, action) => {
+        state.loadingSingleUser = false;
         state.error = action.payload;
       });
 
