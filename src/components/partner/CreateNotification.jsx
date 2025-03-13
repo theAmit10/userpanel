@@ -61,8 +61,6 @@ const CreateNotification = ({ setSelectedCategory, selectedPartner }) => {
       <HeaderComp
         title={"Send Notification"}
         setSelectedCategory={setSelectedCategory}
-        left={selectedPartner?.userId}
-        right={selectedPartner?.name}
       />
 
       <div className="container-scrollable">

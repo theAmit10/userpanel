@@ -2,6 +2,7 @@ import React from "react";
 import "./TextCon.css";
 import TextLabel from "../atom/TextLabel";
 import COLORS from "../../assets/constants/colors";
+import { roundToInteger } from "../balancetransfer/Balancetransfer";
 
 const AllPartnerHeader = ({
   userId,
@@ -49,9 +50,15 @@ const AllPartnerHeader = ({
         <TextLabel label={totaluser} />
       </div>
 
-      <div className="child-large">
-        <TextLabel label={balance} />
-      </div>
+      {clickpress ? (
+        <div className="child-large">
+          <TextLabel label={roundToInteger(balance)} />
+        </div>
+      ) : (
+        <div className="child-large">
+          <TextLabel label={balance} />
+        </div>
+      )}
       {showActive && (
         <div className="child-small">
           <TextLabel

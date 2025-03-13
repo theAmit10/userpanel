@@ -80,9 +80,9 @@ const DecreasePercentage = ({ setSelectedCategory, selectedPartner }) => {
           />
 
           <TextInputCon
-            title={"New Profit Percentage"}
+            title={"Reduce Percentage"}
             iconname={"LuFileText"}
-            placeholder={"Enter new profit percentage"}
+            placeholder={"Enter new reduce percentage"}
             searchvalue={profitPercentage}
             setSearchValue={setProfitPercentage}
           />

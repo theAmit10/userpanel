@@ -10,6 +10,7 @@ import {
 } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import PartnerDetails from "./PartnerDetails";
+import { NodataFound } from "../helper/NodataFound";
 
 const AllPartner = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -171,24 +172,28 @@ const AllPartner = ({ setSelectedCategory }) => {
           )}
 
           <div className="container-scrollable" onScroll={handleScroll}>
-            {partners.map((item) => (
-              <AllPartnerHeader
-                key={item._id}
-                userId={item.userId}
-                name={item.name}
-                profit={item.profitPercentage}
-                recharge={item.rechargePercentage}
-                totaluser={item.userList.length}
-                balance={item.walletTwo?.balance}
-                backgroundcolor={COLORS.background}
-                showActive={true}
-                item={item}
-                status={item.partnerStatus ? "Active" : "Inactive"}
-                clickpress={true}
-                navigate={"PartnerDetails"}
-                openPartnerDetails={openPartnerDetails}
-              />
-            ))}
+            {!loadingPaginated && partners.length === 0 ? (
+              <NodataFound title={"No Partner Found"} />
+            ) : (
+              partners.map((item) => (
+                <AllPartnerHeader
+                  key={item._id}
+                  userId={item.userId}
+                  name={item.name}
+                  profit={item.profitPercentage}
+                  recharge={item.rechargePercentage}
+                  totaluser={item.userList.length}
+                  balance={item.walletTwo?.balance}
+                  backgroundcolor={COLORS.background}
+                  showActive={true}
+                  item={item}
+                  status={item.partnerStatus ? "Active" : "Inactive"}
+                  clickpress={true}
+                  navigate={"PartnerDetails"}
+                  openPartnerDetails={openPartnerDetails}
+                />
+              ))
+            )}
 
             {/* Show Loader only when fetching new data */}
             {isLoading && hasMore && <Loader />}

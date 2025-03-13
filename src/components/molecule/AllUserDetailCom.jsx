@@ -20,7 +20,28 @@ const AllUserDetailCom = ({
   setSelectedItem,
   openPartnerDetails,
 }) => {
-  const handlePress = () => {
+  // const handlePress = () => {
+  //   console.log("handlePress triggered!", { clickpress });
+
+  //   if (!clickpress) {
+  //     console.log("clickpress is false, function is not executing further.");
+  //     return;
+  //   }
+
+  //   console.log("Item:", item);
+  //   setSelectedItem(item);
+
+  //   if (item.partnerType === "user") {
+  //     console.log("Calling activatingPartner...");
+  //     activatingPartner();
+  //   } else {
+  //     console.log("Calling alredyPartner...");
+  //     alredyPartner();
+  //   }
+  // };
+
+  const handlePress = (e) => {
+    e.stopPropagation(); // Prevents the parent div's click event from triggering
     console.log("handlePress triggered!", { clickpress });
 
     if (!clickpress) {
@@ -83,21 +104,21 @@ const AllUserDetailCom = ({
                 <IconButton
                   label={status}
                   style={{ backgroundColor: COLORS.blue }}
-                  onClickHandler={handlePress}
+                  onClickHandler={(e) => handlePress(e)}
                 />
               )
             ) : (
               <IconButton
                 label={status}
                 style={{ backgroundColor: COLORS.blue }}
-                onClickHandler={handlePress}
+                onClickHandler={(e) => handlePress(e)}
               />
             )
           ) : (
             <IconButton
               label={status}
               style={{ backgroundColor: COLORS.green }}
-              onClickHandler={handlePress}
+              onClickHandler={(e) => handlePress(e)}
             />
           )}
         </div>

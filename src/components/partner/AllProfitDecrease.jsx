@@ -12,6 +12,7 @@ import {
 } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import AllPofitDecreseComp from "../molecule/AllPofitDecreseComp";
+import { NodataFound } from "../helper/NodataFound";
 
 const AllProfitDecrease = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -175,24 +176,29 @@ const AllProfitDecrease = ({ setSelectedCategory }) => {
             index={1}
           />
         )}
-        {partners.map((item, index) => (
-          <AllPofitDecreseComp
-            key={index}
-            toggleItem={toggleItem}
-            userId={item.userId}
-            name={item.name}
-            status={"Pending"}
-            clickpress={true}
-            navigate={"PartnerDetails"}
-            openPartnerDetails={toggleItem}
-            expandedItems={expandedItems}
-            setExpandedItems={setExpandedItems}
-            reason={"Reason"}
-            reasonValue={item.reason}
-            index={index}
-            item={item}
-          />
-        ))}
+
+        {!loadingPaginated && partners.length === 0 ? (
+          <NodataFound title={"No data Found"} />
+        ) : (
+          partners.map((item, index) => (
+            <AllPofitDecreseComp
+              key={index}
+              toggleItem={toggleItem}
+              userId={item.userId}
+              name={item.name}
+              status={"Pending"}
+              clickpress={true}
+              navigate={"PartnerDetails"}
+              openPartnerDetails={toggleItem}
+              expandedItems={expandedItems}
+              setExpandedItems={setExpandedItems}
+              reason={"Reason"}
+              reasonValue={item.reason}
+              index={index}
+              item={item}
+            />
+          ))
+        )}
 
         {isLoading && hasMore && <Loader />}
       </div>
