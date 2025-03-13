@@ -19,7 +19,25 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlinePriceChange } from "react-icons/md";
 import { LoadingComponent } from "../helper/LoadingComponent";
 
-function Balancetransfer({reloadKey}) {
+export const roundToInteger = (input) => {
+  // Convert input to a float
+  const floatValue = parseFloat(input);
+
+  // Check if it's a valid number
+  if (isNaN(floatValue)) {
+    return "Invalid number"; // Handle invalid input
+  }
+
+  // Check if the number is already an integer
+  if (Number.isInteger(floatValue)) {
+    return floatValue; // Return the number as it is
+  }
+
+  // Return the integer part (without rounding)
+  return Math.floor(floatValue);
+};
+
+function Balancetransfer({ reloadKey }) {
   const dispatch = useDispatch();
 
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -35,8 +53,7 @@ function Balancetransfer({reloadKey}) {
     if (isNaN(amountval)) {
       showErrorToast("Enter Valid Amount");
       return;
-    }
-     else {
+    } else {
       try {
         const body = {
           amount: amountval,
@@ -65,7 +82,7 @@ function Balancetransfer({reloadKey}) {
 
   useEffect(() => {
     console.log("reloadKey :: " + reloadKey);
-    setAmountval("")
+    setAmountval("");
   }, [reloadKey]);
 
   return (
@@ -144,7 +161,8 @@ function Balancetransfer({reloadKey}) {
             </div>
 
             <label className="alCLLabel">
-              {user.walletOne.balance} {user?.country?.countrycurrencysymbol}
+              {roundToInteger(user.walletOne.balance)}{" "}
+              {user?.country?.countrycurrencysymbol}
             </label>
           </div>
           <div className="right-container-bt-two">
@@ -156,7 +174,8 @@ function Balancetransfer({reloadKey}) {
             </div>
 
             <label className="alCLLabel">
-              {user.walletTwo.balance} {user?.country?.countrycurrencysymbol}
+              {roundToInteger(user.walletTwo.balance)}{" "}
+              {user?.country?.countrycurrencysymbol}
             </label>
           </div>
         </div>

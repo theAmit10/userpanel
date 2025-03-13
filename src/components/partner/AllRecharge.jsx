@@ -228,6 +228,12 @@ const AllRecharge = ({ setSelectedCategory }) => {
     { isLoading: updateStatusIsLoading, error: updateStatusError },
   ] = useUpdateDepositPaymentStatusMutation();
 
+  useEffect(() => {
+    if (updateStatusError) {
+      showErrorToast(updateStatusError?.data?.message);
+    }
+  }, [updateStatusError]);
+
   const formatDateTime = (dateTimeString) => {
     return moment(dateTimeString).format("MMMM DD, YYYY hh:mm A");
   };
