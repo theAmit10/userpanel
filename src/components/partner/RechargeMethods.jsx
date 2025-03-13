@@ -6,7 +6,10 @@ import { FaCopy } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import { showSuccessToast } from "../helper/showErrorToast";
 import { useSelector } from "react-redux";
-import { useGetAboutPartnerQuery } from "../../redux/api";
+import {
+  useGetAboutPartnerQuery,
+  useGetRechargeModuleQuery,
+} from "../../redux/api";
 import Loader from "../molecule/Loader";
 import { ToastContainer } from "react-toastify";
 import Cryptodeposit from "../deposit/Cryptodeposit";
@@ -25,12 +28,22 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import Partner from "./Partner";
 
 const RechargeMethods = ({ setSelectedCategory }) => {
-  const { accesstoken, user } = useSelector((state) => state.user);
   const [selectedPayment, setSelectedPayment] = useState("");
 
   const selectingPaymentType = (item) => {
     setSelectedPayment(item);
   };
+
+  const { accesstoken, partner, user } = useSelector((state) => state.user);
+
+  const { isLoading, error, data } = useGetRechargeModuleQuery({
+    accesstoken,
+    id: partner.rechargeModule,
+  });
+
+  console.log("From recharge payment");
+  console.log(data);
+
   return (
     <div className="partner-main-container">
       <div className="pdContainer">
@@ -54,150 +67,164 @@ const RechargeMethods = ({ setSelectedCategory }) => {
         {/** SHOWING ALL WALLET */}
         {selectedPayment === "" && (
           <div className="pnMainContainer">
-            <div
-              className="hdAllContainer"
-              style={{ background: "transparent" }}
-            >
-              {/** CRYPTO  */}
+            {isLoading ? (
+              <Loader />
+            ) : (
               <div
-                className="hdAllContainerContent"
-                onClick={() => selectingPaymentType("crypto")}
+                className="hdAllContainer"
+                style={{ background: "transparent" }}
               >
-                <div className="hdAllContainerContentTop">
-                  <label className="hdAllContainerContentTopBoldLabel">
-                    Crypto
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <CiEdit color={COLORS.background} size={"2.5rem"} />
+                {/** CRYPTO  */}
+                {data && data.rechargeModule.cryptoPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("crypto")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Crypto
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create Crypto Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <img
+                          src={images.crypto}
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="hdAllContainerContentBottom">
-                  <label className="hdAllContainerContentTopRegularLabel">
-                    Create Crypto Payment Deposit
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <img
-                      src={images.crypto}
-                      color={COLORS.background}
-                      size={"2.5rem"}
-                      className="paymenticon"
-                    />
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {/** PAYPAL  */}
-              <div
-                className="hdAllContainerContent"
-                onClick={() => selectingPaymentType("paypal")}
-              >
-                <div className="hdAllContainerContentTop">
-                  <label className="hdAllContainerContentTopBoldLabel">
-                    Paypal
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <CiEdit color={COLORS.background} size={"2.5rem"} />
+                {/** PAYPAL  */}
+                {data && data.rechargeModule.paypalPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("paypal")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Paypal
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create Paypal Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <img
+                          src={images.paypal}
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="hdAllContainerContentBottom">
-                  <label className="hdAllContainerContentTopRegularLabel">
-                    Create Paypal Payment Deposit
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <img
-                      src={images.paypal}
-                      color={COLORS.background}
-                      size={"2.5rem"}
-                      className="paymenticon"
-                    />
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {/** SKRILL */}
-              <div
-                className="hdAllContainerContent"
-                onClick={() => selectingPaymentType("skrill")}
-              >
-                <div className="hdAllContainerContentTop">
-                  <label className="hdAllContainerContentTopBoldLabel">
-                    Skrill
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <CiEdit color={COLORS.background} size={"2.5rem"} />
+                {/** SKRILL */}
+                {data && data.rechargeModule.skrillPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("skrill")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Skrill
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create Skrill Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <img
+                          src={images.skrill}
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="hdAllContainerContentBottom">
-                  <label className="hdAllContainerContentTopRegularLabel">
-                    Create Skrill Payment Deposit
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <img
-                      src={images.skrill}
-                      color={COLORS.background}
-                      size={"2.5rem"}
-                      className="paymenticon"
-                    />
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {/** Bank */}
-              <div
-                className="hdAllContainerContent"
-                onClick={() => selectingPaymentType("bank")}
-              >
-                <div className="hdAllContainerContentTop">
-                  <label className="hdAllContainerContentTopBoldLabel">
-                    Bank
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <CiEdit color={COLORS.background} size={"2.5rem"} />
+                {/** Bank */}
+                {data && data.rechargeModule.bankPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("bank")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Bank
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create Bank Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <img
+                          src={images.bank}
+                          color={COLORS.background}
+                          className="pdicon"
+                          size={"2.5rem"}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="hdAllContainerContentBottom">
-                  <label className="hdAllContainerContentTopRegularLabel">
-                    Create Bank Payment Deposit
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <img
-                      src={images.bank}
-                      color={COLORS.background}
-                      className="pdicon"
-                      size={"2.5rem"}
-                    />
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {/** UPI  */}
-              <div
-                className="hdAllContainerContent"
-                onClick={() => selectingPaymentType("upi")}
-              >
-                <div className="hdAllContainerContentTop">
-                  <label className="hdAllContainerContentTopBoldLabel">
-                    UPI
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <CiEdit color={COLORS.background} size={"2.5rem"} />
+                {/** UPI  */}
+                {data && data.rechargeModule.upiPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("upi")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        UPI
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create UPI Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <img
+                          src={images.upi}
+                          color={COLORS.background}
+                          size={"1rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="hdAllContainerContentBottom">
-                  <label className="hdAllContainerContentTopRegularLabel">
-                    Create UPI Payment Deposit
-                  </label>
-                  <div className="hdContenContainerIcon">
-                    <img
-                      src={images.upi}
-                      color={COLORS.background}
-                      size={"1rem"}
-                      className="paymenticon"
-                    />
-                  </div>
-                </div>
+                )}
               </div>
-            </div>
+            )}
           </div>
         )}
 
