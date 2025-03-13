@@ -589,7 +589,7 @@ const generateMultiplierObject = (number, multiplierArray = []) => {
   });
 
   // Add '7X' and 'NA' with default values
-  result["7X"] = number * 7;
+  // result["7X"] = number * 7;
   result["NA"] = 0;
 
   return result;
@@ -608,7 +608,7 @@ const getMultiplierValues = (multiplierArray = []) => {
   const values = multiplierArray.map((item) => item.value);
 
   // Append '7X' and 'NA'
-  return [...values, "7X", "NA"];
+  return [...values, "NA"];
 };
 
 const processTicketData = (ticketArray, TICKET_COST) => {

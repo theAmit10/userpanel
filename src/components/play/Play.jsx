@@ -1648,6 +1648,7 @@ function Play({ reloadKey }) {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    cursor: "pointer",
                   }}
                 >
                   <label
@@ -1655,6 +1656,7 @@ function Play({ reloadKey }) {
                       color: COLORS.white_s,
                       fontFamily: FONT.Montserrat_Bold,
                       fontSize: "2rem",
+                      cursor: "pointer",
                     }}
                   >
                     Submit
