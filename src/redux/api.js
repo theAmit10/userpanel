@@ -620,11 +620,48 @@ export const sincelotUserApi = createApi({
       }),
     }),
 
+    // FOR CREATE A OTHER PAYMENT ACCOUNT
+    createOtherPaymentAccount: builder.mutation({
+      query: ({ accesstoken, body }) => ({
+        url: "result/addOtherPayment",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+        body,
+      }),
+    }),
+
+    // FOR DELETE A OTHER PAYMENT ACCOUNT
+    deleteOtherPaymentAccount: builder.mutation({
+      query: ({ accesstoken, id }) => ({
+        url: `result/removeotherpayment/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
+
+    // GET OTHER PAYMENT NAMES
+    getOtherPaymentName: builder.query({
+      query: ({ accesstoken }) => ({
+        url: `user/getopname`,
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${accesstoken}`,
+        },
+      }),
+    }),
+
     // ######## END #########
   }),
 });
 
 export const {
+  useGetOtherPaymentNameQuery,
+  useCreateOtherPaymentAccountMutation,
+  useDeleteOtherPaymentAccountMutation,
   useCreateUPIAccountMutation,
   useCreateBankAccountMutation,
   useDeleteBankAccountMutation,

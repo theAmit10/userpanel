@@ -73,8 +73,10 @@ const PARTNER_USER_BANK_API = server + "result/getuserbankpaymets";
 const ALL_USERS_API = server + "user/alluser";
 const SINGLE_USER_API = server + "user/singleuser";
 const SEND_NOTIFICATION_SINGLE_USER = server + "user/sendnotificationsingle";
+const PARTNER_OTHERPAYMENT_API = server + "result/getpartnerotherlist";
 
 export default {
+  PARTNER_OTHERPAYMENT_API,
   SEND_NOTIFICATION_SINGLE_USER,
   ALL_USERS_API,
   SINGLE_USER_API,

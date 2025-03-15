@@ -27,6 +27,9 @@ import { CiEdit } from "react-icons/ci";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import Partner from "./Partner";
 
+import { PiContactlessPaymentFill } from "react-icons/pi";
+import PartnerOther from "../deposit/PartnerOther";
+
 const RechargeMethods = ({ setSelectedCategory }) => {
   const [selectedPayment, setSelectedPayment] = useState("");
 
@@ -223,6 +226,34 @@ const RechargeMethods = ({ setSelectedCategory }) => {
                     </div>
                   </div>
                 )}
+
+                {data && data.rechargeModule.otherPaymentPermission && (
+                  <div
+                    className="hdAllContainerContent"
+                    onClick={() => selectingPaymentType("other")}
+                  >
+                    <div className="hdAllContainerContentTop">
+                      <label className="hdAllContainerContentTopBoldLabel">
+                        Other Payment
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <CiEdit color={COLORS.background} size={"2.5rem"} />
+                      </div>
+                    </div>
+                    <div className="hdAllContainerContentBottom">
+                      <label className="hdAllContainerContentTopRegularLabel">
+                        Create Other Payment Deposit
+                      </label>
+                      <div className="hdContenContainerIcon">
+                        <PiContactlessPaymentFill
+                          color={COLORS.background}
+                          size={"2.5rem"}
+                          className="paymenticon"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -242,6 +273,9 @@ const RechargeMethods = ({ setSelectedCategory }) => {
         )}
         {selectedPayment === "crypto" && (
           <PartnerCrypto selectingPaymentType={selectingPaymentType} />
+        )}
+        {selectedPayment === "other" && (
+          <PartnerOther selectingPaymentType={selectingPaymentType} />
         )}
         <ToastContainer />
       </div>
