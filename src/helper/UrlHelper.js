@@ -63,6 +63,7 @@ const PARTNER_USER_SKRILL_API = server + "result/getuserskrillpaymets";
 
 const PARTNER_CRYPTO_API = server + "result/getpartnercryptolist";
 const PARTNER_USER_CRYPTO_API = server + "result/getusercryptopaymets";
+const PARTNER_USER_OTHER_API = server + "result/getuserotherpaymets";
 
 const PARTNER_UPI_API = server + "result/getpartnerupilist";
 const PARTNER_USER_UPI_API = server + "result/getuserupipaymets";
@@ -76,6 +77,7 @@ const SEND_NOTIFICATION_SINGLE_USER = server + "user/sendnotificationsingle";
 const PARTNER_OTHERPAYMENT_API = server + "result/getpartnerotherlist";
 
 export default {
+  PARTNER_USER_OTHER_API,
   PARTNER_OTHERPAYMENT_API,
   SEND_NOTIFICATION_SINGLE_USER,
   ALL_USERS_API,

@@ -12,8 +12,10 @@ import Cryptodeposit from "./Cryptodeposit";
 import { CiEdit } from "react-icons/ci";
 import { UD } from "./UD";
 import { ToastContainer } from "react-toastify";
+import { PiContactlessPaymentFill } from "react-icons/pi";
+import OtherDeposit from "./OtherDeposit";
 
-function Paymentdeposit({reloadKey}) {
+function Paymentdeposit({ reloadKey }) {
   const [selectedPayment, setSelectedPayment] = useState("");
 
   const selectingPaymentType = (item) => {
@@ -194,6 +196,33 @@ function Paymentdeposit({reloadKey}) {
                 </div>
               </div>
             </div>
+
+            {/** OTHER PAYMENT */}
+            <div
+              className="hdAllContainerContent"
+              onClick={() => selectingPaymentType("other")}
+            >
+              <div className="hdAllContainerContentTop">
+                <label className="hdAllContainerContentTopBoldLabel">
+                  Other Payment
+                </label>
+                <div className="hdContenContainerIcon">
+                  <CiEdit color={COLORS.background} size={"2.5rem"} />
+                </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  Create Other Payment Deposit
+                </label>
+                <div className="hdContenContainerIcon">
+                  <PiContactlessPaymentFill
+                    color={COLORS.background}
+                    size={"2.5rem"}
+                    className="paymenticon"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -213,7 +242,10 @@ function Paymentdeposit({reloadKey}) {
       {selectedPayment === "crypto" && (
         <Cryptodeposit selectingPaymentType={selectingPaymentType} />
       )}
-      <ToastContainer/>
+      {selectedPayment === "other" && (
+        <OtherDeposit selectingPaymentType={selectingPaymentType} />
+      )}
+      <ToastContainer />
     </div>
   );
 }
