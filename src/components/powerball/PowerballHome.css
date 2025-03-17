@@ -299,12 +299,13 @@
 }
 
 .ticket-main-con{
-    height: 95%;
+    height: 100%;
     min-width: 30%;
-  
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
+    
+    overflow-y: hidden;
 
 }
 .tmc-first{
@@ -312,7 +313,7 @@
     width: 100%;
 }
 .tmc-second{
-    height: 60%;
+    height: 38%;
     width: 100%;
 }
 .semi-bold{
@@ -338,9 +339,19 @@
     padding-left: 0.5rem;
 
 }
+.multiplier-main-con-ticket{
+    
+    background-color: var(--background);
+    border-radius: 1rem;
+    display: flex;
+    
+    gap: 1rem;
+    overflow-x: scroll;
+    padding-left: 0.5rem;
+}
 .game-ball-con{
     height: 100%;
-    width: 100%;
+    width: 35rem;
     background-color: var(--background);
     display: flex;
     flex-wrap: wrap;
@@ -351,6 +362,7 @@
     overflow-y: scroll;
     gap: 1rem;
     border-radius: 1rem;
+    padding-bottom: 2rem;
 }
 .powergame-container{
     height: 100%;

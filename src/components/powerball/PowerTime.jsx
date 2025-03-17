@@ -33,7 +33,7 @@ const PowerTime = ({ setSelectedCategory, selectedTime, setSelectedTime }) => {
     <div className="partner-main-container">
       {/** HEADER  */}
       <HeaderComp
-        title={"Powerball Time"}
+        title={"All Time"}
         setSelectedCategory={setSelectedCategory}
       />
       {/* CONTENT CONTAINER */}
