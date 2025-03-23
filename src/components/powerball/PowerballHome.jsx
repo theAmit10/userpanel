@@ -12,6 +12,7 @@ import {
 import Loader from "../molecule/Loader";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
+import SmallBall from "../molecule/SmallBall";
 
 const PowerballHome = ({ setSelectedCategory }) => {
   const { user, accesstoken } = useSelector((state) => state.user);
@@ -52,32 +53,6 @@ const PowerballHome = ({ setSelectedCategory }) => {
         <div className="partner-container">
           {/** BUY TICKETS */}
           <div className="buy-ticket-con">
-            <div className="btc-first">
-              <div className="btcf-first">
-                <label className="btcf-first-label-bold">LOTTERY JACKPOT</label>
-                <label className="btcf-first-label-regular">
-                  PLAY FOR JUST {user?.country?.ticketprice}{" "}
-                  {user?.country?.countrycurrencysymbol}
-                </label>
-              </div>
-              <div
-                className="btcf-second"
-                onClick={() => setSelectedCategory("PowerTime")}
-              >
-                <label className="btcf-first-botton">BUY TICKETS</label>
-                <GiDiamondTrophy color={COLORS.white_s} size={"3rem"} />
-              </div>
-            </div>
-            <div className="btc-second">
-              <div className="btc-cat-con">
-                <img
-                  src={images.cat}
-                  alt="cat"
-                  color={COLORS.background}
-                  size={"2.5rem"}
-                />
-              </div>
-            </div>
             <div className="btc-third">
               <div className="btct-first">
                 <div className="btc-cat-con">
@@ -94,6 +69,32 @@ const PowerballHome = ({ setSelectedCategory }) => {
                 <label className="bctt-prize">
                   {latestResultData?.data?.prize?.firstprize?.amount}
                 </label>
+              </div>
+            </div>
+            <div className="btc-second">
+              <div className="btc-cat-con">
+                <img
+                  src={images.cat}
+                  alt="cat"
+                  color={COLORS.background}
+                  size={"2.5rem"}
+                />
+              </div>
+            </div>
+            <div className="btc-first">
+              <div className="btcf-first">
+                <label className="btcf-first-label-bold">LOTTERY JACKPOT</label>
+                <label className="btcf-first-label-regular">
+                  PLAY FOR JUST {user?.country?.ticketprice}{" "}
+                  {user?.country?.countrycurrencysymbol}
+                </label>
+              </div>
+              <div
+                className="btcf-second"
+                onClick={() => setSelectedCategory("PowerTime")}
+              >
+                <label className="btcf-first-botton">BUY TICKETS</label>
+                <GiDiamondTrophy color={COLORS.white_s} size={"3rem"} />
               </div>
             </div>
           </div>
@@ -151,6 +152,15 @@ const PowerballHome = ({ setSelectedCategory }) => {
                 Match all 6 balls to win the 1st Prize (Jackpot)
               </label>
             </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+            </div>
+
             <div className="pdc-second">
               <label className="btcf-first-label-bold">
                 {latestResultData?.data?.prize?.firstprize?.totaluser}
@@ -197,6 +207,14 @@ const PowerballHome = ({ setSelectedCategory }) => {
               <label className="btcf-first-label-regular">
                 Match all 5 balls to win the 2nd Prize
               </label>
+            </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u274C"} />
             </div>
             <div className="pdc-second">
               <label className="btcf-first-label-bold">
@@ -245,6 +263,15 @@ const PowerballHome = ({ setSelectedCategory }) => {
                 Match all 4 balls to win the 3rd Prize
               </label>
             </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+            </div>
             <div className="pdc-second">
               <label className="btcf-first-label-bold">
                 {latestResultData?.data?.prize?.thirdprize?.totaluser}
@@ -291,6 +318,15 @@ const PowerballHome = ({ setSelectedCategory }) => {
               <label className="btcf-first-label-regular">
                 Match all 3 balls to win the 4th Prize
               </label>
+            </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
             </div>
             <div className="pdc-second">
               <label className="btcf-first-label-bold">
@@ -339,6 +375,15 @@ const PowerballHome = ({ setSelectedCategory }) => {
                 Match all 2 balls to win the 5th Prize
               </label>
             </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+              <SmallBall number={"\u2714"} />
+
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+            </div>
             <div className="pdc-second">
               <label className="btcf-first-label-bold">
                 {latestResultData?.data?.prize?.fifthprize?.totaluser}
@@ -385,6 +430,15 @@ const PowerballHome = ({ setSelectedCategory }) => {
               <label className="btcf-first-label-regular">
                 Match all 1 ball to win the 6th Prize
               </label>
+            </div>
+            <div className="pdc-fourth">
+              <SmallBall number={"\u2714"} />
+
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
+              <SmallBall number={"\u274C"} />
             </div>
             <div className="pdc-second">
               <label className="btcf-first-label-bold">

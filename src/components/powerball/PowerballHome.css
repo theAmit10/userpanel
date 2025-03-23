@@ -3,7 +3,7 @@
     height: 25vh;
     width: 100%;
     background-color: var(--background);
-    border-radius: 1rem;
+    border-radius: 1rem 1rem 0 0;
     display: flex;
 }
 .btc-first{
@@ -117,8 +117,9 @@
     height: 15vh;
     width: 100%;
     background-color: var(--background);
-    border-radius: 1rem;
+    border-radius: 0 0 1rem 1rem;
     display: flex; 
+    margin-top: -1rem;
 }
 .jw-first{
     height: 100%;
@@ -159,7 +160,7 @@
 }
 .pdc-second{
     height: 100%;
-    width: 30%;
+    width: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -167,9 +168,18 @@
  
 
 }
+.pdc-fourth{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
 .pdc-third{
     height: 100%;
-    width: 40%;
+    width: 30%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -220,6 +230,7 @@
 .ptc-second{
     height: 100%;
     width: 30%;
+    
 }
 .ptc-time-label{
     color: var(--white_s);
@@ -492,4 +503,10 @@
     align-items: center;
     border-radius: 1rem;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .btcf-first-label-bold{
+        font-size: 1.5rem;
+    }
 }
