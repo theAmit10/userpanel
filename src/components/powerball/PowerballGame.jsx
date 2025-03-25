@@ -376,13 +376,14 @@ const PowerballGame = ({ setSelectedCategory, selectedTime }) => {
                           <div
                             key={ticketIndex}
                             style={{
-                              justifyContent: "center",
+                              justifyContent: "flex-start",
                               alignItems: "flex-start",
                               display: "flex",
                               flexDirection: "row",
                               backgroundColor: COLORS.background,
                               padding: "0.5rem",
                               borderRadius: "0.5rem",
+                              overflowX: "scroll",
                             }}
                           >
                             <div

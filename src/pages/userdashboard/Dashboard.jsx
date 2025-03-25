@@ -16,7 +16,7 @@ import AllLocation from "../../components/alllocation/AllLocation";
 import Play from "../../components/play/Play";
 import Historyc from "../../components/history/Historyc";
 import Gamedescriptionc from "../../components/gamedescription/Gamedescriptionc";
-import { useNavigate } from "react-router-dom";
+import { useBlocker, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadAllNotification,
@@ -333,6 +333,22 @@ const Dashboard = () => {
       console.log(data?.games[0].name);
     }
   }, [data, isLoading]); // Correct dependencies
+
+  useEffect(() => {
+    // 1. Replace current history entry to remove the previous page
+    window.history.replaceState(null, "", window.location.pathname);
+
+    // 2. Block back button/gesture
+    const handleBack = (event) => {
+      event.preventDefault();
+      window.history.pushState(null, "", window.location.pathname);
+      console.log("Back navigation disabled!");
+    };
+
+    window.addEventListener("popstate", handleBack);
+
+    return () => window.removeEventListener("popstate", handleBack);
+  }, []);
 
   return (
     <>

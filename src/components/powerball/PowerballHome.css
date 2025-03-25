@@ -362,7 +362,7 @@
 }
 .game-ball-con{
     height: 100%;
-    width: 35rem;
+   width: 100%;
     background-color: var(--background);
     display: flex;
     flex-wrap: wrap;
