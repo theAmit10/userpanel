@@ -22,6 +22,7 @@ import {
   useGetAllLocationWithTimeQuery,
   useGetPlayHistoryQuery,
   useGetTopWinnerQuery,
+  useLatestPowerballResultQuery,
 } from "../../redux/api";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import CountdownTimer from "../helper/CountdownTimer";
@@ -37,132 +38,8 @@ import { ToastContainer } from "react-toastify";
 import { MdOutlineDateRange } from "react-icons/md";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import moment from "moment-timezone";
-
-const topWinnerOfTheDay = [
-  {
-    name: "Aaron",
-    amount: "78000 INR",
-  },
-  {
-    name: "Zoya",
-    amount: "28000 INR",
-  },
-  {
-    name: "Ron",
-    amount: "18000 INR",
-  },
-  {
-    name: "Mary",
-    amount: "10000 INR",
-  },
-  {
-    name: "jack",
-    amount: "8000 INR",
-  },
-];
-
-const locationdata = [
-  {
-    id: "1",
-    name: "Canada",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "2",
-    name: "Japan",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "3",
-    name: "Punjab",
-    limit: "200 - 200X",
-    times: [
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "4",
-    name: "Pune",
-    limit: "200 - 200X",
-    times: [
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "5",
-    name: "China",
-    limit: "100 - 100X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "6",
-    name: "India",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-  {
-    id: "7",
-    name: "USA",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-    ],
-  },
-  {
-    id: "8",
-    name: "Korea",
-    limit: "200 - 200X",
-    times: [
-      { id: "11", time: "09:00 AM" },
-      { id: "12", time: "10:00 AM" },
-      { id: "13", time: "11:00 AM" },
-      { id: "14", time: "12:00 PM" },
-      { id: "15", time: "01:00 PM" },
-      { id: "16", time: "02:00 PM" },
-      { id: "17", time: "03:00 PM" },
-    ],
-  },
-];
+import BluePowerBall from "../molecule/BluePowerBall";
+import SmallBall from "../molecule/SmallBall";
 
 const convertToUserTimezone = (dataArray, userTimezone) => {
   return dataArray.map((item) => {
@@ -195,6 +72,7 @@ function HomeDashboard({
   isLoadingAllLocation,
   selectedLocation,
   setSelectedLocation,
+  gameName,
 }) {
   const dispatch = useDispatch();
 
@@ -686,6 +564,12 @@ function HomeDashboard({
     return Math.floor(floatValue);
   };
 
+  const {
+    isLoading: latestResultIsLoading,
+    data: latestResultData,
+    refetch: latesetResultRefetch,
+  } = useLatestPowerballResultQuery({ accesstoken });
+
   return (
     <div className="hdcontainer">
       {loading ? (
@@ -770,17 +654,56 @@ function HomeDashboard({
                 <div className="hdlTR">
                   <div className="hdlTRLeft">
                     <div className="hdlTRLeftT">
-                      <img
-                        src={images.gamecontroller}
-                        className="hdtrophyimage"
-                      />
+                      <img src={images.cat} className="hdtrophyimage" />
                     </div>
                     <div className="hdlTRLeftB">
                       <img src={images.cups} className="hdtrophyimage" />
                     </div>
                   </div>
                   <div className="hdlTRRight">
-                    <img src={images.cat} className="hdcatimage" />
+                    {/** name */}
+                    <div className="hdlName">
+                      <div className="hdlTLTL">
+                        <label className="hdlTLTLCountry">{gameName}</label>
+                      </div>
+                    </div>
+                    {/** result ball */}
+
+                    <div className="hdlResultBall">
+                      {latestResultData?.data?.jackpotnumber?.map(
+                        (item, index) => (
+                          <SmallBall key={index} number={item} />
+                        )
+                      )}
+                      {/* <SmallBall number={10} />
+                      <SmallBall number={10} /> */}
+                    </div>
+                    {/** date container */}
+                    <div className="hdlPowerDate">
+                      <div className="hdlTLB">
+                        <div className="hdlTLBCal">
+                          <MdOutlineDateRange
+                            color={COLORS.white_s}
+                            size={"2rem"}
+                          />
+                        </div>
+                        <label className="hdlTLTLNRB">
+                          {/* {homeResult?.lotdate?.lotdate} */}
+                          {getDateTimeAccordingToUserTimezone(
+                            latestResultData?.data?.powertime?.powertime,
+                            latestResultData?.data?.powerdate?.powerdate,
+                            user?.country?.timezone
+                          )}
+                        </label>
+                        <label className="hdlTLTLNRB">
+                          {" "}
+                          {getTimeAccordingToTimezone(
+                            latestResultData?.data?.powertime?.powertime,
+                            user?.country?.timezone
+                          )}
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

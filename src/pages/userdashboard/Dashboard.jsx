@@ -680,6 +680,7 @@ const Dashboard = () => {
                   selectedLocation={selectedLocation}
                   setSelectedLocation={setSelectedLocation}
                   reloadKey={reloadKey}
+                  gameName={gameName}
                 />
               )}
               {selectedComponent === "alllocation" && (

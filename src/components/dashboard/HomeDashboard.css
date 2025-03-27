@@ -252,11 +252,11 @@
 }
 
 .hdlTL{
-    flex: 1;
-
+    flex: 0.8;
     display: flex;
     flex-direction: column;
     margin: 1rem;
+ 
 }
 .hdlTR{
     flex: 1;
@@ -279,11 +279,11 @@
 .hdlTRLeftT{
  
     height: 50%;
+    width: 100%;
     display: flex;
 
-    justify-content:flex-start;
-    align-items: flex-start;
-    padding: 2rem;
+    
+    
 }
 .hdlTRLeftB{
     height: 50%;
@@ -301,6 +301,10 @@
 .hdlTRRight{
     height: 100%;
     width: 65%;
+  
+    display: flex;
+    flex-direction: column;
+
 }
 
 .hdcatimage{
@@ -309,7 +313,24 @@
     object-fit: contain;
 }
 
+.hdlName{
+  flex: 1;
+    
+}
+.hdlResultBall{
+    flex: 2;
+   
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
+.hdlPowerDate{
+    flex: 1.5;
 
+}
 
 .hdLeftCMiddle{
     height: 20vh;
