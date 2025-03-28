@@ -14,7 +14,7 @@ import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import SmallBall from "../molecule/SmallBall";
 
-const PowerballHome = ({ setSelectedCategory }) => {
+const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
   const { user, accesstoken } = useSelector((state) => state.user);
 
   const [powerball, setPowerball] = useState(null);

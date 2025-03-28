@@ -55,6 +55,8 @@ import axios from "axios";
 import FONT from "../../assets/constants/fonts";
 import LiveResult from "../../components/play/LiveResult";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard";
+import { TiGroup } from "react-icons/ti";
+import Partner from "../../components/partner/Partner";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -530,22 +532,24 @@ const Dashboard = () => {
                 <label className="adLContenContainerLabel">Home</label>
               </div>
 
-              {/* <div
-                className="adLContenContainer"
-                key={"alllocation"}
-                onClick={() => handleComponentClick("alllocation")}
-                style={{
-                  background:
-                    selectedComponent === "alllocation"
-                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
-                      : "linear-gradient(180deg, #011833, #011833)",
-                }}
-              >
-                <div className="adLContenContainerIcon">
-                  <IoLocationSharp color={COLORS.white_s} size={"2.5rem"} />
+              {user && user?.partnerStatus && (
+                <div
+                  className="adLContenContainer"
+                  key={"partner"}
+                  onClick={() => handleComponentClick("partner")}
+                  style={{
+                    background:
+                      selectedComponent === "partner"
+                        ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                        : "linear-gradient(180deg, #011833, #011833)",
+                  }}
+                >
+                  <div className="adLContenContainerIcon">
+                    <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+                  </div>
+                  <label className="adLContenContainerLabel">Partner</label>
                 </div>
-                <label className="adLContenContainerLabel">All Location</label>
-              </div> */}
+              )}
 
               <div
                 className="adLContenContainer"
@@ -623,6 +627,25 @@ const Dashboard = () => {
 
               <div
                 className="adLContenContainer"
+                key={"history"}
+                onClick={() => handleComponentClick("history")}
+                style={{
+                  background:
+                    selectedComponent === "history"
+                      ? "linear-gradient(180deg, #7EC630, #3D6017)"
+                      : "linear-gradient(180deg, #011833, #011833)",
+                }}
+              >
+                <div className="adLContenContainerIcon">
+                  <FaHistory color={COLORS.white_s} size={"2.5rem"} />
+                </div>
+                <label className="adLContenContainerLabel">
+                  Transaction History
+                </label>
+              </div>
+
+              <div
+                className="adLContenContainer"
                 key={"gamedescription"}
                 onClick={() => handleComponentClick("gamedescription")}
                 style={{
@@ -686,6 +709,9 @@ const Dashboard = () => {
               {selectedComponent === "alllocation" && (
                 <AllLocation reloadKey={reloadKey} />
               )}
+              {selectedComponent === "partner" && (
+                <Partner reloadKey={reloadKey} />
+              )}
               {selectedComponent === "play" && <Play reloadKey={reloadKey} />}
               {selectedComponent === "history" && (
                 <Historyc reloadKey={reloadKey} />
@@ -715,10 +741,16 @@ const Dashboard = () => {
                 <Aboutus reloadKey={reloadKey} />
               )}
               {selectedComponent === "playhistory" && (
-                <Playhistory reloadKey={reloadKey} />
+                <Playhistory
+                  reloadKey={reloadKey}
+                  setReloadKey={setReloadKey}
+                />
               )}
               {selectedComponent === "powerball" && (
-                <PowerballDashboard reloadKey={reloadKey} />
+                <PowerballDashboard
+                  reloadKey={reloadKey}
+                  setReloadKey={setReloadKey}
+                />
               )}
             </div>
           </div>

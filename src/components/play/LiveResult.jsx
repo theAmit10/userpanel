@@ -300,8 +300,8 @@ function LiveResult({ reloadKey }) {
 
     if (isLotTimeClose) {
       console.log("Navigating to PlayArena...");
-      showWarningToast("Entry is close for this session");
-      showWarningToast("Please choose next available time");
+      // showWarningToast("Entry is close for this session");
+      // showWarningToast("Please choose next available time");
       openLink(timedata.liveresultlink);
     } else {
       showWarningToast("It too early or past the time.");
@@ -351,8 +351,11 @@ function LiveResult({ reloadKey }) {
     dispatch(loadProfile(accesstoken));
   }, []);
 
-  const { data, error, isLoading } =
-    useGetAllLocationWithTimeQuery(accesstoken);
+  const { data, error, isLoading, refetch } = useGetAllLocationWithTimeQuery(
+    accesstoken,
+
+    { refetchOnMountOrArgChange: true }
+  );
 
   // FOR ALL FILTER TYPE DATA
   useEffect(() => {
@@ -418,7 +421,7 @@ function LiveResult({ reloadKey }) {
       setFilteredData(sortedData); // Update filteredData whenever locations change
       console.log(sortedData);
     }
-  }, [data]);
+  }, [data, reloadKey]);
 
   const navigationHandler = (item, timeItem) => {
     const now = moment.tz(user?.country?.timezone);
@@ -452,10 +455,10 @@ function LiveResult({ reloadKey }) {
     }
   };
 
-  useEffect(() => {
-    console.log("reloadKey :: " + reloadKey);
-    removeSelecteditemClick();
-  }, [reloadKey]);
+  // useEffect(() => {
+  //   console.log("reloadKey :: " + reloadKey);
+  //   removeSelecteditemClick();
+  // }, [reloadKey]);
 
   const getNextTimeForHighlights = (times, userTimezone) => {
     if (times.length === 1) {
@@ -503,6 +506,11 @@ function LiveResult({ reloadKey }) {
     // If no future time found, return the first time (next day scenario)
     return sortedTimes[0];
   };
+
+  useEffect(() => {
+    // setFilteredData([]);
+    refetch();
+  }, [reloadKey]);
 
   // CRETING BLINK BUTTON
   const BlinkingButton = ({

@@ -19,7 +19,12 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import Loader from "../molecule/Loader";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 
-const PowerballGame = ({ setSelectedCategory, selectedTime }) => {
+const PowerballGame = ({
+  setSelectedCategory,
+  selectedTime,
+  reloadKey,
+  setReloadKey,
+}) => {
   const [showAddTicket, setShowAddTicket] = useState(true);
   const [showMyTicket, setShowMyTicket] = useState(false);
 
@@ -82,6 +87,13 @@ const PowerballGame = ({ setSelectedCategory, selectedTime }) => {
       console.log(matchingDate);
     }
   }, [powerballDatesIsLoading, powerballDates]);
+
+  useEffect(() => {
+    if (reloadKey !== 0) {
+      setReloadKey(0);
+      setSelectedCategory("");
+    }
+  }, [reloadKey]);
 
   const [ticketValue, setTicketValue] = useState(1);
   // [FOR POWEBALL BET]
@@ -360,6 +372,7 @@ const PowerballGame = ({ setSelectedCategory, selectedTime }) => {
                           flexDirection: "column",
                           flex: 1,
                           minWidth: "30%",
+                          maxWidth: "30%",
                         }}
                       >
                         <div

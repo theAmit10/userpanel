@@ -7,7 +7,7 @@ import PowerballHome from "./PowerballHome";
 import PowerTime from "./PowerTime";
 import PowerballGame from "./PowerballGame";
 
-const PowerballDashboard = () => {
+const PowerballDashboard = ({ reloadKey, setReloadKey }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedTime, setSelectedTime] = useState(null);
@@ -36,21 +36,29 @@ const PowerballDashboard = () => {
   return (
     <>
       {selectedCategory === "" && (
-        <PowerballHome setSelectedCategory={setSelectedCategory} />
+        <PowerballHome
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
+        />
       )}
 
       {selectedCategory === "PowerTime" && (
         <PowerTime
+          reloadKey={reloadKey}
           setSelectedCategory={setSelectedCategory}
           selectedTime={selectedTime}
           setSelectedTime={setSelectedTime}
+          setReloadKey={setReloadKey}
         />
       )}
 
       {selectedCategory === "PowerballGame" && (
         <PowerballGame
+          reloadKey={reloadKey}
           setSelectedCategory={setSelectedCategory}
           selectedTime={selectedTime}
+          setReloadKey={setReloadKey}
         />
       )}
     </>

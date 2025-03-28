@@ -6,7 +6,13 @@ import { useSelector } from "react-redux";
 import { useGetPowetTimesQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
 
-const PowerTime = ({ setSelectedCategory, selectedTime, setSelectedTime }) => {
+const PowerTime = ({
+  setSelectedCategory,
+  selectedTime,
+  setSelectedTime,
+  reloadKey,
+  setReloadKey,
+}) => {
   const selectingTime = (item) => {
     setSelectedCategory("PowerballGame");
     setSelectedTime(item);
@@ -28,6 +34,13 @@ const PowerTime = ({ setSelectedCategory, selectedTime, setSelectedTime }) => {
       console.error("Error fetching powerball data:", error);
     }
   }, [data, isLoading, error]); // Correct dependencies
+
+  useEffect(() => {
+    if (reloadKey !== 0) {
+      setReloadKey(0);
+      setSelectedCategory("");
+    }
+  }, [reloadKey]);
 
   return (
     <div className="partner-main-container">
