@@ -28,18 +28,26 @@ export const login = (email, password) => async (dispatch) => {
 
     console.log("Data :: " + data.token);
 
-    localStorage.setItem("accesstoken", data.token);
-    // dispatch(updateAccessToken(response.data.access_token));
+    if (data.user.role === "user") {
+      localStorage.setItem("accesstoken", data.token);
+      // dispatch(updateAccessToken(response.data.access_token));
 
-    dispatch({
-      type: "getaccesstoken",
-      payload: data.token,
-    });
+      dispatch({
+        type: "getaccesstoken",
+        payload: data.token,
+      });
 
-    dispatch({
-      type: "loginSuccess",
-      payload: data.message,
-    });
+      dispatch({
+        type: "loginSuccess",
+        payload: data.message,
+      });
+    } else {
+      dispatch({
+        type: "loginFail",
+        payload: "Admin not allowed",
+      });
+      return;
+    }
   } catch (error) {
     console.log(error);
     console.log(error.response);

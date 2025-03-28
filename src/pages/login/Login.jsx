@@ -100,13 +100,11 @@ function Login() {
         payload: val,
       });
 
-      const timer = setTimeout(() => {
-        if (val) {
-          navigation("/dashboard", { replace: true });
-        } else {
-          navigation("/login", { replace: true });
-        }
-      }, 3000);
+      if (val) {
+        navigation("/dashboard", { replace: true });
+      } else {
+        navigation("/login", { replace: true });
+      }
     } catch (error) {
       console.log("error" + error);
     }

@@ -128,7 +128,7 @@ export const sincelotUserApi = createApi({
     // FOR GETTING ALL COUNTRY LIST
     getAllCountry: builder.query({
       query: () => ({
-        url: `result/allcurrencies`,
+        url: `result/allcurrencies?page=1&limit=200`,
         method: "get",
         headers: {
           "Content-Type": "application/json",
