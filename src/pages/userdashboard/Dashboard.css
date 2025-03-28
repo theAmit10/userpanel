@@ -30,6 +30,7 @@
     flex-direction: column;
     justify-content: center;
     padding-left: 2rem;
+    overflow: hidden;
   }
   .top-left-right-d{
     flex: 1;

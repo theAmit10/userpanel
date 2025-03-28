@@ -29,7 +29,10 @@ import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 import UserHistory from "../history/UserHistory";
 import UserPlayHistory from "../playhistory/UserPlayHistory";
-import { useCreateNotificationMutation } from "../../redux/api";
+import {
+  useCreateNotificationMutation,
+  useGetAboutPartnerQuery,
+} from "../../redux/api";
 
 const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
   const [filteredData, setFilteredData] = useState([]);
@@ -60,6 +63,28 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
       setSelectItem(userdata);
     }
   }, [userdata]);
+
+  const userid = user.userId;
+
+  const {
+    isLoading: loadingpartner,
+    error,
+    data,
+  } = useGetAboutPartnerQuery({
+    accesstoken,
+    userid,
+  });
+  const [partner, setpartner] = useState(null);
+
+  useEffect(() => {
+    if (!loadingpartner && data) {
+      console.log("Partner data :: " + JSON.stringify(data));
+      setpartner(data.partner);
+    }
+    if (error) {
+      console.log(error);
+    }
+  }, [data, loadingpartner, error]);
 
   const settingEditSA = (item) => {
     setShowSA(false);
@@ -441,7 +466,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
               </label>
             </div>
           )}
-          {loadingSingleUser ? (
+          {loadingSingleUser || loadingpartner ? (
             <LoadingComponent />
           ) : (
             singleuser?.userId && (
@@ -476,7 +501,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
                 </div>
 
                 {/** PLAY HISTORY  */}
-                {user?.playHistoryPermission && (
+                {partner?.playHistoryPermission && (
                   <div
                     className="hdAllContainerContent"
                     onClick={settingForPlayHistory}
@@ -505,7 +530,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
 
                 {/** HISTORY  */}
 
-                {user?.transactionHistoryPermission && (
+                {partner?.transactionHistoryPermission && (
                   <div
                     className="hdAllContainerContent"
                     onClick={settingForHistory}
@@ -541,7 +566,7 @@ const AllUserDetails = ({ userdata, backhandlerDeposit }) => {
 
       {/** FOR NOTIFICATION */}
       {showEditN &&
-        (loadingSingleUser ? (
+        (loadingSingleUser || loadingpartner ? (
           <LoadingComponent />
         ) : (
           <div className="pnMainContainer">

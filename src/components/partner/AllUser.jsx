@@ -191,7 +191,7 @@ const AllUser = ({ setSelectedCategory }) => {
               <SearchCon
                 searchvalue={searchQuery}
                 setSearchValue={setSearchQuery}
-                placeholder={"Search for partner"}
+                placeholder={"Search for user"}
                 iconname={"CiSearch"}
               />
               <AllUserComp
@@ -208,7 +208,12 @@ const AllUser = ({ setSelectedCategory }) => {
                 key={index}
                 userId={item.userId}
                 name={item.name}
-                showActive={true}
+                showActive={
+                  user.parentPartnerId !== 1000 &&
+                  user.parentParentPartnerId !== 1000
+                    ? false
+                    : true
+                }
                 status={
                   item.partnerType === "user" ? "Make Partner" : "Partnered"
                 }

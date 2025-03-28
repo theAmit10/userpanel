@@ -19,6 +19,7 @@ const AllUserDetailCom = ({
   makePartner,
   setSelectedItem,
   openPartnerDetails,
+  showActivePartnerButton,
 }) => {
   // const handlePress = () => {
   //   console.log("handlePress triggered!", { clickpress });
