@@ -8,6 +8,18 @@ import Loader from "../molecule/Loader";
 import TextInputCon from "../molecule/TextInputCon";
 import SubmitButton from "../atom/SubmitButton";
 
+const checkValidPercentageCriteria = (profit, recharge) => {
+  const numProfit = Number(profit);
+  const numRecharge = Number(recharge);
+
+  if (isNaN(numProfit) || isNaN(numRecharge)) {
+    console.error("Invalid input: Both values must be numbers");
+    return false;
+  }
+
+  return numProfit + numRecharge <= 100;
+};
+
 const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
 
@@ -31,6 +43,16 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
         Number.parseInt(profitPercentage)
       ) {
         showErrorToast("New percentage must be higher than the current one");
+        return;
+      }
+
+      if (
+        !checkValidPercentageCriteria(
+          profitPercentage,
+          selectedPartner.rechargePercentage
+        )
+      ) {
+        showErrorToast("Percentage is too high");
         return;
       }
 

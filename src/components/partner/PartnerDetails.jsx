@@ -13,6 +13,7 @@ import IncreasePercetage from "./IncreasePercetage";
 import DecreasePercentage from "./DecreasePercentage";
 import UserPlayHistory from "./UserPlayHistory";
 import UserTransactionHistory from "./UserTransactionHistory";
+import { ToastContainer } from "react-toastify";
 
 const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -131,6 +132,8 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
           selectedPartner={selectedPartner}
         />
       )}
+
+      <ToastContainer />
     </>
   );
 };
