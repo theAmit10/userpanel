@@ -54,7 +54,7 @@ export const showWarningToast = (message) => {
 };
 
 const CustomErrorToastContainer = () => {
-  return <ToastContainer containerId={"parent-container"} />;
+  return <ToastContainer />;
 };
 
 export default CustomErrorToastContainer;

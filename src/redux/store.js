@@ -9,11 +9,13 @@ import { promotionReducer } from "./reducers/promotionReducer";
 import userDeviceTokenSlice from "./userDeviceTokenSlice";
 import { sincelotUserApi } from "./api";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import ticketSlice from "./ticketSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     userAccessToken: userAccessTokenSlice,
+    tickets: ticketSlice,
     location: locationReducer,
     time: timeReducer,
     date: dateReducer,

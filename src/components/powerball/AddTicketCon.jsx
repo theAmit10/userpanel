@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PowerballHome.css";
 import SubmitButton from "../atom/SubmitButton";
 import TextLabel from "../atom/TextLabel";
@@ -14,6 +14,29 @@ const AddTicketCon = ({
   addTicket,
   calculateTotalCost,
 }) => {
+  const [inputValue, setInputValue] = useState("");
+  const [timer, setTimer] = useState(null);
+
+  const handleSubmit = (value) => {
+    if (value && parseInt(value) > 0) {
+      addMultipleTickets(value);
+      setInputValue(""); // Clear input
+    }
+  };
+
+  // Trigger submission after 1 second of inactivity
+  useEffect(() => {
+    if (inputValue && parseInt(inputValue) > 0) {
+      if (timer) clearTimeout(timer); // Clear previous timer
+      const newTimer = setTimeout(() => {
+        handleSubmit(inputValue);
+      }, 1000); // 1-second delay
+      setTimer(newTimer);
+    }
+    return () => {
+      if (timer) clearTimeout(timer); // Cleanup on unmount
+    };
+  }, [inputValue]);
   return (
     <div className="add-ticket-con">
       <div className="atc-first">
@@ -24,7 +47,7 @@ const AddTicketCon = ({
             color={COLORS.white_s}
             size={"3rem"}
           />
-          <input
+          {/* <input
             className="ticket-input"
             type="number"
             placeholder="Add Ticket"
@@ -32,6 +55,21 @@ const AddTicketCon = ({
               if (e.key === "Enter") {
                 addMultipleTickets(e.target.value);
                 e.target.value = ""; // Clear input after submission
+              }
+            }}
+          /> */}
+          <input
+            className="ticket-input"
+            type="number"
+            placeholder="Add Ticket"
+            min="1" // Only positive numbers
+            step="1" // Only integers
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); // Prevent form submission (if inside a form)
+                handleSubmit(e.target.value);
               }
             }}
           />
