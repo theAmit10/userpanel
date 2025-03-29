@@ -30,6 +30,7 @@ import {
   setYellowBallClick,
 } from "../../redux/ticketSlice";
 import { ToastContainer } from "react-toastify";
+import { loadProfile } from "../../redux/actions/userAction";
 // import {
 //   addMultipleTicketsRedux,
 //   removeTicketRedux,
@@ -118,6 +119,30 @@ const PowerballGame = ({
 
   const [createPowerballBet, { isLoading: createPowerballBetIsLoading }] =
     useCreatePowerballBetMutation();
+
+  const processTicketData = (ticketArray, TICKET_COST) => {
+    if (!Array.isArray(ticketArray) || typeof TICKET_COST !== "number") {
+      console.error("Invalid input. Expected an array and a number.");
+      return [];
+    }
+
+    return ticketArray.map(({ multiplier, selectedNumbers }) => {
+      // Handle cases where multiplier is "NA" or null
+      const multiplierValue =
+        multiplier && multiplier !== "NA"
+          ? parseInt(multiplier.replace("X", ""), 10)
+          : 1;
+
+      return {
+        amount: TICKET_COST + multiplierValue, // Multiply cost with multiplier
+        convertedAmount:
+          (TICKET_COST + multiplierValue) *
+          user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
+        multiplier: multiplierValue, // Store multiplier as a number
+        usernumber: selectedNumbers, // Keep the selected numbers
+      };
+    });
+  };
 
   // Function to increment the ticket value
   const increment = () => {
@@ -293,15 +318,20 @@ const PowerballGame = ({
         showErrorToast("Insufficent Balance");
         return;
       }
+      console.log("submitting to next stage to confirm ticket");
+      console.log("Tickets cost :: " + TICKET_COST);
+      console.log("Tickets :: " + JSON.stringify(tickets));
       const myticket = processTicketData(tickets, TICKET_COST);
       console.log("Mine ticket");
-      console.log(myticket);
+      console.log(JSON.stringify(myticket));
       const body = {
         powertime: selectedTime._id,
         powerdate: todayPowerDate._id,
         gameType: "powerball",
         tickets: myticket,
       };
+
+      console.log("Request body :: " + JSON.stringify(body));
 
       const res = await createPowerballBet({
         accesstoken,
@@ -317,6 +347,7 @@ const PowerballGame = ({
       // setTickets([
       //   { selectedNumbers: Array(MAX_NUMBERS).fill(null), multiplier: null },
       // ]);
+      dispatch(loadProfile(accesstoken));
       setSubmitLoader(false);
       setShowAllSeclectedBalls(false);
     } catch (e) {
@@ -685,28 +716,6 @@ const getMultiplierValues = (multiplierArray = []) => {
 
   // Append '7X' and 'NA'
   return [...values, "NA"];
-};
-
-const processTicketData = (ticketArray, TICKET_COST) => {
-  if (!Array.isArray(ticketArray) || typeof TICKET_COST !== "number") {
-    console.error("Invalid input. Expected an array and a number.");
-    return [];
-  }
-
-  return ticketArray.map(({ multiplier, selectedNumbers }) => {
-    // Handle cases where multiplier is "NA" or null
-    const multiplierValue =
-      multiplier && multiplier !== "NA"
-        ? parseInt(multiplier.replace("X", ""), 10)
-        : 1;
-
-    return {
-      amount: TICKET_COST * multiplierValue, // Multiply cost with multiplier
-      convertedAmount: TICKET_COST * multiplierValue, // Generate a random converted amount
-      multiplier: multiplierValue, // Store multiplier as a number
-      usernumber: selectedNumbers, // Keep the selected numbers
-    };
-  });
 };
 
 function canPlaceBet(walletBalanceStr, bettingAmountStr) {
