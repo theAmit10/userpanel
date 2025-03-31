@@ -294,7 +294,11 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                             />
                           </div>
 
-                          <label className="pdB">Other Payment</label>
+                          <label className="pdB">
+                            {item.paymentName
+                              ? item.paymentName
+                              : "Other Payment"}
+                          </label>
                           <label
                             className="pdB"
                             style={{
@@ -308,13 +312,12 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                           ></label>
                         </div>
                         {/** TOP */}
-
                         {/** FIRST */}
-                        {otherPaymentData?.inputNames?.firstInputName && (
+                        {item?.firstInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.firstInputName}
+                                {item?.firstInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -335,11 +338,11 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                         )}
 
                         {/** SECOND */}
-                        {otherPaymentData?.inputNames?.secondInputName && (
+                        {item?.secondInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.secondInputName}
+                                {item?.secondInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -361,11 +364,11 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** THIRD */}
-                        {otherPaymentData?.inputNames?.thirdInputName && (
+                        {item?.thirdInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.thirdInputName}
+                                {item?.thirdInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -385,7 +388,7 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** FOURTH */}
-                        {otherPaymentData?.inputNames?.fourthInputName && (
+                        {item?.qrcodeName && (
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
@@ -395,7 +398,6 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                             </div>
                           </div>
                         )}
-
                         {/** Note   */}
                         <div className="NotePatentContainer">
                           <div className="uCCBottomC">

@@ -162,6 +162,7 @@ function Play({ reloadKey }) {
   ) {
     console.log("Checking Selected Number Limit");
     console.log(playbet.length, lotdate, lottime, lotlocation, selectedNumber);
+    console.log(JSON.stringify(playbet));
 
     // Ensure selectedNumber is valid
     if (!Array.isArray(selectedNumber)) {
@@ -172,6 +173,7 @@ function Play({ reloadKey }) {
     // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
     const filteredArray = playbet.filter(
       (item) =>
+        item.gameType === "playarena" &&
         item.lotdate.lotdate === lotdate &&
         item.lottime.lottime === lottime &&
         item.lotlocation.lotlocation === lotlocation
@@ -1020,17 +1022,21 @@ function Play({ reloadKey }) {
     // Step 3: Check if the total count is equal to or less than the limit
     return totalPlaynumbersCount <= limit;
   }
-
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const submitHandler = async () => {
+    setSubmitIsLoading(true);
     await userplayhistoryRefetch();
     if (sumObjectValues(inputValues) === 0) {
       showErrorToast("Add amount for bet");
+      setSubmitIsLoading(false);
     } else if (
       !canPlaceBet(user.walletTwo.balance, sumObjectValues(inputValues))
     ) {
       showErrorToast("Insufficent Balance");
+      setSubmitIsLoading(false);
     } else if (!checkAmounOfSelectedNumberIsValid(inputValues)) {
       showErrorToast("Add betting amount for all numbers");
+      setSubmitIsLoading(false);
     } else {
       const now = moment.tz(user?.country?.timezone);
       console.log("Current Time: ", now.format("hh:mm A"));
@@ -1056,6 +1062,7 @@ function Play({ reloadKey }) {
         console.log("Navigating to PlayArena...");
         showWarningToast("Entry is close for this session");
         showWarningToast("Please choose next available time");
+        setSubmitIsLoading(false);
       } else {
         try {
           console.log("SELECTED LOCATION", JSON.stringify(selectedLocation));
@@ -1091,9 +1098,11 @@ function Play({ reloadKey }) {
           // removeSelecteditemClick();
           hideSubmitContainer();
           setSubmitItemFlag(false);
+          setSubmitIsLoading(false);
         } catch (error) {
           console.log("Error during withdraw:", error);
           showErrorToast("Something went wrong");
+          setSubmitIsLoading(false);
         }
       }
     }
@@ -1635,7 +1644,7 @@ function Play({ reloadKey }) {
                 alignItems: "flex-start",
               }}
             >
-              {isPlayLoading ? (
+              {isPlayLoading || submitIsLoading ? (
                 <LoadingComponent />
               ) : (
                 <div

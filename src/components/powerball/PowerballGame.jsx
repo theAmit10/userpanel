@@ -134,7 +134,8 @@ const PowerballGame = ({
           : 1;
 
       return {
-        amount: TICKET_COST + multiplierValue, // Multiply cost with multiplier
+        amount:
+          multiplierValue === 1 ? TICKET_COST : TICKET_COST + multiplierValue, // Multiply cost with multiplier
         convertedAmount:
           (TICKET_COST + multiplierValue) *
           user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
