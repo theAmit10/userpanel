@@ -5,9 +5,10 @@ import TextCon from "../molecule/TextCon";
 import { FaCopy } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import { showSuccessToast } from "../helper/showErrorToast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetAboutPartnerQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
+import { loadSingleUser } from "../../redux/actions/userAction";
 
 const MyPartnerProfile = ({ setSelectedCategory }) => {
   const handleCopyClick = (e, stringToCopy) => {
@@ -22,7 +23,9 @@ const MyPartnerProfile = ({ setSelectedCategory }) => {
       });
   };
 
-  const { accesstoken, user } = useSelector((state) => state.user);
+  const { accesstoken, user, loadingSingleUser, singleuser } = useSelector(
+    (state) => state.user
+  );
 
   const userid = user.userId;
 
@@ -43,10 +46,18 @@ const MyPartnerProfile = ({ setSelectedCategory }) => {
     }
   }, [data, isLoading, error]);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(loadSingleUser(accesstoken, user.userId));
+    }
+  }, [user]);
+
   return (
     <div className="partner-main-container">
       <HeaderComp title={"Profile"} setSelectedCategory={setSelectedCategory} />
-      {isLoading || !partner ? (
+      {isLoading || !partner || loadingSingleUser || !singleuser ? (
         <Loader />
       ) : (
         <div className="container-scrollable">
@@ -62,6 +73,11 @@ const MyPartnerProfile = ({ setSelectedCategory }) => {
               </div>
             </div>
           </div>
+          <TextCon title={"Country"} value={singleuser?.country?.countryname} />
+          <TextCon
+            title={"Currency"}
+            value={singleuser?.country?.countrycurrencysymbol}
+          />
           <TextCon
             title={"Profit Percentage"}
             value={partner.profitPercentage}
