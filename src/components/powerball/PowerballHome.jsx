@@ -357,7 +357,8 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                   className="btcf-first-label-bold"
                   style={{ color: COLORS.yellow }}
                 >
-                  {latestResultData?.data?.prize?.fourthprize?.totaluser}
+                  {latestResultData?.data?.prize?.fourthprize?.amount *
+                    user?.country?.ticketprice}
                 </label>
               </div>
             </div>
@@ -413,7 +414,8 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                   className="btcf-first-label-bold"
                   style={{ color: COLORS.yellow }}
                 >
-                  {latestResultData?.data?.prize?.fifthprize?.amount + " X"}
+                  {latestResultData?.data?.prize?.fifthprize?.amount *
+                    user?.country?.ticketprice}
                 </label>
               </div>
             </div>
@@ -469,7 +471,8 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                   className="btcf-first-label-bold"
                   style={{ color: COLORS.yellow }}
                 >
-                  {latestResultData?.data?.prize?.sixthprize?.amount + " X"}
+                  {latestResultData?.data?.prize?.sixthprize?.amount *
+                    user?.country?.ticketprice}
                 </label>
               </div>
             </div>
