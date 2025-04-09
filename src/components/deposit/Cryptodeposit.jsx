@@ -207,7 +207,7 @@ function Cryptodeposit({ selectingPaymentType }) {
             <>
               {allDepositdata.length === 0 ? (
                 <NodataFound
-                  title={"This payment method is temporarily unavailable."}
+                  title={"This Payment option updating shortly. Thank You"}
                 />
               ) : (
                 <>
