@@ -278,6 +278,9 @@ function PartnerPaypal({ selectingPaymentType }) {
                 Paypal Deposit
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new Paypal ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={selecetingItemForDeposit}

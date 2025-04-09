@@ -260,6 +260,9 @@ function PartnerBank({ selectingPaymentType }) {
                 Bank Payment
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new Bank ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={selecetingItemForDeposit}

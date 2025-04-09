@@ -212,6 +212,9 @@ function PartnerSkrill({ selectingPaymentType }) {
                 Skrill Payment
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new Skrill ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={selecetingItemForDeposit}

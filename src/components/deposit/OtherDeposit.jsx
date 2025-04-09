@@ -392,7 +392,7 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
-                                src={`${serverName}/uploads/upiqrcode/${item.qrcode}`}
+                                src={`${serverName}/uploads/otherpaymentqrcode/${item.qrcode}`}
                                 className="qrimg"
                               />
                             </div>

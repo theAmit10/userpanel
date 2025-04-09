@@ -221,6 +221,9 @@ function PartnerCrypto({ selectingPaymentType }) {
                 Crypto Deposit
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new Crypto ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={selecetingItemForDeposit}

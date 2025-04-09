@@ -204,6 +204,9 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                 UPI Payment
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new UPI ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={selecetingItemForDeposit}

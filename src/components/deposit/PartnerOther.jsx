@@ -269,6 +269,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
                 Other Payment
               </label>
             </div>
+            <label className="alCreatLocationTopContainerlabel">
+              Add new Other ID
+            </label>
             <div
               className="searchIconContainer"
               onClick={settingShowCreateUpi}
@@ -437,7 +440,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
-                                src={`${serverName}/uploads/upiqrcode/${item.qrcode}`}
+                                src={`${serverName}/uploads/otherpaymentqrcode/${item.qrcode}`}
                                 className="qrimg"
                               />
                             </div>
