@@ -505,7 +505,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={`Enter payment name`}
+                  placeholder={`Payment Header name: Exm - Paypal, Skill, etc.`}
                   value={paymentName}
                   onChange={(e) => setPaymentName(e.target.value)}
                 />
@@ -521,7 +521,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={`Enter first input name`}
+                  placeholder={`1st Head line name: Exm - [ Paypal ID ]`}
                   value={firstInputName}
                   onChange={(e) => setFirstInputName(e.target.value)}
                 />
@@ -535,7 +535,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={`Enter first input value`}
+                  placeholder={`Payment Receiving ID: Exm- Paypal@gmail.com`}
                   value={firstInput}
                   onChange={(e) => setFirstInput(e.target.value)}
                 />
@@ -550,7 +550,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={"Enter second input name"}
+                  placeholder={
+                    "2nd Head line name: Exm - [ Paypal ID ] Other field to add ( Optional )"
+                  }
                   value={secondInputName}
                   onChange={(e) => setSecondInputName(e.target.value)}
                 />
@@ -564,7 +566,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={"Enter second input value"}
+                  placeholder={
+                    "2nd input value if your payment option have update in this field ( Optional )"
+                  }
                   value={secondInput}
                   onChange={(e) => setSecondInput(e.target.value)}
                 />
@@ -579,7 +583,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={"Enter third input name"}
+                  placeholder={
+                    "3rd Head line name: Exm - [ Paypal ID ] Other field to add ( Optional )"
+                  }
                   value={thirdInputName}
                   onChange={(e) => setThirdInputName(e.target.value)}
                 />
@@ -593,7 +599,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
 
                 <input
                   className="al-search-input"
-                  placeholder={"Enter third input value"}
+                  placeholder={
+                    "3rd input value if your payment option have update in this field ( Optional )"
+                  }
                   value={thirdInput}
                   onChange={(e) => setThirdInput(e.target.value)}
                 />
