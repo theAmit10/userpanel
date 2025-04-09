@@ -43,14 +43,17 @@ const Partner = () => {
           </div>
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
-            {/** MY PROFILE */}
-            <PartnerContentComp
-              title={"My Profile"}
-              description={"My profile details"}
-              iconfrom={"RiAccountCircleFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"MyPartnerProfile"}
-            />
+            {/** ALL RECHARGE */}
+            {user && partner && partner.rechargeModule && (
+              <PartnerContentComp
+                title={"All Recharge"}
+                description={"List of Recharge Partner data"}
+                iconfrom={"HiMiniWallet"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"AllRecharge"}
+              />
+            )}
+
             {/** ALL PARTNER */}
             {user.parentParentPartnerId === 1000 && (
               <PartnerContentComp
@@ -59,6 +62,35 @@ const Partner = () => {
                 iconfrom={"TiGroup"}
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"AllPartner"}
+              />
+            )}
+
+            {/** ALL USERS */}
+            <PartnerContentComp
+              title={"All Users"}
+              description={"List of all users"}
+              iconfrom={"IoIosPeople"}
+              setSelectedCategory={setSelectedCategory}
+              componenetname={"AllUser"}
+            />
+
+            {/** MY PROFILE */}
+            <PartnerContentComp
+              title={"My Profile"}
+              description={"My profile details"}
+              iconfrom={"RiAccountCircleFill"}
+              setSelectedCategory={setSelectedCategory}
+              componenetname={"MyPartnerProfile"}
+            />
+
+            {/** RECHARGE METHODS */}
+            {user && partner && partner.rechargeModule && (
+              <PartnerContentComp
+                title={"Recharge Method"}
+                description={"Recharge Payment Methods"}
+                iconfrom={"BsWalletFill"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"RechargeMethods"}
               />
             )}
 
@@ -73,14 +105,6 @@ const Partner = () => {
               />
             )}
 
-            {/** NOTIFY ADMIN */}
-            <PartnerContentComp
-              title={"Notify Admin"}
-              description={"Send Notification to Admin"}
-              iconfrom={"BsFillPeopleFill"}
-              setSelectedCategory={setSelectedCategory}
-              componenetname={"CreateNotificationAdmin"}
-            />
             {/**  Notify Partner */}
             {user?.parentPartnerId !== 1000 && (
               <PartnerContentComp
@@ -92,35 +116,14 @@ const Partner = () => {
               />
             )}
 
-            {/** ALL USERS */}
+            {/** NOTIFY ADMIN */}
             <PartnerContentComp
-              title={"All Users"}
-              description={"List of all users"}
-              iconfrom={"IoIosPeople"}
+              title={"Notify Admin"}
+              description={"Send Notification to Admin"}
+              iconfrom={"BsFillPeopleFill"}
               setSelectedCategory={setSelectedCategory}
-              componenetname={"AllUser"}
+              componenetname={"CreateNotificationAdmin"}
             />
-            {/** ALL RECHARGE */}
-            {user && partner && partner.rechargeModule && (
-              <PartnerContentComp
-                title={"All Recharge"}
-                description={"List of Recharge Partner data"}
-                iconfrom={"HiMiniWallet"}
-                setSelectedCategory={setSelectedCategory}
-                componenetname={"AllRecharge"}
-              />
-            )}
-
-            {/** RECHARGE METHODS */}
-            {user && partner && partner.rechargeModule && (
-              <PartnerContentComp
-                title={"Recharge Method"}
-                description={"Recharge Payment Methods"}
-                iconfrom={"BsWalletFill"}
-                setSelectedCategory={setSelectedCategory}
-                componenetname={"RechargeMethods"}
-              />
-            )}
           </div>
         </div>
       )}

@@ -18,11 +18,22 @@ const AllPartnerHeader = ({
   clickpress,
   navigate,
   openPartnerDetails,
+  openUserDetails,
+  userIdClickPress,
 }) => {
   const handlePress = () => {
     if (clickpress) {
       console.log(item);
       openPartnerDetails(item);
+    }
+  };
+
+  const handlerUserIdPressed = (e) => {
+    console.log("userIdClickPress", userIdClickPress);
+    e.stopPropagation(); // Prevent parent click event
+    if (userIdClickPress) {
+      console.log(item);
+      openUserDetails(item);
     }
   };
   return (
@@ -34,7 +45,7 @@ const AllPartnerHeader = ({
         cursor: clickpress ? "pointer" : "default",
       }}
     >
-      <div className="child-small">
+      <div className="child-small" onClick={(e) => handlerUserIdPressed(e)}>
         <TextLabel label={userId} />
       </div>
       <div className="child-large">
@@ -43,9 +54,9 @@ const AllPartnerHeader = ({
       <div className="child-small">
         <TextLabel label={profit} />
       </div>
-      <div className="child-small">
+      {/* <div className="child-small">
         <TextLabel label={recharge} />
-      </div>
+      </div> */}
       <div className="child-small">
         <TextLabel label={totaluser} />
       </div>

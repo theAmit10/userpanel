@@ -11,6 +11,7 @@ import {
 import Loader from "../molecule/Loader";
 import PartnerDetails from "./PartnerDetails";
 import { NodataFound } from "../helper/NodataFound";
+import AllUserDetails from "../alluser/AllUserDetails";
 
 const AllPartner = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -127,15 +128,26 @@ const AllPartner = ({ setSelectedCategory }) => {
   const [showPartnerDetails, setShowPartnerDetails] = useState(false);
   const [selectedPartner, setSelectedPartner] = useState(null);
 
+  const [showUserDetails, setShowUserDetails] = useState(false);
+
   const openPartnerDetails = (partner) => {
     setSelectedPartner(partner);
     setShowAllPartner(false);
+    setShowUserDetails(false);
     setShowPartnerDetails(true);
+  };
+
+  const openUserDetails = (partner) => {
+    setSelectedPartner(partner);
+    setShowAllPartner(false);
+    setShowUserDetails(true);
+    setShowPartnerDetails(false);
   };
 
   const closePartnerDetails = () => {
     setSelectedPartner(null);
     setShowAllPartner(true);
+    setShowUserDetails(false);
     setShowPartnerDetails(false);
   };
 
@@ -159,9 +171,9 @@ const AllPartner = ({ setSelectedCategory }) => {
               <AllPartnerHeader
                 userId={"User ID"}
                 name={"Name"}
-                profit={"Profit Percentage"}
-                recharge={"Recharge Percentage"}
-                totaluser={"Total no. of User's"}
+                profit={"Profit %"}
+                recharge={"Recharge %"}
+                totaluser={"User"}
                 balance={"Game Balance"}
                 backgroundcolor={COLORS.green}
                 showActive={true}
@@ -191,6 +203,8 @@ const AllPartner = ({ setSelectedCategory }) => {
                   clickpress={true}
                   navigate={"PartnerDetails"}
                   openPartnerDetails={openPartnerDetails}
+                  openUserDetails={openUserDetails}
+                  userIdClickPress={true}
                 />
               ))
             )}
@@ -212,6 +226,13 @@ const AllPartner = ({ setSelectedCategory }) => {
         <PartnerDetails
           closePartnerDetails={closePartnerDetails}
           selectedPartner={selectedPartner}
+        />
+      )}
+
+      {showUserDetails && (
+        <AllUserDetails
+          userdata={selectedPartner}
+          backhandlerDeposit={closePartnerDetails}
         />
       )}
     </>

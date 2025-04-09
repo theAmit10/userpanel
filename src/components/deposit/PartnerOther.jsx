@@ -154,81 +154,94 @@ const PartnerOther = ({ selectingPaymentType }) => {
   const [thirdInputName, setThirdInputName] = useState("");
   const [fourthInputName, setFourthInputName] = useState("");
 
-  useEffect(() => {
-    if (!loadingOtherPayment && otherPaymentData) {
-      setFirstInputName(otherPaymentData?.inputNames?.firstInputName);
-      setSecondInputName(otherPaymentData?.inputNames?.secondInputName);
-      setThirdInputName(otherPaymentData?.inputNames?.thirdInputName);
-      setFourthInputName(otherPaymentData?.inputNames?.fourthInputName);
-    }
-  }, [loadingOtherPayment, otherPaymentData]);
+  // useEffect(() => {
+  //   if (!loadingOtherPayment && otherPaymentData) {
+  //     setFirstInputName(otherPaymentData?.inputNames?.firstInputName);
+  //     setSecondInputName(otherPaymentData?.inputNames?.secondInputName);
+  //     setThirdInputName(otherPaymentData?.inputNames?.thirdInputName);
+  //     setFourthInputName(otherPaymentData?.inputNames?.fourthInputName);
+  //   }
+  // }, [loadingOtherPayment, otherPaymentData]);
 
   // [for creating other payment]
   const [firstInput, setFirstInput] = useState("");
   const [secondInput, setSecondInput] = useState("");
   const [thirdInput, setThirdInput] = useState("");
-
+  const [qrcodeName, setQrcodeName] = useState("");
+  const [paymentName, setPaymentName] = useState("");
   const submitCreateRequest = async () => {
-    if (otherPaymentData) {
-      if (firstInputName && !firstInput) {
-        showErrorToast(
-          `Enter ${otherPaymentData?.inputNames?.firstInputName || "value"}`
-        );
-        return;
-      }
-      if (secondInputName && !secondInput) {
-        showErrorToast(
-          `Enter ${otherPaymentData?.inputNames?.secondInputName || "value"}`
-        );
-        return;
-      }
-      if (thirdInputName && !thirdInput) {
-        showErrorToast(
-          `Enter ${otherPaymentData?.inputNames?.thirdInputName || "value"}`
-        );
-        return;
-      }
-
-      if (fourthInputName && !imageSource) {
-        showErrorToast("Add QR code");
-        return;
-      }
-      if (!paymentnote) {
-        showErrorToast("Add payment note");
-        return;
-      } else {
-        console.log("Create other payment Running");
-        try {
-          const formData = new FormData();
-          // ✅ Append fields dynamically only if they have data
-          if (firstInput) formData.append("firstInput", firstInput);
-          if (secondInput) formData.append("secondInput", secondInput);
-          if (thirdInput) formData.append("thirdInput", thirdInput);
-          if (imageSource) formData.append("qrcode", imageSource);
-          if (paymentnote) formData.append("paymentnote", paymentnote);
-          formData.append("userId", user.userId);
-
-          const res = await createOtherPaymentAccount({
-            accesstoken: accesstoken,
-            body: formData,
-          }).unwrap();
-
-          showSuccessToast(res.message);
-          allTheDepositData();
-          backHandlerShowCreateUpi();
-          setFirstInput("");
-          setSecondInput("");
-          setThirdInput("");
-          setpaymentnote("");
-          setImageSource(null);
-        } catch (error) {
-          showErrorToast("Something went wrong");
-          console.log("Error during create upi:", error);
-        }
-      }
-    } else {
-      showErrorToast("Something went wrong");
+    if (!paymentName) {
+      showErrorToast("Please enter payment name");
       return;
+    }
+    if (firstInputName && !firstInput) {
+      showErrorToast(
+        `Enter ${otherPaymentData?.inputNames?.firstInputName || "first value"}`
+      );
+      return;
+    }
+    if (secondInputName && !secondInput) {
+      showErrorToast(
+        `Enter ${
+          otherPaymentData?.inputNames?.secondInputName || "secondvalue"
+        }`
+      );
+      return;
+    }
+    if (thirdInputName && !thirdInput) {
+      showErrorToast(
+        `Enter ${otherPaymentData?.inputNames?.thirdInputName || "third value"}`
+      );
+      return;
+    }
+
+    if (qrcodeName && !imageSource) {
+      showErrorToast("Add QR code");
+      return;
+    }
+    if (!paymentnote) {
+      showErrorToast("Add payment note");
+      return;
+    } else {
+      console.log("Create other payment Running");
+      try {
+        const formData = new FormData();
+        // ✅ Append fields dynamically only if they have data
+        if (paymentName) formData.append("paymentName", paymentName);
+        if (firstInput) formData.append("firstInput", firstInput);
+        if (firstInputName) formData.append("firstInputName", firstInputName);
+        if (secondInput) formData.append("secondInput", secondInput);
+        if (secondInputName)
+          formData.append("secondInputName", secondInputName);
+        if (thirdInput) formData.append("thirdInput", thirdInput);
+        if (thirdInputName) formData.append("thirdInputName", thirdInputName);
+        if (qrcodeName) formData.append("qrcodeName", qrcodeName);
+        if (imageSource) formData.append("qrcode", imageSource);
+        if (paymentnote) formData.append("paymentnote", paymentnote);
+        formData.append("userId", user.userId);
+
+        const res = await createOtherPaymentAccount({
+          accesstoken: accesstoken,
+          body: formData,
+        }).unwrap();
+
+        showSuccessToast(res.message);
+        allTheDepositData();
+        backHandlerShowCreateUpi();
+        setFirstInput("");
+        setSecondInput("");
+        setThirdInput("");
+        setpaymentnote("");
+        setImageSource(null);
+        setFirstInputName("");
+        setSecondInputName("");
+        setThirdInputName("");
+        setQrcodeName("");
+        setImageSource(null);
+      } catch (error) {
+        showErrorToast("Something went wrong");
+        console.log("Error during create upi:", error);
+      }
     }
   };
 
@@ -345,11 +358,11 @@ const PartnerOther = ({ selectingPaymentType }) => {
                         {/** TOP */}
 
                         {/** FIRST */}
-                        {otherPaymentData?.inputNames?.firstInputName && (
+                        {item?.firstInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.firstInputName}
+                                {item?.firstInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -370,11 +383,11 @@ const PartnerOther = ({ selectingPaymentType }) => {
                         )}
 
                         {/** SECOND */}
-                        {otherPaymentData?.inputNames?.secondInputName && (
+                        {item?.secondInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.secondInputName}
+                                {item?.secondInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -396,11 +409,11 @@ const PartnerOther = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** THIRD */}
-                        {otherPaymentData?.inputNames?.thirdInputName && (
+                        {item?.thirdInputName && (
                           <div className="uCCMidC">
                             <div className="uCCTopFC">
                               <label className="pdSB">
-                                {otherPaymentData?.inputNames?.thirdInputName}
+                                {item?.thirdInputName}
                               </label>
                             </div>
                             <div className="uCCTopSC">
@@ -420,7 +433,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** FOURTH */}
-                        {otherPaymentData?.inputNames?.fourthInputName && (
+                        {item?.qrcodeName && (
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
@@ -479,96 +492,145 @@ const PartnerOther = ({ selectingPaymentType }) => {
             {/** TOP NAVIGATION CONTATINER */}
 
             <div className="allLocationMainContainer">
+              {/** PAYMENT METHOD NAME */}
+
+              <label className="alCLLabel">Payment Method Name</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder={`Enter payment name`}
+                  value={paymentName}
+                  onChange={(e) => setPaymentName(e.target.value)}
+                />
+              </div>
+
+              {/** FIRST INPUT Name */}
+
+              <label className="alCLLabel">First Input Name</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder={`Enter first input name`}
+                  value={firstInputName}
+                  onChange={(e) => setFirstInputName(e.target.value)}
+                />
+              </div>
               {/** FIRST INPUT */}
-              {otherPaymentData?.inputNames?.firstInputName && (
-                <>
-                  <label className="alCLLabel">
-                    {otherPaymentData?.inputNames?.firstInputName}
-                  </label>
-                  <div className="alSearchContainer">
-                    <div className="searchIconContainer">
-                      <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                    </div>
+              <label className="alCLLabel">First Input Value</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-                    <input
-                      className="al-search-input"
-                      placeholder={`Enter ${
-                        otherPaymentData?.inputNames?.firstInputName || "value"
-                      }`}
-                      value={firstInput}
-                      onChange={(e) => setFirstInput(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+                <input
+                  className="al-search-input"
+                  placeholder={`Enter first input value`}
+                  value={firstInput}
+                  onChange={(e) => setFirstInput(e.target.value)}
+                />
+              </div>
+              {/** SECOND  INPUT NAME */}
 
-              {otherPaymentData?.inputNames?.secondInputName && (
-                <>
-                  <label className="alCLLabel">
-                    {otherPaymentData?.inputNames?.secondInputName}
-                  </label>
-                  <div className="alSearchContainer">
-                    <div className="searchIconContainer">
-                      <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                    </div>
+              <label className="alCLLabel">Second Input Name</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-                    <input
-                      className="al-search-input"
-                      placeholder={`Enter ${
-                        otherPaymentData?.inputNames?.secondInputName || "value"
-                      }`}
-                      value={secondInput}
-                      onChange={(e) => setSecondInput(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+                <input
+                  className="al-search-input"
+                  placeholder={"Enter second input name"}
+                  value={secondInputName}
+                  onChange={(e) => setSecondInputName(e.target.value)}
+                />
+              </div>
+              {/** SECOND  INPUT  */}
+              <label className="alCLLabel">Second Input Value</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-              {otherPaymentData?.inputNames?.thirdInputName && (
-                <>
-                  <label className="alCLLabel">
-                    {otherPaymentData?.inputNames?.thirdInputName}
-                  </label>
-                  <div className="alSearchContainer">
-                    <div className="searchIconContainer">
-                      <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                    </div>
+                <input
+                  className="al-search-input"
+                  placeholder={"Enter second input value"}
+                  value={secondInput}
+                  onChange={(e) => setSecondInput(e.target.value)}
+                />
+              </div>
 
-                    <input
-                      className="al-search-input"
-                      placeholder={`Enter ${
-                        otherPaymentData?.inputNames?.thirdInputName || "value"
-                      }`}
-                      value={thirdInput}
-                      onChange={(e) => setThirdInput(e.target.value)}
-                    />
-                  </div>
-                </>
-              )}
+              {/** THIRD  INPUT NAME */}
+              <label className="alCLLabel">Third Input Name</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-              {/** TITLE */}
-              {otherPaymentData?.inputNames?.fourthInputName && (
-                <>
-                  <label className="alCLLabel">
-                    {otherPaymentData?.inputNames?.fourthInputName}
-                  </label>
-                  <div className="alSearchContainer">
-                    <div className="searchIconContainer">
-                      <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-                    </div>
+                <input
+                  className="al-search-input"
+                  placeholder={"Enter third input name"}
+                  value={thirdInputName}
+                  onChange={(e) => setThirdInputName(e.target.value)}
+                />
+              </div>
+              {/** THIRD  INPUT */}
+              <label className="alCLLabel">Third Input Value</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-                    <div className="imageContainerAC">
-                      <input
-                        className="al-search-input"
-                        placeholder="Receipt"
-                        type="file"
-                        name="file"
-                        onChange={selectDoc}
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
+                <input
+                  className="al-search-input"
+                  placeholder={"Enter third input value"}
+                  value={thirdInput}
+                  onChange={(e) => setThirdInput(e.target.value)}
+                />
+              </div>
+
+              {/** FOURTH INPUT NAME */}
+              <label className="alCLLabel">
+                Fourth Input Name (for QR code)
+              </label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder={"Enter fourth input name"}
+                  value={qrcodeName}
+                  onChange={(e) => setQrcodeName(e.target.value)}
+                />
+              </div>
+              {/** FOURTH INPUT  */}
+              <label className="alCLLabel">
+                {qrcodeName ? qrcodeName : "Fourth Input Value (add QR code)"}
+              </label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <div className="imageContainerAC">
+                  <input
+                    className="al-search-input"
+                    placeholder="Receipt"
+                    type="file"
+                    name="file"
+                    onChange={selectDoc}
+                  />
+                </div>
+              </div>
 
               {/** PAYMENT NOTE */}
               <label className="alCLLabel">Note</label>
