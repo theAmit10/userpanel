@@ -73,6 +73,7 @@ function HomeDashboard({
   selectedLocation,
   setSelectedLocation,
   gameName,
+  setSelectedComponent,
 }) {
   const dispatch = useDispatch();
 
@@ -625,7 +626,11 @@ function HomeDashboard({
                     )}
                   </div>
                   <div className="hdlTLB">
-                    <div className="hdlTLBCal">
+                    <div
+                      className="hdlTLBCal"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => setSelectedComponent("playarenaresult")}
+                    >
                       <MdOutlineDateRange
                         color={COLORS.white_s}
                         size={"2rem"}
@@ -681,7 +686,13 @@ function HomeDashboard({
                     {/** date container */}
                     <div className="hdlPowerDate">
                       <div className="hdlTLB">
-                        <div className="hdlTLBCal">
+                        <div
+                          className="hdlTLBCal"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            setSelectedComponent("powerballresult")
+                          }
+                        >
                           <MdOutlineDateRange
                             color={COLORS.white_s}
                             size={"2rem"}
@@ -1118,8 +1129,10 @@ function HomeDashboard({
                         </label>
                         <label className="hdrcMAmoutLabel">
                           {item.gameType === "playarena"
-                            ? calculateTotalAmount(item?.playnumbers)
-                            : calculateTotalAmount(item?.tickets)}{" "}
+                            ? calculateTotalAmount(item?.playnumbers).toFixed(0)
+                            : calculateTotalAmount(item?.tickets).toFixed(
+                                0
+                              )}{" "}
                           {user?.country?.countrycurrencysymbol}
                         </label>
                       </div>

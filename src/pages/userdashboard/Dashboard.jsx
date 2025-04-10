@@ -57,6 +57,7 @@ import LiveResult from "../../components/play/LiveResult";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard";
 import { TiGroup } from "react-icons/ti";
 import Partner from "../../components/partner/Partner";
+import PowerResult from "../../components/result/PowerResult";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -694,6 +695,7 @@ const Dashboard = () => {
               {selectedComponent === "dashboard" && (
                 <HomeDashboard
                   selectedComponent={selectedComponent}
+                  setSelectedComponent={setSelectedComponent}
                   handleComponentClick={handleComponentClick}
                   filteredDataAllLocation={filteredDataAllLocation}
                   alldatafilterAllLocation={alldatafilterAllLocation}
@@ -736,6 +738,18 @@ const Dashboard = () => {
               )}
               {selectedComponent === "liveresult" && (
                 <LiveResult reloadKey={reloadKey} />
+              )}
+              {selectedComponent === "playarenaresult" && (
+                <AllResult
+                  setSelectedCategory={setSelectedComponent}
+                  reloadKey={reloadKey}
+                />
+              )}
+              {selectedComponent === "powerballresult" && (
+                <PowerResult
+                  setSelectedCategory={setSelectedComponent}
+                  reloadKey={reloadKey}
+                />
               )}
               {selectedComponent === "aboutus" && (
                 <Aboutus reloadKey={reloadKey} />
