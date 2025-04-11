@@ -62,6 +62,7 @@ const Partner = () => {
                 iconfrom={"TiGroup"}
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"AllPartner"}
+                count={partner?.partnerList?.length}
               />
             )}
 
@@ -72,6 +73,7 @@ const Partner = () => {
               iconfrom={"IoIosPeople"}
               setSelectedCategory={setSelectedCategory}
               componenetname={"AllUser"}
+              count={partner?.userList?.length}
             />
 
             {/** MY PROFILE */}

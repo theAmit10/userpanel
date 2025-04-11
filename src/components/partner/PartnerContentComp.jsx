@@ -15,6 +15,7 @@ const PartnerContentComp = ({
   iconfrom,
   setSelectedCategory,
   componenetname,
+  count,
 }) => {
   return (
     <div
@@ -48,8 +49,9 @@ const PartnerContentComp = ({
           </div>
         </div>
       </div>
-      <div className="pcc-bottom">
+      <div className="pcc-bottom" style={{ justifyContent: "space-between" }}>
         <label className="label-regular">List of all Partner data</label>
+        <label className="label-mbold">{count}</label>
       </div>
     </div>
   );
