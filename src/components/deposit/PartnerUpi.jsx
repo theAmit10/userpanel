@@ -20,6 +20,8 @@ import { PiSubtitles } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import Loader from "../molecule/Loader";
+import { CiClock2 } from "react-icons/ci";
+import { FcApproval, FcCancel } from "react-icons/fc";
 
 const PartnerUpi = ({ selectingPaymentType }) => {
   const [showAllUpi, setShowAllUpi] = useState(true);
@@ -243,7 +245,23 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                           </div>
 
                           {/* <label className="pdB">UPI</label> */}
-                          <label
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">UPI</label>
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -255,7 +273,7 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
 
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
