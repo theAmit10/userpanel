@@ -25,6 +25,8 @@ import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Loader from "../molecule/Loader";
+import { CiClock2 } from "react-icons/ci";
+import { FcApproval, FcCancel } from "react-icons/fc";
 
 function PartnerBank({ selectingPaymentType }) {
   const navigate = useNavigate();
@@ -298,8 +300,24 @@ function PartnerBank({ selectingPaymentType }) {
                             />
                           </div>
 
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">Bank</label>
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
                           {/* <label className="pdB">Bank</label> */}
-                          <label
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -311,7 +329,7 @@ function PartnerBank({ selectingPaymentType }) {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
                               <div
