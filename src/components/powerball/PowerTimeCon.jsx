@@ -11,9 +11,15 @@ const PowerTimeCon = ({
   subtitle = "Play Now",
   iconname,
   item,
+  nextTime,
 }) => {
   return (
-    <div className="power-time-con" onClick={() => selectingTime(item)}>
+    <div
+      className={`power-time-con ${
+        time === nextTime.powertime ? "highlighted" : ""
+      }`}
+      onClick={() => selectingTime(item)}
+    >
       <div className="ptc-first">
         <label className="ptc-time-label">{time}</label>
         <label className="ptc-playnow-label">{subtitle}</label>

@@ -5,7 +5,7 @@ import PowerTimeCon from "./PowerTimeCon";
 import { useSelector } from "react-redux";
 import { useGetPowetTimesQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
-
+import moment from "moment-timezone";
 const PowerTime = ({
   setSelectedCategory,
   selectedTime,
@@ -23,10 +23,16 @@ const PowerTime = ({
   const [powertimes, setPowertimes] = useState(null);
   // Network call
   const { data, error, isLoading } = useGetPowetTimesQuery({ accesstoken });
-
+  const [nextTime, setNextTime] = useState(null);
   useEffect(() => {
     if (!isLoading && data) {
       setPowertimes(data.powerTimes);
+
+      const nextTime = getNextTimeForHighlights(
+        data.powerTimes,
+        user?.country?.timezone
+      );
+      setNextTime(nextTime);
       console.log(data);
     }
 
@@ -41,6 +47,53 @@ const PowerTime = ({
       setSelectedCategory("");
     }
   }, [reloadKey]);
+
+  const getNextTimeForHighlights = (times, userTimezone) => {
+    if (times.length === 1) {
+      return times[0];
+    }
+
+    // Get the current time in the user's timezone
+    const currentRiyadhTime = moment().tz(userTimezone).format("hh:mm A");
+    console.log("Current time in Riyadh timezone:", currentRiyadhTime);
+
+    // Convert each time from IST to user timezone (Asia/Riyadh)
+    const convertedTimes = times.map((item) => {
+      const timeInIST = moment.tz(item.powertime, "hh:mm A", "Asia/Kolkata");
+      const timeInRiyadh = timeInIST.clone().tz(userTimezone).format("hh:mm A");
+      return { ...item, convertedTime: timeInRiyadh };
+    });
+
+    console.log("Converted times to Riyadh timezone:", convertedTimes);
+
+    // Sort the times in the user's timezone
+    const sortedTimes = convertedTimes.sort((a, b) =>
+      moment(a.convertedTime, "hh:mm A").diff(
+        moment(b.convertedTime, "hh:mm A")
+      )
+    );
+
+    console.log("Sorted times:", sortedTimes);
+
+    // Find the next available time
+    for (let i = 0; i < sortedTimes.length; i++) {
+      if (
+        moment(currentRiyadhTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].convertedTime, "hh:mm A")
+        )
+      ) {
+        console.log("Next available time found:", sortedTimes[i]);
+        return sortedTimes[i]; // Return the first future time
+      }
+    }
+
+    console.log(
+      "No future time found, returning the first sorted time:",
+      sortedTimes[0]
+    );
+    // If no future time found, return the first time (next day scenario)
+    return sortedTimes[0];
+  };
 
   return (
     <div className="partner-main-container">
@@ -61,6 +114,7 @@ const PowerTime = ({
                 time={item.powertime}
                 selectingTime={selectingTime}
                 item={item}
+                nextTime={nextTime}
               />
             );
           })
