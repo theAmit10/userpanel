@@ -25,6 +25,8 @@ import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import Loader from "../molecule/Loader";
+import { CiClock2 } from "react-icons/ci";
+import { FcApproval, FcCancel } from "react-icons/fc";
 
 const upiapidata = [
   { name: "Wasu", upiid: "9876543210@ybl", id: "1" },
@@ -250,8 +252,24 @@ function PartnerSkrill({ selectingPaymentType }) {
                             />
                           </div>
 
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">Skrill</label>
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
                           {/* <label className="pdB">Skrill</label> */}
-                          <label
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -263,7 +281,7 @@ function PartnerSkrill({ selectingPaymentType }) {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
                               <div
