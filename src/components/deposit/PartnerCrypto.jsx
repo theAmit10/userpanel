@@ -25,6 +25,8 @@ import { LoadingComponent } from "../helper/LoadingComponent";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import Loader from "../molecule/Loader";
+import { CiClock2 } from "react-icons/ci";
+import { FcApproval, FcCancel } from "react-icons/fc";
 
 function PartnerCrypto({ selectingPaymentType }) {
   const [amountval, setAmountval] = useState("");
@@ -261,7 +263,23 @@ function PartnerCrypto({ selectingPaymentType }) {
 
                           {/* <label className="pdB">Crypto {item.paymentId}</label> */}
                           {/* <label className="pdB">Crypto</label> */}
-                          <label
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">Crypto</label>
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -273,7 +291,7 @@ function PartnerCrypto({ selectingPaymentType }) {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
                               <div
