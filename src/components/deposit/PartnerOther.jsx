@@ -26,6 +26,8 @@ import {
   useGetOtherPaymentNameQuery,
 } from "../../redux/api";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { CiClock2 } from "react-icons/ci";
+import { FcApproval, FcCancel } from "react-icons/fc";
 
 const PartnerOther = ({ selectingPaymentType }) => {
   const goToPreviousPage = () => {
@@ -313,7 +315,29 @@ const PartnerOther = ({ selectingPaymentType }) => {
                           </div>
 
                           {/* <label className="pdB">Other Payment</label> */}
-                          <label
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">
+                              {" "}
+                              {item.paymentName
+                                ? item.paymentName
+                                : "Other"}{" "}
+                            </label>
+
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -325,7 +349,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
                               <div
