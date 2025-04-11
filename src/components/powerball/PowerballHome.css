@@ -317,14 +317,14 @@
     flex-direction: column;
     
     overflow-y: hidden;
-
 }
 .tmc-first{
-    height: 40%;
+    height: 100%;
     width: 100%;
+
 }
 .tmc-second{
-    height: 38%;
+    height: 50%;
     width: 100%;
 }
 .semi-bold{
@@ -362,19 +362,34 @@
 }
 .game-ball-con{
     height: 100%;
-   width: 100%;
+    width: 100%;
     background-color: var(--background);
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 1rem;
+    padding: 0.5rem 0 0 0.2rem;
     overflow-y: scroll;
     gap: 1rem;
     border-radius: 1rem;
     padding-bottom: 2rem;
+     /* Hide scrollbar (background and track) */
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;      /* IE/Edge */
+   
 }
+.game-ball-con::-webkit-scrollbar {
+    display: none;                 /* Chrome/Safari */
+  }
+
+  .bball-con-main{
+    scrollbar-width: none;         /* Firefox */
+    -ms-overflow-style: none;      
+  }
+  .bball-con-main::-webkit-scrollbar {
+    display: none;                 /* Chrome/Safari */
+  }
 .powergame-container{
     height: 100%;
     width: 100%;

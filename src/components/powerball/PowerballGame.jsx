@@ -31,6 +31,7 @@ import {
 } from "../../redux/ticketSlice";
 import { ToastContainer } from "react-toastify";
 import { loadProfile } from "../../redux/actions/userAction";
+import SmallSmallBall from "../molecule/SmallSmallBall";
 // import {
 //   addMultipleTicketsRedux,
 //   removeTicketRedux,
@@ -441,6 +442,7 @@ const PowerballGame = ({
                           flex: 1,
                           minWidth: "30%",
                           maxWidth: "30%",
+                          overflowY: "hidden",
                         }}
                       >
                         <div
@@ -456,6 +458,7 @@ const PowerballGame = ({
                           </label>
                           <div
                             key={ticketIndex}
+                            className="bball-con-main"
                             style={{
                               justifyContent: "flex-start",
                               alignItems: "flex-start",
@@ -465,6 +468,7 @@ const PowerballGame = ({
                               padding: "0.5rem",
                               borderRadius: "0.5rem",
                               overflowX: "scroll",
+                              overflowY: "hidden",
                             }}
                           >
                             <div
@@ -548,7 +552,7 @@ const PowerballGame = ({
                               const isSelected =
                                 ticket.selectedNumbers.includes(num);
                               return (
-                                <SmallBall
+                                <SmallSmallBall
                                   key={num}
                                   number={num}
                                   isSelected={isSelected}

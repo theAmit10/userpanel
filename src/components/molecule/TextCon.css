@@ -170,10 +170,26 @@
     align-items: center;
     cursor: pointer;
 }
+.small-small-ball-con{
+    min-height: 3rem;
+    min-width: 3rem;
+    background: linear-gradient(180deg, #0162AF, #011833);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; 
+}
 .small-ball-label{
     color: var(--white_s);
     font-family: "MB";
     font-size: 1.7rem;
+    cursor: pointer;
+}
+.small-small-ball-label{
+    color: var(--white_s);
+    font-family: "MB";
+    font-size: 1.5rem;
     cursor: pointer;
 }
 .dHeaderContainerLabelAD{

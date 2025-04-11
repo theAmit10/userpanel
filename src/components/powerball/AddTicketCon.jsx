@@ -61,7 +61,7 @@ const AddTicketCon = ({
           <input
             className="ticket-input"
             type="number"
-            placeholder="Add Ticket"
+            placeholder={`${tickets.length}`}
             min="1" // Only positive numbers
             step="1" // Only integers
             value={inputValue}

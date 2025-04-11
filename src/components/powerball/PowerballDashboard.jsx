@@ -6,6 +6,7 @@ import PartnerContentComp from "../partner/PartnerContentComp";
 import PowerballHome from "./PowerballHome";
 import PowerTime from "./PowerTime";
 import PowerballGame from "./PowerballGame";
+import { ToastContainer } from "react-toastify";
 
 const PowerballDashboard = ({ reloadKey, setReloadKey }) => {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ const PowerballDashboard = ({ reloadKey, setReloadKey }) => {
           setReloadKey={setReloadKey}
         />
       )}
+
+      <ToastContainer />
     </>
   );
 };

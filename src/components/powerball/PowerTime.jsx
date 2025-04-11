@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useGetPowetTimesQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import moment from "moment-timezone";
+import { showWarningToast } from "../helper/showErrorToast";
+import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 const PowerTime = ({
   setSelectedCategory,
   selectedTime,
@@ -13,12 +15,35 @@ const PowerTime = ({
   reloadKey,
   setReloadKey,
 }) => {
-  const selectingTime = (item) => {
-    setSelectedCategory("PowerballGame");
-    setSelectedTime(item);
-  };
-
   const { user, accesstoken } = useSelector((state) => state.user);
+  const selectingTime = (item) => {
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+    const lotTimeMoment = moment.tz(
+      getTimeAccordingToTimezone(item?.powertime, user?.country?.timezone),
+      "hh:mm A",
+      user?.country?.timezone
+    );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+      console.log("Navigating to PlayArena...");
+      showWarningToast("Entry is close for this session");
+      showWarningToast("Please choose next available time");
+    } else {
+      setSelectedCategory("PowerballGame");
+      setSelectedTime(item);
+    }
+  };
 
   const [powertimes, setPowertimes] = useState(null);
   // Network call
