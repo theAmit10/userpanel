@@ -23,6 +23,9 @@ import SubmitButton from "../atom/SubmitButton";
 import { MdDelete } from "react-icons/md";
 import Loader from "../molecule/Loader";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { FcApproval, FcCancel } from "react-icons/fc";
+import { GiSandsOfTime } from "react-icons/gi";
+import { CiClock2 } from "react-icons/ci";
 function PartnerPaypal({ selectingPaymentType }) {
   const [amountval, setAmountval] = useState("");
   const [transactionval, setTransactionval] = useState("");
@@ -316,8 +319,24 @@ function PartnerPaypal({ selectingPaymentType }) {
                             />
                           </div>
 
-                          {/* <label className="pdB">Paypal</label> */}
-                          <label
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <label className="pdB">Paypal</label>
+                            {item.paymentStatus === "Pending" ? (
+                              <CiClock2 size={"2.5rem"} />
+                            ) : item.paymentStatus === "Cancelled" ? (
+                              <FcCancel size={"2.5rem"} />
+                            ) : (
+                              <FcApproval size={"2.5rem"} />
+                            )}
+                          </div>
+
+                          {/* <label
                             className="pdB"
                             style={{
                               color:
@@ -329,7 +348,7 @@ function PartnerPaypal({ selectingPaymentType }) {
                             }}
                           >
                             {item.paymentStatus}
-                          </label>
+                          </label> */}
 
                           {deleteIsLoading ? (
                             seletedItem === item._id ? (
