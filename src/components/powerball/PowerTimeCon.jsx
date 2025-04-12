@@ -16,7 +16,7 @@ const PowerTimeCon = ({
   return (
     <div
       className={`power-time-con ${
-        time === nextTime.powertime ? "highlighted" : ""
+        time === nextTime?.powertime ? "highlighted" : ""
       }`}
       onClick={() => selectingTime(item)}
     >
