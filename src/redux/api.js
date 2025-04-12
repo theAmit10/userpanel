@@ -225,8 +225,8 @@ export const sincelotUserApi = createApi({
 
     // GET PARTNER PARTNERLIST
     getPartnerPartnerList: builder.query({
-      query: ({ accesstoken, userid, page, limit }) => ({
-        url: `user/getpartnerpartnerlist/${userid}?page=${page}&limit=${limit}`,
+      query: ({ accesstoken, userId, page, limit, sortBy, sortOrder }) => ({
+        url: `user/getpartnerpartnerlist/${userId}?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`,
         headers: {
           Authorization: `Bearer ${accesstoken}`,
           method: "get",

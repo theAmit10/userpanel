@@ -12,6 +12,7 @@ import Loader from "../molecule/Loader";
 import PartnerDetails from "./PartnerDetails";
 import { NodataFound } from "../helper/NodataFound";
 import AllUserDetails from "../alluser/AllUserDetails";
+import AllPartnerComp from "../molecule/AllPartnerComp";
 
 const AllPartner = ({ setSelectedCategory }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -24,6 +25,8 @@ const AllPartner = ({ setSelectedCategory }) => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   // Debounce Effect for Search (waits 500ms before updating)
   useEffect(() => {
@@ -38,7 +41,7 @@ const AllPartner = ({ setSelectedCategory }) => {
     setPage(1);
     setPartners([]); // Reset partners on search
     setHasMore(true);
-  }, [debouncedSearch]);
+  }, [debouncedSearch, sortBy, sortOrder]);
 
   // Fetch Paginated Data
   const {
@@ -46,7 +49,7 @@ const AllPartner = ({ setSelectedCategory }) => {
     isFetching: fetchingPaginated,
     isLoading: loadingPaginated,
   } = useGetPartnerPartnerListQuery(
-    { accesstoken, userid: user.userId, page, limit },
+    { accesstoken, userId: user.userId, page, limit, sortBy, sortOrder },
     { skip: debouncedSearch.length > 0, refetchOnMountOrArgChange: true } // Disable caching
   );
 
@@ -88,7 +91,7 @@ const AllPartner = ({ setSelectedCategory }) => {
         setHasMore(true);
       }
     }
-  }, [searchData, paginatedData, debouncedSearch, page]);
+  }, [searchData, paginatedData, debouncedSearch, page, sortBy, sortOrder]);
 
   // Load More Data
   const loadMore = () => {
@@ -168,7 +171,7 @@ const AllPartner = ({ setSelectedCategory }) => {
                 placeholder={"Search for partner"}
                 iconname={"CiSearch"}
               />
-              <AllPartnerHeader
+              <AllPartnerComp
                 userId={"User ID"}
                 name={"Name"}
                 profit={"Profit %"}
@@ -179,6 +182,8 @@ const AllPartner = ({ setSelectedCategory }) => {
                 showActive={true}
                 status={"Status"}
                 clickpress={false}
+                setSortBy={setSortBy}
+                setSortOrder={setSortOrder}
               />
             </>
           )}

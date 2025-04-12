@@ -10,6 +10,7 @@ import CreateNotification from "./CreateNotification";
 import { useDispatch, useSelector } from "react-redux";
 import { loadPartnerProfile } from "../../redux/actions/userAction";
 import AllRecharge from "./AllRecharge";
+import { ToastContainer } from "react-toastify";
 
 const Partner = () => {
   const dispatch = useDispatch();
@@ -160,6 +161,8 @@ const Partner = () => {
       {selectedCategory === "RechargeMethods" && (
         <RechargeMethods setSelectedCategory={setSelectedCategory} />
       )}
+
+      <ToastContainer />
     </>
   );
 };
