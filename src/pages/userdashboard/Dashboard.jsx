@@ -712,7 +712,7 @@ const Dashboard = () => {
                 <AllLocation reloadKey={reloadKey} />
               )}
               {selectedComponent === "partner" && (
-                <Partner reloadKey={reloadKey} />
+                <Partner reloadKey={reloadKey} setReloadKey={setReloadKey} />
               )}
               {selectedComponent === "play" && <Play reloadKey={reloadKey} />}
               {selectedComponent === "history" && (

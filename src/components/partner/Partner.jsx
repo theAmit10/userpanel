@@ -12,9 +12,10 @@ import { loadPartnerProfile } from "../../redux/actions/userAction";
 import AllRecharge from "./AllRecharge";
 import { ToastContainer } from "react-toastify";
 
-const Partner = () => {
+const Partner = ({ reloadKey, setReloadKey }) => {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("");
+  // const [reloadKey, setReloadKey] = useState(0);
 
   const { accesstoken, user, partner } = useSelector((state) => state.user);
 
@@ -33,6 +34,12 @@ const Partner = () => {
     userId: user?.parentPartnerId,
     name: "Partner",
   };
+
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+    }
+  }, [reloadKey]);
 
   return (
     <>
@@ -132,34 +139,55 @@ const Partner = () => {
       )}
 
       {selectedCategory === "MyPartnerProfile" && (
-        <MyPartnerProfile setSelectedCategory={setSelectedCategory} />
+        <MyPartnerProfile
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
       )}
       {selectedCategory === "AllProfitDecrease" && (
-        <AllProfitDecrease setSelectedCategory={setSelectedCategory} />
+        <AllProfitDecrease
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
       )}
       {selectedCategory === "AllPartner" && (
-        <AllPartner setSelectedCategory={setSelectedCategory} />
+        <AllPartner
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
       )}
       {selectedCategory === "CreateNotificationAdmin" && (
         <CreateNotification
           setSelectedCategory={setSelectedCategory}
           selectedPartner={userdata}
+          reloadKey={reloadKey}
         />
       )}
       {selectedCategory === "CreateNotificationPartner" && (
         <CreateNotification
           setSelectedCategory={setSelectedCategory}
           selectedPartner={partnerData}
+          reloadKey={reloadKey}
         />
       )}
       {selectedCategory === "AllUser" && (
-        <AllUser setSelectedCategory={setSelectedCategory} />
+        <AllUser
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
       )}
       {selectedCategory === "AllRecharge" && (
-        <AllRecharge setSelectedCategory={setSelectedCategory} />
+        <AllRecharge
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
+        />
       )}
       {selectedCategory === "RechargeMethods" && (
-        <RechargeMethods setSelectedCategory={setSelectedCategory} />
+        <RechargeMethods
+          setSelectedCategory={setSelectedCategory}
+          reloadKey={reloadKey}
+        />
       )}
 
       <ToastContainer />

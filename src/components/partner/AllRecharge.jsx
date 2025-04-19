@@ -25,7 +25,7 @@ import AlertModalDeposit from "../helper/AlertModalDeposit";
 import { MdOutlineCancel } from "react-icons/md";
 import "./AllRecharge.css";
 
-const AllRecharge = ({ setSelectedCategory }) => {
+const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
 
   // States
@@ -36,6 +36,13 @@ const AllRecharge = ({ setSelectedCategory }) => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   // Debounce Effect for Search (waits 500ms before updating)
   useEffect(() => {
