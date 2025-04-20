@@ -142,18 +142,21 @@ const Partner = ({ reloadKey, setReloadKey }) => {
         <MyPartnerProfile
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "AllProfitDecrease" && (
         <AllProfitDecrease
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "AllPartner" && (
         <AllPartner
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "CreateNotificationAdmin" && (
@@ -161,6 +164,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
           setSelectedCategory={setSelectedCategory}
           selectedPartner={userdata}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "CreateNotificationPartner" && (
@@ -168,12 +172,14 @@ const Partner = ({ reloadKey, setReloadKey }) => {
           setSelectedCategory={setSelectedCategory}
           selectedPartner={partnerData}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "AllUser" && (
         <AllUser
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
       {selectedCategory === "AllRecharge" && (
@@ -187,6 +193,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
         <RechargeMethods
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
         />
       )}
 

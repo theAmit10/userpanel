@@ -14,8 +14,15 @@ import { NodataFound } from "../helper/NodataFound";
 import AllUserDetails from "../alluser/AllUserDetails";
 import AllPartnerComp from "../molecule/AllPartnerComp";
 
-const AllPartner = ({ setSelectedCategory }) => {
+const AllPartner = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   // States
   const [partners, setPartners] = useState([]);

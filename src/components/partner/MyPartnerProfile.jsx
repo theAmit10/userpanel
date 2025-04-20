@@ -10,7 +10,14 @@ import { useGetAboutPartnerQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import { loadSingleUser } from "../../redux/actions/userAction";
 
-const MyPartnerProfile = ({ setSelectedCategory }) => {
+const MyPartnerProfile = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
+
   const handleCopyClick = (e, stringToCopy) => {
     e.stopPropagation();
     navigator.clipboard

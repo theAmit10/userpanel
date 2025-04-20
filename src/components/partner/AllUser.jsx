@@ -15,8 +15,14 @@ import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import AllUserDetails from "../alluser/AllUserDetails";
 import AllUserDetailCom from "../molecule/AllUserDetailCom";
 
-const AllUser = ({ setSelectedCategory }) => {
+const AllUser = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   // States
   const [partners, setPartners] = useState([]);

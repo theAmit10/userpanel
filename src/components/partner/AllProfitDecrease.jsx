@@ -14,8 +14,18 @@ import Loader from "../molecule/Loader";
 import AllPofitDecreseComp from "../molecule/AllPofitDecreseComp";
 import { NodataFound } from "../helper/NodataFound";
 
-const AllProfitDecrease = ({ setSelectedCategory }) => {
+const AllProfitDecrease = ({
+  setSelectedCategory,
+  reloadKey,
+  setReloadKey,
+}) => {
   const { accesstoken, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   // States
   const [partners, setPartners] = useState([]);

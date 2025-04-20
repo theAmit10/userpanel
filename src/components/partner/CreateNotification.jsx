@@ -15,10 +15,21 @@ import SearchCon from "../molecule/SearchCon";
 import TextInputCon from "../molecule/TextInputCon";
 import SubmitButton from "../atom/SubmitButton";
 
-const CreateNotification = ({ setSelectedCategory, selectedPartner }) => {
+const CreateNotification = ({
+  setSelectedCategory,
+  selectedPartner,
+  reloadKey,
+  setReloadKey,
+}) => {
   const { accesstoken, user } = useSelector((state) => state.user);
 
   const userid = selectedPartner.userId;
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   const [titleValue, setTitle] = useState("");
   const [discriptionValue, setDescription] = useState("");

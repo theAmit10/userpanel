@@ -30,12 +30,18 @@ import Partner from "./Partner";
 import { PiContactlessPaymentFill } from "react-icons/pi";
 import PartnerOther from "../deposit/PartnerOther";
 
-const RechargeMethods = ({ setSelectedCategory }) => {
+const RechargeMethods = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const [selectedPayment, setSelectedPayment] = useState("");
 
   const selectingPaymentType = (item) => {
     setSelectedPayment(item);
   };
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
 
   const { accesstoken, partner, user } = useSelector((state) => state.user);
 
