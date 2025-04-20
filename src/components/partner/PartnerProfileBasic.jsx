@@ -88,11 +88,7 @@ const PartnerProfileBasic = ({ setSelectedCategory, selectedPartner }) => {
           <TextCon title={"Name"} value={partner.name} />
           {/* <TextCon title={"Country"} value={partner.userList.length} />
           <TextCon title={"Currency"} value={partner.userList.length} /> */}
-          <TextCon title={"Country"} value={singleuser?.country?.countryname} />
-          <TextCon
-            title={"Currency"}
-            value={singleuser?.country?.countrycurrencysymbol}
-          />
+
           <TextCon
             title={"Profit Percentage"}
             value={partner.profitPercentage}
@@ -107,6 +103,11 @@ const PartnerProfileBasic = ({ setSelectedCategory, selectedPartner }) => {
           <TextCon
             title={"Total no. of user's"}
             value={partner.userList.length}
+          />
+          <TextCon title={"Country"} value={singleuser?.country?.countryname} />
+          <TextCon
+            title={"Currency"}
+            value={singleuser?.country?.countrycurrencysymbol}
           />
         </div>
       )}
