@@ -93,6 +93,19 @@ const AllPartnerComp = ({
       setCurrentOrder("asc");
     }
   };
+
+  const handlerPressedPartnerStatus = () => {
+    showWarningToast("Processing");
+    if (currentOrder === "asc") {
+      setSortBy("partnerStatus");
+      setSortOrder("desc");
+      setCurrentOrder("desc");
+    } else {
+      setSortBy("partnerStatus");
+      setSortOrder("asc");
+      setCurrentOrder("asc");
+    }
+  };
   return (
     <div
       className="allpartnerheader-con"
@@ -143,7 +156,13 @@ const AllPartnerComp = ({
       </div>
 
       {showActive && (
-        <div className="child-small">
+        <div
+          className="child-small"
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={handlerPressedPartnerStatus}
+        >
           <TextLabel
             label={status}
             style={{
@@ -155,6 +174,7 @@ const AllPartnerComp = ({
                   : COLORS.white_s,
             }}
           />
+          <FaSort size={"1.5rem"} color={COLORS.white_s} />
         </div>
       )}
     </div>

@@ -23,7 +23,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
     if (user && accesstoken) {
       dispatch(loadPartnerProfile(accesstoken, user.userId));
     }
-  }, [dispatch]);
+  }, [dispatch, reloadKey]);
 
   const userdata = {
     userId: 1000,
