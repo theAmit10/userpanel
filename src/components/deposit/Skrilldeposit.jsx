@@ -371,7 +371,7 @@ function Skrilldeposit({ selectingPaymentType }) {
                 }}
                 type="text"
                 name="remark"
-                placeholder="Enter remark"
+                placeholder="Enter amount, currency & method with remarks (e.g. 100 USD SKRILL)"
                 value={remarkval}
                 onChange={(e) => setRemarkval(e.target.value)}
               />

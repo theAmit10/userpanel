@@ -397,7 +397,7 @@ export const UD = ({ selectingPaymentType }) => {
                 }}
                 type="text"
                 name="remark"
-                placeholder="Enter remark"
+                placeholder="Enter amount, currency & method with remarks (e.g. 100 INR UPI)"
                 value={remarkval}
                 onChange={(e) => setRemarkval(e.target.value)}
               />
