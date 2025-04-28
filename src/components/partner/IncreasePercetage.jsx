@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import "./Partner.css";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { useSelector } from "react-redux";
-import { useUpdateProfitPercentageMutation } from "../../redux/api";
+import {
+  useGetAboutPartnerQuery,
+  useUpdateProfitPercentageMutation,
+} from "../../redux/api";
 import Loader from "../molecule/Loader";
 import TextInputCon from "../molecule/TextInputCon";
 import SubmitButton from "../atom/SubmitButton";
@@ -71,6 +74,38 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
       showErrorToast("Something went wrong");
     }
   };
+
+  const [parentUserId, setParentUserId] = useState("");
+  const [parentProfitPercentage, setParentProfitPercentage] = useState(0);
+
+  const { isLoading: singlePartnerIsloading, data: singlePartnerData } =
+    useGetAboutPartnerQuery(
+      {
+        accesstoken,
+        userid: parentUserId,
+      },
+      { skip: !parentUserId }
+    );
+
+  // CHECKING FOR THE PARENT USER ID
+  useEffect(() => {
+    if (selectedPartner && selectedPartner.parentPartnerId === 1000) {
+      setParentUserId(selectedPartner.userId);
+    } else {
+      setParentUserId(selectedPartner.parentPartnerId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!singlePartnerIsloading && singlePartnerData) {
+      setParentProfitPercentage(singlePartnerData.partner.profitPercentage);
+    }
+  }, [singlePartnerIsloading, singlePartnerData, parentUserId]);
+
+  console.log(parentUserId);
+
+  console.log(singlePartnerData);
+  console.log(parentProfitPercentage);
 
   return (
     <div className="partner-main-container">
