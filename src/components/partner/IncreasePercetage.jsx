@@ -76,18 +76,16 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
         return;
       }
 
-      showWarningToast("Gooing good");
-
-      // const res = await updateProfitPercentage({
-      //   accesstoken,
-      //   body: {
-      //     partnerId: selectedPartner.userId,
-      //     profitPercentage: Number.parseInt(profitPercentage),
-      //   },
-      // });
-      // console.log(JSON.stringify(res));
-      // setProfitPercentage("");
-      // showSuccessToast(res.data.message);
+      const res = await updateProfitPercentage({
+        accesstoken,
+        body: {
+          partnerId: selectedPartner.userId,
+          profitPercentage: Number.parseInt(profitPercentage),
+        },
+      });
+      console.log(JSON.stringify(res));
+      setProfitPercentage("");
+      showSuccessToast(res.data.message);
     } catch (e) {
       console.log(e);
       showErrorToast("Something went wrong");
@@ -118,9 +116,9 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
     }
   }, [singlePartnerIsloading, singlePartnerData, parentUserId]);
 
-  console.log(parentUserId);
-  console.log(singlePartnerData);
-  console.log(parentProfitPercentage);
+  // console.log(parentUserId);
+  // console.log(singlePartnerData);
+  // console.log(parentProfitPercentage);
 
   const checkProfitMustLessThenParentProfit = (profit, parentProfit) => {
     const numProfit = Number(profit);
