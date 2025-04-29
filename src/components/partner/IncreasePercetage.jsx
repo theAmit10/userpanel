@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import "./Partner.css";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "../helper/showErrorToast";
 import { useSelector } from "react-redux";
 import {
   useGetAboutPartnerQuery,
@@ -25,6 +29,8 @@ const checkValidPercentageCriteria = (profit, recharge) => {
 
 const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
+  const [parentUserId, setParentUserId] = useState("");
+  const [parentProfitPercentage, setParentProfitPercentage] = useState(0);
 
   const [profitPercentage, setProfitPercentage] = useState("");
   const [updateProfitPercentage, { isLoading, error }] =
@@ -48,6 +54,17 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
         showErrorToast("New percentage must be higher than the current one");
         return;
       }
+      if (
+        !checkProfitMustLessThenParentProfit(
+          profitPercentage,
+          parentProfitPercentage
+        )
+      ) {
+        showErrorToast(
+          `New percentage must be lower than the ${parentProfitPercentage}`
+        );
+        return;
+      }
 
       if (
         !checkValidPercentageCriteria(
@@ -59,24 +76,23 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
         return;
       }
 
-      const res = await updateProfitPercentage({
-        accesstoken,
-        body: {
-          partnerId: selectedPartner.userId,
-          profitPercentage: Number.parseInt(profitPercentage),
-        },
-      });
-      console.log(JSON.stringify(res));
-      setProfitPercentage("");
-      showSuccessToast(res.data.message);
+      showWarningToast("Gooing good");
+
+      // const res = await updateProfitPercentage({
+      //   accesstoken,
+      //   body: {
+      //     partnerId: selectedPartner.userId,
+      //     profitPercentage: Number.parseInt(profitPercentage),
+      //   },
+      // });
+      // console.log(JSON.stringify(res));
+      // setProfitPercentage("");
+      // showSuccessToast(res.data.message);
     } catch (e) {
       console.log(e);
       showErrorToast("Something went wrong");
     }
   };
-
-  const [parentUserId, setParentUserId] = useState("");
-  const [parentProfitPercentage, setParentProfitPercentage] = useState(0);
 
   const { isLoading: singlePartnerIsloading, data: singlePartnerData } =
     useGetAboutPartnerQuery(
@@ -103,9 +119,14 @@ const IncreasePercetage = ({ setSelectedCategory, selectedPartner }) => {
   }, [singlePartnerIsloading, singlePartnerData, parentUserId]);
 
   console.log(parentUserId);
-
   console.log(singlePartnerData);
   console.log(parentProfitPercentage);
+
+  const checkProfitMustLessThenParentProfit = (profit, parentProfit) => {
+    const numProfit = Number(profit);
+    const numParentProfit = Number(parentProfit);
+    return numProfit < numParentProfit;
+  };
 
   return (
     <div className="partner-main-container">
