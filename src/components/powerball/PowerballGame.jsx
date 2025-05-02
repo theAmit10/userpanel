@@ -15,7 +15,11 @@ import {
   useGetPowerballQuery,
   useGetPowerDatesByTimeQuery,
 } from "../../redux/api";
-import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from "../helper/showErrorToast";
 import Loader from "../molecule/Loader";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import {
@@ -32,6 +36,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import { loadProfile } from "../../redux/actions/userAction";
 import SmallSmallBall from "../molecule/SmallSmallBall";
+import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 // import {
 //   addMultipleTicketsRedux,
 //   removeTicketRedux,
@@ -307,10 +312,38 @@ const PowerballGame = ({
   };
 
   const [submitLoader, setSubmitLoader] = useState(false);
+
   const submitHandler = async () => {
-    // setSubmitLoader(true);
     console.log("submitting to next stage to confirm ticket");
     console.log("submited ticket :: ", tickets);
+
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+    const lotTimeMoment = moment.tz(
+      getTimeAccordingToTimezone(
+        selectedTime?.powertime,
+        user?.country?.timezone
+      ),
+      "hh:mm A",
+      user?.country?.timezone
+    );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(30, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+      console.log("Navigating to PlayArena...");
+      showWarningToast("Entry is close for this session");
+      showWarningToast("Please choose next available time");
+      return;
+    }
 
     setTicketValue(1);
 
