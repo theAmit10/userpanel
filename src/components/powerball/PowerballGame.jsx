@@ -215,8 +215,14 @@ const PowerballGame = ({
     // }
   };
 
-  const handleNumberSelect = (number) => {
-    dispatch(handleNumberSelectR({ number }));
+  const handleNumberSelect = (number, ticketIndex) => {
+    // dispatch(handleNumberSelectR({ number }));
+    dispatch(
+      handleNumberSelectR({
+        number: number,
+        ticketIndex: ticketIndex,
+      })
+    );
     // const currentTicket = tickets[activeTicketIndex];
     // const updatedNumbers = [...currentTicket.selectedNumbers];
 
@@ -530,7 +536,13 @@ const PowerballGame = ({
                                       //     number: num,
                                       //   })
                                       // );
-                                      handleNumberSelect(num);
+                                      // handleNumberSelect(num, ticketIndex);
+                                      dispatch(
+                                        handleNumberSelectR({
+                                          number: num,
+                                          ticketIndex: ticketIndex,
+                                        })
+                                      );
                                     }
                                   }}
                                 >
@@ -591,6 +603,7 @@ const PowerballGame = ({
                                   isSelected={isSelected}
                                   item={num}
                                   onclick={handleNumberSelect}
+                                  ticketIndex={ticketIndex}
                                 />
                               );
                             })}

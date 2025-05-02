@@ -80,8 +80,48 @@ const ticketSlice = createSlice({
         }
       }
     },
+    // handleNumberSelectR: (state, action) => {
+    //   const { number } = action.payload;
+    //   const currentTicket = state.tickets[state.activeTicketIndex];
+    //   const updatedNumbers = [...currentTicket.selectedNumbers];
+
+    //   if (updatedNumbers.includes(number)) {
+    //     const indexToRemove = updatedNumbers.indexOf(number);
+    //     updatedNumbers[indexToRemove] = null;
+    //   } else {
+    //     updatedNumbers[state.activeBallIndex] = number;
+    //     // const indexToRemove = updatedNumbers.indexOf(number);
+    //     // updatedNumbers[indexToRemove] = null;
+    //   }
+
+    //   state.tickets[state.activeTicketIndex] = {
+    //     ...currentTicket,
+    //     selectedNumbers: updatedNumbers,
+    //   };
+
+    //   const nextEmptyIndex = updatedNumbers.indexOf(null);
+    //   if (nextEmptyIndex !== -1) {
+    //     state.activeBallIndex = nextEmptyIndex;
+    //   }
+    // },
+
     handleNumberSelectR: (state, action) => {
-      const { number } = action.payload;
+      const { number, ticketIndex } = action.payload;
+
+      // Check if the clicked ticket is different from the active one
+      if (
+        ticketIndex !== undefined &&
+        ticketIndex !== state.activeTicketIndex
+      ) {
+        console.log(
+          "Please activate the ticket first before selecting numbers."
+        );
+        showErrorToast(
+          "Please select the ticket first before selecting numbers."
+        );
+        return; // Exit the function without making changes
+      }
+
       const currentTicket = state.tickets[state.activeTicketIndex];
       const updatedNumbers = [...currentTicket.selectedNumbers];
 
@@ -90,8 +130,6 @@ const ticketSlice = createSlice({
         updatedNumbers[indexToRemove] = null;
       } else {
         updatedNumbers[state.activeBallIndex] = number;
-        // const indexToRemove = updatedNumbers.indexOf(number);
-        // updatedNumbers[indexToRemove] = null;
       }
 
       state.tickets[state.activeTicketIndex] = {
