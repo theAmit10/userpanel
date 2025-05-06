@@ -1,59 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
-import FONT from "../../assets/constants/fonts";
 import "./Play.css";
 import COLORS from "../../assets/constants/colors";
-import images from "../../assets/constants/images";
-import { RxCrossCircled } from "react-icons/rx";
-import { CiCircleMinus } from "react-icons/ci";
-import { CiCirclePlus } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { getDateAccordingToLocationAndTime } from "../../redux/actions/dateAction";
 import { loadProfile } from "../../redux/actions/userAction";
 import {
-  useCreatePlayMutation,
   useGetAllLocationWithTimeQuery,
-  useGetDateAccToLocTimeQuery,
-  useGetPlayHistoryQuery,
+  useGetPowerballQuery,
+  useGetPowetTimesQuery,
 } from "../../redux/api";
 import { ToastContainer } from "react-toastify";
-import {
-  showErrorToast,
-  showSuccessToast,
-  showWarningToast,
-} from "../helper/showErrorToast";
+import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
-import UrlHelper from "../../helper/UrlHelper";
-import axios from "axios";
-import { NodataFound } from "../helper/NodataFound";
 import moment from "moment-timezone";
-
-const getCurrentDate = () => {
-  const today = new Date();
-  const day = String(today.getDate()).padStart(2, "0");
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0!
-  const year = today.getFullYear();
-  return `${day}-${month}-${year}`;
-};
-
-const findCurrentDateObject = (data, currentDate) => {
-  console.log("Checking for the current date is availble in the database");
-  // const currentDate = getCurrentDate();
-
-  console.log("current data : " + currentDate);
-  const lotdates = data.lotdates || [];
-
-  const found = lotdates.find((item) => item.lotdate === currentDate);
-
-  return found ? found : "Current date not found";
-};
-
-const createLocationDataArray = (maximumNumber) => {
-  return Array.from({ length: maximumNumber }, (_, index) => ({
-    id: index + 1,
-    name: `${index + 1}`,
-  }));
-};
 
 export function getDateTimeAccordingToUserTimezone(time, date, userTimeZone) {
   // Combine the passed date and time into a full datetime string in IST
@@ -86,176 +45,7 @@ function LiveResult({ reloadKey }) {
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedItem, setSelectedItem] = useState(true);
-  const [submitItemFlag, setSubmitItemFlag] = useState(false);
-  const [selectedNumber, setSelectedNumber] = useState([]);
-
-  const addSelectedNumber = (number) => {
-    console.log("ADDING NUMBER TO LIST");
-
-    setSelectedNumber((prevSelectedNumbers) => {
-      const updatedList = [...prevSelectedNumbers];
-
-      const index = updatedList.indexOf(number);
-      if (index > -1) {
-        // Number is already present, remove it
-        updatedList.splice(index, 1);
-      } else {
-        // Number is not present, add it
-        updatedList.push(number);
-      }
-
-      console.log("SELECTED NUMBER :: ", updatedList);
-      return updatedList;
-    });
-  };
-
-  const showSubmitContainer = () => {
-    // setSubmitItemFlag(true);
-
-    if (
-      checkSelectedNumberLimit(
-        playhistorydata,
-        currentDate.lotdate,
-        selectedTime.time ? selectedTime.time : selectedTime.lottime,
-        selectedLocation.name
-          ? selectedLocation.name
-          : selectedLocation.lotlocation,
-        mineplaynum,
-        selectedNumber
-      ) > playnumberlimit
-    ) {
-      if (parseInt(playnumberlimit) <= 0) {
-        showWarningToast(
-          `${findMissingNumbers(
-            playhistorydata,
-            currentDate.lotdate,
-            selectedTime.time ? selectedTime.time : selectedTime.lottime,
-            selectedLocation.name
-              ? selectedLocation.name
-              : selectedLocation.lotlocation,
-            selectedLocation.maximumNumber
-          )}  Not Allowed`
-        );
-        showWarningToast("Maximum number selection limit reached");
-      } else {
-        showWarningToast(
-          `Kindly select any ${Math.abs(
-            playnumberlimit
-          )} numbers of your choice`
-        );
-        showWarningToast("Selecting all numbers is not permitted");
-      }
-    } else {
-      setSubmitItemFlag(true);
-    }
-  };
-
-  function checkSelectedNumberLimit(
-    playbet,
-    lotdate,
-    lottime,
-    lotlocation,
-    limit,
-    selectedNumber
-  ) {
-    console.log("Checking Selected Number Limit");
-    console.log(playbet.length, lotdate, lottime, lotlocation, selectedNumber);
-
-    // Ensure selectedNumber is valid
-    if (!Array.isArray(selectedNumber)) {
-      console.error("Error: selectedNumber is not a valid array");
-      return 0;
-    }
-
-    // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
-    const filteredArray = playbet.filter(
-      (item) =>
-        item.lotdate.lotdate === lotdate &&
-        item.lottime.lottime === lottime &&
-        item.lotlocation.lotlocation === lotlocation
-    );
-
-    console.log("Filtered array length :: ", filteredArray.length);
-
-    // Step 2: Use a Set to store unique playnumbers from the filtered array
-    const uniquePlaynumbers = new Set();
-    filteredArray.forEach((item) => {
-      item.playnumbers.forEach((numberObj) => {
-        uniquePlaynumbers.add(String(numberObj.playnumber)); // Ensure all values are strings
-      });
-    });
-
-    console.log("Unique Playnumbers :: ", Array.from(uniquePlaynumbers));
-
-    // Step 3: Store the length of the selectedNumber array
-    let remainingLimit = selectedNumber.length;
-
-    // Step 4: Loop through the selectedNumber array
-    selectedNumber.forEach((selected) => {
-      const name = String(selected.name); // Ensure name is a string for comparison
-      if (uniquePlaynumbers.has(name)) {
-        remainingLimit -= 1; // Decrement the remainingLimit if name exists in the Set
-      }
-    });
-
-    console.log(
-      "Remaining Limit after processing selected numbers :: ",
-      remainingLimit
-    );
-
-    // Step 5: Return the remainingLimit
-    return remainingLimit;
-  }
-
-  function findMissingNumbers(
-    playbet,
-    lotdate,
-    lottime,
-    lotlocation,
-    maxnumber
-  ) {
-    console.log("Finding Missing Numbers");
-    console.log(playbet.length, lotdate, lottime, lotlocation, maxnumber);
-
-    // Step 1: Filter the playbet array based on provided lotdate, lottime, and lotlocation
-    const filteredArray = playbet.filter(
-      (item) =>
-        item.lotdate.lotdate === lotdate &&
-        item.lottime.lottime === lottime &&
-        item.lotlocation.lotlocation === lotlocation
-    );
-
-    console.log("Filtered array length :: ", filteredArray.length);
-
-    // Step 2: Use a Set to store unique playnumbers from the filtered array
-    const uniquePlaynumbers = new Set();
-    filteredArray.forEach((item) => {
-      item.playnumbers.forEach((numberObj) => {
-        uniquePlaynumbers.add(Number(numberObj.playnumber)); // Ensure all values are numbers
-      });
-    });
-
-    console.log("Unique Playnumbers :: ", Array.from(uniquePlaynumbers));
-
-    // Step 3: Create an array from 1 to maxnumber
-    const fullRange = Array.from({ length: maxnumber }, (_, i) => i + 1);
-    console.log("Full Range :: ", fullRange);
-
-    // Step 4: Find numbers that are in fullRange but not in uniquePlaynumbers
-    const missingNumbers = fullRange.filter(
-      (num) => !uniquePlaynumbers.has(num)
-    );
-    console.log("Missing Numbers :: ", missingNumbers);
-
-    // Step 5: Return the missing numbers as a comma-separated string
-    return missingNumbers.join(",");
-  }
-
-  const hideSubmitContainer = () => {
-    setSubmitItemFlag(false);
-  };
 
   const playdata = [];
 
@@ -312,14 +102,6 @@ function LiveResult({ reloadKey }) {
     }
   };
 
-  // const openLink = (url) => {
-  //   if (url) {
-  //     window.open(url, "_blank");
-  //   } else {
-  //     console.error("Invalid URL");
-  //   }
-  // };
-
   const openLink = (url) => {
     if (url) {
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -329,15 +111,6 @@ function LiveResult({ reloadKey }) {
     } else {
       showErrorToast("Invalid URL");
     }
-  };
-
-  const removeSelecteditemClick = () => {
-    setSelectedItem(true);
-    setSelectedLocation(null);
-    setSelectedTime(null);
-
-    setSelectedNumber([]);
-    setSubmitItemFlag(false);
   };
 
   useEffect(() => {
@@ -356,6 +129,50 @@ function LiveResult({ reloadKey }) {
 
     { refetchOnMountOrArgChange: true }
   );
+
+  const {
+    data: pdata,
+    isLoading: pisLoading,
+    refetch: prefetch,
+    error: perror,
+  } = useGetPowerballQuery(
+    {
+      accesstoken,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const {
+    isLoading: allTimeIsLoading,
+    data: allTimeData,
+    refetch: allTimeRefetch,
+  } = useGetPowetTimesQuery(
+    {
+      accesstoken,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const [updatename, setupdatename] = useState("");
+  useEffect(() => {
+    if (!pisLoading && pdata) {
+      setupdatename(pdata?.games[0]?.name);
+    }
+  }, [pisLoading, pdata, prefetch]);
+
+  const [nextTime, setNextTime] = useState(null);
+  const [filteredDataT, setFilteredDataT] = useState([]);
+  useEffect(() => {
+    if (!allTimeIsLoading && allTimeData) {
+      setFilteredDataT(allTimeData.powerTimes);
+
+      const nextTime = getNextTimeForHighlightsPowerball(
+        allTimeData.powerTimes,
+        "Asia/Kolkata"
+      );
+      setNextTime(nextTime);
+    }
+  }, [allTimeData, allTimeIsLoading]); // Correct dependencies
 
   // FOR ALL FILTER TYPE DATA
   useEffect(() => {
@@ -455,11 +272,6 @@ function LiveResult({ reloadKey }) {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("reloadKey :: " + reloadKey);
-  //   removeSelecteditemClick();
-  // }, [reloadKey]);
-
   const getNextTimeForHighlights = (times, userTimezone) => {
     if (times.length === 1) {
       return times[0];
@@ -472,6 +284,53 @@ function LiveResult({ reloadKey }) {
     // Convert each time from IST to user timezone (Asia/Riyadh)
     const convertedTimes = times.map((item) => {
       const timeInIST = moment.tz(item.time, "hh:mm A", "Asia/Kolkata");
+      const timeInRiyadh = timeInIST.clone().tz(userTimezone).format("hh:mm A");
+      return { ...item, convertedTime: timeInRiyadh };
+    });
+
+    console.log("Converted times to Riyadh timezone:", convertedTimes);
+
+    // Sort the times in the user's timezone
+    const sortedTimes = convertedTimes.sort((a, b) =>
+      moment(a.convertedTime, "hh:mm A").diff(
+        moment(b.convertedTime, "hh:mm A")
+      )
+    );
+
+    console.log("Sorted times:", sortedTimes);
+
+    // Find the next available time
+    for (let i = 0; i < sortedTimes.length; i++) {
+      if (
+        moment(currentRiyadhTime, "hh:mm A").isBefore(
+          moment(sortedTimes[i].convertedTime, "hh:mm A")
+        )
+      ) {
+        console.log("Next available time found:", sortedTimes[i]);
+        return sortedTimes[i]; // Return the first future time
+      }
+    }
+
+    console.log(
+      "No future time found, returning the first sorted time:",
+      sortedTimes[0]
+    );
+    // If no future time found, return the first time (next day scenario)
+    return sortedTimes[0];
+  };
+
+  const getNextTimeForHighlightsPowerball = (times, userTimezone) => {
+    if (times.length === 1) {
+      return times[0];
+    }
+
+    // Get the current time in the user's timezone
+    const currentRiyadhTime = moment().tz(userTimezone).format("hh:mm A");
+    console.log("Current time in Riyadh timezone:", currentRiyadhTime);
+
+    // Convert each time from IST to user timezone (Asia/Riyadh)
+    const convertedTimes = times.map((item) => {
+      const timeInIST = moment.tz(item.powertime, "hh:mm A", "Asia/Kolkata");
       const timeInRiyadh = timeInIST.clone().tz(userTimezone).format("hh:mm A");
       return { ...item, convertedTime: timeInRiyadh };
     });
@@ -593,6 +452,89 @@ function LiveResult({ reloadKey }) {
     );
   };
 
+  const BlinkingButtonPowerball = ({
+    timeItem,
+    nextTime,
+    navigationHandler,
+    item,
+    user,
+    idx,
+  }) => {
+    const [isBlinking, setIsBlinking] = useState(false);
+    const [shouldBlink, setShouldBlink] = useState(false);
+
+    useEffect(() => {
+      if (!nextTime || !nextTime.powertime || !user?.country?.timezone) return;
+
+      const checkTimeDifference = () => {
+        const userTimezone = user.country.timezone;
+        const nextTimeInUserTZ = moment.tz(
+          nextTime.powertime,
+          "hh:mm A",
+          userTimezone
+        );
+        const currentTimeInUserTZ = moment().tz(userTimezone);
+
+        const timeDifference = nextTimeInUserTZ.diff(
+          currentTimeInUserTZ,
+          "minutes"
+        );
+
+        console.log("Time Difference:", timeDifference); // Debugging
+
+        const timerinMinutes = timeItem.liveresulttimer || 10;
+
+        setShouldBlink(timeDifference > 0 && timeDifference <= timerinMinutes);
+      };
+
+      checkTimeDifference();
+      const timer = setInterval(checkTimeDifference, 10000); // Check every 10s
+
+      return () => clearInterval(timer);
+    }, [nextTime, user]);
+
+    useEffect(() => {
+      let interval;
+      if (shouldBlink) {
+        interval = setInterval(() => {
+          setIsBlinking((prev) => !prev);
+        }, 500); // Blinking interval
+      } else {
+        setIsBlinking(false);
+      }
+
+      return () => clearInterval(interval);
+    }, [shouldBlink]);
+
+    return (
+      <div
+        key={timeItem._id}
+        onClick={() => handleSelecteditemClick(item, timeItem)}
+        className={`time-item ${
+          timeItem.powertime === nextTime.powertime ? "highlighted" : ""
+        }`}
+        style={{
+          borderColor:
+            timeItem.powertime === nextTime.powertime
+              ? isBlinking
+                ? "transparent"
+                : COLORS.white_s
+              : "transparent",
+          borderWidth: timeItem.powertime === nextTime.powertime ? 2 : 2,
+          borderRadius: "1rem",
+          overflow: "hidden",
+        }}
+      >
+        <span className="time-items-container-time-label">
+          {getTimeAccordingToTimezone(
+            timeItem.powertime,
+            user?.country?.timezone
+          )}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div className="main-content-container-all-location">
       {/** Location and time */}
@@ -633,6 +575,37 @@ function LiveResult({ reloadKey }) {
           {/** Location container */}
 
           <div className="allocationcontainer-all">
+            {!pisLoading && (
+              <div className="location-item-all">
+                <div className="location-details-all">
+                  <div
+                    className="location-header"
+                    style={{
+                      background:
+                        1 % 2 === 0
+                          ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                          : "linear-gradient(90deg, #7EC630, #3D6017)",
+                    }}
+                  >
+                    <span className="location-header-label">{updatename}</span>
+                    <span className="location-header-max-label"></span>
+                  </div>
+                </div>
+
+                <div className="time-items-container">
+                  {filteredDataT.map((timedata, timeindex) => (
+                    <BlinkingButtonPowerball
+                      timeItem={timedata}
+                      idx={timeindex}
+                      nextTime={nextTime}
+                      navigation={navigationHandler}
+                      item={timedata}
+                      user={user}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
             {isLoading ? (
               <LoadingComponent />
             ) : (
