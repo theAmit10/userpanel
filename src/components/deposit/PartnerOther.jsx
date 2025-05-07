@@ -330,7 +330,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
                             </label>
 
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2.5rem"} color={COLORS.orange} />
+                              <CiClock2 size={"2rem"} color={COLORS.orange} />
                             ) : item.paymentStatus === "Cancelled" ? (
                               <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (
