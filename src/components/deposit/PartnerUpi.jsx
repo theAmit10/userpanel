@@ -252,11 +252,11 @@ const PartnerUpi = ({ selectingPaymentType }) => {
                               alignItems: "center",
                             }}
                           >
-                            <label className="pdB">UPI</label>
+                            <label className="pdB">UPI </label>
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2.5rem"} />
+                              <CiClock2 size={"2rem"} color={COLORS.orange} />
                             ) : item.paymentStatus === "Cancelled" ? (
-                              <FcCancel size={"2.5rem"} />
+                              <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (
                               <FcApproval size={"2.5rem"} />
                             )}

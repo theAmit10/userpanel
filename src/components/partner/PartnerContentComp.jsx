@@ -50,7 +50,7 @@ const PartnerContentComp = ({
         </div>
       </div>
       <div className="pcc-bottom" style={{ justifyContent: "space-between" }}>
-        <label className="label-regular">List of all Partner data</label>
+        <label className="label-regular">{description}</label>
         <label className="label-mbold">{count}</label>
       </div>
     </div>
