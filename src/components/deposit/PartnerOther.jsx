@@ -197,7 +197,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
       return;
     }
 
-    if (qrcodeName && !imageSource) {
+    if (!imageSource) {
       showErrorToast("Add QR code");
       return;
     }

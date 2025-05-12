@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Upideposit.css";
-import FONT from "../../assets/constants/fonts";
-import { FaRegPlayCircle } from "react-icons/fa";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
-import { flushSync } from "react-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateDepositMutation } from "../../redux/api";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
@@ -14,10 +10,8 @@ import axios from "axios";
 import UrlHelper from "../../helper/UrlHelper";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
-import { MdDelete } from "react-icons/md";
 import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
-import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 
 const upiapidata = [

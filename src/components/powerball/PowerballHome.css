@@ -348,7 +348,13 @@
     gap: 1rem;
     overflow-x: scroll;
     padding-left: 0.5rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 
+}
+
+.multiplier-main-con::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 .multiplier-main-con-ticket{
     
