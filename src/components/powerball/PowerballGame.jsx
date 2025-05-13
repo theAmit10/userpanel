@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./PowerballHome.css";
 import HeaderComp from "../helpercomp/HeaderComp";
-import SubmitButton from "../atom/SubmitButton";
 import TextLabel from "../atom/TextLabel";
 import COLORS from "../../assets/constants/colors";
 import AddTicketCon from "./AddTicketCon";
-import SmallBall from "../molecule/SmallBall";
 import GreenBall from "../molecule/GreenBall";
 import YellowBall from "../molecule/YellowBall";
 import moment from "moment-timezone";
