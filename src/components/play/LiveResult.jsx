@@ -66,6 +66,7 @@ function LiveResult({ reloadKey }) {
   const dispatch = useDispatch();
 
   const handleSelecteditemClick = (item, timedata) => {
+    console.log("showing time", timedata);
     const now = moment.tz(user?.country?.timezone);
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
@@ -92,6 +93,9 @@ function LiveResult({ reloadKey }) {
       console.log("Navigating to PlayArena...");
       // showWarningToast("Entry is close for this session");
       // showWarningToast("Please choose next available time");
+      console.log("showing time");
+      // console.log(timedata);
+      // console.log(timedata.liveresultlink);
       openLink(timedata.liveresultlink);
     } else {
       showWarningToast("It too early or past the time.");
@@ -102,14 +106,41 @@ function LiveResult({ reloadKey }) {
     }
   };
 
+  // const openLink = (url) => {
+  //   if (url) {
+  //     if (!url.startsWith("http://") && !url.startsWith("https://")) {
+  //       url = "https://" + url; // Default to HTTPS
+  //     }
+  //     window.open(url, "_blank");
+  //   } else {
+  //     showErrorToast("Invalid URL");
+  //     showErrorToast(url);
+  //   }
+  // };
+
   const openLink = (url) => {
-    if (url) {
-      if (!url.startsWith("http://") && !url.startsWith("https://")) {
-        url = "https://" + url; // Default to HTTPS
-      }
-      window.open(url, "_blank");
-    } else {
+    showErrorToast(url);
+    if (typeof url !== "string" || url.trim() === "") {
       showErrorToast("Invalid URL");
+
+      return;
+    }
+
+    let formattedUrl = url.trim();
+
+    if (
+      !formattedUrl.startsWith("http://") &&
+      !formattedUrl.startsWith("https://")
+    ) {
+      formattedUrl = "https://" + formattedUrl;
+    }
+
+    try {
+      // Validate URL format using URL constructor
+      const validUrl = new URL(formattedUrl);
+      window.open(validUrl.href, "_blank");
+    } catch (error) {
+      showErrorToast("Invalid URL format");
     }
   };
 
