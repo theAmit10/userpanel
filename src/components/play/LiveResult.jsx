@@ -119,9 +119,8 @@ function LiveResult({ reloadKey }) {
   // };
 
   const openLink = (url) => {
-    showErrorToast(url);
     if (typeof url !== "string" || url.trim() === "") {
-      showErrorToast("Invalid URL");
+      showErrorToast("No valid URL found");
 
       return;
     }
@@ -435,7 +434,7 @@ function LiveResult({ reloadKey }) {
 
         const timerinMinutes = timeItem.liveresulttimer || 10;
 
-        setShouldBlink(timeDifference > 0 && timeDifference <= timerinMinutes);
+        setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
       };
 
       checkTimeDifference();
@@ -515,7 +514,7 @@ function LiveResult({ reloadKey }) {
 
         const timerinMinutes = timeItem.liveresulttimer || 10;
 
-        setShouldBlink(timeDifference > 0 && timeDifference <= timerinMinutes);
+        setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
       };
 
       checkTimeDifference();
