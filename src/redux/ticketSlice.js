@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { showErrorToast } from "../components/helper/showErrorToast";
 
 const MAX_NUMBERS = 6; // Adjust this based on your requirements
-const ballNumbers = Array.from({ length: 50 }, (_, i) => i + 1); // Example range: 1-50
+const ballNumbers = Array.from({ length: 70 }, (_, i) => i + 1); // Example range: 1-70
 const MAX_TICKETS = 10; // Define max tickets limit
 
 const initialState = {
