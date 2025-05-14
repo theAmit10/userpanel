@@ -574,7 +574,7 @@ function LiveResult({ reloadKey }) {
 
           {/** Location container */}
 
-          <div className="allocationcontainer-all">
+          <div className="live-result-all">
             {!pisLoading && (
               <div className="location-item-all">
                 <div className="location-details-all">

@@ -363,3 +363,12 @@
   .alllocation-submit-container-left-content-container-low-screen{
     display: none;
     }
+.live-result-all {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  overflow-y: scroll;
+  padding-top: 0.5rem;
+
+}
