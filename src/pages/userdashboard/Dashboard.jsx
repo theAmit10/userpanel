@@ -40,7 +40,7 @@ import {
 import { serverName } from "../../redux/store";
 import { GiDiamondTrophy, GiTrophy } from "react-icons/gi";
 import moment from "moment-timezone";
-import { MdNotificationsActive } from "react-icons/md";
+import { MdNotificationAdd, MdNotificationsActive } from "react-icons/md";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
 import {
   useGetAllLocationWithTimeQuery,
@@ -490,7 +490,7 @@ const Dashboard = () => {
                       size={"3rem"}
                     />
                   ) : (
-                    <MdNotificationsActive
+                    <MdNotificationAdd
                       color={COLORS.result_yellow}
                       size={"3rem"}
                     />
