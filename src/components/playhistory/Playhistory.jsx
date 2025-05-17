@@ -281,14 +281,18 @@ function Playhistory({ reloadKey }) {
                         <div className="h-content-third-content-container-top">
                           <label className="h-content-third-content-container-top-payment">
                             {item?.walletName
-                              ? "Winner Ticket"
+                              ? item?.forProcess === "partnercredit"
+                                ? "Partner"
+                                : "Winner"
                               : "Total Ticket"}
                           </label>
                         </div>
                         <div className="h-content-third-content-container-bottom">
                           <label className="h-content-third-content-container-top-payment-val">
                             {item?.walletName
-                              ? item.playnumbers[0]?.playnumber
+                              ? item?.forProcess === "partnercredit"
+                                ? "Profit Credit"
+                                : "Ticket"
                               : item?.tickets.length}
                           </label>
                         </div>
