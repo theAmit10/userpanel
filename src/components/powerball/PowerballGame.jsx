@@ -61,7 +61,7 @@ const PowerballGame = ({
     setShowMyTicket(false);
   };
 
-  const { accesstoken, user } = useSelector((state) => state.user);
+  const { user, accesstoken } = useSelector((state) => state.user);
   const [todayPowerDate, setTodayPowerDate] = useState(null);
   const MAX_NUMBERS = 6; // Numbers per ticket
   const [TOTAL_BALLS, setTOTAL_BALLS] = useState(null);
@@ -69,6 +69,13 @@ const PowerballGame = ({
   const [TICKET_COST, setTICKET_COST] = useState(null);
   const [MULTIPLIER_COSTS, setMULTIPLIER_COSTS] = useState({});
   const [powerball, setPowerball] = useState(null);
+
+  useEffect(() => {
+    if (accesstoken) {
+      dispatch(loadProfile(accesstoken));
+    }
+  }, [accesstoken]);
+
   // Network call
   const { data: powerballData, isLoading: powerballIsLoading } =
     useGetPowerballQuery({ accesstoken });
@@ -130,6 +137,12 @@ const PowerballGame = ({
       return [];
     }
 
+    console.log(user);
+    console.log(
+      "Currency value:",
+      user?.country?.countrycurrencyvaluecomparedtoinr
+    );
+
     return ticketArray.map(({ multiplier, selectedNumbers }) => {
       // Handle cases where multiplier is "NA" or null
       const multiplierValue =
@@ -141,8 +154,10 @@ const PowerballGame = ({
         amount:
           multiplierValue === 1 ? TICKET_COST : TICKET_COST + multiplierValue, // Multiply cost with multiplier
         convertedAmount:
-          (TICKET_COST + multiplierValue) *
-          user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
+          multiplierValue === 1
+            ? TICKET_COST * user?.country?.countrycurrencyvaluecomparedtoinr
+            : (TICKET_COST + multiplierValue) *
+              user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
         multiplier: multiplierValue, // Store multiplier as a number
         usernumber: selectedNumbers, // Keep the selected numbers
       };
@@ -150,6 +165,43 @@ const PowerballGame = ({
   };
 
   // Function to increment the ticket value
+
+  // const processTicketData = (ticketArray, TICKET_COST, user) => {
+  //   if (!Array.isArray(ticketArray) || typeof TICKET_COST !== "number") {
+  //     console.error("Invalid input. Expected an array and a number.");
+  //     return [];
+  //   }
+  //   console.log(user);
+  //   console.log(
+  //     "Currency value:",
+  //     user?.country?.countrycurrencyvaluecomparedtoinr
+  //   );
+
+  //   return ticketArray.map(({ multiplier, selectedNumbers }) => {
+  //     // Handle cases where multiplier is "NA" or null
+  //     const multiplierValue =
+  //       multiplier && multiplier !== "NA"
+  //         ? parseInt(multiplier.replace("X", ""), 10)
+  //         : 1;
+
+  //     const amount =
+  //       multiplierValue === 1 ? TICKET_COST : TICKET_COST + multiplierValue;
+
+  //     const convertedAmount =
+  //       multiplierValue === 1
+  //         ? TICKET_COST * user?.country?.countrycurrencyvaluecomparedtoinr
+  //         : (TICKET_COST + multiplierValue) *
+  //           user?.country?.countrycurrencyvaluecomparedtoinr;
+
+  //     return {
+  //       amount,
+  //       convertedAmount,
+  //       multiplier: multiplierValue,
+  //       usernumber: selectedNumbers,
+  //     };
+  //   });
+  // };
+
   const increment = () => {
     setTicketValue(ticketValue + 1);
   };
@@ -381,11 +433,7 @@ const PowerballGame = ({
 
       showSuccessToast(res.message);
       dispatch(resetTickets());
-      // setActiveBallIndex(0);
-      // setActiveTicketIndex(0);
-      // setTickets([
-      //   { selectedNumbers: Array(MAX_NUMBERS).fill(null), multiplier: null },
-      // ]);
+
       dispatch(loadProfile(accesstoken));
       setSubmitLoader(false);
       setShowAllSeclectedBalls(false);
