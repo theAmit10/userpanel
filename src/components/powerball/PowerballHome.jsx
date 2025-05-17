@@ -14,6 +14,30 @@ import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import SmallBall from "../molecule/SmallBall";
 
+function convertToInternationalSystem(input) {
+  const number = typeof input === "string" ? parseFloat(input) : input;
+
+  if (isNaN(number)) return "Invalid number";
+
+  const absNum = Math.abs(number);
+
+  const suffixes = [
+    { value: 1e12, label: "Trillion" },
+    { value: 1e9, label: "Billion" },
+    { value: 1e6, label: "Million" },
+    { value: 1e3, label: "Thousand" },
+  ];
+
+  for (let { value, label } of suffixes) {
+    if (absNum >= value) {
+      const formatted = (number / value).toFixed(2).replace(/\.00$/, "");
+      return `${formatted} ${label}`;
+    }
+  }
+
+  return number.toString();
+}
+
 const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
   const { user, accesstoken } = useSelector((state) => state.user);
 
@@ -67,7 +91,9 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
               <div className="btct-second">
                 <label className="winning-label">WIN MEGA JACKPOT</label>
                 <label className="bctt-prize">
-                  {latestResultData?.data?.prize?.firstprize?.amount}
+                  {convertToInternationalSystem(
+                    latestResultData?.data?.prize?.firstprize?.amount
+                  )}
                 </label>
               </div>
             </div>
@@ -190,7 +216,9 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                   className="btcf-first-label-bold"
                   style={{ color: COLORS.yellow }}
                 >
-                  {latestResultData?.data?.prize?.firstprize?.amount}
+                  {convertToInternationalSystem(
+                    latestResultData?.data?.prize?.firstprize?.amount
+                  )}
                 </label>
               </div>
             </div>
