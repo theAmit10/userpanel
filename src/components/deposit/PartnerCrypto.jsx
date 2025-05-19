@@ -23,7 +23,7 @@ import { serverName } from "../../redux/store";
 import { PiSubtitles } from "react-icons/pi";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdPendingActions } from "react-icons/md";
 import Loader from "../molecule/Loader";
 import { CiClock2 } from "react-icons/ci";
 import { FcApproval, FcCancel } from "react-icons/fc";
@@ -272,7 +272,10 @@ function PartnerCrypto({ selectingPaymentType }) {
                           >
                             <label className="pdB">Crypto</label>
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2rem"} color={COLORS.orange} />
+                              <MdPendingActions
+                                size={"2rem"}
+                                color={COLORS.orange}
+                              />
                             ) : item.paymentStatus === "Cancelled" ? (
                               <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (

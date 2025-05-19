@@ -20,7 +20,7 @@ import { NodataFound } from "../helper/NodataFound";
 import { PiSubtitles } from "react-icons/pi";
 import TextLabel from "../atom/TextLabel";
 import SubmitButton from "../atom/SubmitButton";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdPending, MdPendingActions } from "react-icons/md";
 import Loader from "../molecule/Loader";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FcApproval, FcCancel } from "react-icons/fc";
@@ -328,7 +328,10 @@ function PartnerPaypal({ selectingPaymentType }) {
                           >
                             <label className="pdB">Paypal</label>
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2rem"} color={COLORS.orange} />
+                              <MdPendingActions
+                                size={"2rem"}
+                                color={COLORS.orange}
+                              />
                             ) : item.paymentStatus === "Cancelled" ? (
                               <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (

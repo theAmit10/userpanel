@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IoArrowBackCircleOutline, IoSettings } from "react-icons/io5";
 import COLORS from "../../assets/constants/colors";
 
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdPendingActions } from "react-icons/md";
 import { FaCopy } from "react-icons/fa";
 
 import { PiContactlessPaymentFill, PiSubtitles } from "react-icons/pi";
@@ -330,7 +330,10 @@ const PartnerOther = ({ selectingPaymentType }) => {
                             </label>
 
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2rem"} color={COLORS.orange} />
+                              <MdPendingActions
+                                size={"2rem"}
+                                color={COLORS.orange}
+                              />
                             ) : item.paymentStatus === "Cancelled" ? (
                               <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (

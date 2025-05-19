@@ -18,7 +18,7 @@ import {
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdPendingActions } from "react-icons/md";
 import { FaCopy } from "react-icons/fa";
 import { NodataFound } from "../helper/NodataFound";
 import { serverName } from "../../redux/store";
@@ -309,7 +309,10 @@ function PartnerBank({ selectingPaymentType }) {
                           >
                             <label className="pdB">Bank</label>
                             {item.paymentStatus === "Pending" ? (
-                              <CiClock2 size={"2rem"} color={COLORS.orange} />
+                              <MdPendingActions
+                                size={"2rem"}
+                                color={COLORS.orange}
+                              />
                             ) : item.paymentStatus === "Cancelled" ? (
                               <FcCancel size={"2.5rem"} color={COLORS.red} />
                             ) : (
