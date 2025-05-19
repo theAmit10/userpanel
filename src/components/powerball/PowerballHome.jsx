@@ -233,7 +233,7 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                 2nd Prize
               </label>
               <label className="btcf-first-label-regular">
-                Match all 5 balls to win the 2nd Prize
+                Match first 5 balls to win the 2nd Prize
               </label>
             </div>
             <div className="pdc-fourth">
@@ -288,7 +288,7 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                 3rd Prize
               </label>
               <label className="btcf-first-label-regular">
-                Match all 4 balls to win the 3rd Prize
+                Match first 4 balls to win the 3rd Prize
               </label>
             </div>
             <div className="pdc-fourth">
@@ -344,7 +344,7 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                 4th Prize
               </label>
               <label className="btcf-first-label-regular">
-                Match all 3 balls to win the 4th Prize
+                Match first 3 balls to win the 4th Prize
               </label>
             </div>
             <div className="pdc-fourth">
@@ -401,7 +401,7 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                 5th Prize
               </label>
               <label className="btcf-first-label-regular">
-                Match all 2 balls to win the 5th Prize
+                Match first 2 balls to win the 5th Prize
               </label>
             </div>
             <div className="pdc-fourth">
@@ -458,7 +458,7 @@ const PowerballHome = ({ setSelectedCategory, reloadKey }) => {
                 6th Prize
               </label>
               <label className="btcf-first-label-regular">
-                Match all 1 ball to win the 6th Prize
+                Match first ball to win the 6th Prize
               </label>
             </div>
             <div className="pdc-fourth">
