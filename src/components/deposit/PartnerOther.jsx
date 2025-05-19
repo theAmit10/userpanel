@@ -272,7 +272,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
               </label>
             </div>
             <label className="alCreatLocationTopContainerlabel">
-              Add new Other ID
+              Add new payment options
             </label>
             <div
               className="searchIconContainer"

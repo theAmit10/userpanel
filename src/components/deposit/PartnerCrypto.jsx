@@ -224,7 +224,7 @@ function PartnerCrypto({ selectingPaymentType }) {
               </label>
             </div>
             <label className="alCreatLocationTopContainerlabel">
-              Add new Crypto ID
+              Add new Crypto address
             </label>
             <div
               className="searchIconContainer"
