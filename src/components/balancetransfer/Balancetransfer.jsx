@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdOutlinePriceChange } from "react-icons/md";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 export const roundToInteger = (input) => {
   // Convert input to a float
@@ -37,7 +38,7 @@ export const roundToInteger = (input) => {
   return Math.floor(floatValue);
 };
 
-function Balancetransfer({ reloadKey }) {
+function Balancetransfer({ reloadKey, showbackbuttion, closeBalanceTransfer }) {
   const dispatch = useDispatch();
 
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -90,6 +91,23 @@ function Balancetransfer({ reloadKey }) {
       {/** TITLE CONTAINER */}
 
       <div className="alCreatLocationTopContainer">
+        {showbackbuttion && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingLeft: "1rem",
+            }}
+          >
+            <IoChevronBackCircleOutline
+              onClick={closeBalanceTransfer}
+              size={"2.5rem"}
+              color="var(--white_s)"
+            />
+          </div>
+        )}
+
         <div className="alCreatLocationTopContaineCL">
           <label className="alCreatLocationTopContainerlabel">
             Balance Transfer

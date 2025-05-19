@@ -8,9 +8,14 @@ import PaypalWithdraw from "./PaypalWithdraw";
 import SkrillWithdraw from "./SkrillWithdraw";
 import CryptoWithdraw from "./CryptoWithdraw";
 import { CiEdit } from "react-icons/ci";
+import { FaWallet } from "react-icons/fa";
+import { HiMiniWallet } from "react-icons/hi2";
+import HeaderComp from "../helpercomp/HeaderComp";
+import Balancetransfer from "../balancetransfer/Balancetransfer";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
 
-function Withdrawpayment({reloadKey}) {
-  const [selectedPayment, setSelectedPayment] = useState("");
+function Withdrawpayment({ reloadKey }) {
+  const [selectedPayment, setSelectedPayment] = useState("withdrawdashboard");
 
   const selectingPaymentType = (item) => {
     setSelectedPayment(item);
@@ -18,18 +23,92 @@ function Withdrawpayment({reloadKey}) {
 
   useEffect(() => {
     console.log("reloadKey :: " + reloadKey);
-    setSelectedPayment("")
+    setSelectedPayment("withdrawdashboard");
   }, [reloadKey]);
+
+  const closeWithdraw = () => {
+    setSelectedPayment("withdrawdashboard");
+  };
+  const closeBalanceTransfer = () => {
+    setSelectedPayment("withdrawdashboard");
+  };
 
   return (
     <div className="pdContainer">
-      {selectedPayment === "" && (
+      {selectedPayment === "withdrawdashboard" && (
         <div className="alCreatLocationTopContainer">
           <div className="alCreatLocationTopContaineCL">
             <label className="alCreatLocationTopContainerlabel">
               Payment Withdraw
             </label>
           </div>
+        </div>
+      )}
+
+      {selectedPayment === "withdrawdashboard" && (
+        <div className="pnMainContainer">
+          <div className="hdAllContainer" style={{ background: "transparent" }}>
+            {/** CRYPTO  */}
+            <div
+              className="hdAllContainerContent"
+              onClick={() => selectingPaymentType("balancetransfer")}
+            >
+              <div className="hdAllContainerContentTop">
+                <label className="hdAllContainerContentTopBoldLabel">
+                  Balance Transfer
+                </label>
+                <div className="hdContenContainerIcon">
+                  <CiEdit color={COLORS.background} size={"2.5rem"} />
+                </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  Transfer balance for another
+                </label>
+
+                <div className="hdContenContainerIcon">
+                  <HiMiniWallet color={"#000"} size={"2.5rem"} />
+                </div>
+              </div>
+            </div>
+
+            {/** PAYPAL  */}
+            <div
+              className="hdAllContainerContent"
+              onClick={() => selectingPaymentType("")}
+            >
+              <div className="hdAllContainerContentTop">
+                <label className="hdAllContainerContentTopBoldLabel">
+                  Withdraw
+                </label>
+                <div className="hdContenContainerIcon">
+                  <CiEdit color={COLORS.background} size={"2.5rem"} />
+                </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  Withdraw Payment
+                </label>
+
+                <div className="hdContenContainerIcon">
+                  <FaWallet color={"#000"} size={"2.5rem"} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedPayment === "" && (
+        <div
+          style={{
+            margin: "1rem",
+          }}
+        >
+          <HeaderComp
+            title={"Withdraw Methods"}
+            closePartnerDetails={closeWithdraw}
+          />
         </div>
       )}
 
@@ -174,7 +253,6 @@ function Withdrawpayment({reloadKey}) {
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       )}
@@ -193,6 +271,14 @@ function Withdrawpayment({reloadKey}) {
       )}
       {selectedPayment === "crypto" && (
         <CryptoWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+
+      {selectedPayment === "balancetransfer" && (
+        <Balancetransfer
+          reloadKey={reloadKey}
+          showbackbuttion={true}
+          closeBalanceTransfer={closeBalanceTransfer}
+        />
       )}
     </div>
   );
