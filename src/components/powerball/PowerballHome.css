@@ -315,7 +315,7 @@
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-    
+
     overflow-y: hidden;
 }
 .tmc-first{
@@ -324,8 +324,9 @@
 
 }
 .tmc-second{
-    height: 50%;
+    height: 60%;
     width: 100%;
+
 }
 .semi-bold{
     font-family: "MSB";
@@ -399,9 +400,8 @@
 .powergame-container{
     height: 100%;
     width: 100%;
-   
+ 
     overflow-x: scroll;
-   
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -499,6 +499,7 @@
    flex: 1;
    height: 85vh;
    background: linear-gradient(180deg, #0162AF, #011833);
+
    border-radius: 2rem;
    flex-direction: column;
    gap: 2rem;
