@@ -114,10 +114,10 @@ const ticketSlice = createSlice({
         ticketIndex !== state.activeTicketIndex
       ) {
         console.log(
-          "Please activate the ticket first before selecting numbers."
+          "Please activate the ticket ball first before selecting numbers."
         );
         showErrorToast(
-          "Please select the ticket first before selecting numbers."
+          "Please select the ticket ball first before selecting numbers."
         );
         return; // Exit the function without making changes
       }

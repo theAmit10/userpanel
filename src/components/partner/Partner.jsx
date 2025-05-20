@@ -54,7 +54,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
             {/** ALL RECHARGE */}
             {user && partner && partner.rechargeModule && (
               <PartnerContentComp
-                title={"All Recharge"}
+                title={"All Recharge Request"}
                 description={"List of Recharge Partner data"}
                 iconfrom={"HiMiniWallet"}
                 setSelectedCategory={setSelectedCategory}

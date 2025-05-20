@@ -106,7 +106,7 @@ function Withdrawpayment({ reloadKey }) {
           }}
         >
           <HeaderComp
-            title={"Withdraw Methods"}
+            title={"Select Withdrawal Option"}
             closePartnerDetails={closeWithdraw}
           />
         </div>
