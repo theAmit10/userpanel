@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadPartnerProfile } from "../../redux/actions/userAction";
 import AllRecharge from "./AllRecharge";
 import { ToastContainer } from "react-toastify";
+import { useGetPendingUserRechargeCountQuery } from "../../redux/api";
 
 const Partner = ({ reloadKey, setReloadKey }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,11 @@ const Partner = ({ reloadKey, setReloadKey }) => {
   // const [reloadKey, setReloadKey] = useState(0);
 
   const { accesstoken, user, partner } = useSelector((state) => state.user);
+
+  const { data, isLoading } = useGetPendingUserRechargeCountQuery({
+    accesstoken,
+    userId: user?.userId,
+  });
 
   useEffect(() => {
     if (user && accesstoken) {
@@ -59,6 +65,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
                 iconfrom={"HiMiniWallet"}
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"AllRecharge"}
+                count={data?.pendingRechargesCount}
               />
             )}
 
