@@ -14,27 +14,31 @@ import {
 } from "../../helper/Networkcall";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { loadAllNotification } from "../../redux/actions/userAction";
+import { useGetSingleUserNotificationQuery } from "../../redux/api";
+import Loader from "../molecule/Loader";
 
 function Notification() {
   const navigation = useNavigate();
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [notifications, setNotification] = useState([]);
 
-  const { accesstoken, user, notifications, loadingNotification } = useSelector(
-    (state) => state.user
-  );
+  const { accesstoken, user } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(loadAllNotification(accesstoken, user._id));
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!loadingNotification && notifications) {
-      submitHandler();
-    }
-  }, [loadingNotification, notifications]);
+  // useEffect(() => {
+  //   if (!loadingNotification && notifications) {
+  //     submitHandler();
+  //   }
+  // }, [loadingNotification, notifications]);
 
-  const [checkNotificationSeen, { isLoading, error }] =
-    useCheckNotificationSeenMutation();
+  const [checkNotificationSeen, { error }] = useCheckNotificationSeenMutation();
 
   const submitHandler = async () => {
     try {
@@ -49,47 +53,143 @@ function Notification() {
     }
   };
 
+  // Fetch Paginated Data
+  const {
+    data: paginatedData,
+    refetch: refetchPaginated,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
+  } = useGetSingleUserNotificationQuery(
+    { accesstoken, id: user._id, page, limit },
+    { refetchOnMountOrArgChange: true } // Disable caching
+  );
+
+  useEffect(() => {
+    if (!loadingPaginated && paginatedData) {
+      submitHandler();
+    }
+  }, [loadingPaginated, paginatedData]);
+
+  // Update Partners Data
+  useEffect(() => {
+    if (paginatedData?.notifications) {
+      console.log(
+        "Paginated data received for page",
+        page,
+        ":",
+        paginatedData.notifications
+      ); // Debug log
+      setNotification((prev) => {
+        // Filter out duplicates
+        const newData = paginatedData.notifications.filter(
+          (newItem) => !prev.some((prevItem) => prevItem._id === newItem._id)
+        );
+        return page === 1 ? paginatedData.notifications : [...prev, ...newData];
+      });
+
+      // Update hasMore correctly
+      if (paginatedData.notifications.length < limit) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    }
+  }, [paginatedData, page]);
+
+  // Load More Data
+  const loadMore = () => {
+    console.log("Loading more data..."); // Debug log
+    if (!loading && hasMore) {
+      setLoading(true);
+      setPage((prev) => {
+        console.log("Updating page to:", prev + 1); // Debug log
+        return prev + 1;
+      });
+    }
+  };
+
+  // Handle Scroll for Pagination
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const threshold = 100; // Adjust this value as needed
+    const isNearBottom = scrollHeight - (scrollTop + clientHeight) < threshold;
+    console.log("Checking near bottom", isNearBottom); // Debug log
+    if (isNearBottom && !loading && hasMore) {
+      loadMore();
+    }
+  };
+
+  // Reset loading state after data is fetched
+  useEffect(() => {
+    if (!fetchingPaginated) {
+      setLoading(false);
+    }
+  }, [fetchingPaginated]);
+
+  // Combined Loading State
+  const isLoading = fetchingPaginated || loading;
+
   return (
     <div className="history-main-container">
       {/** TITLE CONTAINER */}
       <label className="h-title-label">Notification</label>
       {/** CONTENT CONTAINER */}
-      <div className="h-content-container">
+      <div className="h-content-container" onScroll={handleScroll}>
         {/** CONTENT */}
 
-        {loadingNotification ? (
-          <div
-            style={{
-              flex: "1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgressBar />
-          </div>
-        ) : (
-          notifications?.map((item, index) => (
-            <div className="h-content-n" key={index}>
-              {/** SECOND CONTAINER */}
-              <div className="h-content-second">
-                <div className="h-content-second-content-container-top-n">
-                  <label className="h-content-second-content-container-top-amount-n">
-                    {item.title}
-                  </label>
-                </div>
-                <div className="h-content-second-content-container-bottom">
-                  <label className="h-content-second-content-container-top-amount-n-b">
-                    {item.description}
-                  </label>
-                </div>
-              </div>
+        {notifications?.map((item, index) => (
+          <div className="notification-mc" key={index}>
+            <div className="second-con-noti">
+              <label className="notification-label-title">{item.title}</label>
+              <label className="notification-label-subtitle">
+                {item.description}
+              </label>
             </div>
-          ))
-        )}
+            {user.userId !== item.userId && (
+              <div
+                className="first-con-noti"
+                onClick={() => settingUserDetails(item)}
+              >
+                <label className="allContentContainerLocationL">
+                  {" "}
+                  {item.userId ? "User ID" : ""}
+                </label>
+                <label className="allContentContainerLimitL">
+                  {item.userId}
+                </label>
+              </div>
+            )}
+          </div>
+        ))}
+
+        {isLoading && hasMore && <Loader />}
       </div>
     </div>
   );
 }
 
 export default Notification;
+
+{
+  /* <div className="h-content-n" key={index}>
+ 
+  <div className="h-content-second" style={{ backgroundColor: "pink" }}>
+    <div
+      className="h-content-second-content-container-top-n"
+      style={{ backgroundColor: "cyan" }}
+    >
+      <label className="h-content-second-content-container-top-amount-n">
+        {item.title}
+      </label>
+    </div>
+    <div
+      className="h-content-second-content-container-bottom"
+      style={{ backgroundColor: "red" }}
+    >
+      <label className="h-content-second-content-container-top-amount-n-b">
+        {item.description}
+      </label>
+    </div>
+  </div>
+</div> */
+}
