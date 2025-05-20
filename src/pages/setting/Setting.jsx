@@ -23,7 +23,10 @@ import { FaUserPen } from "react-icons/fa6";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { loadProfile } from "../../redux/actions/userAction.js";
+import {
+  loadAllNotification,
+  loadProfile,
+} from "../../redux/actions/userAction.js";
 import Balancetransfer from "../../components/balancetransfer/Balancetransfer.jsx";
 import AllResult from "../../components/result/AllResult.jsx";
 import Aboutus from "../../components/about/Aboutus.jsx";
@@ -49,6 +52,7 @@ import { TiGroup } from "react-icons/ti";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard.jsx";
 import ResultDashboard from "../../components/result/ResultDashboard.jsx";
 import { useGetPowerballQuery } from "../../redux/api.js";
+import { MdNotificationAdd } from "react-icons/md";
 
 export const locationdata = [
   {
@@ -223,6 +227,36 @@ const Setting = () => {
     }
   }, [data, isLoading]); // Correct dependencies
 
+  const [newNotification, setNewNotification] = useState(true);
+  const { notifications, loadingNotification } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (accesstoken) {
+      dispatch(loadAllNotification(accesstoken, user?._id));
+    }
+  }, [dispatch, accesstoken]);
+
+  useEffect(() => {
+    if (accesstoken) {
+      if (!loadingNotification && notifications && user) {
+        checkingForNewNotification();
+      }
+    }
+  }, [loadingNotification, notifications, user, accesstoken]);
+
+  const checkingForNewNotification = () => {
+    console.log("CHECKING FOR NEW NOTIFCATION");
+    if (notifications) {
+      const noti =
+        notifications?.length === 0 ? true : notifications[0]?.seennow;
+      console.log("seennow noti len :: " + notifications?.length);
+      console.log("seennow :: " + noti);
+      setNewNotification(noti);
+    }
+  };
+
   return (
     <div className="adminDashboardContainer">
       {/** TOP CONTAINER */}
@@ -289,7 +323,11 @@ const Setting = () => {
               onClick={() => handleComponentClick("notification")}
               className="iconcontainertop"
             >
-              <IoIosNotifications color={COLORS.background} size={"3rem"} />
+              {newNotification ? (
+                <IoIosNotifications color={COLORS.background} size={"3rem"} />
+              ) : (
+                <MdNotificationAdd color={COLORS.result_yellow} size={"3rem"} />
+              )}
             </div>
 
             <div
