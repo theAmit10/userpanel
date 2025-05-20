@@ -63,7 +63,7 @@ function Withdrawpayment({ reloadKey }) {
               </div>
               <div className="hdAllContainerContentBottom">
                 <label className="hdAllContainerContentTopRegularLabel">
-                  Transfer balance for another
+                  Transfer balance to game wallet
                 </label>
 
                 <div className="hdContenContainerIcon">
@@ -87,7 +87,7 @@ function Withdrawpayment({ reloadKey }) {
               </div>
               <div className="hdAllContainerContentBottom">
                 <label className="hdAllContainerContentTopRegularLabel">
-                  Withdraw Payment
+                  Transfer money to personal wallet
                 </label>
 
                 <div className="hdContenContainerIcon">
