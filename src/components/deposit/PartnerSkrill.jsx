@@ -382,7 +382,7 @@ function PartnerSkrill({ selectingPaymentType }) {
 
           <div className="allLocationMainContainer">
             {/** UPI HOLDER NAME */}
-            <label className="alCLLabel">Address</label>
+            <label className="alCLLabel">Skrill ID</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -390,7 +390,7 @@ function PartnerSkrill({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                placeholder="Enter address"
+                placeholder="Enter skrill id"
                 value={address}
                 onChange={(e) => setaddress(e.target.value)}
               />

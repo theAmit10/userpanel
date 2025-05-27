@@ -453,7 +453,7 @@ function PartnerPaypal({ selectingPaymentType }) {
 
           <div className="allLocationMainContainer">
             {/** UPI HOLDER NAME */}
-            <label className="alCLLabel">Email address</label>
+            <label className="alCLLabel">Paypal ID</label>
             <div className="alSearchContainer">
               <div className="searchIconContainer">
                 <PiSubtitles color={COLORS.background} size={"2.5rem"} />
@@ -461,7 +461,7 @@ function PartnerPaypal({ selectingPaymentType }) {
 
               <input
                 className="al-search-input"
-                placeholder="Enter email address"
+                placeholder="Enter paypal id"
                 value={emailaddress}
                 onChange={(e) => setemailaddress(e.target.value)}
               />
