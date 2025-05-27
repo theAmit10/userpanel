@@ -55,6 +55,19 @@ function Playhistory({ reloadKey }) {
     return parseInt(input.slice(0, -1), 10);
   }
 
+  function formatAmount(value) {
+    if (typeof value === "string") {
+      value = parseFloat(value); // Convert string to float if necessary
+    }
+
+    // Check if the number has decimals
+    if (value % 1 === 0) {
+      return value; // Return as is if it's a whole number
+    } else {
+      return parseFloat(value.toFixed(1)); // Return with one decimal point if it has decimals
+    }
+  }
+
   return (
     <div className="history-main-container-org">
       <div className="alCreatLocationTopContainer">
@@ -152,13 +165,19 @@ function Playhistory({ reloadKey }) {
                       <div className="h-content-fourth">
                         <div className="h-content-third-content-container-top">
                           <label className="h-content-third-content-container-top-payment">
-                            {item?.walletName ? "Winning No." : "Total bets"}
+                            {item?.walletName
+                              ? item?.forProcess === "partnercredit"
+                                ? "Partner"
+                                : "Winning No."
+                              : "Total bets"}
                           </label>
                         </div>
                         <div className="h-content-third-content-container-bottom">
                           <label className="h-content-third-content-container-top-payment-val">
                             {item?.walletName
-                              ? item?.playnumbers[0]?.playnumber
+                              ? item?.forProcess === "partnercredit"
+                                ? "Profit Credit"
+                                : item?.playnumbers[0]?.playnumber
                               : item?.playnumbers?.length}
                           </label>
                         </div>
@@ -243,7 +262,7 @@ function Playhistory({ reloadKey }) {
                             {`Amount : \u00A0`}
                           </label>
                           <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.tickets)}{" "}
+                            {formatAmount(calculateTotalAmount(item?.tickets))}{" "}
                             {user?.country?.countrycurrencysymbol}
                           </label>
                         </div>
