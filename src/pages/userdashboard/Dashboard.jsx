@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import images from "../../assets/constants/images";
 import COLORS from "../../assets/constants/colors";
-import { FaWallet } from "react-icons/fa";
+import { FaHandshake, FaWallet } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { IoIosSettings } from "react-icons/io";
 import { AiFillAndroid } from "react-icons/ai";
@@ -546,7 +546,7 @@ const Dashboard = () => {
                   }}
                 >
                   <div className="adLContenContainerIcon">
-                    <TiGroup color={COLORS.white_s} size={"2.5rem"} />
+                    <FaHandshake color={COLORS.white_s} size={"2.5rem"} />
                   </div>
                   <label className="adLContenContainerLabel">Partner</label>
                 </div>
