@@ -283,6 +283,15 @@ function Playhistory({ reloadKey }) {
 
                       <div className="h-content-fourth">
                         <div className="h-content-third-content-container-top">
+                          <label className="h-content-third-content-container-top-payment"></label>
+                        </div>
+                        <div className="h-content-third-content-container-bottom">
+                          <label className="h-content-third-content-container-top-payment-val"></label>
+                        </div>
+                      </div>
+
+                      <div className="h-content-fourth">
+                        <div className="h-content-third-content-container-top">
                           <label className="h-content-third-content-container-top-payment">
                             Time
                           </label>
