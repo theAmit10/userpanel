@@ -106,6 +106,47 @@ function LiveResult({ reloadKey }) {
     }
   };
 
+  const handleSelecteditemClickPowerball = (item, timedata) => {
+    console.log("showing time", timedata);
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+    const lotTimeMoment = moment.tz(
+      getTimeAccordingToTimezone(timedata?.powertime, user?.country?.timezone),
+      "hh:mm A",
+      user?.country?.timezone
+    );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    const timerinMinutes = timedata.liveresulttimer;
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment
+      .clone()
+      .subtract(timerinMinutes, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+      console.log("Navigating to PlayArena...");
+      // showWarningToast("Entry is close for this session");
+      // showWarningToast("Please choose next available time");
+      console.log("showing time");
+      // console.log(timedata);
+      // console.log(timedata.liveresultlink);
+      openLink(timedata.liveresultlink);
+    } else {
+      showWarningToast("It too early or past the time.");
+
+      // setSelectedItem(false);
+      // setSelectedLocation(item);
+      // setSelectedTime(timedata);
+    }
+  };
+
   // const openLink = (url) => {
   //   if (url) {
   //     if (!url.startsWith("http://") && !url.startsWith("https://")) {
@@ -277,6 +318,38 @@ function LiveResult({ reloadKey }) {
 
     const lotTimeMoment = moment.tz(
       getTimeAccordingToTimezone(timeItem?.time, user?.country?.timezone),
+      "hh:mm A",
+      user?.country?.timezone
+    );
+    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+    // Subtract 15 minutes from the lotTimeMoment
+    const lotTimeMinus15Minutes = lotTimeMoment.clone().subtract(10, "minutes");
+
+    const isLotTimeClose =
+      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+    if (isLotTimeClose) {
+      console.log("Navigating to PlayArena...");
+      showWarningToast("Entry is close for this session");
+      showWarningToast("Please choose next available time");
+    } else {
+      console.log("It's too early or past the lot time.");
+      navigation.navigate("PlayArena", {
+        locationdata: item,
+        timedata: timeItem,
+      });
+    }
+  };
+
+  const navigationHandlerForPowerball = (item, timeItem) => {
+    const now = moment.tz(user?.country?.timezone);
+    console.log("Current Time: ", now.format("hh:mm A"));
+    console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+    const lotTimeMoment = moment.tz(
+      getTimeAccordingToTimezone(timeItem?.powertime, user?.country?.timezone),
       "hh:mm A",
       user?.country?.timezone
     );
@@ -539,7 +612,7 @@ function LiveResult({ reloadKey }) {
     return (
       <div
         key={timeItem._id}
-        onClick={() => handleSelecteditemClick(item, timeItem)}
+        onClick={() => handleSelecteditemClickPowerball(item, timeItem)}
         className={`time-item ${
           timeItem.powertime === nextTime.powertime ? "highlighted" : ""
         }`}
@@ -628,7 +701,7 @@ function LiveResult({ reloadKey }) {
                       timeItem={timedata}
                       idx={timeindex}
                       nextTime={nextTime}
-                      navigation={navigationHandler}
+                      navigation={navigationHandlerForPowerball}
                       item={timedata}
                       user={user}
                     />

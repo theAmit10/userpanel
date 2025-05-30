@@ -463,7 +463,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** FOURTH */}
-                        {item?.qrcodeName && (
+                        {item?.qrcode && (
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
@@ -635,7 +635,7 @@ const PartnerOther = ({ selectingPaymentType }) => {
               </div>
 
               {/** FOURTH INPUT NAME */}
-              <label className="alCLLabel">
+              {/* <label className="alCLLabel">
                 Fourth Input Name (for QR code)
               </label>
               <div className="alSearchContainer">
@@ -649,11 +649,9 @@ const PartnerOther = ({ selectingPaymentType }) => {
                   value={qrcodeName}
                   onChange={(e) => setQrcodeName(e.target.value)}
                 />
-              </div>
+              </div> */}
               {/** FOURTH INPUT  */}
-              <label className="alCLLabel">
-                {qrcodeName ? qrcodeName : "Fourth Input Value (add QR code)"}
-              </label>
+              <label className="alCLLabel">QR Code</label>
               <div className="alSearchContainer">
                 <div className="searchIconContainer">
                   <PiSubtitles color={COLORS.background} size={"2.5rem"} />
