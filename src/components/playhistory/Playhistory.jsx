@@ -104,7 +104,7 @@ function Playhistory({ reloadKey }) {
                           <FaRegPlayCircle
                             color={
                               item?.walletName
-                                ? COLORS.green
+                                ? COLORS.orange
                                 : COLORS.background
                             }
                             size={"3rem"}
@@ -117,7 +117,9 @@ function Playhistory({ reloadKey }) {
                             {`Amount : \u00A0`}
                           </label>
                           <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.playnumbers)}{" "}
+                            {formatAmount(
+                              calculateTotalAmount(item?.playnumbers)
+                            )}{" "}
                             {user?.country?.countrycurrencysymbol}
                           </label>
                         </div>
@@ -249,7 +251,7 @@ function Playhistory({ reloadKey }) {
                           <GiDiamondTrophy
                             color={
                               item?.walletName
-                                ? COLORS.green
+                                ? COLORS.orange
                                 : COLORS.background
                             }
                             size={"3rem"}
