@@ -58,16 +58,19 @@ const Partner = ({ reloadKey, setReloadKey }) => {
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
             {/** ALL RECHARGE */}
-            {user && partner && partner.rechargeModule && (
-              <PartnerContentComp
-                title={"All Recharge Request"}
-                description={"List of Recharge Partner data"}
-                iconfrom={"HiMiniWallet"}
-                setSelectedCategory={setSelectedCategory}
-                componenetname={"AllRecharge"}
-                count={data?.pendingRechargesCount}
-              />
-            )}
+            {user &&
+              partner &&
+              partner.rechargeModule &&
+              partner.rechargeStatus && (
+                <PartnerContentComp
+                  title={"All Recharge Request"}
+                  description={"List of Recharge Partner data"}
+                  iconfrom={"HiMiniWallet"}
+                  setSelectedCategory={setSelectedCategory}
+                  componenetname={"AllRecharge"}
+                  count={data?.pendingRechargesCount}
+                />
+              )}
 
             {/** ALL PARTNER */}
             {user.parentParentPartnerId === 1000 && (
@@ -101,15 +104,18 @@ const Partner = ({ reloadKey, setReloadKey }) => {
             />
 
             {/** RECHARGE METHODS */}
-            {user && partner && partner.rechargeModule && (
-              <PartnerContentComp
-                title={"Recharge Method"}
-                description={"Recharge Payment Methods"}
-                iconfrom={"BsWalletFill"}
-                setSelectedCategory={setSelectedCategory}
-                componenetname={"RechargeMethods"}
-              />
-            )}
+            {user &&
+              partner &&
+              partner.rechargeModule &&
+              partner.rechargeStatus && (
+                <PartnerContentComp
+                  title={"Recharge Method"}
+                  description={"Recharge Payment Methods"}
+                  iconfrom={"BsWalletFill"}
+                  setSelectedCategory={setSelectedCategory}
+                  componenetname={"RechargeMethods"}
+                />
+              )}
 
             {/** ALL PROFIT DECREASE */}
             {user.parentParentPartnerId === 1000 && (

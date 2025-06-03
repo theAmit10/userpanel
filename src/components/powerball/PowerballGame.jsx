@@ -114,6 +114,7 @@ const PowerballGame = ({
         powerballDates.powerDates
       );
       setTodayPowerDate(matchingDate);
+      console.log("current Date: ", currentDate);
       console.log(matchingDate);
     }
   }, [powerballDatesIsLoading, powerballDates]);
