@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Playhistory.css";
 import COLORS from "../../assets/constants/colors";
-import { FaRegPlayCircle } from "react-icons/fa";
+import { FaHandshake, FaRegPlayCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import { GiDiamondTrophy } from "react-icons/gi";
+import { useGetPowerballQuery } from "../../redux/api";
 
 function Playhistory({ reloadKey }) {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -68,6 +69,20 @@ function Playhistory({ reloadKey }) {
     }
   }
 
+  const [gameName, setGameName] = useState("");
+  // Network call
+  const { data, isLoading: powerballIsLoading } = useGetPowerballQuery(
+    { accesstoken },
+    { skip: !accesstoken }
+  );
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setGameName(data.games[0].name);
+      console.log(data?.games[0].name);
+    }
+  }, [data, isLoading]); // Correct dependencies
+
   return (
     <div className="history-main-container-org">
       <div className="alCreatLocationTopContainer">
@@ -101,14 +116,24 @@ function Playhistory({ reloadKey }) {
                     <div className="h-content-org">
                       <div className="h-content-first-history">
                         <div className="iconcontainertop">
-                          <FaRegPlayCircle
-                            color={
-                              item?.walletName
-                                ? COLORS.orange
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
+                          {item?.walletName ? (
+                            item?.forProcess === "partnercredit" ? (
+                              <FaHandshake
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            ) : (
+                              <FaRegPlayCircle
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            )
+                          ) : (
+                            <FaRegPlayCircle
+                              color={COLORS.background}
+                              size={"3rem"}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="h-content-second">
@@ -196,12 +221,20 @@ function Playhistory({ reloadKey }) {
                           </div>
                           <div className="hcphSecond">
                             <label className="h-content-third-content-container-top-payment-val">
-                              Amount
+                              {item?.walletName
+                                ? item?.forProcess === "partnercredit"
+                                  ? ""
+                                  : "Amount"
+                                : "Amount"}
                             </label>
                           </div>
                           <div className="hcphThird">
                             <label className="h-content-third-content-container-top-payment-val">
-                              Winning Amount
+                              {item?.walletName
+                                ? item?.forProcess === "partnercredit"
+                                  ? "Profit Amount"
+                                  : "Winning Amount"
+                                : "Winning Amount"}
                             </label>
                           </div>
                         </div>
@@ -216,11 +249,20 @@ function Playhistory({ reloadKey }) {
                               </div>
                               <div className="hcphSecond">
                                 <label className="h-content-third-content-container-top-payment-val">
-                                  {item?.walletName
+                                  {/* {item?.walletName
                                     ? pitem?.amount /
                                       extractNumberFromString(
                                         item?.lotlocation?.maximumReturn
                                       )
+                                    : pitem?.amount} */}
+
+                                  {item?.walletName
+                                    ? item?.forProcess === "partnercredit"
+                                      ? ""
+                                      : pitem?.amount /
+                                        extractNumberFromString(
+                                          item?.lotlocation?.maximumReturn
+                                        )
                                     : pitem?.amount}
                                 </label>
                               </div>
@@ -248,14 +290,24 @@ function Playhistory({ reloadKey }) {
                     <div className="h-content-org">
                       <div className="h-content-first-history">
                         <div className="iconcontainertop">
-                          <GiDiamondTrophy
-                            color={
-                              item?.walletName
-                                ? COLORS.orange
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
+                          {item?.walletName ? (
+                            item?.forProcess === "partnercredit" ? (
+                              <FaHandshake
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            ) : (
+                              <GiDiamondTrophy
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            )
+                          ) : (
+                            <GiDiamondTrophy
+                              color={COLORS.background}
+                              size={"3rem"}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="h-content-second">
@@ -285,10 +337,14 @@ function Playhistory({ reloadKey }) {
 
                       <div className="h-content-fourth">
                         <div className="h-content-third-content-container-top">
-                          <label className="h-content-third-content-container-top-payment"></label>
+                          <label className="h-content-third-content-container-top-payment">
+                            Playing
+                          </label>
                         </div>
                         <div className="h-content-third-content-container-bottom">
-                          <label className="h-content-third-content-container-top-payment-val"></label>
+                          <label className="h-content-third-content-container-top-payment-val">
+                            {gameName}
+                          </label>
                         </div>
                       </div>
 
