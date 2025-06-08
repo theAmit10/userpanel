@@ -17,7 +17,6 @@ function Playhistory({ reloadKey }) {
 
   const {
     data: historyapidatas,
-    error,
     isLoading,
     refetch,
   } = useGetPlayHistoryQuery(accesstoken);
