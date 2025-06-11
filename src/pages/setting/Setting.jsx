@@ -51,7 +51,10 @@ import Partner from "../../components/partner/Partner.jsx";
 import { TiGroup } from "react-icons/ti";
 import PowerballDashboard from "../../components/powerball/PowerballDashboard.jsx";
 import ResultDashboard from "../../components/result/ResultDashboard.jsx";
-import { useGetPowerballQuery } from "../../redux/api.js";
+import {
+  useGetPowerballQuery,
+  useGetSingleUserNotificationQuery,
+} from "../../redux/api.js";
 import { MdNotificationAdd } from "react-icons/md";
 
 export const locationdata = [
@@ -228,23 +231,47 @@ const Setting = () => {
   }, [data, isLoading]); // Correct dependencies
 
   const [newNotification, setNewNotification] = useState(true);
-  const { notifications, loadingNotification } = useSelector(
-    (state) => state.user
+
+  const [notifications, setNotification] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  // Fetch Paginated Data
+  const {
+    data: paginatedData,
+    refetch: refetchPaginated,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
+  } = useGetSingleUserNotificationQuery(
+    { accesstoken, id: user?._id, page, limit },
+    { refetchOnMountOrArgChange: true } // Disable caching
   );
 
   useEffect(() => {
-    if (accesstoken) {
-      dispatch(loadAllNotification(accesstoken, user?._id));
+    if (!loadingPaginated && paginatedData) {
+      setNotification(paginatedData.notifications);
     }
-  }, [dispatch, accesstoken]);
-
+  }, [loadingPaginated, paginatedData]);
   useEffect(() => {
-    if (accesstoken) {
-      if (!loadingNotification && notifications && user) {
+    if (accesstoken && user) {
+      if (!loadingPaginated && paginatedData) {
         checkingForNewNotification();
       }
     }
-  }, [loadingNotification, notifications, user, accesstoken]);
+  }, [loadingPaginated, notifications]);
+
+  // useEffect(() => {
+  //   if (accesstoken) {
+  //     dispatch(loadAllNotification(accesstoken, user?._id));
+  //   }
+  // }, [dispatch, accesstoken]);
+
+  // useEffect(() => {
+  //   if (accesstoken) {
+  //     if (!loadingNotification && notifications && user) {
+  //       checkingForNewNotification();
+  //     }
+  //   }
+  // }, [loadingNotification, notifications, user, accesstoken]);
 
   const checkingForNewNotification = () => {
     console.log("CHECKING FOR NEW NOTIFCATION");

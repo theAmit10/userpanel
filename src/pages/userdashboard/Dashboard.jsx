@@ -194,14 +194,14 @@ const Dashboard = () => {
     if (!loadingPaginated && paginatedData) {
       setNotification(paginatedData.notifications);
     }
-  }, [loadingNotification, paginatedData]);
+  }, [loadingPaginated, paginatedData]);
   useEffect(() => {
     if (accesstoken && user) {
       if (!loadingPaginated && paginatedData) {
         checkingForNewNotification();
       }
     }
-  }, [loadingNotification, notifications]);
+  }, [loadingPaginated, notifications]);
 
   // useEffect(() => {
   //   if (accesstoken) {
