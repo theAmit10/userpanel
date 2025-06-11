@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Playhistory.css";
 import COLORS from "../../assets/constants/colors";
-import { FaRegPlayCircle } from "react-icons/fa";
+import { FaHandshake, FaRegPlayCircle } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useGetPlayHistoryQuery } from "../../helper/Networkcall";
 import { LoadingComponent } from "../helper/LoadingComponent";
@@ -9,18 +9,32 @@ import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import { GiDiamondTrophy } from "react-icons/gi";
 import HeaderComp from "../helpercomp/HeaderComp";
+import {
+  useGetPowerballQuery,
+  useGetSingleUserPlayHistoryQuery,
+} from "../../redux/api";
 
-function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
+function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory, userdata }) {
   const { accesstoken, user } = useSelector((state) => state.user);
   const [expandedItems, setExpandedItems] = useState({});
   const [loading, setLoading] = useState(false); // New loading state
+
+  // const {
+  //   data: historyapidatas,
+  //   error,
+  //   isLoading,
+  //   refetch,
+  // } = useGetPlayHistoryQuery(accesstoken);
 
   const {
     data: historyapidatas,
     error,
     isLoading,
     refetch,
-  } = useGetPlayHistoryQuery(accesstoken);
+  } = useGetSingleUserPlayHistoryQuery({
+    accesstoken: accesstoken,
+    userId: userdata.userId,
+  });
 
   useEffect(() => {
     setLoading(true); // Show loading indicator on reloadKey change
@@ -56,6 +70,33 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
     return parseInt(input.slice(0, -1), 10);
   }
 
+  function formatAmount(value) {
+    if (typeof value === "string") {
+      value = parseFloat(value); // Convert string to float if necessary
+    }
+
+    // Check if the number has decimals
+    if (value % 1 === 0) {
+      return value; // Return as is if it's a whole number
+    } else {
+      return parseFloat(value.toFixed(1)); // Return with one decimal point if it has decimals
+    }
+  }
+
+  const [gameName, setGameName] = useState("");
+  // Network call
+  const { data, isLoading: powerballIsLoading } = useGetPowerballQuery(
+    { accesstoken },
+    { skip: !accesstoken }
+  );
+
+  useEffect(() => {
+    if (!isLoading && data) {
+      setGameName(data.games[0].name);
+      console.log(data?.games[0].name);
+    }
+  }, [data, isLoading]); // Correct dependencies
+
   return (
     <div className="history-main-container-org">
       {/* <div className="alCreatLocationTopContainer">
@@ -88,7 +129,6 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                     key={item._id.toString()}
                     onClick={() => toggleItem(item._id)}
                     style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
                       backgroundColor: COLORS.background,
                       borderRadius: "2rem",
                     }}
@@ -96,14 +136,24 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                     <div className="h-content-org">
                       <div className="h-content-first-history">
                         <div className="iconcontainertop">
-                          <FaRegPlayCircle
-                            color={
-                              item?.walletName
-                                ? COLORS.green
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
+                          {item?.walletName ? (
+                            item?.forProcess === "partnercredit" ? (
+                              <FaHandshake
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            ) : (
+                              <FaRegPlayCircle
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            )
+                          ) : (
+                            <FaRegPlayCircle
+                              color={COLORS.background}
+                              size={"3rem"}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="h-content-second">
@@ -112,7 +162,9 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                             {`Amount : \u00A0`}
                           </label>
                           <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.playnumbers)}{" "}
+                            {formatAmount(
+                              calculateTotalAmount(item?.playnumbers)
+                            )}{" "}
                             {user?.country?.countrycurrencysymbol}
                           </label>
                         </div>
@@ -160,13 +212,19 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                       <div className="h-content-fourth">
                         <div className="h-content-third-content-container-top">
                           <label className="h-content-third-content-container-top-payment">
-                            {item?.walletName ? "Winning No." : "Total bets"}
+                            {item?.walletName
+                              ? item?.forProcess === "partnercredit"
+                                ? "Partner"
+                                : "Winning No."
+                              : "Total bets"}
                           </label>
                         </div>
                         <div className="h-content-third-content-container-bottom">
                           <label className="h-content-third-content-container-top-payment-val">
                             {item?.walletName
-                              ? item?.playnumbers[0]?.playnumber
+                              ? item?.forProcess === "partnercredit"
+                                ? "Profit Credit"
+                                : item?.playnumbers[0]?.playnumber
                               : item?.playnumbers?.length}
                           </label>
                         </div>
@@ -183,12 +241,20 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                           </div>
                           <div className="hcphSecond">
                             <label className="h-content-third-content-container-top-payment-val">
-                              Amount
+                              {item?.walletName
+                                ? item?.forProcess === "partnercredit"
+                                  ? ""
+                                  : "Amount"
+                                : "Amount"}
                             </label>
                           </div>
                           <div className="hcphThird">
                             <label className="h-content-third-content-container-top-payment-val">
-                              Winning Amount
+                              {item?.walletName
+                                ? item?.forProcess === "partnercredit"
+                                  ? "Profit Amount"
+                                  : "Winning Amount"
+                                : "Winning Amount"}
                             </label>
                           </div>
                         </div>
@@ -203,11 +269,20 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                               </div>
                               <div className="hcphSecond">
                                 <label className="h-content-third-content-container-top-payment-val">
-                                  {item?.walletName
+                                  {/* {item?.walletName
                                     ? pitem?.amount /
                                       extractNumberFromString(
                                         item?.lotlocation?.maximumReturn
                                       )
+                                    : pitem?.amount} */}
+
+                                  {item?.walletName
+                                    ? item?.forProcess === "partnercredit"
+                                      ? ""
+                                      : pitem?.amount /
+                                        extractNumberFromString(
+                                          item?.lotlocation?.maximumReturn
+                                        )
                                     : pitem?.amount}
                                 </label>
                               </div>
@@ -227,7 +302,6 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                     key={item._id.toString()}
                     onClick={() => toggleItem(item._id)}
                     style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
                       backgroundColor: COLORS.background,
                       borderRadius: "2rem",
                     }}
@@ -235,14 +309,24 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                     <div className="h-content-org">
                       <div className="h-content-first-history">
                         <div className="iconcontainertop">
-                          <GiDiamondTrophy
-                            color={
-                              item?.walletName
-                                ? COLORS.green
-                                : COLORS.background
-                            }
-                            size={"3rem"}
-                          />
+                          {item?.walletName ? (
+                            item?.forProcess === "partnercredit" ? (
+                              <FaHandshake
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            ) : (
+                              <GiDiamondTrophy
+                                color={COLORS.orange}
+                                size={"3rem"}
+                              />
+                            )
+                          ) : (
+                            <GiDiamondTrophy
+                              color={COLORS.background}
+                              size={"3rem"}
+                            />
+                          )}
                         </div>
                       </div>
                       <div className="h-content-second">
@@ -251,7 +335,7 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                             {`Amount : \u00A0`}
                           </label>
                           <label className="h-content-second-content-container-top-amount-val">
-                            {calculateTotalAmount(item?.tickets)}{" "}
+                            {formatAmount(calculateTotalAmount(item?.tickets))}{" "}
                             {user?.country?.countrycurrencysymbol}
                           </label>
                         </div>
@@ -266,6 +350,19 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                                   )
                                 )
                               : ""}
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="h-content-fourth">
+                        <div className="h-content-third-content-container-top">
+                          <label className="h-content-third-content-container-top-payment">
+                            Playing
+                          </label>
+                        </div>
+                        <div className="h-content-third-content-container-bottom">
+                          <label className="h-content-third-content-container-top-payment-val">
+                            {gameName}
                           </label>
                         </div>
                       </div>
@@ -289,14 +386,18 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory }) {
                         <div className="h-content-third-content-container-top">
                           <label className="h-content-third-content-container-top-payment">
                             {item?.walletName
-                              ? "Winner Ticket"
+                              ? item?.forProcess === "partnercredit"
+                                ? "Partner"
+                                : "Winner"
                               : "Total Ticket"}
                           </label>
                         </div>
                         <div className="h-content-third-content-container-bottom">
                           <label className="h-content-third-content-container-top-payment-val">
                             {item?.walletName
-                              ? item.playnumbers[0]?.playnumber
+                              ? item?.forProcess === "partnercredit"
+                                ? "Profit Credit"
+                                : "Ticket"
                               : item?.tickets.length}
                           </label>
                         </div>

@@ -16,6 +16,7 @@ import CircularProgressBar from "../helper/CircularProgressBar";
 import { loadAllNotification } from "../../redux/actions/userAction";
 import { useGetSingleUserNotificationQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
+import AllUserDetails from "../alluser/AllUserDetails";
 
 function Notification() {
   const navigation = useNavigate();
@@ -129,67 +130,71 @@ function Notification() {
   // Combined Loading State
   const isLoading = fetchingPaginated || loading;
 
+  const [showUserDetails, setShowUserDetaiils] = useState(false);
+  const [showNotifitcation, setShowNotificaton] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const settingUserDetails = (user) => {
+    setSelectedUser(user);
+    setShowUserDetaiils(true);
+    setShowNotificaton(false);
+  };
+
+  const backHandlerForUserDetails = () => {
+    setShowUserDetaiils(false);
+    setShowNotificaton(true);
+  };
+
   return (
-    <div className="history-main-container">
-      {/** TITLE CONTAINER */}
-      <label className="h-title-label">Notification</label>
-      {/** CONTENT CONTAINER */}
-      <div className="h-content-container" onScroll={handleScroll}>
-        {/** CONTENT */}
+    <>
+      {showNotifitcation && (
+        <div className="history-main-container">
+          {/** TITLE CONTAINER */}
+          <label className="h-title-label">Notification</label>
+          {/** CONTENT CONTAINER */}
+          <div className="h-content-container" onScroll={handleScroll}>
+            {/** CONTENT */}
 
-        {notifications?.map((item, index) => (
-          <div className="notification-mc" key={index}>
-            <div className="second-con-noti">
-              <label className="notification-label-title">{item.title}</label>
-              <label className="notification-label-subtitle">
-                {item.description}
-              </label>
-            </div>
-            {user.userId !== item.userId && (
-              <div
-                className="first-con-noti"
-                onClick={() => settingUserDetails(item)}
-              >
-                <label className="allContentContainerLocationL">
-                  {" "}
-                  {item.userId ? "User ID" : ""}
-                </label>
-                <label className="allContentContainerLimitL">
-                  {item.userId}
-                </label>
+            {notifications?.map((item, index) => (
+              <div className="notification-mc" key={index}>
+                <div className="second-con-noti">
+                  <label className="notification-label-title">
+                    {item.title}
+                  </label>
+                  <label className="notification-label-subtitle">
+                    {item.description}
+                  </label>
+                </div>
+                {user.userId !== item.userId && (
+                  <div
+                    className="first-con-noti"
+                    onClick={() => settingUserDetails(item)}
+                  >
+                    <label className="allContentContainerLocationL">
+                      {" "}
+                      {item.userId ? "User ID" : ""}
+                    </label>
+                    <label className="allContentContainerLimitL">
+                      {item.userId}
+                    </label>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ))}
+            ))}
 
-        {isLoading && hasMore && <Loader />}
-      </div>
-    </div>
+            {isLoading && hasMore && <Loader />}
+          </div>
+        </div>
+      )}
+
+      {showUserDetails && (
+        <AllUserDetails
+          userdata={selectedUser}
+          backhandlerDeposit={backHandlerForUserDetails}
+        />
+      )}
+    </>
   );
 }
 
 export default Notification;
-
-{
-  /* <div className="h-content-n" key={index}>
- 
-  <div className="h-content-second" style={{ backgroundColor: "pink" }}>
-    <div
-      className="h-content-second-content-container-top-n"
-      style={{ backgroundColor: "cyan" }}
-    >
-      <label className="h-content-second-content-container-top-amount-n">
-        {item.title}
-      </label>
-    </div>
-    <div
-      className="h-content-second-content-container-bottom"
-      style={{ backgroundColor: "red" }}
-    >
-      <label className="h-content-second-content-container-top-amount-n-b">
-        {item.description}
-      </label>
-    </div>
-  </div>
-</div> */
-}
