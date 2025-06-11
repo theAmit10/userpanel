@@ -46,6 +46,7 @@ import {
   useGetAllLocationWithTimeQuery,
   useGetAppLinkQuery,
   useGetPowerballQuery,
+  useGetSingleUserNotificationQuery,
 } from "../../redux/api";
 import { CiSearch } from "react-icons/ci";
 import { TbHistoryToggle } from "react-icons/tb";
@@ -58,6 +59,7 @@ import PowerballDashboard from "../../components/powerball/PowerballDashboard";
 import { TiGroup } from "react-icons/ti";
 import Partner from "../../components/partner/Partner";
 import PowerResult from "../../components/result/PowerResult";
+import { useCheckNotificationSeenMutation } from "../../helper/Networkcall";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -94,9 +96,7 @@ const Dashboard = () => {
   const { user, accesstoken, loading, error } = useSelector(
     (state) => state.user
   );
-  const { notifications, loadingNotification } = useSelector(
-    (state) => state.user
-  );
+  const { loadingNotification } = useSelector((state) => state.user);
   const { loadingPromotion, promotions } = useSelector(
     (state) => state.promotion
   );
@@ -171,18 +171,45 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (accesstoken) {
-      dispatch(loadAllNotification(accesstoken, user?._id));
+      // dispatch(loadAllNotification(accesstoken, user?._id));
       dispatch(loadAllPromotion(accesstoken));
     }
   }, [dispatch, accesstoken]);
 
+  const [notifications, setNotification] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  // Fetch Paginated Data
+  const {
+    data: paginatedData,
+    refetch: refetchPaginated,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
+  } = useGetSingleUserNotificationQuery(
+    { accesstoken, id: user?._id, page, limit },
+    { refetchOnMountOrArgChange: true } // Disable caching
+  );
+
   useEffect(() => {
-    if (accesstoken) {
-      if ((!loadingNotification && notifications, user)) {
+    if (!loadingPaginated && paginatedData) {
+      setNotification(paginatedData.notifications);
+    }
+  }, [loadingNotification, paginatedData]);
+  useEffect(() => {
+    if (accesstoken && user) {
+      if (!loadingPaginated && paginatedData) {
         checkingForNewNotification();
       }
     }
-  }, [loadingNotification, notifications, user, accesstoken]);
+  }, [loadingNotification, notifications]);
+
+  // useEffect(() => {
+  //   if (accesstoken) {
+  //     if (!loadingNotification && notifications && user) {
+  //       checkingForNewNotification();
+  //     }
+  //   }
+  // }, [loadingNotification, notifications, user, accesstoken]);
 
   // Update filtered data when locations change
   useEffect(() => {

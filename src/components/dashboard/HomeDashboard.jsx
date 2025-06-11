@@ -525,10 +525,10 @@ function HomeDashboard({
     itemCurrencyValue,
     userCurrencyValue
   ) => {
-    console.log("STARTING LOADING WINNER");
-    console.log("winningamount :: ", winningamount);
-    console.log("itemCurrencyValue :: ", itemCurrencyValue);
-    console.log("userCurrencyValue :: ", userCurrencyValue);
+    // console.log("STARTING LOADING WINNER");
+    // console.log("winningamount :: ", winningamount);
+    // console.log("itemCurrencyValue :: ", itemCurrencyValue);
+    // console.log("userCurrencyValue :: ", userCurrencyValue);
     // Convert to float
     const winningAmountFloat = parseFloat(winningamount);
     const itemCurrencyFloat = parseFloat(itemCurrencyValue);
