@@ -107,7 +107,6 @@ function Playhistory({ reloadKey }) {
                     key={item._id.toString()}
                     onClick={() => toggleItem(item._id)}
                     style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
                       backgroundColor: COLORS.background,
                       borderRadius: "2rem",
                     }}
@@ -281,7 +280,6 @@ function Playhistory({ reloadKey }) {
                     key={item._id.toString()}
                     onClick={() => toggleItem(item._id)}
                     style={{
-                      minHeight: expandedItems[item._id] ? "40rem" : "8rem",
                       backgroundColor: COLORS.background,
                       borderRadius: "2rem",
                     }}

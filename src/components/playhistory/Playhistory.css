@@ -163,11 +163,12 @@
 }
 
 .contentContainerPHD{
-    height: 26rem;
-
+    min-height: 10rem;
+    max-height: 26rem;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+   
 }
 
 .contentContainerPHDC{
