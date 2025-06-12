@@ -474,6 +474,7 @@ function LiveResult({ reloadKey }) {
     refetch();
   }, [reloadKey]);
 
+  const [isBlinking, setIsBlinking] = useState(false);
   // CRETING BLINK BUTTON
   const BlinkingButton = ({
     timeItem,
@@ -483,7 +484,7 @@ function LiveResult({ reloadKey }) {
     user,
     idx,
   }) => {
-    const [isBlinking, setIsBlinking] = useState(false);
+    // const [isBlinking, setIsBlinking] = useState(false);
     const [shouldBlink, setShouldBlink] = useState(false);
 
     useEffect(() => {
@@ -541,9 +542,9 @@ function LiveResult({ reloadKey }) {
             timeItem.time === nextTime.time
               ? isBlinking
                 ? "transparent"
-                : COLORS.white_s
+                : COLORS.orange
               : "transparent",
-          borderWidth: timeItem.time === nextTime.time ? 2 : 2,
+          borderWidth: timeItem.time === nextTime.time ? 3 : 3,
           borderRadius: "1rem",
           overflow: "hidden",
         }}
@@ -554,7 +555,7 @@ function LiveResult({ reloadKey }) {
       </div>
     );
   };
-
+  // const [isBlinking, setIsBlinking] = useState(false);
   const BlinkingButtonPowerball = ({
     timeItem,
     nextTime,
@@ -621,9 +622,9 @@ function LiveResult({ reloadKey }) {
             timeItem.powertime === nextTime.powertime
               ? isBlinking
                 ? "transparent"
-                : COLORS.white_s
+                : COLORS.orange
               : "transparent",
-          borderWidth: timeItem.powertime === nextTime.powertime ? 2 : 2,
+          borderWidth: timeItem.powertime === nextTime.powertime ? 3 : 3,
           borderRadius: "1rem",
           overflow: "hidden",
         }}
@@ -688,6 +689,11 @@ function LiveResult({ reloadKey }) {
                         1 % 2 === 0
                           ? "linear-gradient(90deg, #1993FF, #0F5899)"
                           : "linear-gradient(90deg, #7EC630, #3D6017)",
+                      // borderColor: isBlinking ? "transparent" : COLORS.orange,
+
+                      // borderWidth: isBlinking ? 3 : 0,
+                      // borderRadius: "1rem",
+                      // overflow: "hidden",
                     }}
                   >
                     <span className="location-header-label">{updatename}</span>
@@ -733,7 +739,7 @@ function LiveResult({ reloadKey }) {
                           {item.name}
                         </span>
                         <span className="location-header-max-label">
-                          Max {item.limit}
+                          {item.maximumReturn}
                         </span>
                       </div>
                     </div>
