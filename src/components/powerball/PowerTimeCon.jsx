@@ -4,6 +4,8 @@ import { GiDiamondTrophy } from "react-icons/gi";
 import COLORS from "../../assets/constants/colors";
 import images from "../../assets/constants/images";
 import { FaRegPlayCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 
 const PowerTimeCon = ({
   time,
@@ -13,6 +15,7 @@ const PowerTimeCon = ({
   item,
   nextTime,
 }) => {
+  const { user } = useSelector((state) => state.user);
   return (
     <div
       className={`power-time-con ${
@@ -21,7 +24,9 @@ const PowerTimeCon = ({
       onClick={() => selectingTime(item)}
     >
       <div className="ptc-first">
-        <label className="ptc-time-label">{time}</label>
+        <label className="ptc-time-label">
+          {getTimeAccordingToTimezone(time, user?.country?.timezone)}
+        </label>
         <label className="ptc-playnow-label">{subtitle}</label>
       </div>
       <div className="ptc-second">
