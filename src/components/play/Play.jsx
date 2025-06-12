@@ -1318,7 +1318,7 @@ function Play({ reloadKey }) {
                           {item.name}
                         </span>
                         <span className="location-header-max-label">
-                          Max {item.limit}
+                          {item.maximumReturn} Win
                         </span>
                       </div>
                     </div>
