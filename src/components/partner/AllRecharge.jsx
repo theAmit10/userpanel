@@ -660,7 +660,8 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
 
                       <div className="dHeaderContainerLabelContainerAAD">
                         <label className="dHeaderContainerLabelAD">
-                          {formatNumber(calculatedAmount)}
+                          {formatNumber(calculatedAmount)}{" "}
+                          {usercountry.countrycurrencysymbol}
                         </label>
                       </div>
                       <div

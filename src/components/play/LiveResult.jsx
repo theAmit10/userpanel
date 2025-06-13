@@ -65,6 +65,47 @@ function LiveResult({ reloadKey }) {
 
   const dispatch = useDispatch();
 
+  // const handleSelecteditemClick = (item, timedata) => {
+  //   console.log("showing time", timedata);
+  //   const now = moment.tz(user?.country?.timezone);
+  //   console.log("Current Time: ", now.format("hh:mm A"));
+  //   console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+  //   const lotTimeMoment = moment.tz(
+  //     getTimeAccordingToTimezone(timedata?.time, user?.country?.timezone),
+  //     "hh:mm A",
+  //     user?.country?.timezone
+  //   );
+  //   console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+  //   const timerinMinutes = timedata.liveresulttimer;
+
+  //   // Subtract 15 minutes from the lotTimeMoment
+  //   const lotTimeMinus15Minutes = lotTimeMoment
+  //     .clone()
+  //     .subtract(timerinMinutes, "minutes");
+
+  //   const isLotTimeClose =
+  //     now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+  //   console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+  //   if (isLotTimeClose) {
+  //     console.log("Navigating to PlayArena...");
+  //     // showWarningToast("Entry is close for this session");
+  //     // showWarningToast("Please choose next available time");
+  //     console.log("showing time");
+  //     // console.log(timedata);
+  //     // console.log(timedata.liveresultlink);
+  //     openLink(timedata.liveresultlink);
+  //   } else {
+  //     showWarningToast("It too early or past the time.");
+
+  //     // setSelectedItem(false);
+  //     // setSelectedLocation(item);
+  //     // setSelectedTime(timedata);
+  //   }
+  // };
+
   const handleSelecteditemClick = (item, timedata) => {
     console.log("showing time", timedata);
     const now = moment.tz(user?.country?.timezone);
@@ -76,74 +117,118 @@ function LiveResult({ reloadKey }) {
       "hh:mm A",
       user?.country?.timezone
     );
-    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+    console.log(`Lot Time: ${lotTimeMoment.format("hh:mm A")}`);
 
-    const timerinMinutes = timedata.liveresulttimer;
+    const timerinMinutes = timedata.liveresulttimer || 5; // Default to 5 minutes if not set
+    const bufferSeconds = 59; // Allow actions up to 59 seconds after the lot time
 
-    // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment
+    // Calculate the start time (lotTime - timerinMinutes + 1 minute)
+    const startWindow = lotTimeMoment
       .clone()
-      .subtract(timerinMinutes, "minutes");
+      .subtract(timerinMinutes - 1, "minutes"); // 7:56:00 for 8:00 PM (5-min timer)
 
-    const isLotTimeClose =
-      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
-    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+    // Calculate the end time (lotTime + 59 seconds)
+    const endWindow = lotTimeMoment.clone().add(bufferSeconds, "seconds"); // 8:00:59
 
-    if (isLotTimeClose) {
+    const isWithinWindow = now.isBetween(startWindow, endWindow, null, "[]"); // Inclusive of both start and end
+    console.log(
+      `Is it within ${
+        timerinMinutes - 1
+      } mins before to 59s after? ${isWithinWindow}`
+    );
+
+    if (isWithinWindow) {
       console.log("Navigating to PlayArena...");
-      // showWarningToast("Entry is close for this session");
-      // showWarningToast("Please choose next available time");
-      console.log("showing time");
-      // console.log(timedata);
-      // console.log(timedata.liveresultlink);
-      openLink(timedata.liveresultlink);
+      openLink(timedata.liveresultlink); // Open the live result link
     } else {
-      showWarningToast("It too early or past the time.");
-
-      // setSelectedItem(false);
-      // setSelectedLocation(item);
-      // setSelectedTime(timedata);
+      showWarningToast(
+        now.isBefore(startWindow)
+          ? "It's too early. Please wait."
+          : "This session has expired. Choose the next available time."
+      );
     }
   };
 
+  // const handleSelecteditemClickPowerball = (item, timedata) => {
+  //   console.log("showing time", timedata);
+  //   const now = moment.tz(user?.country?.timezone);
+  //   console.log("Current Time: ", now.format("hh:mm A"));
+  //   console.log("Current Date: ", now.format("DD-MM-YYYY"));
+
+  //   const lotTimeMoment = moment.tz(
+  //     getTimeAccordingToTimezone(timedata?.powertime, user?.country?.timezone),
+  //     "hh:mm A",
+  //     user?.country?.timezone
+  //   );
+  //   console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+
+  //   const timerinMinutes = timedata.liveresulttimer;
+
+  //   // Subtract 15 minutes from the lotTimeMoment
+  //   const lotTimeMinus15Minutes = lotTimeMoment
+  //     .clone()
+  //     .subtract(timerinMinutes, "minutes");
+
+  //   const isLotTimeClose =
+  //     now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
+  //   console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+
+  //   if (isLotTimeClose) {
+  //     console.log("Navigating to PlayArena...");
+  //     // showWarningToast("Entry is close for this session");
+  //     // showWarningToast("Please choose next available time");
+  //     console.log("showing time");
+  //     // console.log(timedata);
+  //     // console.log(timedata.liveresultlink);
+  //     openLink(timedata.liveresultlink);
+  //   } else {
+  //     showWarningToast("It too early or past the time.");
+
+  //     // setSelectedItem(false);
+  //     // setSelectedLocation(item);
+  //     // setSelectedTime(timedata);
+  //   }
+  // };
   const handleSelecteditemClickPowerball = (item, timedata) => {
     console.log("showing time", timedata);
     const now = moment.tz(user?.country?.timezone);
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
 
-    const lotTimeMoment = moment.tz(
+    const powertimeMoment = moment.tz(
       getTimeAccordingToTimezone(timedata?.powertime, user?.country?.timezone),
       "hh:mm A",
       user?.country?.timezone
     );
-    console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
+    console.log(`Powerball Time: ${powertimeMoment.format("hh:mm A")}`);
 
-    const timerinMinutes = timedata.liveresulttimer;
+    const timerinMinutes = timedata.liveresulttimer || 5; // Default to 5 minutes if not set
+    const bufferSeconds = 59; // Allow actions up to 59 seconds after the powerball time
 
-    // Subtract 15 minutes from the lotTimeMoment
-    const lotTimeMinus15Minutes = lotTimeMoment
+    // Calculate the start time (powertime - timerinMinutes + 1 minute)
+    const startWindow = powertimeMoment
       .clone()
-      .subtract(timerinMinutes, "minutes");
+      .subtract(timerinMinutes - 1, "minutes"); // e.g., 7:56:00 for 8:00 PM (5-min timer)
 
-    const isLotTimeClose =
-      now.isSameOrAfter(lotTimeMinus15Minutes) && now.isBefore(lotTimeMoment);
-    console.log(`Is it within 15 minutes of the lot time? ${isLotTimeClose}`);
+    // Calculate the end time (powertime + 59 seconds)
+    const endWindow = powertimeMoment.clone().add(bufferSeconds, "seconds"); // e.g., 8:00:59
 
-    if (isLotTimeClose) {
+    const isWithinWindow = now.isBetween(startWindow, endWindow, null, "[]"); // Inclusive of both start and end
+    console.log(
+      `Is it between ${startWindow.format("hh:mm A")} and ${endWindow.format(
+        "hh:mm A"
+      )}? ${isWithinWindow}`
+    );
+
+    if (isWithinWindow) {
       console.log("Navigating to PlayArena...");
-      // showWarningToast("Entry is close for this session");
-      // showWarningToast("Please choose next available time");
-      console.log("showing time");
-      // console.log(timedata);
-      // console.log(timedata.liveresultlink);
       openLink(timedata.liveresultlink);
     } else {
-      showWarningToast("It too early or past the time.");
-
-      // setSelectedItem(false);
-      // setSelectedLocation(item);
-      // setSelectedTime(timedata);
+      showWarningToast(
+        now.isBefore(startWindow)
+          ? "It's too early. Please wait until " + startWindow.format("hh:mm A")
+          : "This Powerball session has expired. Please choose the next available time."
+      );
     }
   };
 
@@ -474,8 +559,86 @@ function LiveResult({ reloadKey }) {
     refetch();
   }, [reloadKey]);
 
-  const [isBlinking, setIsBlinking] = useState(false);
   // CRETING BLINK BUTTON
+  // const BlinkingButton = ({
+  //   timeItem,
+  //   nextTime,
+  //   navigationHandler,
+  //   item,
+  //   user,
+  //   idx,
+  // }) => {
+  //   const [isBlinking, setIsBlinking] = useState(false);
+  //   const [shouldBlink, setShouldBlink] = useState(false);
+
+  //   useEffect(() => {
+  //     if (!nextTime || !nextTime.time || !user?.country?.timezone) return;
+
+  //     const checkTimeDifference = () => {
+  //       const userTimezone = user.country.timezone;
+  //       const nextTimeInUserTZ = moment.tz(
+  //         nextTime.time,
+  //         "hh:mm A",
+  //         userTimezone
+  //       );
+  //       const currentTimeInUserTZ = moment().tz(userTimezone);
+
+  //       const timeDifference = nextTimeInUserTZ.diff(
+  //         currentTimeInUserTZ,
+  //         "minutes"
+  //       );
+
+  //       console.log("Time Difference:", timeDifference); // Debugging
+
+  //       const timerinMinutes = timeItem.liveresulttimer || 10;
+
+  //       setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
+  //     };
+
+  //     checkTimeDifference();
+  //     const timer = setInterval(checkTimeDifference, 10000); // Check every 10s
+
+  //     return () => clearInterval(timer);
+  //   }, [nextTime, user]);
+
+  //   useEffect(() => {
+  //     let interval;
+  //     if (shouldBlink) {
+  //       interval = setInterval(() => {
+  //         setIsBlinking((prev) => !prev);
+  //       }, 500); // Blinking interval
+  //     } else {
+  //       setIsBlinking(false);
+  //     }
+
+  //     return () => clearInterval(interval);
+  //   }, [shouldBlink]);
+
+  //   return (
+  //     <div
+  //       key={timeItem._id}
+  //       onClick={() => handleSelecteditemClick(item, timeItem)}
+  //       className={`time-item ${
+  //         timeItem.time === nextTime.time ? "highlighted" : ""
+  //       }`}
+  //       style={{
+  //         borderColor:
+  //           timeItem.time === nextTime.time
+  //             ? isBlinking
+  //               ? "transparent"
+  //               : COLORS.orange
+  //             : "transparent",
+  //         borderWidth: timeItem.time === nextTime.time ? 3 : 3,
+  //         borderRadius: "1rem",
+  //         overflow: "hidden",
+  //       }}
+  //     >
+  //       <span className="time-items-container-time-label">
+  //         {getTimeAccordingToTimezone(timeItem.time, user?.country?.timezone)}
+  //       </span>
+  //     </div>
+  //   );
+  // };
   const BlinkingButton = ({
     timeItem,
     nextTime,
@@ -484,7 +647,7 @@ function LiveResult({ reloadKey }) {
     user,
     idx,
   }) => {
-    // const [isBlinking, setIsBlinking] = useState(false);
+    const [isBlinking, setIsBlinking] = useState(false);
     const [shouldBlink, setShouldBlink] = useState(false);
 
     useEffect(() => {
@@ -499,30 +662,34 @@ function LiveResult({ reloadKey }) {
         );
         const currentTimeInUserTZ = moment().tz(userTimezone);
 
-        const timeDifference = nextTimeInUserTZ.diff(
+        const timeDifferenceSeconds = nextTimeInUserTZ.diff(
           currentTimeInUserTZ,
-          "minutes"
+          "seconds"
         );
 
-        console.log("Time Difference:", timeDifference); // Debugging
+        const timerDuration = (timeItem.liveresulttimer || 5) * 60; // Convert to seconds
+        const startBlinkingAt = timerDuration - 60; // (timerDuration - 1 minute) in seconds
 
-        const timerinMinutes = timeItem.liveresulttimer || 10;
-
-        setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
+        // Start blinking when there's (timerDuration - 1 minute) left
+        // Stop blinking at nextTime + 59 seconds (8:00:59)
+        setShouldBlink(
+          timeDifferenceSeconds <= startBlinkingAt &&
+            timeDifferenceSeconds > -60
+        );
       };
 
       checkTimeDifference();
-      const timer = setInterval(checkTimeDifference, 10000); // Check every 10s
+      const timer = setInterval(checkTimeDifference, 1000); // Check every second
 
       return () => clearInterval(timer);
-    }, [nextTime, user]);
+    }, [nextTime, user, timeItem.liveresulttimer]);
 
     useEffect(() => {
       let interval;
       if (shouldBlink) {
         interval = setInterval(() => {
           setIsBlinking((prev) => !prev);
-        }, 500); // Blinking interval
+        }, 500); // Blink every 500ms
       } else {
         setIsBlinking(false);
       }
@@ -544,7 +711,7 @@ function LiveResult({ reloadKey }) {
                 ? "transparent"
                 : COLORS.orange
               : "transparent",
-          borderWidth: timeItem.time === nextTime.time ? 3 : 3,
+          borderWidth: 3,
           borderRadius: "1rem",
           overflow: "hidden",
         }}
@@ -555,7 +722,89 @@ function LiveResult({ reloadKey }) {
       </div>
     );
   };
-  // const [isBlinking, setIsBlinking] = useState(false);
+
+  // const BlinkingButtonPowerball = ({
+  //   timeItem,
+  //   nextTime,
+  //   navigationHandler,
+  //   item,
+  //   user,
+  //   idx,
+  // }) => {
+  //   const [isBlinking, setIsBlinking] = useState(false);
+  //   const [shouldBlink, setShouldBlink] = useState(false);
+
+  //   useEffect(() => {
+  //     if (!nextTime || !nextTime.powertime || !user?.country?.timezone) return;
+
+  //     const checkTimeDifference = () => {
+  //       const userTimezone = user.country.timezone;
+  //       const nextTimeInUserTZ = moment.tz(
+  //         nextTime.powertime,
+  //         "hh:mm A",
+  //         userTimezone
+  //       );
+  //       const currentTimeInUserTZ = moment().tz(userTimezone);
+
+  //       const timeDifference = nextTimeInUserTZ.diff(
+  //         currentTimeInUserTZ,
+  //         "minutes"
+  //       );
+
+  //       console.log("Time Difference:", timeDifference); // Debugging
+
+  //       const timerinMinutes = timeItem.liveresulttimer || 10;
+
+  //       setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
+  //     };
+
+  //     checkTimeDifference();
+  //     const timer = setInterval(checkTimeDifference, 10000); // Check every 10s
+
+  //     return () => clearInterval(timer);
+  //   }, [nextTime, user]);
+
+  //   useEffect(() => {
+  //     let interval;
+  //     if (shouldBlink) {
+  //       interval = setInterval(() => {
+  //         setIsBlinking((prev) => !prev);
+  //       }, 500); // Blinking interval
+  //     } else {
+  //       setIsBlinking(false);
+  //     }
+
+  //     return () => clearInterval(interval);
+  //   }, [shouldBlink]);
+
+  //   return (
+  //     <div
+  //       key={timeItem._id}
+  //       onClick={() => handleSelecteditemClickPowerball(item, timeItem)}
+  //       className={`time-item ${
+  //         timeItem.powertime === nextTime.powertime ? "highlighted" : ""
+  //       }`}
+  //       style={{
+  //         borderColor:
+  //           timeItem.powertime === nextTime.powertime
+  //             ? isBlinking
+  //               ? "transparent"
+  //               : COLORS.orange
+  //             : "transparent",
+  //         borderWidth: timeItem.powertime === nextTime.powertime ? 3 : 3,
+  //         borderRadius: "1rem",
+  //         overflow: "hidden",
+  //       }}
+  //     >
+  //       <span className="time-items-container-time-label">
+  //         {getTimeAccordingToTimezone(
+  //           timeItem.powertime,
+  //           user?.country?.timezone
+  //         )}
+  //       </span>
+  //     </div>
+  //   );
+  // };
   const BlinkingButtonPowerball = ({
     timeItem,
     nextTime,
@@ -579,30 +828,34 @@ function LiveResult({ reloadKey }) {
         );
         const currentTimeInUserTZ = moment().tz(userTimezone);
 
-        const timeDifference = nextTimeInUserTZ.diff(
+        const timeDifferenceSeconds = nextTimeInUserTZ.diff(
           currentTimeInUserTZ,
-          "minutes"
+          "seconds"
         );
 
-        console.log("Time Difference:", timeDifference); // Debugging
+        const timerinSeconds = (timeItem.liveresulttimer || 5) * 60; // Default to 5 minutes if not set
+        const startBlinkingAt = timerinSeconds - 60; // (timerDuration - 1 minute) in seconds
 
-        const timerinMinutes = timeItem.liveresulttimer || 10;
-
-        setShouldBlink(timeDifference >= 0 && timeDifference <= timerinMinutes);
+        // Start blinking when there's (timerDuration - 1 minute) left
+        // Stop blinking at powertime + 59 seconds
+        setShouldBlink(
+          timeDifferenceSeconds <= startBlinkingAt &&
+            timeDifferenceSeconds > -60
+        );
       };
 
       checkTimeDifference();
-      const timer = setInterval(checkTimeDifference, 10000); // Check every 10s
+      const timer = setInterval(checkTimeDifference, 1000); // Check every second for precision
 
       return () => clearInterval(timer);
-    }, [nextTime, user]);
+    }, [nextTime, user, timeItem.liveresulttimer]);
 
     useEffect(() => {
       let interval;
       if (shouldBlink) {
         interval = setInterval(() => {
           setIsBlinking((prev) => !prev);
-        }, 500); // Blinking interval
+        }, 500); // Blink every 500ms
       } else {
         setIsBlinking(false);
       }
@@ -624,7 +877,7 @@ function LiveResult({ reloadKey }) {
                 ? "transparent"
                 : COLORS.orange
               : "transparent",
-          borderWidth: timeItem.powertime === nextTime.powertime ? 3 : 3,
+          borderWidth: 3,
           borderRadius: "1rem",
           overflow: "hidden",
         }}
@@ -638,7 +891,6 @@ function LiveResult({ reloadKey }) {
       </div>
     );
   };
-
   return (
     <div className="main-content-container-all-location">
       {/** Location and time */}
@@ -723,6 +975,7 @@ function LiveResult({ reloadKey }) {
                   item?.times,
                   user?.country?.timezone
                 );
+
                 return (
                   <div className="location-item-all" key={index}>
                     <div className="location-details-all">
