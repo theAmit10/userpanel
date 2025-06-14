@@ -207,7 +207,9 @@ const AllPartner = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
                   profit={item.profitPercentage}
                   recharge={item.rechargePercentage}
                   totaluser={item.userList.length}
-                  balance={item.walletTwo?.balance}
+                  balance={`${item.walletTwo?.balance?.toFixed(0)} ${
+                    item.country ? item.country?.countrycurrencysymbol : ""
+                  }`}
                   backgroundcolor={COLORS.background}
                   showActive={true}
                   item={item}
