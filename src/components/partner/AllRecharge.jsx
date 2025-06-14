@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import SearchCon from "../molecule/SearchCon";
 import COLORS from "../../assets/constants/colors";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useCreateSubPartnerMutation,
   useGetAllRechargeQuery,
@@ -24,10 +24,12 @@ import ImageAlertModalRemark from "../helper/ImageAlertModelRemark";
 import AlertModalDeposit from "../helper/AlertModalDeposit";
 import { MdOutlineCancel } from "react-icons/md";
 import "./AllRecharge.css";
+import { loadProfile } from "../../redux/actions/userAction";
 
 const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
 
+  const dispatch = useDispatch();
   // States
   const [partners, setPartners] = useState([]);
   const [page, setPage] = useState(1);
@@ -267,7 +269,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentupdatereceipt", imageSource);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -285,7 +287,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentUpdateNote", paymentUpdateNote);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -303,7 +305,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentupdatereceipt", imageSource);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -325,7 +327,8 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentStatus", "Completed");
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
+      console.log("req transactionId :: ", item._id);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -336,6 +339,8 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
 
       showSuccessToast(res.message);
     }
+
+    dispatch(loadProfile(accesstoken));
   };
 
   // FOR CANCELLING
@@ -359,6 +364,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentupdatereceipt", imageSource);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
+      console.log("req amount :: ", amount);
 
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
@@ -377,7 +383,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentUpdateNote", paymentUpdateNote);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -395,7 +401,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentupdatereceipt", imageSource);
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
-
+      console.log("req amount :: ", amount);
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,
         body: formData,
@@ -417,6 +423,7 @@ const AllRecharge = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       formData.append("paymentStatus", "Cancelled");
 
       console.log("FORM DATA :: " + JSON.stringify(formData));
+      console.log("req amount :: ", amount);
 
       const res = await updateDepositPaymentStatus({
         accesstoken: accesstoken,

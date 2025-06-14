@@ -33,7 +33,11 @@ const AlertModalDeposit = ({
 
   // Set default amount whenever the modal opens or defaultAmount changes
   useEffect(() => {
-    setAmount(defaultAmount);
+    // setAmount(defaultAmount);
+    const defaultAt =
+      Number.parseInt(defaultAmount) *
+      Number.parseInt(usercountry.countrycurrencyvaluecomparedtoinr);
+    setAmount(defaultAt);
   }, [defaultAmount]);
 
   if (!isOpen) return null;
