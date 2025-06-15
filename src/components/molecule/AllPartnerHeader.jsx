@@ -63,7 +63,7 @@ const AllPartnerHeader = ({
 
       {clickpress ? (
         <div className="child-large">
-          <TextLabel label={roundToInteger(balance)} />
+          <TextLabel label={balance} />
         </div>
       ) : (
         <div className="child-large">
