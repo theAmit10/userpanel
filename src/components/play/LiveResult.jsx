@@ -992,7 +992,7 @@ function LiveResult({ reloadKey }) {
                           {item.name}
                         </span>
                         <span className="location-header-max-label">
-                          {item.maximumReturn}
+                          {item.maximumReturn} Win
                         </span>
                       </div>
                     </div>
