@@ -954,7 +954,7 @@ function LiveResult({ reloadKey }) {
                 </div>
 
                 <div className="time-items-container">
-                  {filteredDataT.map((timedata, timeindex) => (
+                  {/* {filteredDataT.map((timedata, timeindex) => (
                     <BlinkingButtonPowerball
                       timeItem={timedata}
                       idx={timeindex}
@@ -963,7 +963,33 @@ function LiveResult({ reloadKey }) {
                       item={timedata}
                       user={user}
                     />
-                  ))}
+                  ))} */}
+                  {[...filteredDataT]
+                    .sort((a, b) => {
+                      // Helper function to convert time to minutes for comparison
+                      const timeToMinutes = (timeStr) => {
+                        const [time, period] = timeStr.split(" ");
+                        const [hours, minutes] = time.split(":").map(Number);
+                        let total = hours * 60 + minutes;
+                        if (period === "PM" && hours !== 12) total += 12 * 60;
+                        if (period === "AM" && hours === 12) total -= 12 * 60;
+                        return total;
+                      };
+
+                      return (
+                        timeToMinutes(a.powertime) - timeToMinutes(b.powertime)
+                      );
+                    })
+                    .map((timedata, timeindex) => (
+                      <BlinkingButtonPowerball
+                        timeItem={timedata}
+                        idx={timeindex}
+                        nextTime={nextTime}
+                        navigation={navigationHandlerForPowerball}
+                        item={timedata}
+                        user={user}
+                      />
+                    ))}
                 </div>
               </div>
             )}
@@ -998,16 +1024,34 @@ function LiveResult({ reloadKey }) {
                     </div>
 
                     <div className="time-items-container">
-                      {item.times.map((timedata, timeindex) => (
-                        <BlinkingButton
-                          timeItem={timedata}
-                          idx={timeindex}
-                          nextTime={nextTime}
-                          navigation={navigationHandler}
-                          item={item}
-                          user={user}
-                        />
-                      ))}
+                      {[...item.times]
+                        .sort((a, b) => {
+                          // Helper function to convert time to minutes for comparison
+                          const timeToMinutes = (timeStr) => {
+                            const [time, period] = timeStr.split(" ");
+                            const [hours, minutes] = time
+                              .split(":")
+                              .map(Number);
+                            let total = hours * 60 + minutes;
+                            if (period === "PM" && hours !== 12)
+                              total += 12 * 60;
+                            if (period === "AM" && hours === 12)
+                              total -= 12 * 60;
+                            return total;
+                          };
+
+                          return timeToMinutes(a.time) - timeToMinutes(b.time);
+                        })
+                        .map((timedata, timeindex) => (
+                          <BlinkingButton
+                            timeItem={timedata}
+                            idx={timeindex}
+                            nextTime={nextTime}
+                            navigation={navigationHandler}
+                            item={item}
+                            user={user}
+                          />
+                        ))}
                     </div>
                   </div>
                 );
