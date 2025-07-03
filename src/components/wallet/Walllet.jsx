@@ -56,7 +56,8 @@ function Wallet() {
 
       // Compare previous and current wallet balances
       if (
-        previousWalletData.walletOneBalance !== newWalletData.walletOneBalance ||
+        previousWalletData.walletOneBalance !==
+          newWalletData.walletOneBalance ||
         previousWalletData.walletTwoBalance !== newWalletData.walletTwoBalance
       ) {
         // Update the state with the new data only when balances change
@@ -75,6 +76,12 @@ function Wallet() {
       setSelectedWallet(wallet);
       setReloadKey(0); // Reset reload key
     }
+  };
+
+  const formatBalance = (balance) => {
+    if (balance === undefined || balance === null) return "";
+    const hasDecimals = balance % 1 !== 0;
+    return hasDecimals ? balance.toFixed(2) : balance.toString();
   };
 
   return (
@@ -100,8 +107,6 @@ function Wallet() {
                   className="hdAllContainer"
                   style={{ background: "transparent" }}
                 >
-                 
-
                   {/** Wallet Two */}
                   <div
                     className="hdAllContainerContent"
@@ -114,7 +119,12 @@ function Wallet() {
                     </div>
                     <div className="hdAllContainerContentBottom">
                       <label className="hdAllContainerContentTopRegularLabel">
-                        {previousWalletData.walletTwoBalance}{" "}
+                        {previousWalletData.walletTwoBalance !== undefined &&
+                        previousWalletData.walletTwoBalance !== null
+                          ? previousWalletData.walletTwoBalance % 1 === 0
+                            ? previousWalletData.walletTwoBalance.toString()
+                            : previousWalletData.walletTwoBalance.toFixed(2)
+                          : ""}{" "}
                         {user?.country?.countrycurrencysymbol}
                       </label>
                       <div className="hdContenContainerIcon">
@@ -123,8 +133,8 @@ function Wallet() {
                     </div>
                   </div>
 
-                   {/** Wallet One */}
-                   <div
+                  {/** Wallet One */}
+                  <div
                     className="hdAllContainerContent"
                     onClick={() => handleWalletSelection("walletOne")} // Handle wallet selection
                   >
@@ -135,7 +145,12 @@ function Wallet() {
                     </div>
                     <div className="hdAllContainerContentBottom">
                       <label className="hdAllContainerContentTopRegularLabel">
-                        {previousWalletData.walletOneBalance}{" "}
+                        {previousWalletData.walletOneBalance !== undefined &&
+                        previousWalletData.walletOneBalance !== null
+                          ? previousWalletData.walletOneBalance % 1 === 0
+                            ? previousWalletData.walletOneBalance.toString()
+                            : previousWalletData.walletOneBalance.toFixed(2)
+                          : ""}{" "}
                         {user?.country?.countrycurrencysymbol}
                       </label>
                       <div className="hdContenContainerIcon">
@@ -162,8 +177,6 @@ function Wallet() {
 }
 
 export default Wallet;
-
-
 
 // import React, { useEffect, useState } from "react";
 // import "./Wallet.css";
@@ -324,6 +337,3 @@ export default Wallet;
 // }
 
 // export default Wallet;
-
-
-
