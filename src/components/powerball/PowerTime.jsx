@@ -132,17 +132,28 @@ const PowerTime = ({
         {isLoading ? (
           <Loader />
         ) : (
-          powertimes?.map((item, index) => {
-            return (
+          [...powertimes]
+            .sort((a, b) => {
+              // Helper function to convert time to minutes for comparison
+              const timeToMinutes = (timeStr) => {
+                const [time, period] = timeStr.split(" ");
+                const [hours, minutes] = time.split(":").map(Number);
+                let total = hours * 60 + minutes;
+                if (period === "PM" && hours !== 12) total += 12 * 60;
+                if (period === "AM" && hours === 12) total -= 12 * 60;
+                return total;
+              };
+              return timeToMinutes(a.powertime) - timeToMinutes(b.powertime);
+            })
+            .map((item, index) => (
               <PowerTimeCon
-                key={index}
+                key={item._id || index} // Use item._id if available, otherwise fallback to index
                 time={item.powertime}
                 selectingTime={selectingTime}
                 item={item}
                 nextTime={nextTime}
               />
-            );
-          })
+            ))
         )}
       </div>
     </div>
