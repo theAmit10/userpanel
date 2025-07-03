@@ -540,189 +540,6 @@ function Play({ reloadKey }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (!isLoadingDate && dataDate) {
-  //     setShowPlay(true);
-
-  //     // const now = moment.tz(user?.country?.timezone);
-  //     const now = moment.tz('Asia/Kolkata');
-  //     console.log("Current Time: ", now.format("hh:mm A"));
-  //     console.log("Current Date: ", now.format("DD-MM-YYYY"));
-
-  //     // const lotTimeMoment = moment.tz(
-  //     //   getTimeAccordingToTimezone(selectedTime?.time, user?.country?.timezone),
-  //     //   "hh:mm A",
-  //     //   user?.country?.timezone
-  //     // );
-
-  //     const lotTimeMoment = moment.tz(
-  //       selectedTime?.time,
-  //       'hh:mm A',
-  //       'Asia/Kolkata',
-  //     );
-
-  //     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
-
-  //     const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
-
-  //     const nextDay = now.clone().add(1, "day");
-
-  //     console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
-  //     console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
-
-  //     if (isLotTimePassed) {
-  //       console.log('YOU ARE INSIDE IF BLOCK');
-  //       const currentDate = nextDay.format("DD-MM-YYYY");
-  //       console.log("Current Date :: " + currentDate);
-  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
-  //       setResult(currentDateObject);
-  //       setCurrentDate(currentDateObject);
-  //       setSelectedDate(currentDateObject);
-  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
-  //       if (currentDateObject !== "Current date not found") {
-  //         console.log('result !== "Current date not found"');
-
-  //         // const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         // if (maximumNumber) {
-  //         //   const generatedArray = createLocationDataArray(maximumNumber);
-  //         //   setBetnumberdata(generatedArray);
-  //         // }
-
-  //         // Fetch results using the API function
-  //         // getResultAccordingToLocationTimeDate(
-  //         //   currentDateObject._id,
-  //         //   currentDateObject?.lottime?._id,
-  //         //   currentDateObject?.lottime?.lotlocation?._id
-  //         // );
-
-  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         console.log("Maximum number ::: ",maximumNumber)
-  //         if (maximumNumber) {
-  //           const generatedArray = createLocationDataArray(maximumNumber);
-  //           console.log("generated num :: ", generatedArray)
-  //           setBetnumberdata(generatedArray);
-  //         }
-  //         // setResult("yes"); // Set to the current date object if results are found
-  //         setResult('yes'); // Set to the current date object if results are found
-  //         setShowPlay(false);
-  //       }
-  //     } else {
-  //       console.log('YOU ARE INSIDE ELSE BLOCK');
-  //       const currentDate = getCurrentDateInTimezone();
-  //       console.log("Current Date :: " + currentDate);
-  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
-  //       setResult(currentDateObject);
-  //       setCurrentDate(currentDateObject);
-  //       setSelectedDate(currentDateObject);
-  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
-  //       if (currentDateObject !== "Current date not found") {
-  //         console.log('result !== "Current date not found"');
-
-  //         // const maximumNumber = result?.lottime?.lotlocation?.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         // if (maximumNumber) {
-  //         //   const generatedArray = createLocationDataArray(maximumNumber);
-  //         //   setBetnumberdata(generatedArray);
-  //         // }
-
-  //         // Fetch results using the API function
-  //         // getResultAccordingToLocationTimeDate(
-  //         //   currentDateObject._id,
-  //         //   currentDateObject?.lottime?._id,
-  //         //   currentDateObject?.lottime?.lotlocation?._id
-  //         // );
-
-  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         console.log("Maximum number ::: ",maximumNumber)
-  //         if (maximumNumber) {
-  //           const generatedArray = createLocationDataArray(maximumNumber);
-  //           console.log("generated num :: ", generatedArray)
-  //           setBetnumberdata(generatedArray);
-  //         }
-  //         // setResult("yes"); // Set to the current date object if results are found
-  //         setResult('yes'); // Set to the current date object if results are found
-  //         setShowPlay(false);
-  //       }
-  //     }
-  //   }
-  // }, [isLoadingDate, dataDate]);
-
-  // useEffect(() => {
-  //   if (!isLoadingDate && dataDate) {
-  //     setShowPlay(true);
-
-  //     // const now = moment.tz(user?.country?.timezone);
-  //     const now = moment.tz('Asia/Kolkata');
-  //     console.log("Current Time: ", now.format("hh:mm A"));
-  //     console.log("Current Date: ", now.format("DD-MM-YYYY"));
-
-  //     const currentDateString = now.format('DD-MM-YYYY'); // Current date as a string
-  //     const lotTimeString =  selectedTime?.time; // Get the lot time
-
-  //     const lotTimeMoment = moment.tz(
-  //       `${currentDateString} ${lotTimeString}`, // Combine date and time
-  //       'DD-MM-YYYY hh:mm A', // Correct format for parsing
-  //       'Asia/Kolkata' // Timezone
-  //     );
-
-  //     console.log(`Lot Time for location : ${lotTimeMoment.format("hh:mm A")}`);
-
-  //     const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
-
-  //     const nextDay = now.clone().add(1, "day");
-
-  //     console.log(`Checking times Lot Time Passed: ${isLotTimePassed}`);
-  //     console.log("Next Date: ", nextDay.format("DD-MM-YYYY"));
-
-  //     if (isLotTimePassed) {
-  //       console.log('YOU ARE INSIDE IF BLOCK');
-  //       const currentDate = nextDay.format("DD-MM-YYYY");
-  //       console.log("Current Date :: " + currentDate);
-  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
-  //       setResult(currentDateObject);
-  //       setCurrentDate(currentDateObject);
-  //       setSelectedDate(currentDateObject);
-  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
-  //       if (currentDateObject !== "Current date not found") {
-  //         console.log('result !== "Current date not found"');
-
-  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         console.log("Maximum number ::: ",maximumNumber)
-  //         if (maximumNumber) {
-  //           const generatedArray = createLocationDataArray(maximumNumber);
-  //           console.log("generated num :: ", generatedArray)
-  //           setBetnumberdata(generatedArray);
-  //         }
-  //         // setResult("yes"); // Set to the current date object if results are found
-  //         setResult('yes'); // Set to the current date object if results are found
-  //         setShowPlay(false);
-  //       }
-  //     } else {
-  //       console.log('YOU ARE INSIDE ELSE BLOCK');
-  //       const currentDate = getCurrentDateInTimezone();
-  //       console.log("Current Date :: " + currentDate);
-  //       const currentDateObject = findCurrentDateObject(dataDate, currentDate);
-  //       setResult(currentDateObject);
-  //       setCurrentDate(currentDateObject);
-  //       setSelectedDate(currentDateObject);
-  //       console.log("Today Play :: " + JSON.stringify(currentDateObject));
-  //       if (currentDateObject !== "Current date not found") {
-  //         console.log('result !== "Current date not found"');
-
-  //         const maximumNumber = selectedLocation.maximumNumber; // Ensure `maximumNumber` exists in the data
-  //         console.log("Maximum number ::: ",maximumNumber)
-  //         if (maximumNumber) {
-  //           const generatedArray = createLocationDataArray(maximumNumber);
-  //           console.log("generated num :: ", generatedArray)
-  //           setBetnumberdata(generatedArray);
-  //         }
-
-  //         setResult('yes'); // Set to the current date object if results are found
-  //         setShowPlay(false);
-  //       }
-  //     }
-  //   }
-  // }, [isLoadingDate, dataDate]);
-
   useEffect(() => {
     if (!isLoadingDate && dataDate) {
       setShowPlay(true);
@@ -825,13 +642,6 @@ function Play({ reloadKey }) {
       console.log("Result LENGTH data :: " + JSON.stringify(result));
     }
   }, [result, showPlay]);
-
-  // useEffect(
-  //   useCallback(() => {
-  //     // Refetch the data when the screen is focused
-  //     refetchDate();
-  //   }, [refetchDate])
-  // );
 
   const navigationHandler = (item, timeItem) => {
     const now = moment.tz(user?.country?.timezone);
@@ -1195,75 +1005,6 @@ function Play({ reloadKey }) {
     return sortedTimes[0];
   };
 
-  const minetime = [
-    {
-      _id: "66f903b792f6256d5c4a106e",
-      time: "08:00 AM",
-      createdAt: "2024-09-29T07:37:27.868Z",
-    },
-    {
-      _id: "66f903c192f6256d5c4a107e",
-      time: "10:00 AM",
-      createdAt: "2024-09-29T07:37:37.165Z",
-    },
-    {
-      _id: "66f903cc92f6256d5c4a108e",
-      time: "12:00 PM",
-      createdAt: "2024-09-29T07:37:48.264Z",
-    },
-    {
-      _id: "66f903e892f6256d5c4a109e",
-      time: "02:00 PM",
-      createdAt: "2024-09-29T07:38:16.945Z",
-    },
-    {
-      _id: "66f903f692f6256d5c4a10ae",
-      time: "04:00 PM",
-      createdAt: "2024-09-29T07:38:30.763Z",
-    },
-    {
-      _id: "66f9040d92f6256d5c4a10be",
-      time: "06:00 PM",
-      createdAt: "2024-09-29T07:38:53.448Z",
-    },
-    {
-      _id: "66f9041392f6256d5c4a10ce",
-      time: "08:00 PM",
-      createdAt: "2024-09-29T07:38:59.610Z",
-    },
-    {
-      _id: "66f9041b92f6256d5c4a10de",
-      time: "10:00 PM",
-      createdAt: "2024-09-29T07:39:07.774Z",
-    },
-    {
-      _id: "66f9042392f6256d5c4a10ee",
-      time: "12:00 AM",
-      createdAt: "2024-09-29T07:39:15.609Z",
-    },
-    {
-      _id: "66f9042a92f6256d5c4a10fe",
-      time: "02:00 AM",
-      createdAt: "2024-09-29T07:39:22.832Z",
-    },
-    {
-      _id: "66f9043292f6256d5c4a110e",
-      time: "04:00 AM",
-      createdAt: "2024-09-29T07:39:30.714Z",
-    },
-    {
-      _id: "66f9043a92f6256d5c4a111e",
-      time: "06:00 AM",
-      createdAt: "2024-09-29T07:39:38.825Z",
-    },
-  ];
-
-  // console.log("checking  ");
-  // console.log("next time  ", getTimeAccordingToTimezone(
-  //   getNextTimeForHighlights(minetime),
-  //   user?.country?.timezone
-  // ));
-
   return (
     <div className="main-content-container-all-location">
       {/** Location and time */}
@@ -1322,26 +1063,71 @@ function Play({ reloadKey }) {
                         </span>
                       </div>
                     </div>
-
+                    {/* 
                     <div className="time-items-container">
-                      {item.times.map((timedata, timeindex) => (
-                        <div
-                          onClick={() =>
-                            handleSelecteditemClick(item, timedata)
-                          }
-                          className={`time-item ${
-                            timedata.time === nextTime.time ? "highlighted" : ""
-                          }`}
-                          key={timeindex}
-                        >
-                          <span className="time-items-container-time-label">
-                            {getTimeAccordingToTimezone(
-                              timedata.time,
-                              user?.country?.timezone
-                            )}
-                          </span>
-                        </div>
-                      ))}
+                      {item.times.map((timedata, timeindex) => {
+                        return (
+                          <div
+                            onClick={() =>
+                              handleSelecteditemClick(item, timedata)
+                            }
+                            className={`time-item ${
+                              timedata.time === nextTime.time
+                                ? "highlighted"
+                                : ""
+                            }`}
+                            key={timeindex}
+                          >
+                            <span className="time-items-container-time-label">
+                              {getTimeAccordingToTimezone(
+                                timedata.time,
+                                user?.country?.timezone
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div> */}
+                    <div className="time-items-container">
+                      {/* First sort the times, then map through them */}
+                      {[...item.times]
+                        .sort((a, b) => {
+                          // Helper function to convert time to minutes for comparison
+                          const timeToMinutes = (timeStr) => {
+                            const [time, period] = timeStr.split(" ");
+                            const [hours, minutes] = time
+                              .split(":")
+                              .map(Number);
+                            let total = hours * 60 + minutes;
+                            if (period === "PM" && hours !== 12)
+                              total += 12 * 60;
+                            if (period === "AM" && hours === 12)
+                              total -= 12 * 60;
+                            return total;
+                          };
+
+                          return timeToMinutes(a.time) - timeToMinutes(b.time);
+                        })
+                        .map((timedata, timeindex) => (
+                          <div
+                            onClick={() =>
+                              handleSelecteditemClick(item, timedata)
+                            }
+                            className={`time-item ${
+                              timedata.time === nextTime.time
+                                ? "highlighted"
+                                : ""
+                            }`}
+                            key={timeindex}
+                          >
+                            <span className="time-items-container-time-label">
+                              {getTimeAccordingToTimezone(
+                                timedata.time,
+                                user?.country?.timezone
+                              )}
+                            </span>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 );
