@@ -8,6 +8,7 @@ import Loader from "../molecule/Loader";
 import moment from "moment-timezone";
 import { showWarningToast } from "../helper/showErrorToast";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
+import PowerballGameTimeCon from "./PowerballGameTimeCon";
 const PowerTime = ({
   setSelectedCategory,
   selectedTime,
@@ -147,7 +148,7 @@ const PowerTime = ({
               return timeToMinutes(a.powertime) - timeToMinutes(b.powertime);
             })
             .map((item, index) => (
-              <PowerTimeCon
+              <PowerballGameTimeCon
                 key={item._id || index} // Use item._id if available, otherwise fallback to index
                 time={item.powertime}
                 selectingTime={selectingTime}
