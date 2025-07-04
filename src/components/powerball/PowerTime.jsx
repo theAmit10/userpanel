@@ -132,6 +132,7 @@ const PowerTime = ({
         {isLoading ? (
           <Loader />
         ) : (
+          powertimes &&
           [...powertimes]
             .sort((a, b) => {
               // Helper function to convert time to minutes for comparison
