@@ -464,11 +464,14 @@ const PowerballGame = ({
         selectedCategory="PowerTime"
         showAllSeclectedBalls={showAllSeclectedBalls}
         showAddTicket={showAddTicket}
-        right={getDateTimeAccordingToUserTimezone(
+        right={` ${getTimeAccordingToTimezone(
+          selectedTime?.powertime,
+          user?.country?.timezone
+        )} : ${getDateTimeAccordingToUserTimezone(
           selectedTime?.powertime,
           todayPowerDate?.powerdate,
           user?.country?.timezone
-        )}
+        )}`}
       />
 
       {powerballIsLoading || powerballDatesIsLoading ? (
