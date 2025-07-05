@@ -176,7 +176,7 @@ function Login() {
 
               <input
                 className="al-search-input"
-                placeholder="Enter your email"
+                placeholder="Enter your email or phone number"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
