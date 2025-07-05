@@ -133,7 +133,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
         />
       )}
 
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };

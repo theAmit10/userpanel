@@ -154,7 +154,8 @@ function Historyc({ reloadKey }) {
                     </label>
                     <label className="h-content-second-content-container-top-amount-val">
                       {" "}
-                      {formatNumber(item.amount)} {user.country.countrycurrencysymbol}
+                      {formatNumber(item.amount)}{" "}
+                      {user.country.countrycurrencysymbol}
                     </label>
                   </div>
                   <div className="h-content-second-content-container-bottom">
@@ -192,9 +193,11 @@ function Historyc({ reloadKey }) {
                   </div>
                   <div className="h-content-third-content-container-bottom">
                     <label className="h-content-third-content-container-top-payment-val">
-                    {item.transactionId
+                      {item.transactionId
                         ? item.transactionId
-                        : item.transactionType === "Transfer" ? "Game to Withdraw W." : item.transactionType}
+                        : item.transactionType === "Transfer"
+                        ? "Game to Withdraw W."
+                        : item.transactionType}
                     </label>
                   </div>
                 </div>
@@ -282,7 +285,7 @@ function Historyc({ reloadKey }) {
           ))
         )}
       </div>
-      <ToastContainer limit={1} autoClose={true} containerId={"History"} />
+      {/* <ToastContainer limit={1} autoClose={true} containerId={"History"} /> */}
     </div>
   );
 }

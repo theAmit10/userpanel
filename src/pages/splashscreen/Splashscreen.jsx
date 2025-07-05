@@ -55,7 +55,7 @@ function Splashscreen() {
         <img src={images.logo} alt="Profile Picture" className="logo-imaged" />
       </div>
 
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

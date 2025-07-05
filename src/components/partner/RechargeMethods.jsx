@@ -283,7 +283,7 @@ const RechargeMethods = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
         {selectedPayment === "other" && (
           <PartnerOther selectingPaymentType={selectingPaymentType} />
         )}
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
     </div>
   );

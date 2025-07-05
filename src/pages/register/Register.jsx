@@ -569,7 +569,7 @@ function Register() {
         </div>
       </div>
 
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

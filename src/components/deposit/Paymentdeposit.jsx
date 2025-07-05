@@ -245,7 +245,7 @@ function Paymentdeposit({ reloadKey }) {
       {selectedPayment === "other" && (
         <OtherDeposit selectingPaymentType={selectingPaymentType} />
       )}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

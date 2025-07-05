@@ -29,8 +29,6 @@ import { serverName } from "../../redux/store";
 import { GrCurrency } from "react-icons/gr";
 import { TbWorld } from "react-icons/tb";
 
-
-
 function Userprofile() {
   const dispatch = useDispatch();
 
@@ -45,31 +43,40 @@ function Userprofile() {
         {/** CONTENT */}
 
         {/** LEFT CONTAINER */}
-          <div className="left-container-bt">
-            {/** COUNTRY */}
-            
-            <div className="content-container-up">
-              <div className="walletcontainer-up">
-                <TbWorld color={COLORS.background} size={"25px"} />
-              </div>
-              <label className="content-label-up" style={{ flex: 1 }}>
-                <label className="content-label-up" style={{fontFamily: FONT.Montserrat_SemiBold}} >Country : </label> {user.country.countryname}
-              </label>
-            </div>
+        <div className="left-container-bt">
+          {/** COUNTRY */}
 
-            {/** CURRENCY */}
-            <div className="content-container-up">
-              <div className="walletcontainer-up">
-                <GrCurrency color={COLORS.background} size={"25px"} />
-              </div>
-              <label className="content-label-up" style={{ flex: 1 }}>
-              <label className="content-label-up" style={{fontFamily: FONT.Montserrat_SemiBold}} >Currency : </label>{user.country.countrycurrencysymbol}
-              </label>
+          <div className="content-container-up">
+            <div className="walletcontainer-up">
+              <TbWorld color={COLORS.background} size={"25px"} />
             </div>
+            <label className="content-label-up" style={{ flex: 1 }}>
+              <label
+                className="content-label-up"
+                style={{ fontFamily: FONT.Montserrat_SemiBold }}
+              >
+                Country :{" "}
+              </label>{" "}
+              {user.country.countryname}
+            </label>
           </div>
-       
 
-    
+          {/** CURRENCY */}
+          <div className="content-container-up">
+            <div className="walletcontainer-up">
+              <GrCurrency color={COLORS.background} size={"25px"} />
+            </div>
+            <label className="content-label-up" style={{ flex: 1 }}>
+              <label
+                className="content-label-up"
+                style={{ fontFamily: FONT.Montserrat_SemiBold }}
+              >
+                Currency :{" "}
+              </label>
+              {user.country.countrycurrencysymbol}
+            </label>
+          </div>
+        </div>
 
         {/** RIGHT CONTAINER */}
         <div className="right-container-up">
@@ -110,10 +117,9 @@ function Userprofile() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }
 
 export default Userprofile;
-

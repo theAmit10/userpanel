@@ -210,7 +210,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
         />
       )}
 
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };

@@ -198,7 +198,7 @@ function Balancetransfer({ reloadKey, showbackbuttion, closeBalanceTransfer }) {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }

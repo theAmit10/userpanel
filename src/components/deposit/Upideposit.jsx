@@ -388,7 +388,7 @@ function Upideposit({ selectingPaymentType }) {
           )}
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 }
