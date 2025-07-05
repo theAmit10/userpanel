@@ -19,7 +19,10 @@ import {
   showWarningToast,
 } from "../helper/showErrorToast";
 import Loader from "../molecule/Loader";
-import { getDateTimeAccordingToUserTimezone } from "../play/Play";
+import {
+  getCurrentDateInTimezone,
+  getDateTimeAccordingToUserTimezone,
+} from "../play/Play";
 import {
   addMultipleTicketsR,
   addTicketR,
@@ -104,18 +107,96 @@ const PowerballGame = ({
       page: 1,
       limit: 10,
     });
+  const [showPlay, setShowPlay] = useState(false);
 
   // [FOR GETTING TODAY POWERBALL DATE]
+  // useEffect(() => {
+  //   if (!powerballDatesIsLoading && powerballDates) {
+  //     const currentDate = getCurrentDateInTimezone(user?.country?.timezone);
+  //     const matchingDate = getMatchingPowerDate(
+  //       currentDate,
+  //       powerballDates.powerDates
+  //     );
+  //     setTodayPowerDate(matchingDate);
+  //     console.log("current Date: ", currentDate);
+  //     console.log(matchingDate);
+  //   }
+  // }, [powerballDatesIsLoading, powerballDates]);
+
   useEffect(() => {
     if (!powerballDatesIsLoading && powerballDates) {
-      const currentDate = getCurrentDateInTimezone(user?.country?.timezone);
-      const matchingDate = getMatchingPowerDate(
-        currentDate,
-        powerballDates.powerDates
+      setShowPlay(true);
+
+      // Get current time in Asia/Kolkata timezone
+      const now = moment.tz("Asia/Kolkata");
+      console.log("Current Time (IST): ", now.format("hh:mm A"));
+      console.log("Current Date (IST): ", now.format("DD-MM-YYYY"));
+
+      // Get the selected lot time (ensure it's correctly formatted)
+      const currentDateString = now.format("DD-MM-YYYY"); // Current date as string
+      const lotTimeString = selectedTime?.powertime; // Lot time from selectedTime
+
+      // Debugging: Log the selected time to ensure it's correct
+      console.log("Selected Lot Time String: ", lotTimeString);
+
+      // Parse the lot time with the current date
+      const lotTimeMoment = moment.tz(
+        `${currentDateString} ${lotTimeString}`, // Combine date and time
+        "DD-MM-YYYY hh:mm A", // Date and time format
+        "Asia/Kolkata" // Timezone
       );
-      setTodayPowerDate(matchingDate);
-      console.log("current Date: ", currentDate);
-      console.log(matchingDate);
+
+      // Debugging: Log the parsed lot time
+      console.log(
+        `Parsed Lot Time for location: ${lotTimeMoment.format("hh:mm A")}`
+      );
+
+      // Check if the current time is the same or after the lot time
+      const isLotTimePassed = now.isSameOrAfter(lotTimeMoment);
+      const nextDay = now.clone().add(1, "day");
+
+      console.log(`Is Lot Time Passed: ${isLotTimePassed}`);
+      console.log("Next Day Date: ", nextDay.format("DD-MM-YYYY"));
+
+      if (isLotTimePassed) {
+        // If lot time has passed, move to the next day
+        console.log("You are inside the IF block (Lot time has passed)");
+        const currentDate = nextDay.format("DD-MM-YYYY");
+        console.log("Next Date (IST): " + currentDate);
+
+        // const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        // console.log("Next Day Play Data: ", JSON.stringify(currentDateObject));
+
+        // setResult(currentDateObject);
+        // setCurrentDate(currentDateObject);
+        // setSelectedDate(currentDateObject);
+
+        const currentDateObject = getMatchingPowerDate(
+          currentDate,
+          powerballDates.powerDates
+        );
+        console.log("Next Day Play Data: ", JSON.stringify(currentDateObject));
+        setTodayPowerDate(currentDateObject);
+      } else {
+        // If lot time hasn't passed, handle current day
+        console.log("You are inside the ELSE block (Lot time has not passed)");
+        const currentDate = getCurrentDateInTimezone();
+        console.log("Current Date in Timezone: " + currentDate);
+
+        // const currentDateObject = findCurrentDateObject(dataDate, currentDate);
+        // console.log("Today's Play Data: ", JSON.stringify(currentDateObject));
+
+        // setResult(currentDateObject);
+        // setCurrentDate(currentDateObject);
+        // setSelectedDate(currentDateObject);
+
+        const currentDateObject = getMatchingPowerDate(
+          currentDate,
+          powerballDates.powerDates
+        );
+        console.log("Next Day Play Data: ", JSON.stringify(currentDateObject));
+        setTodayPowerDate(currentDateObject);
+      }
     }
   }, [powerballDatesIsLoading, powerballDates]);
 
@@ -763,9 +844,9 @@ const PowerballGame = ({
   );
 };
 
-const getCurrentDateInTimezone = (timezone) => {
-  return moment().tz(timezone).format("DD-MM-YYYY");
-};
+// const getCurrentDateInTimezone = (timezone) => {
+//   return moment().tz(timezone).format("DD-MM-YYYY");
+// };
 
 const getMatchingPowerDate = (currentDate, powerDates) => {
   return powerDates.find((entry) => entry.powerdate === currentDate) || null;
