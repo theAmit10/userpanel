@@ -164,9 +164,6 @@ const PowerballGame = ({
         const currentDate = nextDay.format("DD-MM-YYYY");
         console.log("Next Date (IST): " + currentDate);
 
-        // const currentDateObject = findCurrentDateObject(dataDate, currentDate);
-        // console.log("Next Day Play Data: ", JSON.stringify(currentDateObject));
-
         // setResult(currentDateObject);
         // setCurrentDate(currentDateObject);
         // setSelectedDate(currentDateObject);
