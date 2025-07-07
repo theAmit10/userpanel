@@ -20,6 +20,8 @@ const AllUserDetailCom = ({
   setSelectedItem,
   openPartnerDetails,
   showActivePartnerButton,
+  country,
+  currency,
 }) => {
   // const handlePress = () => {
   //   console.log("handlePress triggered!", { clickpress });
@@ -90,6 +92,13 @@ const AllUserDetailCom = ({
     >
       <div className="child-small">
         <TextLabel label={userId} />
+      </div>
+
+      <div className="child-small">
+        <TextLabel label={country} />
+      </div>
+      <div className="child-small">
+        <TextLabel label={currency} />
       </div>
       <div className="child-large">
         <TextLabel label={name} />

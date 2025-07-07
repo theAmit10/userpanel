@@ -200,9 +200,11 @@ const AllUser = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
                 placeholder={"Search for user"}
                 iconname={"CiSearch"}
               />
-              <AllUserComp
+              <AllUserDetailCom
                 userId={"UserId"}
                 name={"Name"}
+                country={"Country"}
+                currency={"Currency"}
                 backgroundcolor={COLORS.green}
               />
             </>
@@ -224,6 +226,8 @@ const AllUser = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
                   item.partnerType === "user" ? "Make Partner" : "Partnered"
                 }
                 item={item}
+                country={item?.country?.countryname}
+                currency={item?.country?.countrycurrencysymbol}
                 loading={subIsLoading}
                 makePartner={makePartner}
                 seletectedItem={seletectedItem}
