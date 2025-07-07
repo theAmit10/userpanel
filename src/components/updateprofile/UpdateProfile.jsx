@@ -476,7 +476,7 @@ function UpdateProfile({ reloadKey }) {
               </div>
             </div>
           ) : (
-            <div className="alUpdatePContainer" onClick={settingUPUN}>
+            <div className="alUpdatePContainer" onClick={settingUPUP}>
               <div className="searchIconContainer">
                 <FaPhoneAlt color={COLORS.background} size={"2.5rem"} />
               </div>
