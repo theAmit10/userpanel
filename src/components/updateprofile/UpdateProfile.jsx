@@ -165,7 +165,8 @@ function UpdateProfile({ reloadKey }) {
 
   const updateProfileEmailandPhoneHandler = async (datatype) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
+    const phoneRegex =
+      /^(?:\+?\d{1,3})?[-.\s]?(\(?\d{1,4}?\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
     const forData = datatype;
 
@@ -251,7 +252,8 @@ function UpdateProfile({ reloadKey }) {
   // FOR ADDING CONTACT
   const updateProfileContactHandler = async (datatype) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^(?:\+91|0)?[6-9]\d{9}$/;
+    const phoneRegex =
+      /^(?:\+?\d{1,3})?[-.\s]?(\(?\d{1,4}?\)?)[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
     const forData = datatype;
 
