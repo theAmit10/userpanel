@@ -16,6 +16,7 @@ import {
 
 function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory, userdata }) {
   const { accesstoken, user } = useSelector((state) => state.user);
+  console.log("userdata play history :: " + JSON.stringify(userdata));
   const [expandedItems, setExpandedItems] = useState({});
   const [loading, setLoading] = useState(false); // New loading state
 
@@ -165,7 +166,7 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory, userdata }) {
                             {formatAmount(
                               calculateTotalAmount(item?.playnumbers)
                             )}{" "}
-                            {user?.country?.countrycurrencysymbol}
+                            {userdata?.country?.countrycurrencysymbol}
                           </label>
                         </div>
                         <div className="h-content-second-content-container-bottom">
@@ -336,7 +337,7 @@ function UserPlayHistory({ reloadKey, backHanndlerForPlayHistory, userdata }) {
                           </label>
                           <label className="h-content-second-content-container-top-amount-val">
                             {formatAmount(calculateTotalAmount(item?.tickets))}{" "}
-                            {user?.country?.countrycurrencysymbol}
+                            {userdata?.country?.countrycurrencysymbol}
                           </label>
                         </div>
                         <div className="h-content-second-content-container-bottom">
