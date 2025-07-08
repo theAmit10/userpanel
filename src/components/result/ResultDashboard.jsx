@@ -4,6 +4,7 @@ import PowerTimeCon from "../powerball/PowerTimeCon";
 import "../powerball/PowerballHome.css";
 import AllResult from "./AllResult";
 import PowerResult from "./PowerResult";
+import ResultCon from "../powerball/ResultCon";
 
 const ResultDashboard = ({ reloadKey }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -30,13 +31,13 @@ const ResultDashboard = ({ reloadKey }) => {
           </div>
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
-            <PowerTimeCon
+            <ResultCon
               time={"Play Arena"}
               subtitle={"Get all results"}
               selectingTime={selectingPlayArenaResult}
               iconname="FaRegPlayCircle"
             />
-            <PowerTimeCon
+            <ResultCon
               time={"Powerball"}
               subtitle={"Get all results"}
               selectingTime={selectingPowerballResult}
