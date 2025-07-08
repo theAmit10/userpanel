@@ -15,7 +15,7 @@ import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import { ToastContainer } from "react-toastify";
 import HeaderComp from "../helpercomp/HeaderComp";
 
-function UserHistory({ reloadKey, backHanndlerForHistory }) {
+function UserHistory({ reloadKey, backHanndlerForHistory, userdata }) {
   const { accesstoken, user } = useSelector((state) => state.user);
   const [expandedItems, setExpandedItems] = useState({});
   // const [reloadKey, setReloadKey] = useState(0); // For reloading the component
@@ -28,7 +28,7 @@ function UserHistory({ reloadKey, backHanndlerForHistory }) {
     error,
     isLoading,
     refetch,
-  } = useGetHistoryQuery({ accesstoken: accesstoken, userId: user.userId });
+  } = useGetHistoryQuery({ accesstoken: accesstoken, userId: userdata.userId });
 
   useEffect(() => {
     refetch();
@@ -160,7 +160,7 @@ function UserHistory({ reloadKey, backHanndlerForHistory }) {
                     <label className="h-content-second-content-container-top-amount-val">
                       {" "}
                       {formatNumber(item.amount)}{" "}
-                      {user.country.countrycurrencysymbol}
+                      {userdata.country.countrycurrencysymbol}
                     </label>
                   </div>
                   <div className="h-content-second-content-container-bottom">
