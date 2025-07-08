@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderComp from "../helpercomp/HeaderComp";
 import PowerTimeCon from "../powerball/PowerTimeCon";
 import "../powerball/PowerballHome.css";
@@ -6,8 +6,16 @@ import AllResult from "./AllResult";
 import PowerResult from "./PowerResult";
 import ResultCon from "../powerball/ResultCon";
 
-const ResultDashboard = ({ reloadKey }) => {
+const ResultDashboard = ({ reloadKey, setReloadKey }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    if (reloadKey > 0) {
+      setSelectedCategory("");
+      setReloadKey(0);
+    }
+  }, [reloadKey]);
+
   const selectingPlayArenaResult = () => {
     setSelectedCategory("playarenaresult");
   };
@@ -50,12 +58,16 @@ const ResultDashboard = ({ reloadKey }) => {
         <AllResult
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
+          selectedCategory={selectedCategory}
         />
       )}
       {selectedCategory === "powerballresult" && (
         <PowerResult
           setSelectedCategory={setSelectedCategory}
           reloadKey={reloadKey}
+          setReloadKey={setReloadKey}
+          selectedCategory={selectedCategory}
         />
       )}
     </>

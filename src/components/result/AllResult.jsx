@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./AllResult.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,7 +20,12 @@ import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import { getDateTimeAccordingToUserTimezone } from "../play/Play";
 import moment from "moment-timezone";
 
-function AllResult({ reloadKey }) {
+function AllResult({
+  reloadKey,
+  setSelectedCategory,
+  selectedCategory,
+  setReloadKey,
+}) {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth(); // 0-based index (0 = January, 11 = December)
@@ -221,24 +226,15 @@ function AllResult({ reloadKey }) {
   };
 
   // useEffect(() => {
-  //   console.log("reloadKey :: " + reloadKey);
-  //   allocationRefetch();
-  //   if (!allocationIsLoading && alllocation) {
-  //     setSelectedItem(alllocation?.locationData[0]);
-  //     console.log("Calling allresult");
-  //   }
+  //   setLoading(true); // Show loading indicator on reloadKey change
+  //   allocationRefetch().then(() => {
+  //     if (!allocationIsLoading && alllocation) {
+  //       setSelectedItem(alllocation?.locationData[0]);
+  //       console.log("Calling allresult");
+  //       setLoading(false); // Hide loading indicator after data is fetched
+  //     }
+  //   });
   // }, [reloadKey]);
-
-  useEffect(() => {
-    setLoading(true); // Show loading indicator on reloadKey change
-    allocationRefetch().then(() => {
-      if (!allocationIsLoading && alllocation) {
-        setSelectedItem(alllocation?.locationData[0]);
-        console.log("Calling allresult");
-        setLoading(false); // Hide loading indicator after data is fetched
-      }
-    });
-  }, [reloadKey]);
 
   return (
     <>

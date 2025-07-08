@@ -24,7 +24,7 @@ import {
   useGetPowetTimesQuery,
 } from "../../redux/api";
 
-function PowerResult({ reloadKey }) {
+function PowerResult({ reloadKey, setSelectedCategory }) {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth(); // 0-based index (0 = January, 11 = December)
@@ -237,16 +237,16 @@ function PowerResult({ reloadKey }) {
     XLSX.writeFile(workbook, "results.xlsx");
   };
 
-  useEffect(() => {
-    setLoading(true); // Show loading indicator on reloadKey change
-    allocationRefetch().then(() => {
-      if (!allocationIsLoading && alllocation) {
-        setSelectedItem(alllocation?.powerTimes[0]);
-        console.log("Calling allresult");
-        setLoading(false); // Hide loading indicator after data is fetched
-      }
-    });
-  }, [reloadKey]);
+  // useEffect(() => {
+  //   setLoading(true); // Show loading indicator on reloadKey change
+  //   allocationRefetch().then(() => {
+  //     if (!allocationIsLoading && alllocation) {
+  //       setSelectedItem(alllocation?.powerTimes[0]);
+  //       console.log("Calling allresult");
+  //       setLoading(false); // Hide loading indicator after data is fetched
+  //     }
+  //   });
+  // }, [reloadKey]);
 
   return (
     <>

@@ -636,7 +636,10 @@ const Setting = () => {
           )} */}
 
           {selectedComponent === "result" && (
-            <ResultDashboard reloadKey={reloadKey} />
+            <ResultDashboard
+              reloadKey={reloadKey}
+              setReloadKey={setReloadKey}
+            />
           )}
           {selectedComponent === "aboutus" && <Aboutus reloadKey={reloadKey} />}
           {selectedComponent === "changepassword" && (
