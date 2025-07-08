@@ -13,8 +13,27 @@ import { HiMiniWallet } from "react-icons/hi2";
 import HeaderComp from "../helpercomp/HeaderComp";
 import Balancetransfer from "../balancetransfer/Balancetransfer";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
+export const roundToInteger = (input) => {
+  // Convert input to a float
+  const floatValue = parseFloat(input);
+
+  // Check if it's a valid number
+  if (isNaN(floatValue)) {
+    return "Invalid number"; // Handle invalid input
+  }
+
+  // Check if the number is already an integer
+  if (Number.isInteger(floatValue)) {
+    return floatValue; // Return the number as it is
+  }
+
+  // Return the integer part (without rounding)
+  return Math.floor(floatValue);
+};
 function Withdrawpayment({ reloadKey }) {
+  const { user, accesstoken } = useSelector((state) => state.user);
   const [selectedPayment, setSelectedPayment] = useState("withdrawdashboard");
 
   const selectingPaymentType = (item) => {
@@ -84,6 +103,12 @@ function Withdrawpayment({ reloadKey }) {
                 <div className="hdContenContainerIcon">
                   <CiEdit color={COLORS.background} size={"2.5rem"} />
                 </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  {roundToInteger(user?.walletOne?.balance)}{" "}
+                  {user?.country?.countrycurrencysymbol}
+                </label>
               </div>
               <div className="hdAllContainerContentBottom">
                 <label className="hdAllContainerContentTopRegularLabel">
