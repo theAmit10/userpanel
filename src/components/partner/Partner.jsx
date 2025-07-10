@@ -58,19 +58,16 @@ const Partner = ({ reloadKey, setReloadKey }) => {
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
             {/** ALL RECHARGE */}
-            {user &&
-              partner &&
-              partner.rechargeModule &&
-              partner.rechargeStatus && (
-                <PartnerContentComp
-                  title={"All Recharge Request"}
-                  description={"List of Recharge Partner data"}
-                  iconfrom={"HiMiniWallet"}
-                  setSelectedCategory={setSelectedCategory}
-                  componenetname={"AllRecharge"}
-                  count={data?.pendingRechargesCount}
-                />
-              )}
+            {user && partner && partner.rechargeModule && (
+              <PartnerContentComp
+                title={"All Recharge Request"}
+                description={"List of Recharge Partner data"}
+                iconfrom={"HiMiniWallet"}
+                setSelectedCategory={setSelectedCategory}
+                componenetname={"AllRecharge"}
+                count={data?.pendingRechargesCount}
+              />
+            )}
 
             {/** ALL PARTNER */}
             {user.parentParentPartnerId === 1000 && (
