@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadProfile } from "../../redux/actions/userAction";
 import { ToastContainer } from "react-toastify";
 import { LoadingComponent } from "../helper/LoadingComponent";
+import Withdrawpayment from "../withdraw/Withdrawpayment";
 
 function Wallet() {
   const dispatch = useDispatch();
@@ -12,6 +13,18 @@ function Wallet() {
   const { accesstoken, user, loading } = useSelector((state) => state.user);
 
   const [showPN, setShowPN] = useState(true);
+  const [showWithdraw, setShowWithdraw] = useState(false);
+
+  const settingShowWithdraw = () => {
+    setShowPN(false);
+    setShowWithdraw(true);
+  };
+
+  const backHandlerFromWithdraw = () => {
+    setShowPN(true);
+    setShowWithdraw(false);
+  };
+
   const [reloadKey, setReloadKey] = useState(0); // For reloading the component
   const [selectedWallet, setSelectedWallet] = useState("walletOne"); // Default to walletOne
   const [previousWalletData, setPreviousWalletData] = useState({
@@ -136,7 +149,7 @@ function Wallet() {
                   {/** Wallet One */}
                   <div
                     className="hdAllContainerContent"
-                    onClick={() => handleWalletSelection("walletOne")} // Handle wallet selection
+                    onClick={() => settingShowWithdraw()} // Handle wallet selection
                   >
                     <div className="hdAllContainerContentTop">
                       <label className="hdAllContainerContentTopBoldLabel">
@@ -170,6 +183,8 @@ function Wallet() {
           )}
         </>
       )}
+
+      {showWithdraw && <Withdrawpayment reloadKey={reloadKey} />}
 
       {/* <ToastContainer /> */}
     </div>
