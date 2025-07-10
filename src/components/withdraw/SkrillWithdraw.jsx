@@ -9,20 +9,17 @@ import {
   useCreateDepositMutation,
   useCreateWithdrawMutation,
 } from "../../redux/api";
-import {
-  showErrorToast,
-  showSuccessToast,
-} from "../helper/showErrorToast";
+import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { ToastContainer } from "react-toastify";
 import { IoDocumentText } from "react-icons/io5";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 function SkrillWithdraw({ selectingPaymentType }) {
   const goToPreviousPage = () => {
     showSuccessToast("Request send successfully");
     selectingPaymentType(""); // Resetting selectedPayment in the parent
-    
+
     console.log("GOING PREVIOUS PAGE");
   };
 
@@ -35,8 +32,8 @@ function SkrillWithdraw({ selectingPaymentType }) {
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
 
   const settingDefaultValue = () => {
-    setAmountval("")
-    setRemarkval("")
+    setAmountval("");
+    setRemarkval("");
     setskrillContact("");
   };
 
@@ -45,20 +42,18 @@ function SkrillWithdraw({ selectingPaymentType }) {
   const submitHandler = async () => {
     if (!amountval) {
       showErrorToast("Enter Amount");
-    } 
-    else if (isNaN(amountval)) {
+    } else if (isNaN(amountval)) {
       showErrorToast("Enter Valid Amount");
       return;
-    } 
-    else if (parseFloat(amountval) < MIN_WITHDRAW_AMOUNT) {
+    } else if (parseFloat(amountval) < MIN_WITHDRAW_AMOUNT) {
       showErrorToast(`Minimum USD to withdraw is ${MIN_WITHDRAW_AMOUNT}`);
       return; // Stop further execution if the amount is too low
-    }
-    else if (parseFloat(user?.walletOne?.balance) < parseFloat(amountval)) {
-      showErrorToast(`You have insufficent balance in ${user?.walletOne?.walletName} wallet`);
+    } else if (parseFloat(user?.walletOne?.balance) < parseFloat(amountval)) {
+      showErrorToast(
+        `You have insufficent balance in ${user?.walletOne?.walletName} wallet`
+      );
       return; // Stop further execution if the amount is too low
-    }
-    else if (!skrillContact) {
+    } else if (!skrillContact) {
       showErrorToast("Please enter phone number or email address");
     } else {
       try {
@@ -79,11 +74,9 @@ function SkrillWithdraw({ selectingPaymentType }) {
           accessToken: accesstoken,
           body,
         }).unwrap();
-        
-       
+
         showSuccessToast(res.message);
         settingDefaultValue();
-
       } catch (error) {
         console.log("Error during withdraw:", error);
         showErrorToast("Something went wrong");
@@ -125,7 +118,7 @@ function SkrillWithdraw({ selectingPaymentType }) {
         </div>
 
         {/**  Phone number or email address */}
-        <label className="alCLLabel"> Phone number or email address</label>
+        <label className="alCLLabel"> Skrill ID or email</label>
         <div className="alSearchContainer">
           <div className="searchIconContainer">
             <IoDocumentText color={COLORS.background} size={"2.5rem"} />
@@ -135,7 +128,7 @@ function SkrillWithdraw({ selectingPaymentType }) {
             className="al-search-input"
             type="text"
             name="skrillContact"
-            placeholder="Enter Phone number or email address "
+            placeholder="Enter Skrill Id or email"
             value={skrillContact}
             onChange={(e) => setskrillContact(e.target.value)}
           />
