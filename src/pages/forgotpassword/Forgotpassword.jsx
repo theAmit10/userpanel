@@ -12,8 +12,7 @@ import {
   showWarningToast,
 } from "../../components/helper/showErrorToast";
 import axios from "axios";
-import { useDispatch} from "react-redux";
-import CircularProgressBar from "../../components/helper/CircularProgressBar";
+import { useDispatch } from "react-redux";
 import UrlHelper from "../../helper/UrlHelper";
 import { LoadingComponent } from "../../components/helper/LoadingComponent";
 
@@ -133,15 +132,15 @@ function Forgotpassword() {
     } catch (error) {
       setProgressBar(false);
       console.log(error);
+      console.log("Error found");
       console.log(error.response.data.message);
-      
 
       if (error.response.data.message === "Please enter new password ") {
         // navigation.navigate("ResetPassword", {
         //   otp: otp,
         // });
         setShowResetPassword(true);
-        setShowOtp(false)
+        setShowOtp(false);
       } else if (
         error.response.data.message === "Incorrect OTP or OTP has been expired"
       ) {
@@ -184,7 +183,7 @@ function Forgotpassword() {
         console.log("datat :: " + data);
 
         showSuccessToast(data.message);
-        navigation("/login")
+        navigation("/login");
         setProgressBar(false);
       } catch (error) {
         setProgressBar(false);
@@ -198,172 +197,175 @@ function Forgotpassword() {
 
   return (
     <div className="loginContainer">
-    <div className="loginContainerLeft">
-      <label className="labelHeader">Hello,</label>
-      <label className="labelHeader">Welcome</label>
-      <label className="labelHeader">To</label>
-      <label className="labelHeader">TheWorldPlay</label>
+      <div className="loginContainerLeft">
+        <label className="labelHeader">Hello,</label>
+        <label className="labelHeader">Welcome</label>
+        <label className="labelHeader">To</label>
+        <label className="labelHeader">TheWorldPlay</label>
 
-      <div className="loginContainerLeftBottom">
-        <div className="trophyimagecontainer">
-          <img src={images.cups} alt="trphy" className="logcatandtrophyimg" />
-        </div>
+        <div className="loginContainerLeftBottom">
+          <div className="trophyimagecontainer">
+            <img src={images.cups} alt="trphy" className="logcatandtrophyimg" />
+          </div>
 
-        <div className="logcatimagecontainer">
-          <img src={images.cat} alt="cat" className="logcatandtrophyimg" />
+          <div className="logcatimagecontainer">
+            <img src={images.cat} alt="cat" className="logcatandtrophyimg" />
+          </div>
         </div>
       </div>
-    </div>
-    <div className="loginContainerRight">
-      <div className="rightParenC">
-        {/** SHOWING FORGOT CONTAINER */}
-        {!showOtp && !showResetPassword && (
-          <div className="rightParenCMain">
-            <label className="labelHeader">Forgot Password</label>
+      <div className="loginContainerRight">
+        <div className="rightParenC">
+          {/** SHOWING FORGOT CONTAINER */}
+          {!showOtp && !showResetPassword && (
+            <div className="rightParenCMain">
+              <label className="labelHeader">Forgot Password</label>
 
-            <label className="labelSubHeader">
-              {" "}
-              Please enter your details.
-            </label>
-            {/** EMAIL */}
-            <label className="alCLLabel">Email</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
-              </div>
-
-              <input
-                className="al-search-input"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            {showProgressBar ? (
-              <LoadingComponent />
-            ) : (
-              <div className="lBottomContainer" onClick={submitHandler}>
-                <label className="alBottomContainerlabel">Submit</label>
-              </div>
-            )}
-
-            <div className="lfContainer">
-              <label className="alBottomContainerlabel">
-                Don’t have an account?{" "}
+              <label className="labelSubHeader">
+                {" "}
+                Please enter your details.
               </label>
-              <label
-                onClick={handleSignUpClick}
-                className="lBottomContainerlabel"
-              >
-                Sign up
+              {/** EMAIL */}
+              <label className="alCLLabel">Email</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              {showProgressBar ? (
+                <LoadingComponent />
+              ) : (
+                <div className="lBottomContainer" onClick={submitHandler}>
+                  <label className="alBottomContainerlabel">Submit</label>
+                </div>
+              )}
+
+              <div className="lfContainer">
+                <label className="alBottomContainerlabel">
+                  Don’t have an account?{" "}
+                </label>
+                <label
+                  onClick={handleSignUpClick}
+                  className="lBottomContainerlabel"
+                >
+                  Sign up
+                </label>
+              </div>
+            </div>
+          )}
+
+          {/** SHOOWING OTP CONTAINER */}
+          {showOtp && (
+            <div className="rightParenCMain">
+              <label className="labelHeader">Forgot Password</label>
+
+              <label className="labelSubHeader">
+                {" "}
+                Enter the One time password sent to your Account
               </label>
-            </div>
-          </div>
-        )}
-
-        {/** SHOOWING OTP CONTAINER */}
-        {showOtp && (
-          <div className="rightParenCMain">
-            <label className="labelHeader">Forgot Password</label>
-
-            <label className="labelSubHeader">
-              {" "}
-              Enter the One time password sent to your Account
-            </label>
-            {/** EMAIL */}
-            <label className="alCLLabel">OTP</label>
-            <div className="fotpContainer">
-              <div className="otpContainer">
-                {inputs.map((input, index) => (
-                  <input
-                    key={index}
-                    className="otp-input"
-                    type="text"
-                    value={otp[index] || ""}
-                    ref={input}
-                    onChange={(e) => handleChangeText(e, index)}
-                    autoFocus={index === 0}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {showProgressBar ? (
-              <LoadingComponent />
-            ) : (
-              <div className="lBottomContainer" onClick={handleCheckOtp}>
-                <label className="alBottomContainerlabel">Verify OTP</label>
-              </div>
-            )}
-
-            <div className="lfContainer">
-              <label className="alBottomContainerlabel">
-                Don’t have an account?{" "}
-              </label>
-              <label onClick={handleSignUpClick} className="lBottomContainerlabel">Sign up</label>
-            </div>
-          </div>
-        )}
-
-        {/** SHOWING RESETTING PASSWORD CONTAINER */}
-        {showResetPassword && !showOtp && (
-          <div className="rightParenCMain">
-            <label className="labelHeader">Reset Password</label>
-
-            {/** PASSWORD */}
-            <label className="alCLLabel">Password</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              {/** EMAIL */}
+              <label className="alCLLabel">OTP</label>
+              <div className="fotpContainer">
+                <div className="otpContainer">
+                  {inputs.map((input, index) => (
+                    <input
+                      key={index}
+                      className="otp-input"
+                      type="text"
+                      value={otp[index] || ""}
+                      ref={input}
+                      onChange={(e) => handleChangeText(e, index)}
+                      autoFocus={index === 0}
+                    />
+                  ))}
+                </div>
               </div>
 
-              <input
-                className="al-search-input"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+              {showProgressBar ? (
+                <LoadingComponent />
+              ) : (
+                <div className="lBottomContainer" onClick={handleCheckOtp}>
+                  <label className="alBottomContainerlabel">Verify OTP</label>
+                </div>
+              )}
 
-            {/** CONFIMR PASSWORD */}
-            <label className="alCLLabel">Confirm Password</label>
-            <div className="alSearchContainer">
-              <div className="searchIconContainer">
-                <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+              <div className="lfContainer">
+                <label className="alBottomContainerlabel">
+                  Don’t have an account?{" "}
+                </label>
+                <label
+                  onClick={handleSignUpClick}
+                  className="lBottomContainerlabel"
+                >
+                  Sign up
+                </label>
+              </div>
+            </div>
+          )}
+
+          {/** SHOWING RESETTING PASSWORD CONTAINER */}
+          {showResetPassword && !showOtp && (
+            <div className="rightParenCMain">
+              <label className="labelHeader">Reset Password</label>
+
+              {/** PASSWORD */}
+              <label className="alCLLabel">Password</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
+
+                <input
+                  className="al-search-input"
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
 
-              <input
-                className="al-search-input"
-                placeholder="Enter Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
+              {/** CONFIMR PASSWORD */}
+              <label className="alCLLabel">Confirm Password</label>
+              <div className="alSearchContainer">
+                <div className="searchIconContainer">
+                  <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+                </div>
 
-            {showProgressBar ? (
-              <LoadingComponent />
-            ) : (
-              <div
-                className="lBottomContainer"
-                onClick={submitHandlerForReset}
-              >
-                <label className="alBottomContainerlabel">Submit</label>
+                <input
+                  className="al-search-input"
+                  placeholder="Enter Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
               </div>
-            )}
-          </div>
-        )}
+
+              {showProgressBar ? (
+                <LoadingComponent />
+              ) : (
+                <div
+                  className="lBottomContainer"
+                  onClick={submitHandlerForReset}
+                >
+                  <label className="alBottomContainerlabel">Submit</label>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
 
-    <ToastContainer />
-  </div>
+      <ToastContainer />
+    </div>
   );
 }
 
 export default Forgotpassword;
-
-
 
 // import React, { useRef, useState } from "react";
 // import "./ForgotPassword.css";
@@ -499,7 +501,6 @@ export default Forgotpassword;
 //       setProgressBar(false);
 //       console.log(error);
 //       console.log(error.response.data.message);
-      
 
 //       if (error.response.data.message === "Please enter new password ") {
 //         // navigation.navigate("ResetPassword", {
@@ -773,9 +774,6 @@ export default Forgotpassword;
 
 // export default Forgotpassword;
 
-
-
-
 // .login-page-login {
 //   display: flex;
 //   height: 100vh;
@@ -926,14 +924,14 @@ export default Forgotpassword;
 //       border-radius: 3vh;
 //       margin-top: 30%;
 //   }
-    
+
 //   .loginbox-login {
 //       background: linear-gradient(180deg, #0162AF, #011833);
 //       width: 105%;
 //       height: 80vh;
 //       border-radius: 3vh;
 //       margin-top: 5%;
-//       margin-left: 5%; 
+//       margin-left: 5%;
 //   }
 //   .login-form-login {
 //       padding: 2%;
@@ -944,7 +942,7 @@ export default Forgotpassword;
 //       margin: 5%;
 //       justify-content: stretch;
 //       gap: 10px; /* Added this to create a 20px gap between each item */
-     
+
 //   }
 //   .gamecontroller-image-login {
 //       width: 14%;
