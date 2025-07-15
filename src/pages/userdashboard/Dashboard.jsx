@@ -359,8 +359,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!isLoading && data) {
-      setGameName(data.games[0].name);
-      console.log(data?.games[0].name);
+      setGameName(data?.games[0]?.name);
+      console.log(data?.games[0]?.name);
     }
   }, [data, isLoading]); // Correct dependencies
 
