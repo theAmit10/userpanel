@@ -655,11 +655,18 @@ function LiveResult({ reloadKey }) {
 
       const checkTimeDifference = () => {
         const userTimezone = user.country.timezone;
+        // const nextTimeInUserTZ = moment.tz(
+        //   nextTime.time,
+        //   "hh:mm A",
+        //   userTimezone
+        // );
+
         const nextTimeInUserTZ = moment.tz(
-          nextTime.time,
+          getTimeAccordingToTimezone(nextTime.time, user?.country?.timezone),
           "hh:mm A",
           userTimezone
         );
+
         const currentTimeInUserTZ = moment().tz(userTimezone);
 
         const timeDifferenceSeconds = nextTimeInUserTZ.diff(
@@ -702,11 +709,18 @@ function LiveResult({ reloadKey }) {
         key={timeItem._id}
         onClick={() => handleSelecteditemClick(item, timeItem)}
         className={`time-item ${
-          timeItem.time === nextTime.time ? "highlighted" : ""
+          getTimeAccordingToTimezone(timeItem.time, user?.country?.timezone) ===
+          getTimeAccordingToTimezone(nextTime.time, user?.country?.timezone)
+            ? "highlighted"
+            : ""
         }`}
         style={{
           borderColor:
-            timeItem.time === nextTime.time
+            getTimeAccordingToTimezone(
+              timeItem.time,
+              user?.country?.timezone
+            ) ===
+            getTimeAccordingToTimezone(nextTime.time, user?.country?.timezone)
               ? isBlinking
                 ? "transparent"
                 : COLORS.orange
@@ -821,8 +835,12 @@ function LiveResult({ reloadKey }) {
 
       const checkTimeDifference = () => {
         const userTimezone = user.country.timezone;
+
         const nextTimeInUserTZ = moment.tz(
-          nextTime.powertime,
+          getTimeAccordingToTimezone(
+            nextTime.powertime,
+            user?.country?.timezone
+          ),
           "hh:mm A",
           userTimezone
         );
@@ -868,11 +886,27 @@ function LiveResult({ reloadKey }) {
         key={timeItem._id}
         onClick={() => handleSelecteditemClickPowerball(item, timeItem)}
         className={`time-item ${
-          timeItem.powertime === nextTime.powertime ? "highlighted" : ""
+          getTimeAccordingToTimezone(
+            timeItem.powertime,
+            user?.country?.timezone
+          ) ===
+          getTimeAccordingToTimezone(
+            nextTime.powertime,
+            user?.country?.timezone
+          )
+            ? "highlighted"
+            : ""
         }`}
         style={{
           borderColor:
-            timeItem.powertime === nextTime.powertime
+            getTimeAccordingToTimezone(
+              timeItem.powertime,
+              user?.country?.timezone
+            ) ===
+            getTimeAccordingToTimezone(
+              nextTime.powertime,
+              user?.country?.timezone
+            )
               ? isBlinking
                 ? "transparent"
                 : COLORS.orange
