@@ -639,8 +639,8 @@ function HomeDashboard({
                     <label className="hdlTLTLNRB">
                       {/* {homeResult?.lotdate?.lotdate} */}
                       {getDateTimeAccordingToUserTimezone(
-                        homeResult?.lottime.lottime,
-                        homeResult?.lotdate.lotdate,
+                        homeResult?.lottime?.lottime,
+                        homeResult?.lotdate?.lotdate,
                         user?.country?.timezone
                       )}
                     </label>
@@ -745,11 +745,13 @@ function HomeDashboard({
                           paddingRight: "0.5rem",
                         }}
                       >
-                        {item.lotlocation.lotlocation}
+                        {item?.lotlocation?.lotlocation}
                       </label>
                     </div>
                     <div className="hdMCM">
-                      <label className="hdMCTResult">{item.resultNumber}</label>
+                      <label className="hdMCTResult">
+                        {item?.resultNumber}
+                      </label>
                     </div>
                     <div className="hdMCB">
                       <label className="hdMCTTime">
@@ -774,16 +776,16 @@ function HomeDashboard({
                   {alldatafilterAllLocation.map((item, index) => (
                     <label
                       onClick={() => settingFilterData(item)}
-                      key={item._id}
+                      key={item._id || index}
                       className="hdFCContenL"
                       style={{
                         borderColor:
-                          selectedFilterAllLocation === item._id
+                          selectedFilterAllLocation === item?._id
                             ? COLORS.green
                             : "transparent", // Use transparent for no border
                         borderWidth: "2px",
                         borderStyle:
-                          selectedFilterAllLocation === item._id
+                          selectedFilterAllLocation === item?._id
                             ? "solid"
                             : "none", // Apply border style conditionally
                       }}
