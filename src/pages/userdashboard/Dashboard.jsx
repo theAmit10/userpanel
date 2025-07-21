@@ -60,6 +60,7 @@ import { TiGroup } from "react-icons/ti";
 import Partner from "../../components/partner/Partner";
 import PowerResult from "../../components/result/PowerResult";
 import { useCheckNotificationSeenMutation } from "../../helper/Networkcall";
+import { extractMultiplerFromLocation } from "../../helper/HelperFunction";
 
 export function getTimeAccordingToTimezone(time, targetTimeZone) {
   // Get the current date in "DD-MM-YYYY" format
@@ -225,10 +226,13 @@ const Dashboard = () => {
       const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
 
       dataAllLocation.locationData.forEach((item) => {
-        const key = item.maximumReturn;
+        const key = extractMultiplerFromLocation(item.limit);
         if (!uniqueItems.has(key)) {
           uniqueItems.add(key);
-          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+          filtertype.push({
+            _id: item._id,
+            maximumReturn: extractMultiplerFromLocation(item.limit),
+          });
         }
       });
 
@@ -263,7 +267,7 @@ const Dashboard = () => {
       setFilteredDataAllLocation(dataAllLocation?.locationData);
     } else {
       const filtered = dataAllLocation?.locationData.filter((item) =>
-        item.maximumReturn
+        extractMultiplerFromLocation(item.limit)
           .toLowerCase()
           .includes(itemf.maximumReturn.toLowerCase())
       );
