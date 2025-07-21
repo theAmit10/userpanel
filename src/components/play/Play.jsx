@@ -371,25 +371,30 @@ function Play({ reloadKey }) {
     }
   }, [isLoading, data]);
 
-  const settingFilterData = (itemf) => {
-    setSelectedFilter(itemf._id);
-    if (itemf.maximumReturn.toLowerCase() === "all") {
-      // setFilteredData(data?.locationData);
-      const sortedData = [...(data?.locationData || [])].sort((a, b) => {
-        const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
-        const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
-        return bReturn - aReturn; // Sort from highest to lowest
-      });
-      setFilteredData(sortedData);
-    } else {
-      const filtered = data?.locationData.filter((item) =>
-        extractMultiplerFromLocation(item.limit)
-          .toLowerCase()
-          .includes(itemf.maximumReturn.toLowerCase())
-      );
-      setFilteredData(filtered);
-    }
-  };
+  /*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Updates the selected filter and filters the locations based on the selected filter.
+   * If the selected filter is "All", then the locations are sorted in descending order of their maximum return.
+/*******  7a599b21-ebbc-4631-897b-7bfb73760ed4  *******/ const settingFilterData =
+    (itemf) => {
+      setSelectedFilter(itemf._id);
+      if (itemf.maximumReturn.toLowerCase() === "all") {
+        // setFilteredData(data?.locationData);
+        const sortedData = [...(data?.locationData || [])].sort((a, b) => {
+          const aReturn = parseFloat(a.maximumReturn.replace("x", ""));
+          const bReturn = parseFloat(b.maximumReturn.replace("x", ""));
+          return bReturn - aReturn; // Sort from highest to lowest
+        });
+        setFilteredData(sortedData);
+      } else {
+        const filtered = data?.locationData.filter((item) =>
+          extractMultiplerFromLocation(item.limit)
+            .toLowerCase()
+            .includes(itemf.maximumReturn.toLowerCase())
+        );
+        setFilteredData(filtered);
+      }
+    };
 
   const [filteredData, setFilteredData] = useState([]);
 

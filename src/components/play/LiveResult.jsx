@@ -8,11 +8,11 @@ import {
   useGetPowerballQuery,
   useGetPowetTimesQuery,
 } from "../../redux/api";
-import { ToastContainer } from "react-toastify";
 import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { getTimeAccordingToTimezone } from "../alllocation/AllLocation";
 import moment from "moment-timezone";
+import { extractMultiplerFromLocation } from "../../helper/HelperFunction";
 
 export function getDateTimeAccordingToUserTimezone(time, date, userTimeZone) {
   // Combine the passed date and time into a full datetime string in IST
@@ -339,10 +339,13 @@ function LiveResult({ reloadKey }) {
       const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
 
       data.locationData.forEach((item) => {
-        const key = item.maximumReturn;
+        const key = extractMultiplerFromLocation(item.limit);
         if (!uniqueItems.has(key)) {
           uniqueItems.add(key);
-          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+          filtertype.push({
+            _id: item._id,
+            maximumReturn: extractMultiplerFromLocation(item.limit),
+          });
         }
       });
 
@@ -374,7 +377,7 @@ function LiveResult({ reloadKey }) {
       setFilteredData(sortedData);
     } else {
       const filtered = data?.locationData.filter((item) =>
-        item.maximumReturn
+        extractMultiplerFromLocation(item.limit)
           .toLowerCase()
           .includes(itemf.maximumReturn.toLowerCase())
       );
@@ -1052,7 +1055,7 @@ function LiveResult({ reloadKey }) {
                           {item.name}
                         </span>
                         <span className="location-header-max-label">
-                          {item.maximumReturn} Win
+                          {extractMultiplerFromLocation(item.limit)} Win
                         </span>
                       </div>
                     </div>
