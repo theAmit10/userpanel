@@ -763,12 +763,35 @@ function Play({ reloadKey }) {
   const mineplaynum = parseInt(selectedLocation?.bettinglimit);
   const [playnumberlimit, setplaynumberlimit] = useState(mineplaynum);
 
+  // const {
+  //   data: userplayhistory,
+  //   error: userplayhistoryError,
+  //   isLoading: userplayhistoryLoading,
+  //   refetch: userplayhistoryRefetch,
+  // } = useGetPlayHistoryQuery(accesstoken);
+
   const {
     data: userplayhistory,
     error: userplayhistoryError,
     isLoading: userplayhistoryLoading,
     refetch: userplayhistoryRefetch,
-  } = useGetPlayHistoryQuery(accesstoken);
+  } = useGetPlayHistoryQuery(
+    {
+      accesstoken,
+      userId: user.userId,
+      locationId: selectedLocation?._id,
+      timeId: selectedTime?._id,
+      dateId: selectedDate?._id,
+    },
+    {
+      skip:
+        !accesstoken ||
+        selectedDate === null ||
+        selectedTime === null ||
+        selectedLocation === null,
+    }
+  );
+
   const limit = 3;
 
   const [playhistorydata, setPlayhistorydata] = useState([]);
