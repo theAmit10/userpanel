@@ -16,3 +16,14 @@ export const sortedTimes = [...item.times].sort((a, b) => {
 
   return convertTo24Hour(a.time) - convertTo24Hour(b.time);
 });
+
+export function extractMultiplerFromLocation(input) {
+  const parts = input.split("-");
+  for (let part of parts) {
+    part = part.trim();
+    if (part.endsWith("X")) {
+      return part;
+    }
+  }
+  return null; // If no part ends with X
+}
