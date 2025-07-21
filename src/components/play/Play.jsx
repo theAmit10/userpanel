@@ -27,7 +27,7 @@ import UrlHelper from "../../helper/UrlHelper";
 import axios from "axios";
 import { NodataFound } from "../helper/NodataFound";
 import moment from "moment-timezone";
-
+import { extractMultiplerFromLocation } from "../../helper/HelperFunction.js";
 const getCurrentDate = () => {
   const today = new Date();
   const day = String(today.getDate()).padStart(2, "0");
@@ -278,6 +278,7 @@ function Play({ reloadKey }) {
   const dispatch = useDispatch();
 
   const handleSelecteditemClick = (item, timedata) => {
+    console.log("Selected item :: " + JSON.stringify(item));
     const now = moment.tz(user?.country?.timezone);
     console.log("Current Time: ", now.format("hh:mm A"));
     console.log("Current Date: ", now.format("DD-MM-YYYY"));
@@ -344,10 +345,13 @@ function Play({ reloadKey }) {
       const filtertype = [{ _id: "123", maximumReturn: "All" }]; // Default element
 
       data.locationData.forEach((item) => {
-        const key = item.maximumReturn;
+        const key = extractMultiplerFromLocation(item.limit);
         if (!uniqueItems.has(key)) {
           uniqueItems.add(key);
-          filtertype.push({ _id: item._id, maximumReturn: item.maximumReturn });
+          filtertype.push({
+            _id: item._id,
+            maximumReturn: extractMultiplerFromLocation(item.limit),
+          });
         }
       });
 
@@ -379,7 +383,7 @@ function Play({ reloadKey }) {
       setFilteredData(sortedData);
     } else {
       const filtered = data?.locationData.filter((item) =>
-        item.maximumReturn
+        extractMultiplerFromLocation(item.limit)
           .toLowerCase()
           .includes(itemf.maximumReturn.toLowerCase())
       );
@@ -1059,7 +1063,7 @@ function Play({ reloadKey }) {
                           {item.name}
                         </span>
                         <span className="location-header-max-label">
-                          {item.maximumReturn} Win
+                          {extractMultiplerFromLocation(item.limit)} Win
                         </span>
                       </div>
                     </div>
