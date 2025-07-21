@@ -18,9 +18,13 @@ const AllPartner = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (reloadKey > 0) {
-      setSelectedCategory("");
-      setReloadKey(0);
+    try {
+      if (reloadKey > 0) {
+        setSelectedCategory("");
+        setReloadKey(0);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }, [reloadKey]);
 
