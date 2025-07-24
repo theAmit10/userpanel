@@ -210,7 +210,7 @@ const PowerballGame = ({
   const [createPowerballBet, { isLoading: createPowerballBetIsLoading }] =
     useCreatePowerballBetMutation();
 
-  const processTicketData = (ticketArray, TICKET_COST) => {
+  const processTicketData = (ticketArray, TICKET_COST, user) => {
     if (!Array.isArray(ticketArray) || typeof TICKET_COST !== "number") {
       console.error("Invalid input. Expected an array and a number.");
       return [];
@@ -229,14 +229,20 @@ const PowerballGame = ({
           ? parseInt(multiplier.replace("X", ""), 10)
           : 1;
 
+      let mulCost = multiplierValue * user?.country?.multiplierprice;
+      mulCost += TICKET_COST;
+
       return {
         amount:
-          multiplierValue === 1 ? TICKET_COST : TICKET_COST + multiplierValue, // Multiply cost with multiplier
+          multiplierValue === 1
+            ? TICKET_COST * multiplierValue
+            : TICKET_COST + multiplierValue * user?.country?.multiplierprice, // Multiply cost with multiplier
         convertedAmount:
           multiplierValue === 1
-            ? TICKET_COST * user?.country?.countrycurrencyvaluecomparedtoinr
-            : (TICKET_COST + multiplierValue) *
-              user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
+            ? TICKET_COST *
+              multiplierValue *
+              user?.country?.countrycurrencyvaluecomparedtoinr
+            : mulCost * user?.country?.countrycurrencyvaluecomparedtoinr, // Generate a random converted amount
         multiplier: multiplierValue, // Store multiplier as a number
         usernumber: selectedNumbers, // Keep the selected numbers
       };
@@ -491,7 +497,7 @@ const PowerballGame = ({
       console.log("submitting to next stage to confirm ticket");
       console.log("Tickets cost :: " + TICKET_COST);
       console.log("Tickets :: " + JSON.stringify(tickets));
-      const myticket = processTicketData(tickets, TICKET_COST);
+      const myticket = processTicketData(tickets, TICKET_COST, user);
       console.log("Mine ticket");
       console.log(JSON.stringify(myticket));
       const body = {
