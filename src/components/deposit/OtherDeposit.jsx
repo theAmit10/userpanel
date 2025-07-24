@@ -388,7 +388,7 @@ const OtherDeposit = ({ selectingPaymentType }) => {
                           </div>
                         )}
                         {/** FOURTH */}
-                        {item?.qrcodeName && (
+                        {item?.qrcode && (
                           <div className="qrcontiner">
                             <div className="qrcontinerMain">
                               <img
