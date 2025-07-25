@@ -275,11 +275,31 @@ const Dashboard = () => {
     }
   };
 
+  // const androidAppLink = () => {
+  //   const link = appLinkData?.appLink?.androidLink;
+  //   if (link) {
+  //     window.open(link, "_blank"); // Opens the link in a new tab
+  //     showSuccessToast(link);
+  //   } else {
+  //     showSuccessToast("No valid link found.");
+  //   }
+  // };
+
   const androidAppLink = () => {
     const link = appLinkData?.appLink?.androidLink;
+
     if (link) {
-      window.open(link, "_blank"); // Opens the link in a new tab
-      showSuccessToast(link);
+      // Create a URL object to handle the link properly
+      let finalUrl;
+      try {
+        // If the link doesn't start with http/https, prepend https://
+        finalUrl = new URL(link.startsWith("http") ? link : `https://${link}`);
+        window.open(finalUrl.toString(), "_blank"); // Opens the absolute URL in a new tab
+        showSuccessToast(finalUrl.toString());
+      } catch (e) {
+        // Handle invalid URLs
+        showSuccessToast("No valid link found.");
+      }
     } else {
       showSuccessToast("No valid link found.");
     }
@@ -288,8 +308,17 @@ const Dashboard = () => {
   const iosAppLink = () => {
     const link = appLinkData?.appLink?.iosLink;
     if (link) {
-      window.open(link, "_blank"); // Opens the link in a new tab
-      showSuccessToast(link);
+      // Create a URL object to handle the link properly
+      let finalUrl;
+      try {
+        // If the link doesn't start with http/https, prepend https://
+        finalUrl = new URL(link.startsWith("http") ? link : `https://${link}`);
+        window.open(finalUrl.toString(), "_blank"); // Opens the absolute URL in a new tab
+        showSuccessToast(finalUrl.toString());
+      } catch (e) {
+        // Handle invalid URLs
+        showSuccessToast("No valid link found.");
+      }
     } else {
       showSuccessToast("No valid link found.");
     }
