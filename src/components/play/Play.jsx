@@ -468,7 +468,6 @@ function Play({ reloadKey }) {
     // Convert the first string to a number
     const number1 = parseFloat(str1);
 
-    // Extract numeric part from the second string
     // Remove any whitespace and convert to lowercase for uniformity
     const cleanedStr2 = str2.trim().toLowerCase();
 
