@@ -165,7 +165,7 @@ function Notification() {
                     {item.description}
                   </label>
                 </div>
-                {user.userId !== item.userId && (
+                {item.userId && (
                   <div
                     className="first-con-noti"
                     onClick={() => settingUserDetails(item)}
@@ -175,7 +175,7 @@ function Notification() {
                       {item.userId ? "User ID" : ""}
                     </label>
                     <label className="allContentContainerLimitL">
-                      {item.userId ? item.userId : "Admin"}
+                      {item.userId}
                     </label>
                   </div>
                 )}
