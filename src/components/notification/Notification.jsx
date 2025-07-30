@@ -175,7 +175,7 @@ function Notification() {
                       {item.userId ? "User ID" : ""}
                     </label>
                     <label className="allContentContainerLimitL">
-                      {item.userId}
+                      {item.userId ? item.userId : "Admin"}
                     </label>
                   </div>
                 )}
