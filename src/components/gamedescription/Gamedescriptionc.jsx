@@ -8,6 +8,8 @@ import COLORS from "../../assets/constants/colors";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { LoadingComponent } from "../helper/LoadingComponent";
 import { showWarningToast } from "../helper/showErrorToast";
+import { useGetPowerballQuery } from "../../redux/api";
+import { IoMdHeartEmpty } from "react-icons/io";
 
 function Gamedescriptionc({ reloadKey }) {
   const { accesstoken } = useSelector((state) => state.user);
@@ -42,6 +44,34 @@ function Gamedescriptionc({ reloadKey }) {
     setSelectedItem("");
   }, [reloadKey]);
 
+  const {
+    data: pdata,
+    isLoading: pisLoading,
+    refetch: prefetch,
+    error: perror,
+  } = useGetPowerballQuery(
+    {
+      accesstoken,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const [updatename, setupdatename] = useState("");
+  useEffect(() => {
+    if (!pisLoading && pdata) {
+      setupdatename(pdata?.games[0]?.name);
+    }
+  }, [pisLoading, pdata, prefetch]);
+
+  const selectingPowerball = () => {
+    const item = {
+      _id: "powerball",
+      locationTitle: pdata?.games[0]?.gameDescription?.title || "",
+      locationDescription: pdata?.games[0]?.gameDescription?.description || "",
+    };
+    setSelectedItem(item);
+  };
+
   return (
     <div className="main-content-container-gamedescrition">
       <div>
@@ -72,6 +102,27 @@ function Gamedescriptionc({ reloadKey }) {
           <LoadingComponent />
         ) : (
           <div className="GDLC">
+            <div
+              onClick={() => selectingPowerball()}
+              className="PLLLocContainer"
+              style={{
+                minWidth: "30rem",
+                background:
+                  1 % 2 === 0
+                    ? "linear-gradient(90deg, #1993FF, #0F5899)"
+                    : "linear-gradient(90deg, #7EC630, #3D6017)",
+                borderColor:
+                  selectedItem?._id === "powerball"
+                    ? COLORS.orange
+                    : "transparent", // Use transparent for no border
+                borderWidth: "2px",
+                borderStyle:
+                  selectedItem?._id === "powerball" ? "solid" : "none", // Apply border style conditionally
+              }}
+            >
+              <label className="locLabel"> {updatename}</label>
+              <label className="limitLabel"></label>
+            </div>
             {filteredData.map((item, index) => (
               <div
                 key={index}
@@ -115,9 +166,12 @@ function Gamedescriptionc({ reloadKey }) {
               </div>
             </div> */}
 
-            <div className="gdcontent-container" style={{
-              padding: "1rem"
-            }}>
+            <div
+              className="gdcontent-container"
+              style={{
+                padding: "1rem",
+              }}
+            >
               <div className="title-container-gd">
                 <label className="location-header-label">
                   {selectedItem.locationTitle === ""
