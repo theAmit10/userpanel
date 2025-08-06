@@ -41,7 +41,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
               componenetname={"PartnerProfileBasic"}
             />
             {/** PLAY HISTORY */}
-            {selectedPartner?.playHistoryPermission && (
+            {/* {selectedPartner?.playHistoryPermission && (
               <PartnerContentComp
                 title={"Play History"}
                 description={"User’s Play History Details"}
@@ -49,10 +49,10 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"UserPlayHistory"}
               />
-            )}
+            )} */}
 
             {/** TRANSACTION HISTORY */}
-            {selectedPartner?.transactionHistoryPermission && (
+            {/* {selectedPartner?.transactionHistoryPermission && (
               <PartnerContentComp
                 title={"Transaction History"}
                 description={"User’s Transaction details"}
@@ -60,7 +60,7 @@ const PartnerDetails = ({ closePartnerDetails, selectedPartner }) => {
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"UserTransactionHistory"}
               />
-            )}
+            )} */}
 
             {/** SEND NOTIFICATION */}
             <PartnerContentComp

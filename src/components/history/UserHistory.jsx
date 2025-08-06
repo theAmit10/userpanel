@@ -14,6 +14,8 @@ import { serverName } from "../../redux/store";
 import { showErrorToast, showWarningToast } from "../helper/showErrorToast";
 import { ToastContainer } from "react-toastify";
 import HeaderComp from "../helpercomp/HeaderComp";
+import Loader from "../molecule/Loader";
+import { NodataFound } from "../helper/NodataFound";
 
 function UserHistory({ reloadKey, backHanndlerForHistory, userdata }) {
   const { accesstoken, user } = useSelector((state) => state.user);
@@ -23,18 +25,92 @@ function UserHistory({ reloadKey, backHanndlerForHistory, userdata }) {
   console.log("Accesstoken :: " + accesstoken);
   console.log("User ID :: " + user.userId);
 
+  const [partners, setPartners] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  // const {
+  //   data: historyapidatas,
+  //   error,
+  //   isLoading,
+  //   refetch,
+  // } = useGetHistoryQuery({ accesstoken: accesstoken, userId: userdata.userId });
+
   const {
-    data: historyapidatas,
-    error,
-    isLoading,
+    data: paginatedData,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
     refetch,
-  } = useGetHistoryQuery({ accesstoken: accesstoken, userId: userdata.userId });
+  } = useGetHistoryQuery(
+    { accesstoken, userId: userdata.userId, page, limit },
+    { refetchOnMountOrArgChange: true } // Disable caching
+  );
 
   useEffect(() => {
     refetch();
     console.log("Relaoding again");
     setExpandedItems({});
   }, [refetch, reloadKey]);
+
+  // Update Partners Data
+  useEffect(() => {
+    if (paginatedData?.transactions) {
+      console.log(
+        "Paginated data received for page",
+        page,
+        ":",
+        paginatedData.transactions
+      ); // Debug log
+      setPartners((prev) => {
+        // Filter out duplicates
+        const newData = paginatedData.transactions.filter(
+          (newItem) => !prev.some((prevItem) => prevItem._id === newItem._id)
+        );
+        return page === 1 ? paginatedData.transactions : [...prev, ...newData];
+      });
+
+      // Update hasMore correctly
+      if (paginatedData.transactions.length < limit) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    }
+  }, [paginatedData, page]);
+
+  // Load More Data
+  const loadMore = () => {
+    console.log("Loading more data..."); // Debug log
+    if (!loading && hasMore) {
+      setLoading(true);
+      setPage((prev) => {
+        console.log("Updating page to:", prev + 1); // Debug log
+        return prev + 1;
+      });
+    }
+  };
+
+  // Handle Scroll for Pagination
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const threshold = 100; // Adjust this value as needed
+    const isNearBottom = scrollHeight - (scrollTop + clientHeight) < threshold;
+    console.log("Checking near bottom", isNearBottom); // Debug log
+    if (isNearBottom && !loading && hasMore) {
+      loadMore();
+    }
+  };
+  // Reset loading state after data is fetched
+  useEffect(() => {
+    if (!fetchingPaginated) {
+      setLoading(false);
+    }
+  }, [fetchingPaginated]);
+
+  // Combined Loading State
+  const isLoading = fetchingPaginated || loading;
 
   // Toggle item details
   const toggleItem = (id) => {
@@ -106,12 +182,16 @@ function UserHistory({ reloadKey, backHanndlerForHistory, userdata }) {
         closePartnerDetails={backHanndlerForHistory}
       />
       {/** CONTENT CONTAINER */}
-      <div className="h-content-container-org">
-        {/** CONTENT */}
-        {isLoading ? (
-          <LoadingComponent />
+
+      <div
+        style={{ marginTop: "1rem" }}
+        className="container-scrollable"
+        onScroll={handleScroll}
+      >
+        {!loadingPaginated && partners.length === 0 ? (
+          <NodataFound title={"No data Found"} />
         ) : (
-          historyapidatas?.transactions.map((item, index) => (
+          partners.map((item) => (
             <div
               key={(item) => item._id.toString()}
               onClick={() => toggleItem(item._id)}
@@ -289,8 +369,17 @@ function UserHistory({ reloadKey, backHanndlerForHistory, userdata }) {
             </div>
           ))
         )}
+
+        {/* Show Loader only when fetching new data */}
+        {isLoading && hasMore && <Loader />}
+
+        {/* Show "No more data" message if there's no more data to load */}
+        {/* {!hasMore && !isLoading && (
+              <div style={{ textAlign: "center", padding: "10px" }}>
+                No more data to load.
+              </div>
+            )} */}
       </div>
-      {/* <ToastContainer limit={1} autoClose={true} containerId={"History"} /> */}
     </div>
   );
 }

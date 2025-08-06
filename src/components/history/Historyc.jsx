@@ -96,7 +96,6 @@ function Historyc({ reloadKey }) {
       loadMore();
     }
   };
-
   // Reset loading state after data is fetched
   useEffect(() => {
     if (!fetchingPaginated) {
