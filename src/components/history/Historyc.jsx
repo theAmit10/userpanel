@@ -38,6 +38,15 @@ function Historyc({ reloadKey }) {
     { accesstoken, userId: user.userId, page, limit },
     { refetchOnMountOrArgChange: true } // Disable caching
   );
+  useEffect(() => {
+    setLoading(true); // Show loading indicator on reloadKey change
+    // setPartners([]);
+    setPage(1);
+    refetch().then(() => {
+      setLoading(false); // Hide loading indicator after data is fetched
+    });
+    setExpandedItems({}); // Reset expanded items state
+  }, [reloadKey]);
 
   // Update Partners Data
   useEffect(() => {
@@ -105,11 +114,11 @@ function Historyc({ reloadKey }) {
   //   refetch,
   // } = useGetHistoryQuery({ accesstoken: accesstoken, userId: user.userId });
 
-  useEffect(() => {
-    refetch();
-    console.log("Relaoding again");
-    setExpandedItems({});
-  }, [refetch, reloadKey]);
+  // useEffect(() => {
+  //   refetch();
+  //   console.log("Relaoding again");
+  //   setExpandedItems({});
+  // }, [refetch, reloadKey]);
 
   // Toggle item details
   const toggleItem = (id) => {

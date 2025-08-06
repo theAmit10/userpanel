@@ -92,7 +92,7 @@ export const sincelotUserApi = createApi({
 
     // FOR GETTING USERS PLAY HISTORY
     getPlayHistory: builder.query({
-      query: (accessToken) => ({
+      query: ({ accessToken, page, limit }) => ({
         url: "result/singleuser/playbets",
         method: "get",
         headers: {
