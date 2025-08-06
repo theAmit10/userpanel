@@ -14,6 +14,7 @@ import HeaderComp from "../helpercomp/HeaderComp";
 import Balancetransfer from "../balancetransfer/Balancetransfer";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { PiContactlessPaymentFill } from "react-icons/pi";
 
 export const roundToInteger = (input) => {
   // Convert input to a float
@@ -273,6 +274,33 @@ function Withdrawpayment({ reloadKey }) {
                     src={images.upi}
                     color={COLORS.background}
                     size={"1rem"}
+                    className="paymenticon"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/** OTHER  */}
+            <div
+              className="hdAllContainerContent"
+              onClick={() => selectingPaymentType("other")}
+            >
+              <div className="hdAllContainerContentTop">
+                <label className="hdAllContainerContentTopBoldLabel">
+                  Other
+                </label>
+                <div className="hdContenContainerIcon">
+                  <CiEdit color={COLORS.background} size={"2.5rem"} />
+                </div>
+              </div>
+              <div className="hdAllContainerContentBottom">
+                <label className="hdAllContainerContentTopRegularLabel">
+                  Create Other Payment Withdraw
+                </label>
+                <div className="hdContenContainerIcon">
+                  <PiContactlessPaymentFill
+                    color={COLORS.background}
+                    size={"2.5rem"}
                     className="paymenticon"
                   />
                 </div>
