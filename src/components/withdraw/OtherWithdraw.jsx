@@ -8,6 +8,7 @@ import { useCreateWithdrawMutation } from "../../redux/api";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import CircularProgressBar from "../helper/CircularProgressBar";
 import { IoDocumentText } from "react-icons/io5";
+import { PiSubtitles } from "react-icons/pi";
 
 function OtherWithdraw({ selectingPaymentType }) {
   const goToPreviousPage = () => {
@@ -23,13 +24,40 @@ function OtherWithdraw({ selectingPaymentType }) {
   const [upiId, setUpiId] = useState("");
   const [remarkval, setRemarkval] = useState("");
   const [showProgressBar, setProgressBar] = useState(false);
+  const [paymentName, setPaymentName] = useState("");
+  const [firstInputName, setFirstInputName] = useState("");
+  const [firstInput, setFirstInput] = useState("");
+
+  const [secondInputName, setSecondInputName] = useState("");
+  const [secondInput, setSecondInput] = useState("");
+
+  const [thirdInputName, setThirdInputName] = useState("");
+  const [thirdInput, setThirdInput] = useState("");
+  const [imageSource, setImageSource] = useState(null);
+
+  const selectDoc = (e) => {
+    try {
+      console.log(e.target.files);
+      setImageSource(e.target.files[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const [createWithdraw, { isLoading, error }] = useCreateWithdrawMutation();
 
   const settingDefaultValue = () => {
     setAmountval("");
     setRemarkval("");
-    setUpiHolderName("");
-    setUpiId("");
+    setFirstInput("");
+    setSecondInput("");
+    setThirdInput("");
+
+    setImageSource(null);
+    setFirstInputName("");
+    setSecondInputName("");
+    setThirdInputName("");
+
+    setImageSource(null);
   };
 
   const MIN_WITHDRAW_AMOUNT = 100;
@@ -48,29 +76,52 @@ function OtherWithdraw({ selectingPaymentType }) {
         `You have insufficent balance in ${user?.walletOne?.walletName} wallet`
       );
       return; // Stop further execution if the amount is too low
-    } else if (!upiHolderName) {
-      showErrorToast("Enter UPI Holder Name");
-    } else if (!upiId) {
-      showErrorToast("Enter UPI ID");
+    } else if (!paymentName) {
+      showErrorToast("Please enter payment name");
+      return;
+    } else if (firstInputName && !firstInput) {
+      showErrorToast(`Enter ${"first value"}`);
+      return;
     } else {
       try {
-        const body = {
-          amount: amountval,
-          remark: remarkval,
-          paymenttype: "Upi",
-          username: user.name,
-          userid: user.userId,
-          paymentstatus: "Pending",
-          transactionType: "Withdraw",
-          upiHolderName,
-          upiId,
-        };
+        // const body = {
+        //   amount: amountval,
+        //   remark: remarkval,
+        //   paymenttype: "Upi",
+        //   username: user.name,
+        //   userid: user.userId,
+        //   paymentstatus: "Pending",
+        //   transactionType: "Withdraw",
+        //   upiHolderName,
+        //   upiId,
+        // };
+
+        const formData = new FormData();
+        formData.append("amount", amountval);
+        formData.append("remark", remarkval);
+        formData.append("paymenttype", "Other");
+        formData.append("username", user.name);
+        formData.append("userid", user.userId);
+        formData.append("paymentstatus", "Pending");
+        formData.append("transactionType", "Withdraw");
+
+        // ✅ Append fields dynamically only if they have data
+        if (paymentName) formData.append("paymentName", paymentName);
+        if (firstInput) formData.append("firstInput", firstInput);
+        if (firstInputName) formData.append("firstInputName", firstInputName);
+        if (secondInput) formData.append("secondInput", secondInput);
+        if (secondInputName)
+          formData.append("secondInputName", secondInputName);
+        if (thirdInput) formData.append("thirdInput", thirdInput);
+        if (thirdInputName) formData.append("thirdInputName", thirdInputName);
+
+        if (imageSource) formData.append("qrcode", imageSource);
 
         console.log("Request body :: " + JSON.stringify(body));
 
         const res = await createWithdraw({
           accessToken: accesstoken,
-          body,
+          body: formData,
         }).unwrap();
 
         console.log("Withdraw res :: " + JSON.stringify(res));
@@ -100,7 +151,7 @@ function OtherWithdraw({ selectingPaymentType }) {
           </label>
         </div>
       </div>
-      <div className="cp-container-main">
+      <div className="allLocationMainContainer">
         {/** AMOUNT */}
 
         <label className="alCLLabel">Amount</label>
@@ -119,38 +170,135 @@ function OtherWithdraw({ selectingPaymentType }) {
           />
         </div>
 
-        {/** UPI HOLDER NAME */}
-        <label className="alCLLabel">UPI Holder Name</label>
+        {/** PAYMENT METHOD NAME */}
+
+        <label className="alCLLabel">Payment Method Name</label>
         <div className="alSearchContainer">
           <div className="searchIconContainer">
-            <IoDocumentText color={COLORS.background} size={"2.5rem"} />
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
           </div>
 
           <input
             className="al-search-input"
-            type="text"
-            name="upiHolderName"
-            placeholder="Enter upi holder name"
-            value={upiHolderName}
-            onChange={(e) => setUpiHolderName(e.target.value)}
+            placeholder={`Payment Header name: Exm - Paypal, Skill, etc.`}
+            value={paymentName}
+            onChange={(e) => setPaymentName(e.target.value)}
           />
         </div>
 
-        {/** upi id */}
-        <label className="alCLLabel">UPI ID</label>
+        {/** FIRST INPUT Name */}
+
+        <label className="alCLLabel">First Input Name</label>
         <div className="alSearchContainer">
           <div className="searchIconContainer">
-            <IoDocumentText color={COLORS.background} size={"2.5rem"} />
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
           </div>
 
           <input
             className="al-search-input"
-            type="text"
-            name="upiId"
-            placeholder="Enter UPI ID"
-            value={upiId}
-            onChange={(e) => setUpiId(e.target.value)}
+            placeholder={`1st Head line name: Exm - [ Paypal ID ]`}
+            value={firstInputName}
+            onChange={(e) => setFirstInputName(e.target.value)}
           />
+        </div>
+        {/** FIRST INPUT */}
+        <label className="alCLLabel">First Input Value</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <input
+            className="al-search-input"
+            placeholder={`Payment Receiving ID: Exm- Paypal@gmail.com`}
+            value={firstInput}
+            onChange={(e) => setFirstInput(e.target.value)}
+          />
+        </div>
+
+        {/** SECOND  INPUT NAME */}
+
+        <label className="alCLLabel">Second Input Name</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <input
+            className="al-search-input"
+            placeholder={
+              "2nd Head line name: Exm - [ Paypal ID ] Other field to add ( Optional )"
+            }
+            value={secondInputName}
+            onChange={(e) => setSecondInputName(e.target.value)}
+          />
+        </div>
+        {/** SECOND  INPUT  */}
+        <label className="alCLLabel">Second Input Value</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <input
+            className="al-search-input"
+            placeholder={
+              "2nd input value if your payment option have update in this field ( Optional )"
+            }
+            value={secondInput}
+            onChange={(e) => setSecondInput(e.target.value)}
+          />
+        </div>
+
+        {/** THIRD  INPUT NAME */}
+        <label className="alCLLabel">Third Input Name</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <input
+            className="al-search-input"
+            placeholder={
+              "3rd Head line name: Exm - [ Paypal ID ] Other field to add ( Optional )"
+            }
+            value={thirdInputName}
+            onChange={(e) => setThirdInputName(e.target.value)}
+          />
+        </div>
+        {/** THIRD  INPUT */}
+        <label className="alCLLabel">Third Input Value</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <input
+            className="al-search-input"
+            placeholder={
+              "3rd input value if your payment option have update in this field ( Optional )"
+            }
+            value={thirdInput}
+            onChange={(e) => setThirdInput(e.target.value)}
+          />
+        </div>
+
+        {/** FOURTH INPUT  */}
+        <label className="alCLLabel">QR Code</label>
+        <div className="alSearchContainer">
+          <div className="searchIconContainer">
+            <PiSubtitles color={COLORS.background} size={"2.5rem"} />
+          </div>
+
+          <div className="imageContainerAC">
+            <input
+              className="al-search-input"
+              placeholder="Receipt"
+              type="file"
+              name="file"
+              onChange={selectDoc}
+            />
+          </div>
         </div>
 
         {/** REMARK    */}

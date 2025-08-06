@@ -145,20 +145,6 @@ const OtherDeposit = ({ selectingPaymentType }) => {
     refetch: refetchOtherPayment,
   } = useGetOtherPaymentNameQuery({ accesstoken });
 
-  const [firstInputName, setFirstInputName] = useState("");
-  const [secondInputName, setSecondInputName] = useState("");
-  const [thirdInputName, setThirdInputName] = useState("");
-  const [fourthInputName, setFourthInputName] = useState("");
-
-  useEffect(() => {
-    if (!loadingOtherPayment && otherPaymentData) {
-      setFirstInputName(otherPaymentData?.inputNames?.firstInputName);
-      setSecondInputName(otherPaymentData?.inputNames?.secondInputName);
-      setThirdInputName(otherPaymentData?.inputNames?.thirdInputName);
-      setFourthInputName(otherPaymentData?.inputNames?.fourthInputName);
-    }
-  }, [loadingOtherPayment, otherPaymentData]);
-
   const [selectedItem, setSelecetedItem] = useState("");
   const selecetingItemForDeposit = (item) => {
     setSelecetedItem(item);

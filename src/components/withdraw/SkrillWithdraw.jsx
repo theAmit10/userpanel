@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function SkrillWithdraw({ selectingPaymentType }) {
   const goToPreviousPage = () => {
-    showSuccessToast("Request send successfully");
+    // showSuccessToast("Request send successfully");
     selectingPaymentType(""); // Resetting selectedPayment in the parent
 
     console.log("GOING PREVIOUS PAGE");

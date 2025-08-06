@@ -25,7 +25,7 @@ export const sincelotUserApi = createApi({
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
         body,
       }),
