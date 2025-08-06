@@ -22,7 +22,7 @@ function Playhistory({ reloadKey }) {
 
   const [partners, setPartners] = useState([]);
   const [page, setPage] = useState(1);
-  const limit = 7;
+  const limit = 10;
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 

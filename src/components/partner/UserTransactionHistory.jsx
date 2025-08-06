@@ -3,14 +3,8 @@ import HeaderComp from "../helpercomp/HeaderComp";
 import "./Partner.css";
 import { showErrorToast, showSuccessToast } from "../helper/showErrorToast";
 import { useSelector } from "react-redux";
-import {
-  useDecreasePartnerProfitMutation,
-  useGetHistoryQuery,
-} from "../../redux/api";
+import { useGetHistoryQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
-import TextInputCon from "../molecule/TextInputCon";
-import SubmitButton from "../atom/SubmitButton";
-import TextAreaCon from "../molecule/TextAreaCon";
 import moment from "moment/moment";
 import { serverName } from "../../redux/store";
 import COLORS from "../../assets/constants/colors";
@@ -19,26 +13,90 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { MdPendingActions } from "react-icons/md";
 import { FcCancel } from "react-icons/fc";
 import { ImageAlertModal } from "../helper/ImageAlertModal";
+import { NodataFound } from "../helper/NodataFound";
 
 const UserTransactionHistory = ({ setSelectedCategory, selectedPartner }) => {
   const { accesstoken, user } = useSelector((state) => state.user);
   const [expandedItems, setExpandedItems] = useState({});
+  const [partners, setPartners] = useState([]);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const {
-    data: historyapidatas,
-    error,
-    isLoading,
+    data: paginatedData,
+    isFetching: fetchingPaginated,
+    isLoading: loadingPaginated,
     refetch,
-  } = useGetHistoryQuery({
-    accesstoken: accesstoken,
-    userId: selectedPartner.userId,
-  });
+  } = useGetHistoryQuery(
+    { accesstoken, userId: selectedPartner.userId, page, limit },
+    { refetchOnMountOrArgChange: true } // Disable caching
+  );
 
   useEffect(() => {
     refetch();
     console.log("Relaoding again");
     setExpandedItems({});
   }, [refetch]);
+
+  // Update Partners Data
+  useEffect(() => {
+    if (paginatedData?.transactions) {
+      console.log(
+        "Paginated data received for page",
+        page,
+        ":",
+        paginatedData.transactions
+      ); // Debug log
+      setPartners((prev) => {
+        // Filter out duplicates
+        const newData = paginatedData.transactions.filter(
+          (newItem) => !prev.some((prevItem) => prevItem._id === newItem._id)
+        );
+        return page === 1 ? paginatedData.transactions : [...prev, ...newData];
+      });
+
+      // Update hasMore correctly
+      if (paginatedData.transactions.length < limit) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    }
+  }, [paginatedData, page]);
+
+  // Load More Data
+  const loadMore = () => {
+    console.log("Loading more data..."); // Debug log
+    if (!loading && hasMore) {
+      setLoading(true);
+      setPage((prev) => {
+        console.log("Updating page to:", prev + 1); // Debug log
+        return prev + 1;
+      });
+    }
+  };
+
+  // Handle Scroll for Pagination
+  const handleScroll = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    const threshold = 100; // Adjust this value as needed
+    const isNearBottom = scrollHeight - (scrollTop + clientHeight) < threshold;
+    console.log("Checking near bottom", isNearBottom); // Debug log
+    if (isNearBottom && !loading && hasMore) {
+      loadMore();
+    }
+  };
+  // Reset loading state after data is fetched
+  useEffect(() => {
+    if (!fetchingPaginated) {
+      setLoading(false);
+    }
+  }, [fetchingPaginated]);
+
+  // Combined Loading State
+  const isLoading = fetchingPaginated || loading;
 
   // Toggle item details
   const toggleItem = (id) => {
@@ -103,11 +161,12 @@ const UserTransactionHistory = ({ setSelectedCategory, selectedPartner }) => {
         left={selectedPartner?.userId}
         right={selectedPartner?.name}
       />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="container-scrollable">
-          {historyapidatas?.transactions.map((item, index) => (
+
+      <div className="container-scrollable" onScroll={handleScroll}>
+        {!loadingPaginated && partners.length === 0 ? (
+          <NodataFound title={"No data Found"} />
+        ) : (
+          partners.map((item) => (
             <div
               key={(item) => item._id.toString()}
               onClick={() => toggleItem(item._id)}
@@ -283,9 +342,19 @@ const UserTransactionHistory = ({ setSelectedCategory, selectedPartner }) => {
                 </>
               )}
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
+
+        {/* Show Loader only when fetching new data */}
+        {isLoading && hasMore && <Loader />}
+
+        {/* Show "No more data" message if there's no more data to load */}
+        {/* {!hasMore && !isLoading && (
+              <div style={{ textAlign: "center", padding: "10px" }}>
+                No more data to load.
+              </div>
+            )} */}
+      </div>
     </div>
   );
 };
