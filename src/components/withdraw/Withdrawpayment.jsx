@@ -15,6 +15,7 @@ import Balancetransfer from "../balancetransfer/Balancetransfer";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { PiContactlessPaymentFill } from "react-icons/pi";
+import OtherWithdraw from "./OtherWithdraw";
 
 export const roundToInteger = (input) => {
   // Convert input to a float
@@ -312,6 +313,9 @@ function Withdrawpayment({ reloadKey }) {
 
       {selectedPayment === "upi" && (
         <UpiWithdraw selectingPaymentType={selectingPaymentType} />
+      )}
+      {selectedPayment === "other" && (
+        <OtherWithdraw selectingPaymentType={selectingPaymentType} />
       )}
       {selectedPayment === "bank" && (
         <BankWithdraw selectingPaymentType={selectingPaymentType} />
