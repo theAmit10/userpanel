@@ -53,7 +53,7 @@ const Partner = ({ reloadKey, setReloadKey }) => {
         <div className="partner-main-container">
           {/** HEADER  */}
           <div className="partner-header">
-            <label className="partner-header-label">Partner</label>
+            <label className="partner-header-label">Bussiness Partners</label>
           </div>
           {/* CONTENT CONTAINER */}
           <div className="partner-container">
@@ -72,8 +72,8 @@ const Partner = ({ reloadKey, setReloadKey }) => {
             {/** ALL PARTNER */}
             {user.parentParentPartnerId === 1000 && (
               <PartnerContentComp
-                title={"All Partner"}
-                description={"List of all Partner data"}
+                title={"All Bussiness Partners"}
+                description={"List of all bussiness partners data"}
                 iconfrom={"TiGroup"}
                 setSelectedCategory={setSelectedCategory}
                 componenetname={"AllPartner"}
