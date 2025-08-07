@@ -608,7 +608,9 @@ const Dashboard = () => {
                   <div className="adLContenContainerIcon">
                     <FaHandshake color={COLORS.white_s} size={"2.5rem"} />
                   </div>
-                  <label className="adLContenContainerLabel">Partner</label>
+                  <label className="adLContenContainerLabel">
+                    Bussiness Partners
+                  </label>
                 </div>
               )}
 
