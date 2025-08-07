@@ -170,7 +170,7 @@ const AllPartner = ({ setSelectedCategory, reloadKey, setReloadKey }) => {
       {showAllPartner && (
         <div className="partner-main-container">
           <HeaderComp
-            title={"All Partner"}
+            title={"All Bussiness Partners"}
             setSelectedCategory={setSelectedCategory}
           />
 
