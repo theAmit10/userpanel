@@ -17,6 +17,11 @@ import { loadAllNotification } from "../../redux/actions/userAction";
 import { useGetSingleUserNotificationQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import AllUserDetails from "../alluser/AllUserDetails";
+import moment from "moment-timezone";
+
+function getDateTimeBasedOnTimezone(timezone, datetime) {
+  return moment.utc(datetime).tz(timezone).format("YYYY-MM-DD HH:mm:ss");
+}
 
 function Notification() {
   const navigation = useNavigate();
@@ -164,21 +169,68 @@ function Notification() {
                   <label className="notification-label-subtitle">
                     {item.description}
                   </label>
-                </div>
-                {item.userId && (
-                  <div
-                    className="first-con-noti"
-                    onClick={() => settingUserDetails(item)}
+
+                  {/* <label
+                    className="notification-label-subtitle"
+                    style={{
+                      marginTop: "1rem",
+                      alignSelf: "flex-end",
+                      paddingRight: "1rem",
+                    }}
                   >
-                    <label className="allContentContainerLocationL">
-                      {" "}
-                      {item.userId ? "User ID" : ""}
-                    </label>
-                    <label className="allContentContainerLimitL">
-                      {item.userId}
-                    </label>
-                  </div>
-                )}
+                    {getDateTimeBasedOnTimezone(
+                      user?.country?.timezone,
+                      item.createdAt
+                    )}
+                  </label> */}
+                </div>
+                <div
+                  style={{
+                    width: "40%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  {item.userId && (
+                    <div
+                      className="first-con-noti"
+                      style={{
+                        alignSelf: "flex-end",
+                      }}
+                      onClick={() => settingUserDetails(item)}
+                    >
+                      <label
+                        className="allContentContainerLocationL"
+                        style={{
+                          minWidth: "100%",
+                        }}
+                      >
+                        {" "}
+                        {item.userId ? "User ID" : ""}
+                      </label>
+                      <label className="allContentContainerLimitL">
+                        {item.userId}
+                      </label>
+                    </div>
+                  )}
+                  <label
+                    className="notification-label-subtitle"
+                    style={{
+                      marginTop: "0.5rem",
+                      marginBottom: "0.5rem",
+                      alignSelf: "flex-end",
+                      paddingRight: "1rem",
+                    }}
+                  >
+                    {getDateTimeBasedOnTimezone(
+                      user?.country?.timezone,
+                      item.createdAt
+                    )}
+                  </label>
+                </div>
               </div>
             ))}
 
