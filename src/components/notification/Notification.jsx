@@ -18,6 +18,7 @@ import { useGetSingleUserNotificationQuery } from "../../redux/api";
 import Loader from "../molecule/Loader";
 import AllUserDetails from "../alluser/AllUserDetails";
 import moment from "moment-timezone";
+import NotificaionUser from "../alluser/NotificaionUser";
 
 function getDateTimeBasedOnTimezone(timezone, datetime) {
   return moment.utc(datetime).tz(timezone).format("hh:mm A, MMMM DD YYYY");
@@ -240,7 +241,7 @@ function Notification() {
       )}
 
       {showUserDetails && (
-        <AllUserDetails
+        <NotificaionUser
           userdata={selectedUser}
           backhandlerDeposit={backHandlerForUserDetails}
         />
