@@ -20,7 +20,7 @@ import AllUserDetails from "../alluser/AllUserDetails";
 import moment from "moment-timezone";
 
 function getDateTimeBasedOnTimezone(timezone, datetime) {
-  return moment.utc(datetime).tz(timezone).format("YYYY-MM-DD HH:mm:ss");
+  return moment.utc(datetime).tz(timezone).format("hh:mm A, MMMM DD YYYY");
 }
 
 function Notification() {
