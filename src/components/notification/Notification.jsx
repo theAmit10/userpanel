@@ -224,6 +224,7 @@ function Notification() {
                       marginBottom: "0.5rem",
                       alignSelf: "flex-end",
                       paddingRight: "1rem",
+                      fontSize: "1.2rem",
                     }}
                   >
                     {getDateTimeBasedOnTimezone(
