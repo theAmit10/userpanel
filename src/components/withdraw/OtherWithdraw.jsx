@@ -117,7 +117,7 @@ function OtherWithdraw({ selectingPaymentType }) {
 
         if (imageSource) formData.append("qrcode", imageSource);
 
-        console.log("Request body :: " + JSON.stringify(body));
+        // console.log("Request body :: " + JSON.stringify(body));
 
         const res = await createWithdraw({
           accessToken: accesstoken,
